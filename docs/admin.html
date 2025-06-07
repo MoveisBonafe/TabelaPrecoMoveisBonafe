@@ -1103,6 +1103,7 @@
                 await this.loadAllData();
                 this.renderProducts();
                 this.renderCategories();
+                this.renderColors();
                 this.renderUsers();
                 this.renderPriceSettings();
                 this.renderPromotions();
@@ -2861,6 +2862,182 @@ O token será salvo localmente no navegador.`);
             } else {
                 alert('Por favor, insira um token válido.');
             }
+        }
+
+        // Color Management Functions
+        function openColorModal() {
+            document.getElementById('color-modal').style.display = 'flex';
+            document.getElementById('color-form').reset();
+            document.querySelector('#color-modal .modal-title').textContent = 'Adicionar Cor';
+        }
+
+        function editColor(index) {
+            const color = adminClient.data.colors[index];
+            document.getElementById('color-name').value = color.name;
+            document.getElementById('color-code').value = color.code;
+            document.querySelector('#color-modal .modal-title').textContent = 'Editar Cor';
+            document.getElementById('color-modal').style.display = 'flex';
+            document.getElementById('color-form').dataset.editIndex = index;
+        }
+
+        function deleteColor(index) {
+            if (confirm('Tem certeza que deseja excluir esta cor?')) {
+                adminClient.data.colors.splice(index, 1);
+                localStorage.setItem('moveisbonafe_colors', JSON.stringify(adminClient.data.colors));
+                adminClient.renderColors();
+                addSystemLog(`Cor removida`);
+            }
+        }
+
+        // Color form submission
+        document.getElementById('color-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('color-name').value.trim();
+            const code = document.getElementById('color-code').value;
+            const editIndex = this.dataset.editIndex;
+            
+            if (!name) {
+                alert('Nome da cor é obrigatório');
+                return;
+            }
+            
+            const colorData = {
+                id: editIndex ? adminClient.data.colors[editIndex].id : Date.now(),
+                name: name,
+                code: code
+            };
+            
+            if (editIndex !== undefined) {
+                adminClient.data.colors[editIndex] = colorData;
+                addSystemLog(`Cor editada: ${name}`);
+            } else {
+                adminClient.data.colors.push(colorData);
+                addSystemLog(`Nova cor criada: ${name}`);
+            }
+            
+            localStorage.setItem('moveisbonafe_colors', JSON.stringify(adminClient.data.colors));
+            adminClient.renderColors();
+            closeModal('color-modal');
+            delete this.dataset.editIndex;
+        });
+
+        // Multiple image upload handler
+        function handleMultipleImageUpload(event) {
+            const files = Array.from(event.target.files);
+            const previewContainer = document.getElementById('image-preview-container');
+            
+            if (!files.length) return;
+            
+            previewContainer.innerHTML = '';
+            const form = document.getElementById('product-form');
+            form.dataset.imageFiles = '';
+            form.dataset.imageData = '';
+            
+            const fileNames = [];
+            const imageDataArray = [];
+            let processed = 0;
+            
+            files.forEach((file, index) => {
+                // Validate file size and type
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`Arquivo ${file.name} muito grande. Máximo: 2MB`);
+                    return;
+                }
+                
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    alert(`Formato inválido para ${file.name}. Use JPG, PNG ou WebP`);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const timestamp = Date.now();
+                    const extension = file.type === 'image/png' ? 'png' : 'jpg';
+                    const fileName = `product_${timestamp}_${index}.${extension}`;
+                    
+                    fileNames.push(fileName);
+                    imageDataArray.push(e.target.result);
+                    
+                    // Create preview
+                    const previewDiv = document.createElement('div');
+                    previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
+                    previewDiv.innerHTML = `
+                        <img src="${e.target.result}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                        <button type="button" onclick="removeImagePreview(this)" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
+                    `;
+                    previewContainer.appendChild(previewDiv);
+                    
+                    processed++;
+                    if (processed === files.length) {
+                        form.dataset.imageFiles = JSON.stringify(fileNames);
+                        form.dataset.imageData = JSON.stringify(imageDataArray);
+                        addSystemLog(`${files.length} imagens preparadas para upload`);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeImagePreview(button) {
+            button.parentElement.remove();
+            // Update form data arrays by rebuilding from remaining previews
+            const form = document.getElementById('product-form');
+            const container = document.getElementById('image-preview-container');
+            const remainingImages = container.querySelectorAll('img');
+            
+            const fileNames = [];
+            const imageData = [];
+            
+            remainingImages.forEach((img, index) => {
+                const timestamp = Date.now();
+                const fileName = `product_${timestamp}_${index}.jpg`;
+                fileNames.push(fileName);
+                imageData.push(img.src);
+            });
+            
+            form.dataset.imageFiles = JSON.stringify(fileNames);
+            form.dataset.imageData = JSON.stringify(imageData);
+        }
+
+        // Update addColorVariation to use pre-defined colors
+        function addColorVariation() {
+            const colorList = document.getElementById('color-list');
+            const colorId = Date.now();
+            
+            // Build color options from available colors
+            let colorOptions = '';
+            adminClient.data.colors.forEach(color => {
+                colorOptions += `<option value="${color.name}" data-code="${color.code}">${color.name}</option>`;
+            });
+            
+            const colorItem = document.createElement('div');
+            colorItem.id = `color-${colorId}`;
+            colorItem.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 8px; background: white; border: 1px solid #ddd; border-radius: 4px;';
+            colorItem.innerHTML = `
+                <select onchange="updateColorPreview(this, ${colorId})" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="">Selecione uma cor</option>
+                    ${colorOptions}
+                </select>
+                <div id="color-preview-${colorId}" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0;"></div>
+                <button type="button" onclick="removeColorVariation(${colorId})" style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Remover</button>
+            `;
+            colorList.appendChild(colorItem);
+        }
+
+        function updateColorPreview(select, colorId) {
+            const preview = document.getElementById(`color-preview-${colorId}`);
+            const selectedOption = select.options[select.selectedIndex];
+            if (selectedOption.dataset.code) {
+                preview.style.background = selectedOption.dataset.code;
+            } else {
+                preview.style.background = '#f0f0f0';
+            }
+        }
+
+        function removeColorVariation(colorId) {
+            document.getElementById(`color-${colorId}`).remove();
         }
 
         // Initialize application

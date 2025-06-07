@@ -2,14 +2,14 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
-import { productStorage } from "./product-storage";
+import { githubStorage } from "./github-storage";
 import { insertProductSchema, insertCategorySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Product routes
   app.get("/api/products", async (req, res) => {
     try {
-      const products = await productStorage.getProducts();
+      const products = await githubStorage.getProducts();
       res.json(products);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -22,7 +22,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Category routes
   app.get("/api/categories", async (req, res) => {
     try {
-      const categories = await productStorage.getCategories();
+      const categories = await githubStorage.getCategories();
       res.json(categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -33,9 +33,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Backup routes
   app.post("/api/backup/create", async (req, res) => {
     try {
-      // Com Supabase, o backup é automático, mas podemos criar um snapshot manual
-      const products = await productStorage.getProducts();
-      const categories = await productStorage.getCategories();
+      // Com GitHub, o backup é automático através dos commits
+      const products = await githubStorage.getProducts();
+      const categories = await githubStorage.getCategories();
       
       const backupData = {
         timestamp: new Date().toISOString(),
@@ -56,8 +56,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/backup/export", async (req, res) => {
     try {
-      const products = await productStorage.getProducts();
-      const categories = await productStorage.getCategories();
+      const products = await githubStorage.getProducts();
+      const categories = await githubStorage.getCategories();
       
       const exportData = {
         metadata: {
@@ -114,7 +114,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/products", async (req, res) => {
     try {
       const productData = insertProductSchema.parse(req.body);
-      const product = await productStorage.createProduct(productData);
+      const product = await githubStorage.createProduct(productData);
       
       // Enviar atualização para todos os clientes
       broadcastUpdate('product_created', product);
@@ -128,9 +128,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put("/api/products/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const productData = insertProductSchema.partial().parse(req.body);
-      const product = await productStorage.updateProduct(id, productData);
+      const product = await githubStorage.updateProduct(id, productData);
       
       // Enviar atualização para todos os clientes
       broadcastUpdate('product_updated', product);
@@ -144,8 +144,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/products/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const success = await productStorage.deleteProduct(id);
+      const id = req.params.id;
+      const success = await githubStorage.deleteProduct(id);
       if (success) {
         // Enviar atualização para todos os clientes
         broadcastUpdate('product_deleted', { id });
@@ -167,7 +167,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       for (const productData of productsData) {
         const validatedProduct = insertProductSchema.parse(productData);
-        const result = await productStorage.createOrUpdateProduct(validatedProduct);
+        const result = await githubStorage.createProduct(validatedProduct);
         results.push(result);
       }
       
@@ -187,14 +187,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Rota para estatísticas de monitoramento
   app.get("/api/monitoring/stats", async (req, res) => {
     try {
-      const products = await productStorage.getProducts();
-      const categories = await productStorage.getCategories();
+      const products = await githubStorage.getProducts();
+      const categories = await githubStorage.getCategories();
       
       const stats = {
         totalProducts: products.length,
         totalCategories: categories.length,
-        activeProducts: products.filter(p => p.active).length,
-        inactiveProducts: products.filter(p => !p.active).length,
+        activeProducts: products.filter((p: any) => p.active).length,
+        inactiveProducts: products.filter((p: any) => !p.active).length,
         connectedClients: clients.size,
         serverUptime: process.uptime(),
         memoryUsage: process.memoryUsage(),

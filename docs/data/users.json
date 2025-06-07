@@ -42,5 +42,16 @@
     "active": true,
     "createdAt": "2025-06-07T18:09:57.066Z",
     "updatedAt": "2025-06-07T18:09:57.066Z"
+  },
+  {
+    "id": "1749319817520",
+    "name": "Lojas Móveis Bonafe",
+    "username": "lojas",
+    "passwordHash": "lojas@moveisbonafe",
+    "role": "loja",
+    "priceMultiplier": 1.01,
+    "active": true,
+    "createdAt": "2025-06-07T18:10:17.520Z",
+    "updatedAt": "2025-06-07T18:10:17.520Z"
   }
 ]

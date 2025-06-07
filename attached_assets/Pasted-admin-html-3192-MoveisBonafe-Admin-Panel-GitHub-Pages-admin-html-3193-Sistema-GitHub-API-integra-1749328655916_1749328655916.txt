@@ -1,0 +1,37 @@
+admin.html:3192 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:3193 Sistema: GitHub API integrado com fallback localStorage
+admin.html:1125 📦 Carregado 25 produtos do localStorage
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" placeholder=​"••••••••••••••••••••••••••••••••••••••••• (Configurado)​" style=​"width:​ 100%;​ padding:​ 8px 12px;​ border:​ 1px solid #ddd;​ border-radius:​ 4px;​ font-family:​ monospace;​">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" class=​"form-input" id=​"user-password" required>​
+admin.html:1163 🎨 Carregado 4 cores do localStorage
+admin.html:1174 ✅ Dados carregados: 25 produtos, 5 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+admin.html:1515 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1590 📢 Notificação enviada: categories atualizado
+admin.html:1515 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1487 📁 SHA atual: 1a32851b para categories.json
+admin.html:1515 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:2639 
+            
+            
+           GET https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/images/category_1749328650344.jpg 404 (Not Found)
+uploadImageToGitHub @ admin.html:2639
+(anônimo) @ admin.html:2879
+admin.html:2647 📁 Novo arquivo: category_1749328650344.jpg
+admin.html:1464 ✅ categories.json salvo no GitHub (SHA: 7f8715cf)
+admin.html:1564 ✅ categories salvo no GitHub
+admin.html:2672 
+            
+            
+           PUT https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/images/category_1749328650344.jpg 409 (Conflict)
+uploadImageToGitHub @ admin.html:2672
+await in uploadImageToGitHub
+(anônimo) @ admin.html:2879
+admin.html:2685 🔄 Conflito 409 detectado, recarregando SHA e tentando novamente...
+admin.html:2690 
+            
+            
+           GET https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/images/category_1749328650344.jpg 404 (Not Found)
+uploadImageToGitHub @ admin.html:2690
+await in uploadImageToGitHub
+(anônimo) @ admin.html:2879
+admin.html:2682 ✅ Imagem category_1749328650344.jpg salva no GitHub

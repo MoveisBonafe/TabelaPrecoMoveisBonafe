@@ -334,28 +334,30 @@
         
         .price-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            font-size: 0.85rem;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            font-size: 0.8rem;
         }
         
         .price-item {
             text-align: center;
-            padding: 8px;
+            padding: 6px 4px;
             background: #f9fafb;
             border-radius: 4px;
         }
         
         .price-label {
             color: #6b7280;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             display: block;
+            line-height: 1.2;
         }
         
         .price-value {
             font-weight: 600;
             color: #059669;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            line-height: 1.2;
         }
         
         .price-highlight {
@@ -365,7 +367,38 @@
         
         .price-highlight .price-value {
             color: #d4831e;
-            font-size: 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive design for mobile devices */
+        @media (max-width: 768px) {
+            .price-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 4px;
+            }
+            
+            .price-item {
+                padding: 4px 2px;
+            }
+            
+            .price-label {
+                font-size: 0.6rem;
+            }
+            
+            .price-value {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .price-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4px;
+            }
+            
+            .price-item:nth-child(n+5) {
+                grid-column: span 1;
+            }
         }
         
         .restaurant-price-banner {
@@ -1225,6 +1258,10 @@
                             <div class="price-item">
                                 <span class="price-label">30/60/90d</span>
                                 <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30/60/90/120d</span>
+                                <span class="price-value">R$ ${prices.prazo30606090120.toFixed(2)}</span>
                             </div>
                         </div>
 

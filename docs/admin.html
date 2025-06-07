@@ -1156,13 +1156,19 @@
                         this.data.promotions = promotions || [];
                     }
 
-                    // Load colors
+                    // Load colors with proper fallback
                     const localColors = localStorage.getItem('moveisbonafe_colors');
                     if (localColors) {
                         this.data.colors = JSON.parse(localColors);
+                        console.log(`🎨 Carregado ${this.data.colors.length} cores do localStorage`);
                     } else {
                         const colors = await this.loadData('colors.json');
                         this.data.colors = colors || [];
+                        console.log(`🎨 Carregado ${this.data.colors.length} cores do GitHub`);
+                        // Save to localStorage for next time
+                        if (this.data.colors.length > 0) {
+                            localStorage.setItem('moveisbonafe_colors', JSON.stringify(this.data.colors));
+                        }
                     }
 
                     console.log(`✅ Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.colors.length} cores, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço, ${this.data.promotions.length} promoções`);
@@ -3003,7 +3009,9 @@ O token será salvo localmente no navegador.`);
             if (confirm('Tem certeza que deseja excluir esta cor?')) {
                 adminClient.data.colors.splice(index, 1);
                 localStorage.setItem('moveisbonafe_colors', JSON.stringify(adminClient.data.colors));
+                adminClient.saveData('colors', adminClient.data.colors);
                 adminClient.renderColors();
+                adminClient.updateMonitorData();
                 addSystemLog(`Cor removida`);
             }
         }
@@ -3035,8 +3043,11 @@ O token será salvo localmente no navegador.`);
                 addSystemLog(`Nova cor criada: ${name}`);
             }
             
+            // Save to both localStorage and GitHub
             localStorage.setItem('moveisbonafe_colors', JSON.stringify(adminClient.data.colors));
+            adminClient.saveData('colors', adminClient.data.colors);
             adminClient.renderColors();
+            adminClient.updateMonitorData();
             closeModal('color-modal');
             delete this.dataset.editIndex;
         });

@@ -9,9 +9,6 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="./favicon.ico">
 
-    <!-- SheetJS para Excel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
     <!-- CSS básico -->
     <style>
         * {
@@ -26,67 +23,83 @@
             line-height: 1.6;
         }
 
-        .loading {
+        .redirect-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .redirect-container h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .redirect-container p {
             font-size: 1.2rem;
             color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .redirect-button {
+            padding: 1rem 2rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .redirect-button:hover {
+            background: #2563eb;
+        }
+
+        .countdown {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
-    <div id="root">
-        <div class="loading">
-            🔄 Carregando MoveisBonafe...
+    <div class="redirect-container">
+        <h1>MoveisBonafe</h1>
+        <p>Sistema atualizado! Redirecionando para a nova versão...</p>
+        <button class="redirect-button" onclick="redirectToApp()">
+            Acessar Sistema
+        </button>
+        <div class="countdown">
+            Redirecionamento automático em <span id="countdown">3</span>s
         </div>
     </div>
 
-    <!-- Sistema principal -->
     <script>
-        // Carregar o sistema principal
-        const script = document.createElement('script');
-        script.src = './assets/app-complete-functional.js';
-        script.type = 'module';
-        script.onload = function() {
-            console.log('✅ Sistema MoveisBonafe carregado!');
-        };
-        script.onerror = function() {
-            console.error('❌ Erro ao carregar sistema');
-            document.getElementById('root').innerHTML = `
-                <div style="padding: 2rem; text-align: center;">
-                    <h1>MoveisBonafe</h1>
-                    <p>Erro ao carregar o sistema. Verifique sua conexão.</p>
-                    <button onclick="location.reload()" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer; margin-top: 1rem;">
-                        Tentar Novamente
-                    </button>
-                </div>
-            `;
-        };
-        document.head.appendChild(script);
-
-        // Carregar CSS
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = './assets/asset-CNKj2dFu.css';
-        link.onerror = function() {
-            console.warn('CSS não carregado, usando estilos básicos');
-        };
-        document.head.appendChild(link);
-
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('password');
-            const toggleButton = document.getElementById('togglePassword');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleButton.innerHTML = '🔓';
-            } else {
-                passwordInput.type = 'password';
-                toggleButton.innerHTML = '🔒';
-            }
+        function redirectToApp() {
+            // Redirect to the main application (port 5000)
+            const currentHost = window.location.hostname;
+            const newUrl = `http://${currentHost}:5000/`;
+            window.location.href = newUrl;
         }
+
+        // Auto redirect after 3 seconds
+        let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                redirectToApp();
+            }
+        }, 1000);
     </script>
 </body>
 </html>

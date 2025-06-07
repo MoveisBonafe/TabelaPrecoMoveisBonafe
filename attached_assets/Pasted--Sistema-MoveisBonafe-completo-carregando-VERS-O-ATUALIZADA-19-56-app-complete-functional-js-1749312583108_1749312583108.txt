@@ -1,0 +1,43 @@
+🎉 Sistema MoveisBonafe completo carregando - VERSÃO ATUALIZADA 19:56...
+app-complete-functional.js:4078 ✅ Sistema MoveisBonafe completo carregado!
+TabelaPrecoMoveisBonafe/:53 ✅ Sistema MoveisBonafe carregado!
+TabelaPrecoMoveisBonafe/:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) 
+app-complete-functional.js:353 🔍 Verificando credenciais para: moveisbonafe
+app-complete-functional.js:23 🔍 Consultando tabela: auth_users?username=eq.moveisbonafe&password_hash=eq.bonafe1108&active=eq.true
+app-complete-functional.js:37 📊 Status da consulta auth_users: 200
+app-complete-functional.js:54 ✅ Dados recebidos da tabela auth_users: 1 registros
+app-complete-functional.js:421 ✅ Login Supabase realizado: Administrador Tipo: admin
+app-complete-functional.js:447 📊 Carregando dados do sistema... (tentativa 1/3)
+app-complete-functional.js:452 🔍 Carregando produtos...
+app-complete-functional.js:23 🔍 Consultando tabela: products
+app-complete-functional.js:37 📊 Status da consulta products: 200
+app-complete-functional.js:54 ✅ Dados recebidos da tabela products: 25 registros
+app-complete-functional.js:455 🔍 Carregando categorias...
+app-complete-functional.js:23 🔍 Consultando tabela: categories
+app-complete-functional.js:37 📊 Status da consulta categories: 200
+app-complete-functional.js:54 ✅ Dados recebidos da tabela categories: 5 registros
+app-complete-functional.js:458 🔍 Carregando usuários...
+app-complete-functional.js:23 🔍 Consultando tabela: auth_users
+app-complete-functional.js:37 📊 Status da consulta auth_users: 200
+app-complete-functional.js:54 ✅ Dados recebidos da tabela auth_users: 3 registros
+app-complete-functional.js:461 🔍 Carregando promoções...
+app-complete-functional.js:23 🔍 Consultando tabela: promocoes
+app-complete-functional.js:37 📊 Status da consulta promocoes: 200
+app-complete-functional.js:54 ✅ Dados recebidos da tabela promocoes: 1 registros
+app-complete-functional.js:473 ✅ Dados carregados do Supabase: 
+{produtos: 25, categorias: 5, usuarios: 3, promocoes: 1}
+categorias
+: 
+5
+produtos
+: 
+25
+promocoes
+: 
+1
+usuarios
+: 
+3
+[[Prototype]]
+: 
+Object

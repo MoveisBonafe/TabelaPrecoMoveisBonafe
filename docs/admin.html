@@ -1666,7 +1666,9 @@ O token será salvo localmente no navegador.`);
                 return;
             }
 
-            const products = [];
+            const newProducts = [];
+            const updatedProducts = [];
+            
             for (let i = 1; i < excelData.length; i++) {
                 const row = excelData[i];
                 if (!row || row.length === 0) continue;
@@ -1674,8 +1676,7 @@ O token será salvo localmente no navegador.`);
                 const name = row[headerMap['Nome']]?.toString().trim();
                 if (!name) continue; // Skip empty rows
                 
-                products.push({
-                    id: Date.now() + i,
+                const productData = {
                     name: name,
                     category: row[headerMap['Categoria']]?.toString().trim() || 'Geral',
                     priceAVista: parseFloat(row[headerMap['Preço']]?.toString().replace(',', '.')) || 0,
@@ -1684,17 +1685,51 @@ O token será salvo localmente no navegador.`);
                     comprimento: parseFloat(row[headerMap['Comprimento']]?.toString().replace(',', '.')) || 0,
                     peso: parseFloat(row[headerMap['Peso']]?.toString().replace(',', '.')) || 0,
                     description: row[headerMap['Descrição']]?.toString().trim() || '',
-                    active: true,
-                    createdAt: new Date().toISOString()
-                });
+                    active: true
+                };
+                
+                // Check if product exists by name
+                const existingIndex = adminClient.data.products.findIndex(p => 
+                    p.name.toLowerCase().trim() === name.toLowerCase().trim()
+                );
+                
+                if (existingIndex !== -1) {
+                    // Update existing product
+                    adminClient.data.products[existingIndex] = {
+                        ...adminClient.data.products[existingIndex],
+                        ...productData,
+                        id: adminClient.data.products[existingIndex].id, // Keep original ID
+                        createdAt: adminClient.data.products[existingIndex].createdAt // Keep creation date
+                    };
+                    updatedProducts.push(name);
+                } else {
+                    // Add new product
+                    const newProduct = {
+                        ...productData,
+                        id: Date.now() + i,
+                        createdAt: new Date().toISOString()
+                    };
+                    adminClient.data.products.push(newProduct);
+                    newProducts.push(name);
+                }
             }
 
-            if (products.length > 0) {
-                adminClient.data.products = [...adminClient.data.products, ...products];
+            if (newProducts.length > 0 || updatedProducts.length > 0) {
                 adminClient.saveData('products', adminClient.data.products);
                 adminClient.renderProducts();
-                alert(`${products.length} produtos importados com sucesso do arquivo Excel!`);
-                addSystemLog(`${products.length} produtos importados via Excel`);
+                
+                let message = '';
+                if (newProducts.length > 0) {
+                    message += `${newProducts.length} produtos adicionados`;
+                }
+                if (updatedProducts.length > 0) {
+                    if (message) message += ', ';
+                    message += `${updatedProducts.length} produtos atualizados`;
+                }
+                message += ' do arquivo Excel!';
+                
+                alert(message);
+                addSystemLog(`Excel: ${newProducts.length} novos, ${updatedProducts.length} atualizados`);
             } else {
                 alert('Nenhum produto válido encontrado no arquivo Excel.');
             }

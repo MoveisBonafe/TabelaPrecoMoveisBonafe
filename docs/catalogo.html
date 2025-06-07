@@ -607,24 +607,7 @@
             word-wrap: break-word;
         }
 
-        .view-product-btn {
-            background: #d4831e;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
 
-        .view-product-btn:hover {
-            background: #b8701a;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
 
         /* Mobile First - Default styles */
         .product-modal-content {
@@ -766,26 +749,7 @@
         </div>
     </div>
 
-    <!-- Product Detail Modal -->
-    <div id="product-modal" class="product-modal" onclick="closeProductModal(event)">
-        <div class="product-modal-content" onclick="event.stopPropagation()">
-            <button class="product-modal-close" onclick="closeProductModal()">&times;</button>
-            <div class="product-modal-body">
-                <div class="product-modal-image">
-                    <img id="modal-product-image" src="" alt="">
-                </div>
-                <div class="product-modal-info">
-                    <div class="product-modal-category" id="modal-product-category"></div>
-                    <h2 class="product-modal-title" id="modal-product-title"></h2>
-                    <div class="product-modal-specs" id="modal-product-specs"></div>
-                    <div class="product-modal-colors" id="modal-product-colors">
-                        <h4>Cores:</h4>
-                        <div class="color-options" id="modal-color-options"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script>
         // GitHub Pages Catalog Client
@@ -804,7 +768,10 @@
                     // Tenta carregar do GitHub primeiro
                     const response = await fetch(`${this.baseUrl}/data/${filename}`);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return await response.json();
+                    
+                    const rawText = await response.text();
+                    const data = JSON.parse(rawText);
+                    return this.fixObjectUtf8(data);
                 } catch (error) {
                     console.log(`Dados do GitHub indisponíveis para ${filename}, verificando localStorage...`);
                     
@@ -815,12 +782,62 @@
                     
                     if (localData) {
                         console.log(`✅ Carregado ${filename} do localStorage`);
-                        return JSON.parse(localData);
+                        const data = JSON.parse(localData);
+                        return this.fixObjectUtf8(data);
                     }
                     
                     console.log(`⚠️ Nenhum dado encontrado para ${filename}`);
                     return [];
                 }
+            }
+
+            // Fix UTF-8 encoding issues
+            fixUtf8Text(text) {
+                if (!text || typeof text !== 'string') return text;
+                
+                // Common UTF-8 encoding fixes for Portuguese
+                const fixes = {
+                    'mÃªs': 'mês',
+                    'MÃªs': 'Mês',
+                    'atÃ©': 'até',
+                    'vÃ¡lido': 'válido',
+                    'promoÃ§Ã£o': 'promoção',
+                    'Ã¡': 'á',
+                    'Ã©': 'é',
+                    'Ã­': 'í',
+                    'Ã³': 'ó',
+                    'Ãº': 'ú',
+                    'Ã§': 'ç',
+                    'Ã£': 'ã',
+                    'Ãµ': 'õ',
+                    'Ã¢': 'â',
+                    'Ãª': 'ê',
+                    'Ã´': 'ô',
+                    'm�s': 'mês'
+                };
+                
+                let fixed = text;
+                for (const [wrong, correct] of Object.entries(fixes)) {
+                    fixed = fixed.replace(new RegExp(wrong, 'gi'), correct);
+                }
+                
+                return fixed;
+            }
+
+            // Apply UTF-8 fixes to objects
+            fixObjectUtf8(obj) {
+                if (typeof obj === 'string') {
+                    return this.fixUtf8Text(obj);
+                } else if (Array.isArray(obj)) {
+                    return obj.map(item => this.fixObjectUtf8(item));
+                } else if (obj && typeof obj === 'object') {
+                    const fixed = {};
+                    for (const [key, value] of Object.entries(obj)) {
+                        fixed[key] = this.fixObjectUtf8(value);
+                    }
+                    return fixed;
+                }
+                return obj;
             }
 
             mapUserRole(role) {
@@ -1212,9 +1229,7 @@
                                     <span class="special-price-value">R$ ${prices.vista.toFixed(2)}</span>
                                 </div>
                             </div>
-                            <div class="product-actions" style="margin-top: 12px; text-align: center;">
-                                <button class="view-product-btn" onclick="catalogClient.openProductModal(catalogClient.filteredProducts[${index}])">👁 Ver Produto</button>
-                            </div>
+
                         </div>
                     `;
                 }
@@ -1243,9 +1258,7 @@
                                 <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
                             </div>
                         </div>
-                        <div class="product-actions" style="margin-top: 12px; text-align: center;">
-                            <button class="view-product-btn" onclick="catalogClient.openProductModal(catalogClient.filteredProducts[${index}])">👁 Ver Produto</button>
-                        </div>
+
                     </div>
                 `;
             }

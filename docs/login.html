@@ -216,7 +216,7 @@
 
             async authenticate(username, password) {
                 const users = await this.loadUsers();
-                const user = users.find(u => u.username === username && u.password === password && u.active !== false);
+                const user = users.find(u => u.username === username && u.passwordHash === password && u.active !== false);
                 
                 if (!user) {
                     throw new Error('Usuário ou senha incorretos');
@@ -234,10 +234,10 @@
                     case 'admin':
                         window.location.href = 'admin.html';
                         break;
-                    case 'loja':
+                    case 'customer':
                         window.location.href = 'catalogo.html?tipo=loja';
                         break;
-                    case 'restaurante':
+                    case 'customer_restaurant':
                         window.location.href = 'catalogo.html?tipo=restaurante';
                         break;
                     default:

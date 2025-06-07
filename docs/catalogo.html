@@ -373,6 +373,193 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* Product Modal Styles */
+        .product-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .product-modal.active {
+            display: flex;
+        }
+
+        .product-modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            max-height: 90vh;
+            width: 90%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-modal-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .product-modal-body {
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .product-modal-image {
+            width: 100%;
+            height: 400px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-modal-info {
+            padding: 24px;
+        }
+
+        .product-modal-category {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .product-modal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0 0 16px 0;
+        }
+
+        .product-modal-specs {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            white-space: pre-line;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .product-modal-colors h4 {
+            margin: 0 0 12px 0;
+            color: #374151;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.05);
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #e5e7eb;
+            margin-bottom: 6px;
+            transition: border-color 0.2s;
+        }
+
+        .color-circle.selected {
+            border-color: #d4831e;
+            box-shadow: 0 0 0 2px rgba(212, 131, 30, 0.2);
+        }
+
+        .color-name {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-align: center;
+            max-width: 60px;
+            word-wrap: break-word;
+        }
+
+        .product-modal-actions {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .view-product-btn {
+            background: #d4831e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .view-product-btn:hover {
+            background: #b8701a;
+        }
+
+        @media (min-width: 768px) {
+            .product-modal-body {
+                flex-direction: row;
+            }
+
+            .product-modal-image {
+                width: 50%;
+                height: auto;
+            }
+
+            .product-modal-info {
+                width: 50%;
+                padding: 32px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -633,6 +820,111 @@
                 setTimeout(() => {
                     notification.remove();
                 }, 3000);
+            }
+
+            openProductModal(product) {
+                const modal = document.getElementById('product-modal');
+                const modalImage = document.getElementById('modal-product-image');
+                const modalCategory = document.getElementById('modal-product-category');
+                const modalTitle = document.getElementById('modal-product-title');
+                const modalSpecs = document.getElementById('modal-product-specs');
+                const modalColors = document.getElementById('modal-product-colors');
+                const modalColorOptions = document.getElementById('modal-color-options');
+
+                // Set product information
+                modalCategory.textContent = product.category || 'Categoria';
+                modalTitle.textContent = product.name || 'Produto';
+                
+                // Set product image
+                const productImage = this.getProductImage(product);
+                if (productImage.includes('<img')) {
+                    const imgMatch = productImage.match(/src="([^"]+)"/);
+                    if (imgMatch) {
+                        modalImage.src = imgMatch[1];
+                        modalImage.alt = product.name;
+                    }
+                } else {
+                    modalImage.src = '';
+                    modalImage.alt = product.name;
+                }
+
+                // Set specifications
+                if (product.specifications) {
+                    modalSpecs.textContent = product.specifications;
+                    modalSpecs.style.display = 'block';
+                } else {
+                    modalSpecs.style.display = 'none';
+                }
+
+                // Set color variations
+                if (product.colorVariations && product.colorVariations.length > 0) {
+                    modalColorOptions.innerHTML = '';
+                    
+                    product.colorVariations.forEach((color, index) => {
+                        const colorOption = document.createElement('div');
+                        colorOption.className = 'color-option';
+                        colorOption.onclick = () => this.selectColor(product, color, colorOption);
+                        
+                        const colorCircle = document.createElement('div');
+                        colorCircle.className = 'color-circle';
+                        colorCircle.style.backgroundColor = color.color;
+                        
+                        const colorName = document.createElement('div');
+                        colorName.className = 'color-name';
+                        colorName.textContent = color.name;
+                        
+                        colorOption.appendChild(colorCircle);
+                        colorOption.appendChild(colorName);
+                        modalColorOptions.appendChild(colorOption);
+                        
+                        // Select first color by default
+                        if (index === 0) {
+                            colorCircle.classList.add('selected');
+                            if (color.imageFile) {
+                                this.updateModalImage(color.imageFile);
+                            }
+                        }
+                    });
+                    
+                    modalColors.style.display = 'block';
+                } else {
+                    modalColors.style.display = 'none';
+                }
+
+                // Show modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            selectColor(product, selectedColor, colorElement) {
+                // Remove previous selection
+                document.querySelectorAll('.color-circle').forEach(circle => {
+                    circle.classList.remove('selected');
+                });
+                
+                // Add selection to clicked color
+                const colorCircle = colorElement.querySelector('.color-circle');
+                colorCircle.classList.add('selected');
+                
+                // Update image if color has specific image
+                if (selectedColor.imageFile) {
+                    this.updateModalImage(selectedColor.imageFile);
+                }
+            }
+
+            updateModalImage(imageFile) {
+                const modalImage = document.getElementById('modal-product-image');
+                
+                // Check if it's a localStorage reference
+                if (!imageFile.startsWith('data:') && !imageFile.startsWith('http')) {
+                    const storedImage = localStorage.getItem(`image_${imageFile}`);
+                    if (storedImage) {
+                        modalImage.src = storedImage;
+                        return;
+                    }
+                }
+                
+                modalImage.src = imageFile;
             }
 
             setupEventListeners() {
@@ -942,6 +1234,16 @@
         function logout() {
             sessionStorage.removeItem('currentUser');
             window.location.href = 'login.html';
+        }
+
+        function closeProductModal(event) {
+            if (event && event.target !== event.currentTarget && !event.target.classList.contains('product-modal-close')) {
+                return;
+            }
+            
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
         // Initialize application

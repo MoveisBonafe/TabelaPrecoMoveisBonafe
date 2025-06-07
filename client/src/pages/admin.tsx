@@ -267,7 +267,7 @@ export function Admin({ onLogout, onShowPublicView, onConfigureGitHub }: AdminPr
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
-          isOpen={isProductModalOpen}
+          isVisible={isProductModalOpen}
           onClose={() => {
             setIsProductModalOpen(false);
             setSelectedProduct(null);

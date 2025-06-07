@@ -1,4 +1,0 @@
-id,username,password_hash,name,role,active,created_at,updated_at,price_multiplier
-61,lojas,lojas@moveisbonafe,Lojas Móveis Bonafe,customer,true,2025-05-25 03:33:06.866041,2025-05-25 03:33:06.866041,1.00
-63,moveisbonafe,bonafe1108,Administrador,admin,true,2025-05-25 03:49:54.878611,2025-05-25 03:49:54.878611,1.00
-64,restaurantes,restaurantes@moveisbonafe,Restaurantes Móveis Bonafe,customer_restaurant,true,2025-05-25 09:53:21.213251,2025-05-25 09:53:21.213251,1.06

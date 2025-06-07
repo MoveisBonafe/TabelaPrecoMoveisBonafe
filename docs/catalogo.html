@@ -378,6 +378,9 @@
     </div>
 
     <div class="container">
+        <!-- Promotion Banner -->
+        <div id="promotion-banner" style="display: none;"></div>
+
         <div class="search-bar">
             <input 
                 type="text" 
@@ -473,24 +476,27 @@
                 // Load data
                 await this.loadAllData();
                 this.setupEventListeners();
+                this.renderPromotions();
                 this.renderCategories();
                 this.renderProducts();
             }
 
             async loadAllData() {
                 try {
-                    const [products, categories, priceSettings] = await Promise.all([
+                    const [products, categories, priceSettings, promotions] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
-                        this.loadData('price_settings.json')
+                        this.loadData('price_settings.json'),
+                        this.loadData('promotions.json')
                     ]);
 
                     this.products = products.filter(p => p.active !== false);
                     this.categories = categories.filter(c => c.active !== false);
                     this.priceSettings = priceSettings.filter(p => p.active !== false);
+                    this.promotions = promotions.filter(p => p.active === true);
                     this.filteredProducts = [...this.products];
 
-                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços`);
+                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas`);
                 } catch (error) {
                     console.error('❌ Erro ao carregar dados:', error);
                     throw error;
@@ -501,6 +507,53 @@
                 document.getElementById('search-input').addEventListener('input', () => this.filterProducts());
                 document.getElementById('category-filter').addEventListener('change', () => this.filterProducts());
                 document.getElementById('sort-filter').addEventListener('change', () => this.sortProducts());
+            }
+
+            renderPromotions() {
+                const container = document.getElementById('promotion-banner');
+                if (!container) return;
+
+                if (!this.promotions || this.promotions.length === 0) {
+                    container.style.display = 'none';
+                    return;
+                }
+
+                // Find active promotion
+                const activePromotion = this.promotions.find(p => p.active === true);
+                if (!activePromotion) {
+                    container.style.display = 'none';
+                    return;
+                }
+
+                container.style.display = 'block';
+                container.innerHTML = `
+                    <div class="promotion-content" style="
+                        background: ${activePromotion.color || '#f39c12'};
+                        color: white;
+                        padding: 15px 20px;
+                        border-radius: 8px;
+                        text-align: center;
+                        margin-bottom: 20px;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                        animation: pulse 2s infinite;
+                    ">
+                        <h3 style="margin: 0 0 5px 0; font-size: 18px; font-weight: bold;">
+                            🎉 ${activePromotion.title || 'Promoção Especial'}
+                        </h3>
+                        <p style="margin: 0; font-size: 14px; opacity: 0.9;">
+                            ${activePromotion.description || 'Aproveite nossa oferta especial!'}
+                        </p>
+                    </div>
+                    <style>
+                        @keyframes pulse {
+                            0% { transform: scale(1); }
+                            50% { transform: scale(1.02); }
+                            100% { transform: scale(1); }
+                        }
+                    </style>
+                `;
+
+                console.log(`✅ Promoção ativa exibida: ${activePromotion.title}`);
             }
 
             renderCategories() {

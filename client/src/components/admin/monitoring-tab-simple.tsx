@@ -9,8 +9,8 @@ import {
   Cloud,
   RefreshCw
 } from 'lucide-react';
-import { useSupabaseProducts } from '@/hooks/use-supabase-products';
-import { supabase } from '@/lib/supabase';
+import { useGitHubPagesData } from '@/hooks/use-github-pages-data';
+// GitHub Pages data loading - no external dependencies needed
 
 interface SimpleStats {
   totalProducts: number;

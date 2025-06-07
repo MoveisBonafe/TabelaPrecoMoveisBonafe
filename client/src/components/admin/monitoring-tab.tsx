@@ -15,10 +15,10 @@ import {
   Clock,
   Cloud
 } from 'lucide-react';
-import { useSync } from '@/hooks/use-sync';
-import { useSupabaseProducts } from '@/hooks/use-supabase-products';
-import { isGitHubPages } from '@/lib/github-pages-adapter';
-import { hasSupabaseCredentials, supabase } from '@/lib/supabase';
+// Removed sync dependency - using GitHub Pages data directly
+import { useGitHubPagesData } from '@/hooks/use-github-pages-data';
+// GitHub Pages detection built into the data loading system
+// GitHub Pages - no external credentials needed
 
 interface MonitoringStats {
   totalProducts: number;

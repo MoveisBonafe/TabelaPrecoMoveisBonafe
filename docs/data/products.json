@@ -29,7 +29,9 @@
     ],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-07T20:07:36.888Z"
+    "updatedAt": "2025-06-07T20:12:57.277Z",
+    "basePrice": 0,
+    "finalPrice": 0
   },
   {
     "name": "Banqueta 70 cm",
@@ -42,7 +44,10 @@
     "description": "",
     "active": true,
     "id": 1749324636911,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.277Z"
   },
   {
     "name": "Cadeira Alta",
@@ -55,7 +60,10 @@
     "description": "",
     "active": true,
     "id": 1749324636912,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.277Z"
   },
   {
     "name": "Cadeira Alta Estofada",
@@ -68,7 +76,10 @@
     "description": "",
     "active": true,
     "id": 1749324636913,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.277Z"
   },
   {
     "name": "Cadeira Comum",
@@ -81,7 +92,10 @@
     "description": "",
     "active": true,
     "id": 1749324636914,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Cadeira Criança",
@@ -94,7 +108,10 @@
     "description": "",
     "active": true,
     "id": 1749324636915,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Beliche Paris",
@@ -107,7 +124,10 @@
     "description": "",
     "active": true,
     "id": 1749324636916,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Cadeira Restaurante",
@@ -120,7 +140,10 @@
     "description": "",
     "active": true,
     "id": 1749324636917,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Mesa Bonacor 1,60 X 0,80",
@@ -133,7 +156,10 @@
     "description": "",
     "active": true,
     "id": 1749324636918,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Mesa Bonacor 1,80 X 0,85",
@@ -146,7 +172,10 @@
     "description": "",
     "active": true,
     "id": 1749324636919,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Mesa Bonacor 2,00 X 0,88",
@@ -159,7 +188,10 @@
     "description": "",
     "active": true,
     "id": 1749324636920,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Mesa Bonacor 2,20 X 0,88",
@@ -172,7 +204,10 @@
     "description": "",
     "active": true,
     "id": 1749324636921,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Agulha Cadeira Alta",
@@ -185,7 +220,10 @@
     "description": "",
     "active": true,
     "id": 1749324636922,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Agulha Cadeira Comum",
@@ -198,7 +236,10 @@
     "description": "",
     "active": true,
     "id": 1749324636923,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Mesa Bonacor 0,70 X 0,45 Criança",
@@ -211,7 +252,10 @@
     "description": "",
     "active": true,
     "id": 1749324636924,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.278Z"
   },
   {
     "name": "Mesa Bonacor 0,75 X 0,75 Criança",
@@ -224,7 +268,10 @@
     "description": "",
     "active": true,
     "id": 1749324636925,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Cama Paris Casal",
@@ -237,7 +284,10 @@
     "description": "",
     "active": true,
     "id": 1749324636926,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Cama Paris Solteiro",
@@ -250,7 +300,10 @@
     "description": "",
     "active": true,
     "id": 1749324636927,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "id": 1749324636928,
@@ -265,14 +318,16 @@
     "colorVariations": [],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-07T20:08:31.278Z",
+    "updatedAt": "2025-06-07T20:12:57.279Z",
     "images": [
       "data/images/product_1749326909364_0.jpg",
       "data/images/product_1749326909367_1.jpg",
       "data/images/product_1749326909371_2.jpg",
       "data/images/product_1749326909375_3.jpg"
     ],
-    "imageFile": "data/images/product_1749326909364_0.jpg"
+    "imageFile": "data/images/product_1749326909364_0.jpg",
+    "basePrice": 0,
+    "finalPrice": 0
   },
   {
     "name": "Mesa Bonacor 0,75 X 0,75",
@@ -285,7 +340,10 @@
     "description": "",
     "active": true,
     "id": 1749324636929,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Mesa Bonacor 0,80 X 0,80",
@@ -298,7 +356,10 @@
     "description": "",
     "active": true,
     "id": 1749324636930,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Mesa Bonacor 1,10 X 0,45",
@@ -311,7 +372,10 @@
     "description": "",
     "active": true,
     "id": 1749324636931,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Mesa Bonacor 1,15 X 0,75",
@@ -324,7 +388,10 @@
     "description": "",
     "active": true,
     "id": 1749324636932,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Mesa Bonacor 1,20 X 0,80",
@@ -337,7 +404,10 @@
     "description": "",
     "active": true,
     "id": 1749324636933,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   },
   {
     "name": "Mesa Bonacor 1,50 X 0,80",
@@ -350,6 +420,9 @@
     "description": "",
     "active": true,
     "id": 1749324636934,
-    "createdAt": "2025-06-07T19:30:36.909Z"
+    "createdAt": "2025-06-07T19:30:36.909Z",
+    "basePrice": 0,
+    "finalPrice": 0,
+    "updatedAt": "2025-06-07T20:12:57.279Z"
   }
 ]

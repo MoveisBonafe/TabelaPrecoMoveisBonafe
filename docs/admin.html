@@ -1299,10 +1299,13 @@ O token será salvo localmente no navegador.`);
             saveData(type, data) {
                 this.data[type] = data;
                 
-                // Always save to localStorage first for immediate persistence
+                // Sempre salvar no localStorage primeiro para persistência imediata
                 localStorage.setItem(`moveisbonafe_${type}`, JSON.stringify(data));
                 
-                // Then try to save to GitHub if token is available
+                // Notificar outros dispositivos sobre a mudança
+                this.notifyDataChange(type, data);
+                
+                // Tentar salvar no GitHub se token disponível
                 const token = localStorage.getItem('github_token');
                 if (token) {
                     const filename = `${type}.json`;
@@ -1316,6 +1319,19 @@ O token será salvo localmente no navegador.`);
                 } else {
                     console.log(`${type} salvo apenas localmente (token GitHub não configurado)`);
                 }
+            }
+
+            notifyDataChange(type, data) {
+                // Disparar evento customizado para notificar mudanças
+                const timestamp = Date.now();
+                localStorage.setItem(`moveisbonafe_sync_${type}`, timestamp.toString());
+                
+                // Evento de mudança para sincronização cross-tab
+                window.dispatchEvent(new CustomEvent('moveisbonafe_data_update', {
+                    detail: { type, data, timestamp }
+                }));
+                
+                console.log(`📢 Notificação enviada: ${type} atualizado`);
             }
         }
 

@@ -510,10 +510,96 @@
                     this.filteredProducts = [...this.products];
 
                     console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas`);
+                    
+                    // Verificar atualizações automáticas a cada 30 segundos
+                    this.startAutoSync();
                 } catch (error) {
                     console.error('❌ Erro ao carregar dados:', error);
                     throw error;
                 }
+            }
+
+            startAutoSync() {
+                // Listener para atualizações em tempo real do admin
+                window.addEventListener('moveisbonafe_data_update', (event) => {
+                    const { type, data } = event.detail;
+                    this.handleDataUpdate(type, data);
+                });
+
+                // Listener para mudanças no localStorage entre abas
+                window.addEventListener('storage', (event) => {
+                    if (event.key && event.key.startsWith('moveisbonafe_sync_')) {
+                        const type = event.key.replace('moveisbonafe_sync_', '');
+                        this.syncDataType(type);
+                    }
+                });
+
+                // Sincronização automática como backup
+                setInterval(() => {
+                    this.syncAllData();
+                }, 10000); // A cada 10 segundos
+            }
+
+            handleDataUpdate(type, data) {
+                console.log(`📥 Recebida atualização: ${type}`);
+                
+                if (type === 'products') {
+                    this.products = data.filter(p => p.active !== false);
+                    this.filteredProducts = [...this.products];
+                    this.renderProducts();
+                    this.showUpdateNotification('Novos produtos adicionados!');
+                } else if (type === 'categories') {
+                    this.categories = data.filter(c => c.active !== false);
+                    this.renderCategories();
+                }
+            }
+
+            syncDataType(type) {
+                const localData = localStorage.getItem(`moveisbonafe_${type}`);
+                if (localData) {
+                    const data = JSON.parse(localData);
+                    this.handleDataUpdate(type, data);
+                }
+            }
+
+            syncAllData() {
+                try {
+                    const localProducts = localStorage.getItem('moveisbonafe_products');
+                    if (localProducts) {
+                        const parsedProducts = JSON.parse(localProducts).filter(p => p.active !== false);
+                        if (parsedProducts.length !== this.products.length) {
+                            this.products = parsedProducts;
+                            this.filteredProducts = [...this.products];
+                            this.renderProducts();
+                        }
+                    }
+                } catch (error) {
+                    console.log('Erro na sincronização automática:', error);
+                }
+            }
+
+            showUpdateNotification(message) {
+                // Criar notificação visual
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 6px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 1000;
+                    font-weight: bold;
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
             }
 
             setupEventListeners() {
@@ -634,12 +720,12 @@
 
             createProductCard(product) {
                 const prices = this.calculatePrices(product);
-                const productIcon = this.getProductIcon(product.category);
+                const productImage = this.getProductImage(product);
 
-                // For restaurant users, show the special golden banner
+                // Para usuários restaurante, mostrar banner dourado especial
                 if (this.userType === 'restaurante') {
                     return `
-                        <div class="product-image">${productIcon}</div>
+                        <div class="product-image">${productImage}</div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-category">${product.category}</div>
@@ -657,9 +743,9 @@
                     `;
                 }
 
-                // For loja and other users, show the regular price grid
+                // Para lojas e outros usuários, mostrar grade de preços regular
                 return `
-                    <div class="product-image">${productIcon}</div>
+                    <div class="product-image">${productImage}</div>
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-category">${product.category}</div>
@@ -683,6 +769,20 @@
                         </div>
                     </div>
                 `;
+            }
+
+            getProductImage(product) {
+                if (product.imageFile) {
+                    // Se o produto tem imagem, mostrar ela
+                    const imageSrc = product.imageFile.startsWith('data:') ? 
+                        product.imageFile : 
+                        `${this.baseUrl}/${product.imageFile}`;
+                    
+                    return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`;
+                } else {
+                    // Fallback para ícone da categoria
+                    return this.getProductIcon(product.category);
+                }
             }
 
             calculatePrices(product) {

@@ -2658,13 +2658,15 @@ O token será salvo localmente no navegador.`);
         
         function removeImagePreview(type) {
             const form = document.getElementById(`${type}-form`);
-            delete form.dataset.imageFile;
+            if (form) {
+                delete form.dataset.imageFile;
+            }
             
             const preview = document.getElementById(`${type}-image-preview`);
             if (preview) preview.innerHTML = '';
             
             const input = document.getElementById(`${type}-image`);
-            input.value = '';
+            if (input) input.value = '';
         }
 
         // Configure GitHub Token with status update
@@ -2706,15 +2708,12 @@ O token será salvo localmente no navegador.`);
             const colorVariations = [];
             const colorItems = document.querySelectorAll('#color-list > div');
             colorItems.forEach(item => {
-                const name = item.querySelector('.color-name').value;
-                const color = item.querySelector('.color-picker').value;
-                const imageFile = item.dataset.imageFile;
-                
-                if (name && color) {
+                const select = item.querySelector('select');
+                if (select && select.value) {
+                    const selectedOption = select.options[select.selectedIndex];
                     colorVariations.push({
-                        name: name,
-                        color: color,
-                        imageFile: imageFile || null
+                        name: select.value,
+                        color: selectedOption.dataset.code || '#ffffff'
                     });
                 }
             });

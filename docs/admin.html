@@ -1813,16 +1813,36 @@ O token será salvo localmente no navegador.`);
                 const name = row[headerMap['Nome']]?.toString().trim();
                 if (!name) continue; // Skip empty rows
                 
+                // Parse price with better error handling
+                const priceValue = row[headerMap['Preço']];
+                let parsedPrice = 0;
+                
+                if (priceValue !== undefined && priceValue !== null && priceValue !== '') {
+                    const priceStr = priceValue.toString().trim()
+                        .replace('R$', '')  // Remove currency symbol
+                        .replace(/\s/g, '') // Remove spaces
+                        .replace(',', '.'); // Replace comma with dot
+                    
+                    parsedPrice = parseFloat(priceStr);
+                    if (isNaN(parsedPrice)) {
+                        parsedPrice = 0;
+                        console.warn(`Preço inválido para produto "${name}": ${priceValue}`);
+                    }
+                }
+                
                 const productData = {
                     name: name,
                     category: row[headerMap['Categoria']]?.toString().trim() || 'Geral',
-                    priceAVista: parseFloat(row[headerMap['Preço']]?.toString().replace(',', '.')) || 0,
+                    priceAVista: parsedPrice,
+                    basePrice: parsedPrice, // Also update basePrice for compatibility
+                    finalPrice: parsedPrice, // Also update finalPrice for compatibility
                     altura: parseFloat(row[headerMap['Altura']]?.toString().replace(',', '.')) || 0,
                     largura: parseFloat(row[headerMap['Largura']]?.toString().replace(',', '.')) || 0,
                     comprimento: parseFloat(row[headerMap['Comprimento']]?.toString().replace(',', '.')) || 0,
                     peso: parseFloat(row[headerMap['Peso']]?.toString().replace(',', '.')) || 0,
                     description: row[headerMap['Descrição']]?.toString().trim() || '',
-                    active: true
+                    active: true,
+                    updatedAt: new Date().toISOString()
                 };
                 
                 // Check if product exists by name
@@ -1832,12 +1852,14 @@ O token será salvo localmente no navegador.`);
                 
                 if (existingIndex !== -1) {
                     // Update existing product
+                    const oldPrice = adminClient.data.products[existingIndex].priceAVista || 0;
                     adminClient.data.products[existingIndex] = {
                         ...adminClient.data.products[existingIndex],
                         ...productData,
                         id: adminClient.data.products[existingIndex].id, // Keep original ID
                         createdAt: adminClient.data.products[existingIndex].createdAt // Keep creation date
                     };
+                    console.log(`Produto "${name}" atualizado: preço ${oldPrice} → ${parsedPrice}`);
                     updatedProducts.push(name);
                 } else {
                     // Add new product
@@ -1911,18 +1933,38 @@ O token será salvo localmente no navegador.`);
                 const name = values[headerMap['Nome']]?.trim();
                 if (!name) continue; // Skip empty rows
                 
+                // Parse price with better error handling
+                const priceValue = values[headerMap['Preço']];
+                let parsedPrice = 0;
+                
+                if (priceValue !== undefined && priceValue !== null && priceValue !== '') {
+                    const priceStr = priceValue.toString().trim()
+                        .replace('R$', '')  // Remove currency symbol
+                        .replace(/\s/g, '') // Remove spaces
+                        .replace(',', '.'); // Replace comma with dot
+                    
+                    parsedPrice = parseFloat(priceStr);
+                    if (isNaN(parsedPrice)) {
+                        parsedPrice = 0;
+                        console.warn(`Preço inválido para produto "${name}": ${priceValue}`);
+                    }
+                }
+                
                 products.push({
                     id: Date.now() + i,
                     name: name,
                     category: values[headerMap['Categoria']]?.trim() || 'Geral',
-                    priceAVista: parseFloat(values[headerMap['Preço']]?.replace(',', '.')) || 0,
+                    priceAVista: parsedPrice,
+                    basePrice: parsedPrice, // Also update basePrice for compatibility
+                    finalPrice: parsedPrice, // Also update finalPrice for compatibility
                     altura: parseFloat(values[headerMap['Altura']]?.replace(',', '.')) || 0,
                     largura: parseFloat(values[headerMap['Largura']]?.replace(',', '.')) || 0,
                     comprimento: parseFloat(values[headerMap['Comprimento']]?.replace(',', '.')) || 0,
                     peso: parseFloat(values[headerMap['Peso']]?.replace(',', '.')) || 0,
                     description: values[headerMap['Descrição']]?.trim() || '',
                     active: true,
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
                 });
             }
 

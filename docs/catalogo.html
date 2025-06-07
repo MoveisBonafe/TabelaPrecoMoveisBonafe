@@ -1213,27 +1213,31 @@
                 const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
                 const multiplier = this.currentUser.priceMultiplier || 1.0;
 
+                console.log(`Price Debug - Product: ${product.name}, Base Price: R$ ${basePrice}, User: ${this.currentUser.username}, User Multiplier: ${multiplier}, User Type: ${this.userType}`);
+
                 const prices = {};
                 
-                // Use price settings configuration
+                // Use price settings configuration with proper mapping
                 this.priceSettings.forEach(setting => {
                     const percentage = setting.percentage || 0;
                     const priceMultiplier = 1 + (percentage / 100);
                     const finalPrice = basePrice * priceMultiplier * multiplier;
                     
-                    // Map table names to price keys
-                    const tableName = setting.tableName.toLowerCase();
-                    if (tableName.includes('vista')) {
+                    // Map table names to price keys based on your actual configuration
+                    const tableName = setting.tableName.toLowerCase().trim();
+                    if (tableName.includes('vista') || tableName === 'à vista') {
                         prices.vista = finalPrice;
-                    } else if (tableName === '30') {
+                    } else if (tableName === '30' || tableName === '30d') {
                         prices.prazo30 = finalPrice;
-                    } else if (tableName.includes('30/60') && !tableName.includes('90')) {
+                    } else if (tableName === '30/60' || tableName === '30/60d') {
                         prices.prazo3060 = finalPrice;
-                    } else if (tableName.includes('30/60/90') && !tableName.includes('120')) {
+                    } else if (tableName === '30/60/90' || tableName === '30/60/90d') {
                         prices.prazo306090 = finalPrice;
-                    } else if (tableName.includes('30/60/90/120')) {
+                    } else if (tableName === '30/60/90/120' || tableName === '30/60/90/120d') {
                         prices.prazo30606090120 = finalPrice;
                     }
+                    
+                    console.log(`Price calculation - Table: ${tableName}, Percentage: ${percentage}%, Multiplier: ${priceMultiplier}, Final: R$ ${finalPrice.toFixed(2)}`);
                 });
 
                 // Fallback to default calculation if no price settings

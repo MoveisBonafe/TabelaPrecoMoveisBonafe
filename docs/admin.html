@@ -1193,6 +1193,25 @@
                     const row = table.insertRow();
                     const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
                     
+                    // Calculate prices using actual price settings multipliers
+                    const priceSettings = this.data.priceSettings.sort((a, b) => a.percentage - b.percentage);
+                    const calculatedPrices = [];
+                    
+                    console.log(`Admin Price Debug - Product: ${product.name}, Base Price: R$ ${basePrice}`);
+                    console.log('Price Settings:', priceSettings);
+                    
+                    priceSettings.forEach(setting => {
+                        const multiplier = 1 + (setting.percentage / 100);
+                        const finalPrice = (basePrice * multiplier).toFixed(2);
+                        calculatedPrices.push(finalPrice);
+                        console.log(`  ${setting.tableName}: ${setting.percentage}% -> ${multiplier}x -> R$ ${finalPrice}`);
+                    });
+                    
+                    // Ensure we have at least 5 price columns, fill with base price if needed
+                    while (calculatedPrices.length < 5) {
+                        calculatedPrices.push(basePrice.toFixed(2));
+                    }
+                    
                     // Generate product image display
                     let imageCell = '<div class="product-image-cell">📦</div>';
                     if (product.imageFile) {
@@ -1218,11 +1237,11 @@
                     row.innerHTML = `
                         <td>${imageCell}</td>
                         <td><strong>${product.name || 'Sem nome'}</strong><br><small>${product.category || 'Sem categoria'}</small></td>
-                        <td class="price-cell">R$ ${basePrice.toFixed(2)}</td>
-                        <td class="price-cell">R$ ${(basePrice * 1.1).toFixed(2)}</td>
-                        <td class="price-cell">R$ ${(basePrice * 1.15).toFixed(2)}</td>
-                        <td class="price-cell">R$ ${(basePrice * 1.2).toFixed(2)}</td>
-                        <td class="price-cell">R$ ${(basePrice * 1.25).toFixed(2)}</td>
+                        <td class="price-cell">R$ ${calculatedPrices[0]}</td>
+                        <td class="price-cell">R$ ${calculatedPrices[1]}</td>
+                        <td class="price-cell">R$ ${calculatedPrices[2]}</td>
+                        <td class="price-cell">R$ ${calculatedPrices[3]}</td>
+                        <td class="price-cell">R$ ${calculatedPrices[4]}</td>
                         <td class="action-buttons-cell">
                             <button class="btn btn-edit btn-sm" onclick="editProduct(${index})">✏️</button>
                             <button class="btn btn-delete btn-sm" onclick="deleteProduct(${index})">🗑️</button>

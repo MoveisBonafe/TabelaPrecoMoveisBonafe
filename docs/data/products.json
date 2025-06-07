@@ -301,21 +301,13 @@
         "color": "#ffc852"
       },
       {
-        "name": "Imbuia",
-        "color": "#8c5b17"
-      },
-      {
-        "name": "Tabaco",
-        "color": "#000000"
-      },
-      {
         "name": "Mogno",
         "color": "#9a1919"
       }
     ],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-07T20:24:46.507Z",
+    "updatedAt": "2025-06-07T20:36:42.060Z",
     "imageFile": "data/images/product_1749327504146_0.jpg"
   },
   {

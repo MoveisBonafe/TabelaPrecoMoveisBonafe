@@ -31,16 +31,5 @@
     "priceMultiplier": 1.06,
     "createdAt": "2025-05-25T09:53:21.213Z",
     "updatedAt": "2025-05-25T09:53:21.213Z"
-  },
-  {
-    "id": "1749319797066",
-    "name": "Lojas Móveis Bonafe",
-    "username": "lojas",
-    "passwordHash": "lojas@moveisbonafe",
-    "role": "loja",
-    "priceMultiplier": 1,
-    "active": true,
-    "createdAt": "2025-06-07T18:09:57.066Z",
-    "updatedAt": "2025-06-07T18:09:57.066Z"
   }
 ]

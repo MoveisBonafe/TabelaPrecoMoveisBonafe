@@ -78,38 +78,24 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen">
-      {currentView === 'login' && (
-        <LoginModal
-          onAdminLogin={handleAdminLogin}
-          onPublicView={handleShowCatalog}
-          isVisible={true}
-        />
-      )}
-
+    <>
       {currentView === 'catalog' && (
-        <Catalog onShowAdminLogin={handleShowLogin} />
-      )}
-
-      {currentView === 'admin' && (
-        <Admin 
-          onLogout={handleLogout}
-          onShowPublicView={handleShowCatalog}
-          onConfigureGitHub={() => setShowGitHubConfig(true)}
+        <Catalog 
+          onShowAdminLogin={() => setCurrentView('login')}
         />
       )}
-
-      <GitHubConfigModal
-        isOpen={showGitHubConfig}
-        onClose={() => setShowGitHubConfig(false)}
-        onConfigured={() => {
-          toast({
-            title: "GitHub configurado",
-            description: "Agora todos os dados são salvos no GitHub!",
-          });
-        }}
-      />
-    </div>
+      
+      {currentView === 'login' && (
+        <Login
+          onLogin={handleAdminLogin}
+          onBackToCatalog={() => setCurrentView('catalog')}
+        />
+      )}
+      
+      {currentView === 'admin' && (
+        <Admin onLogout={handleLogout} />
+      )}
+    </>
   );
 }
 

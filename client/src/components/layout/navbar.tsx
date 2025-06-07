@@ -6,13 +6,15 @@ interface NavbarProps {
   onLogout?: () => void;
   viewMode?: 'grid' | 'list';
   onToggleViewMode?: () => void;
+  onShowAdminLogin?: () => void;
 }
 
 export function Navbar({ 
   isAdmin, 
   onLogout,
   viewMode = 'grid',
-  onToggleViewMode 
+  onToggleViewMode,
+  onShowAdminLogin
 }: NavbarProps) {
   const currentUser = auth.getUser();
   return (

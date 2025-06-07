@@ -13,28 +13,25 @@ import { MonitoringTabSimple } from '@/components/admin/monitoring-tab-simple';
 import { ProductModal } from '@/components/modals/product-modal';
 import { ProductFormModal } from '@/components/modals/product-form-modal';
 import { PromotionModal } from '@/components/modals/promotion-modal';
-import { useGitHubProducts } from '@/hooks/use-github-products';
+import { useGitHubPagesData } from '@/hooks/use-github-pages-data';
 import { useToast } from '@/hooks/use-toast';
-import { githubClient } from '@/lib/github-client';
+// GitHub Pages - data loaded directly from static files
 import { auth } from '@/lib/auth';
 
 interface AdminProps {
   onLogout: () => void;
-  onShowPublicView: () => void;
-  onConfigureGitHub: () => void;
+  onShowPublicView?: () => void;
+  onConfigureGitHub?: () => void;
 }
 
 export function Admin({ onLogout, onShowPublicView, onConfigureGitHub }: AdminProps) {
   const { 
     products, 
     categories,
-    createProduct, 
-    updateProduct, 
-    deleteProduct,
-    createCategory,
-    updateCategory,
-    deleteCategory
-  } = useGitHubProducts();
+    users,
+    promotions,
+    priceSettings
+  } = useGitHubPagesData();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('products');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);

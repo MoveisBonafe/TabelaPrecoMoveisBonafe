@@ -1203,14 +1203,10 @@
                     const priceSettings = this.data.priceSettings.sort((a, b) => a.percentage - b.percentage);
                     const calculatedPrices = [];
                     
-                    console.log(`Admin Price Debug - Product: ${product.name}, Base Price: R$ ${basePrice}`);
-                    console.log('Price Settings:', priceSettings);
-                    
                     priceSettings.forEach(setting => {
                         const multiplier = 1 + (setting.percentage / 100);
                         const finalPrice = (basePrice * multiplier).toFixed(2);
                         calculatedPrices.push(finalPrice);
-                        console.log(`  ${setting.tableName}: ${setting.percentage}% -> ${multiplier}x -> R$ ${finalPrice}`);
                     });
                     
                     // Ensure we have at least 5 price columns, fill with base price if needed
@@ -1580,10 +1576,16 @@ O token será salvo localmente no navegador.`);
                 const timestamp = Date.now();
                 localStorage.setItem(`moveisbonafe_sync_${type}`, timestamp.toString());
                 
+                // Criar um identificador único para forçar a sincronização
+                localStorage.setItem(`moveisbonafe_force_sync`, timestamp.toString());
+                
                 // Evento de mudança para sincronização cross-tab
                 window.dispatchEvent(new CustomEvent('moveisbonafe_data_update', {
                     detail: { type, data, timestamp }
                 }));
+                
+                // Broadcast via localStorage para garantir sincronização
+                localStorage.setItem(`moveisbonafe_broadcast_${type}`, JSON.stringify({ data, timestamp }));
                 
                 console.log(`📢 Notificação enviada: ${type} atualizado`);
             }

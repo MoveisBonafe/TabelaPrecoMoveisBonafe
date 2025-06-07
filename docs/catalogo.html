@@ -833,12 +833,26 @@
                         const type = event.key.replace('moveisbonafe_sync_', '');
                         this.syncDataType(type);
                     }
+                    
+                    // Listen for broadcast updates from admin panel
+                    if (event.key && event.key.startsWith('moveisbonafe_broadcast_')) {
+                        const type = event.key.replace('moveisbonafe_broadcast_', '');
+                        const broadcastData = JSON.parse(event.newValue);
+                        this.handleDataUpdate(type, broadcastData.data);
+                        console.log(`📡 Broadcast recebido: ${type} atualizado`);
+                    }
+                    
+                    // Force sync when admin forces update
+                    if (event.key === 'moveisbonafe_force_sync') {
+                        setTimeout(() => this.syncAllData(), 100);
+                        console.log(`🔄 Sincronização forçada pelo admin`);
+                    }
                 });
 
                 // Sincronização automática como backup
                 setInterval(() => {
                     this.syncAllData();
-                }, 10000); // A cada 10 segundos
+                }, 2000); // A cada 2 segundos para atualizações mais rápidas
             }
 
             handleDataUpdate(type, data) {
@@ -865,14 +879,48 @@
 
             syncAllData() {
                 try {
+                    let hasChanges = false;
+
+                    // Sync products with deep comparison
                     const localProducts = localStorage.getItem('moveisbonafe_products');
                     if (localProducts) {
                         const parsedProducts = JSON.parse(localProducts).filter(p => p.active !== false);
-                        if (parsedProducts.length !== this.products.length) {
+                        if (JSON.stringify(parsedProducts) !== JSON.stringify(this.products)) {
                             this.products = parsedProducts;
                             this.filteredProducts = [...this.products];
                             this.renderProducts();
+                            hasChanges = true;
+                            console.log(`🔄 Produtos sincronizados: ${parsedProducts.length} produtos`);
                         }
+                    }
+
+                    // Sync price settings
+                    const localPriceSettings = localStorage.getItem('moveisbonafe_priceSettings');
+                    if (localPriceSettings) {
+                        const parsedPriceSettings = JSON.parse(localPriceSettings).filter(p => p.active !== false);
+                        if (JSON.stringify(parsedPriceSettings) !== JSON.stringify(this.priceSettings)) {
+                            this.priceSettings = parsedPriceSettings;
+                            this.renderProducts(); // Re-render when prices change
+                            hasChanges = true;
+                            console.log(`🔄 Preços sincronizados: ${parsedPriceSettings.length} tabelas`);
+                        }
+                    }
+
+                    // Sync categories
+                    const localCategories = localStorage.getItem('moveisbonafe_categories');
+                    if (localCategories) {
+                        const parsedCategories = JSON.parse(localCategories).filter(c => c.active !== false);
+                        if (JSON.stringify(parsedCategories) !== JSON.stringify(this.categories)) {
+                            this.categories = parsedCategories;
+                            this.renderCategories();
+                            hasChanges = true;
+                            console.log(`🔄 Categorias sincronizadas: ${parsedCategories.length} categorias`);
+                        }
+                    }
+
+                    // Show notification for changes
+                    if (hasChanges) {
+                        this.showUpdateNotification('Dados atualizados!');
                     }
                 } catch (error) {
                     console.log('Erro na sincronização automática:', error);
@@ -1213,8 +1261,6 @@
                 const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
                 const multiplier = this.currentUser.priceMultiplier || 1.0;
 
-                console.log(`Price Debug - Product: ${product.name}, Base Price: R$ ${basePrice}, User: ${this.currentUser.username}, User Multiplier: ${multiplier}, User Type: ${this.userType}`);
-
                 const prices = {};
                 
                 // Use price settings configuration with proper mapping
@@ -1236,8 +1282,6 @@
                     } else if (tableName === '30/60/90/120' || tableName === '30/60/90/120d') {
                         prices.prazo30606090120 = finalPrice;
                     }
-                    
-                    console.log(`Price calculation - Table: ${tableName}, Percentage: ${percentage}%, Multiplier: ${priceMultiplier}, Final: R$ ${finalPrice.toFixed(2)}`);
                 });
 
                 // Fallback to default calculation if no price settings

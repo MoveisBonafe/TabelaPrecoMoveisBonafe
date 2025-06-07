@@ -187,18 +187,5 @@
     "description": "",
     "active": true,
     "createdAt": "2025-06-07T19:17:13.581Z"
-  },
-  {
-    "id": 1749323833585,
-    "name": "Mesa Bonacor 0,70 X 0,45",
-    "category": "Mesas",
-    "priceAVista": 0,
-    "altura": 0,
-    "largura": 0,
-    "comprimento": 0,
-    "peso": 0,
-    "description": "",
-    "active": true,
-    "createdAt": "2025-06-07T19:17:13.581Z"
   }
 ]

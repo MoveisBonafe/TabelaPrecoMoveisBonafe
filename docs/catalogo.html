@@ -862,10 +862,15 @@
                     this.products = data.filter(p => p.active !== false);
                     this.filteredProducts = [...this.products];
                     this.renderProducts();
-                    this.showUpdateNotification('Novos produtos adicionados!');
+                    this.showUpdateNotification('Produtos atualizados!');
                 } else if (type === 'categories') {
                     this.categories = data.filter(c => c.active !== false);
                     this.renderCategories();
+                    this.showUpdateNotification('Categorias atualizadas!');
+                } else if (type === 'priceSettings') {
+                    this.priceSettings = data.filter(p => p.active !== false);
+                    this.renderProducts(); // Re-render with new prices
+                    this.showUpdateNotification('Preços atualizados!');
                 }
             }
 

@@ -433,12 +433,25 @@
 
             async loadData(filename) {
                 try {
+                    // Tenta carregar do GitHub primeiro
                     const response = await fetch(`${this.baseUrl}/data/${filename}`);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     return await response.json();
                 } catch (error) {
-                    console.error(`Erro ao carregar ${filename}:`, error);
-                    throw error;
+                    console.log(`Dados do GitHub indisponíveis para ${filename}, verificando localStorage...`);
+                    
+                    // Fallback para localStorage (dados do admin)
+                    const dataType = filename.replace('.json', '').replace('_', '');
+                    const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+                    const localData = localStorage.getItem(localKey);
+                    
+                    if (localData) {
+                        console.log(`✅ Carregado ${filename} do localStorage`);
+                        return JSON.parse(localData);
+                    }
+                    
+                    console.log(`⚠️ Nenhum dado encontrado para ${filename}`);
+                    return [];
                 }
             }
 

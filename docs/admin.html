@@ -1280,7 +1280,29 @@ O token será salvo localmente no navegador.`);
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            
+            // Clear form data and datasets when closing
+            if (modalId === 'product-modal') {
+                const form = document.getElementById('product-form');
+                form.reset();
+                delete form.dataset.imageFile;
+                delete modal.dataset.editIndex;
+                const preview = document.getElementById('product-image-preview');
+                if (preview) preview.innerHTML = '';
+            } else if (modalId === 'category-modal') {
+                const form = document.getElementById('category-form');
+                form.reset();
+                delete form.dataset.imageFile;
+                delete modal.dataset.editIndex;
+                const preview = document.getElementById('category-image-preview');
+                if (preview) preview.innerHTML = '';
+            } else if (modalId === 'user-modal') {
+                const form = document.getElementById('user-form');
+                form.reset();
+                delete modal.dataset.editIndex;
+            }
         }
 
         function openProductModal(productIndex = null) {
@@ -1293,9 +1315,11 @@ O token será salvo localmente no navegador.`);
                 document.getElementById('product-name').value = product.name || '';
                 document.getElementById('product-category').value = product.category || '';
                 document.getElementById('product-price').value = product.priceAVista || product.basePrice || 0;
+                modal.dataset.editIndex = productIndex;
             } else {
                 title.textContent = 'Adicionar Produto';
                 document.getElementById('product-form').reset();
+                delete modal.dataset.editIndex;
             }
             
             openModal('product-modal');
@@ -1311,9 +1335,11 @@ O token será salvo localmente no navegador.`);
                 document.getElementById('category-name').value = category.name || '';
                 document.getElementById('category-description').value = category.description || '';
                 document.getElementById('category-color').value = category.color || '#4a90e2';
+                modal.dataset.editIndex = categoryIndex;
             } else {
                 title.textContent = 'Adicionar Categoria';
                 document.getElementById('category-form').reset();
+                delete modal.dataset.editIndex;
             }
             
             openModal('category-modal');
@@ -1328,13 +1354,15 @@ O token será salvo localmente no navegador.`);
                 const user = adminClient.data.users[userIndex];
                 document.getElementById('user-name').value = user.name || '';
                 document.getElementById('user-username').value = user.username || '';
-                document.getElementById('user-password').value = user.password || '';
+                document.getElementById('user-password').value = user.passwordHash || '';
                 document.getElementById('user-role').value = user.role || '';
                 document.getElementById('user-multiplier').value = user.priceMultiplier || 1.0;
+                modal.dataset.editIndex = userIndex;
             } else {
                 title.textContent = 'Adicionar Usuário';
                 document.getElementById('user-form').reset();
                 document.getElementById('user-multiplier').value = '1.00';
+                delete modal.dataset.editIndex;
             }
             
             openModal('user-modal');
@@ -1471,8 +1499,9 @@ O token será salvo localmente no navegador.`);
         }
 
         function exportToCSV() {
-            const headers = ['Nome', 'Categoria', 'Preço', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descrição'];
-            let csvContent = headers.join('\t') + '\n'; // Use tab separation for Excel compatibility
+            // Excel format matching your structure
+            const headers = ['Nome', 'Categoria', 'Preco', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descricao'];
+            let csvContent = headers.join('\t') + '\n';
 
             adminClient.data.products.forEach(product => {
                 const row = [
@@ -1485,18 +1514,23 @@ O token será salvo localmente no navegador.`);
                     product.peso || 0,
                     product.description || ''
                 ];
-                csvContent += row.join('\t') + '\n'; // Tab-separated for proper columns
+                csvContent += row.join('\t') + '\n';
             });
 
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            // Create Excel-compatible file
+            const blob = new Blob(['\ufeff' + csvContent], { 
+                type: 'text/csv;charset=utf-8;' 
+            });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}.xlsx`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+            
+            addSystemLog('Produtos exportados para Excel');
         }
 
         function downloadBackup() {
@@ -1942,6 +1976,8 @@ O token será salvo localmente no navegador.`);
             const form = document.getElementById('product-form');
             if (form.dataset.imageFile) {
                 product.imageFile = form.dataset.imageFile;
+            } else if (isEdit && adminClient.data.products[index].imageFile) {
+                product.imageFile = adminClient.data.products[index].imageFile;
             }
             
             if (isEdit) {
@@ -1979,6 +2015,8 @@ O token será salvo localmente no navegador.`);
             const form = document.getElementById('category-form');
             if (form.dataset.imageFile) {
                 category.imageFile = form.dataset.imageFile;
+            } else if (isEdit && adminClient.data.categories[index].imageFile) {
+                category.imageFile = adminClient.data.categories[index].imageFile;
             }
             
             if (isEdit) {

@@ -81,6 +81,51 @@
             margin: 0 auto;
             padding: 24px 20px;
         }
+
+        /* Responsividade geral */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            
+            .search-bar {
+                padding: 16px;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .filter-select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .products-section {
+                padding: 16px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 12px;
+            }
+        }
         
         .search-bar {
             background: white;
@@ -198,6 +243,44 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
+        }
+
+        /* Responsividade para grade de produtos */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+            }
+            
+            .product-card {
+                margin: 0 auto;
+                max-width: 350px;
+            }
+            
+            .price-grid {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 0 8px;
+            }
+            
+            .product-card {
+                max-width: 100%;
+            }
+            
+            .product-image {
+                height: 180px;
+            }
+            
+            .view-product-btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
         }
         
         .product-card {
@@ -434,7 +517,7 @@
 
         .product-modal-image {
             width: 100%;
-            height: 350px;
+            height: 300px;
             background: #f8f9fa;
             display: flex;
             align-items: center;
@@ -543,19 +626,89 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
+        /* Mobile First - Default styles */
+        .product-modal-content {
+            width: 98% !important;
+            max-width: none !important;
+            margin: 10px;
+            max-height: 95vh;
+        }
+
+        .product-modal-image {
+            height: 250px !important;
+        }
+
+        .product-modal-info {
+            padding: 16px !important;
+        }
+
+        .product-modal-info h2 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .product-modal-specs {
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .color-options {
+            gap: 8px;
+        }
+
+        /* Tablet - 768px and up */
         @media (min-width: 768px) {
+            .product-modal-content {
+                width: 90% !important;
+                max-width: 800px !important;
+                margin: 20px;
+                max-height: 85vh;
+            }
+
             .product-modal-body {
                 flex-direction: row;
             }
 
             .product-modal-image {
+                width: 45%;
+                height: 350px !important;
+            }
+
+            .product-modal-info {
+                width: 55%;
+                padding: 24px !important;
+            }
+
+            .product-modal-info h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Desktop - 1024px and up */
+        @media (min-width: 1024px) {
+            .product-modal-content {
+                width: 85% !important;
+                max-width: 1000px !important;
+                margin: 30px;
+                max-height: 80vh;
+            }
+
+            .product-modal-image {
                 width: 50%;
-                height: auto;
+                height: 400px !important;
             }
 
             .product-modal-info {
                 width: 50%;
-                padding: 32px;
+                padding: 32px !important;
+            }
+
+            .product-modal-info h2 {
+                font-size: 1.8rem;
+            }
+
+            .product-modal-specs {
+                font-size: 1rem;
             }
         }
     </style>

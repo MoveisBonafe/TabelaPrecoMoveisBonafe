@@ -858,14 +858,42 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Preço à Vista (R$)</label>
+                    <label class="form-label">Preço (R$)</label>
                     <input type="number" class="form-input" id="product-price" step="0.01" required>
                 </div>
+                
+                <!-- Dimensões - seguindo modelo Excel -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Altura (cm)</label>
+                        <input type="number" class="form-input" id="product-altura" step="0.01" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Largura (cm)</label>
+                        <input type="number" class="form-input" id="product-largura" step="0.01" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Comprimento (cm)</label>
+                        <input type="number" class="form-input" id="product-comprimento" step="0.01" placeholder="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Peso (kg)</label>
+                    <input type="number" class="form-input" id="product-peso" step="0.01" placeholder="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-input" id="product-description" rows="3" placeholder="Descrição detalhada do produto"></textarea>
+                </div>
+                
                 <div class="form-group">
                     <label class="form-label">Imagem Principal do Produto</label>
                     <input type="file" class="form-input" id="product-image" accept="image/*" onchange="handleImageUpload(event, 'product')">
                     <small style="color: #666;">Formatos aceitos: JPG, PNG, WebP (máx. 2MB)</small>
                 </div>
+                
                 <div class="form-group">
                     <label class="form-label">Variações de Cores</label>
                     <div id="color-variations" style="border: 1px solid #ddd; border-radius: 6px; padding: 16px; background: #f9f9f9;">
@@ -876,10 +904,6 @@
                             <!-- Color variations will be added here -->
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Especificações Técnicas</label>
-                    <textarea class="form-input" id="product-specs" rows="4" placeholder="Ex:&#10;Altura: 100cm&#10;Largura: 44cm&#10;Comprimento: 44cm&#10;Peso: 5,50kg"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-cancel" onclick="closeModal('product-modal')">Cancelar</button>
@@ -2523,7 +2547,11 @@ O token será salvo localmente no navegador.`);
                 name: document.getElementById('product-name').value,
                 category: document.getElementById('product-category').value,
                 priceAVista: parseFloat(document.getElementById('product-price').value),
-                specifications: document.getElementById('product-specs').value,
+                altura: parseFloat(document.getElementById('product-altura').value) || 0,
+                largura: parseFloat(document.getElementById('product-largura').value) || 0,
+                comprimento: parseFloat(document.getElementById('product-comprimento').value) || 0,
+                peso: parseFloat(document.getElementById('product-peso').value) || 0,
+                description: document.getElementById('product-description').value,
                 colorVariations: colorVariations,
                 active: true,
                 createdAt: isEdit ? adminClient.data.products[index].createdAt : new Date().toISOString(),

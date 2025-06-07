@@ -78,7 +78,28 @@ export const products = pgTable("products", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const userSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  password: z.string(),
+  role: z.string(),
+  createdAt: z.date(),
+});
+
+export const insertUserSchema = userSchema.omit({ id: true, createdAt: true });
+
+// Database tables
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 255 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  role: varchar("role", { length: 50 }).default("admin"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export type Product = z.infer<typeof productSchema>;
 export type Category = z.infer<typeof categorySchema>;
+export type User = z.infer<typeof userSchema>;
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
+export type InsertUser = z.infer<typeof insertUserSchema>;

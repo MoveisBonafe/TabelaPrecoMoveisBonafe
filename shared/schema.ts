@@ -79,14 +79,40 @@ export const products = pgTable("products", {
 });
 
 export const userSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   username: z.string(),
-  password: z.string(),
+  passwordHash: z.string(),
+  name: z.string(),
   role: z.string(),
-  createdAt: z.date(),
+  active: z.boolean(),
+  priceMultiplier: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
-export const insertUserSchema = userSchema.omit({ id: true, createdAt: true });
+export const promotionSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  discountPercentage: z.number(),
+  startDate: z.string(),
+  endDate: z.string(),
+  active: z.boolean(),
+  applicableProducts: z.array(z.string()).default([]),
+  createdAt: z.string(),
+});
+
+export const priceSettingSchema = z.object({
+  id: z.string(),
+  tableName: z.string(),
+  percentage: z.number(),
+  active: z.boolean(),
+  createdAt: z.string(),
+});
+
+export const insertUserSchema = userSchema.omit({ id: true, createdAt: true, updatedAt: true });
+export const insertPromotionSchema = promotionSchema.omit({ id: true, createdAt: true });
+export const insertPriceSettingSchema = priceSettingSchema.omit({ id: true, createdAt: true });
 
 // Database tables
 export const users = pgTable("users", {
@@ -97,9 +123,33 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const promotions = pgTable("promotions", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").default(""),
+  discountPercentage: numeric("discount_percentage", { precision: 5, scale: 2 }).notNull(),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  active: boolean("active").default(true),
+  applicableProducts: jsonb("applicable_products").default([]),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const priceSettings = pgTable("price_settings", {
+  id: serial("id").primaryKey(),
+  tableName: varchar("table_name", { length: 255 }).notNull(),
+  percentage: numeric("percentage", { precision: 5, scale: 2 }).notNull(),
+  active: boolean("active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export type Product = z.infer<typeof productSchema>;
 export type Category = z.infer<typeof categorySchema>;
 export type User = z.infer<typeof userSchema>;
+export type Promotion = z.infer<typeof promotionSchema>;
+export type PriceSetting = z.infer<typeof priceSettingSchema>;
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type InsertPromotion = z.infer<typeof insertPromotionSchema>;
+export type InsertPriceSetting = z.infer<typeof insertPriceSettingSchema>;

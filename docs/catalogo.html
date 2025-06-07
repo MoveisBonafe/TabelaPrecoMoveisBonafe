@@ -479,16 +479,18 @@
 
             async loadAllData() {
                 try {
-                    const [products, categories] = await Promise.all([
+                    const [products, categories, priceSettings] = await Promise.all([
                         this.loadData('products.json'),
-                        this.loadData('categories.json')
+                        this.loadData('categories.json'),
+                        this.loadData('price_settings.json')
                     ]);
 
                     this.products = products.filter(p => p.active !== false);
                     this.categories = categories.filter(c => c.active !== false);
+                    this.priceSettings = priceSettings.filter(p => p.active !== false);
                     this.filteredProducts = [...this.products];
 
-                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias`);
+                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços`);
                 } catch (error) {
                     console.error('❌ Erro ao carregar dados:', error);
                     throw error;
@@ -621,12 +623,41 @@
                 const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
                 const multiplier = this.currentUser.priceMultiplier || 1.0;
 
-                return {
-                    vista: basePrice * multiplier,
-                    prazo30: (basePrice * 1.1) * multiplier,
-                    prazo3060: (basePrice * 1.15) * multiplier,
-                    prazo306090: (basePrice * 1.2) * multiplier
-                };
+                const prices = {};
+                
+                // Use price settings configuration
+                this.priceSettings.forEach(setting => {
+                    const percentage = setting.percentage || 0;
+                    const priceMultiplier = 1 + (percentage / 100);
+                    const finalPrice = basePrice * priceMultiplier * multiplier;
+                    
+                    // Map table names to price keys
+                    const tableName = setting.tableName.toLowerCase();
+                    if (tableName.includes('vista')) {
+                        prices.vista = finalPrice;
+                    } else if (tableName === '30') {
+                        prices.prazo30 = finalPrice;
+                    } else if (tableName.includes('30/60') && !tableName.includes('90')) {
+                        prices.prazo3060 = finalPrice;
+                    } else if (tableName.includes('30/60/90') && !tableName.includes('120')) {
+                        prices.prazo306090 = finalPrice;
+                    } else if (tableName.includes('30/60/90/120')) {
+                        prices.prazo30606090120 = finalPrice;
+                    }
+                });
+
+                // Fallback to default calculation if no price settings
+                if (Object.keys(prices).length === 0) {
+                    return {
+                        vista: basePrice * multiplier,
+                        prazo30: (basePrice * 1.02) * multiplier,
+                        prazo3060: (basePrice * 1.04) * multiplier,
+                        prazo306090: (basePrice * 1.06) * multiplier,
+                        prazo30606090120: (basePrice * 1.08) * multiplier
+                    };
+                }
+
+                return prices;
             }
 
             getProductIcon(category) {

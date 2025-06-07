@@ -1518,6 +1518,14 @@ O token será salvo localmente no navegador.`);
                 document.getElementById('product-name').value = product.name || '';
                 document.getElementById('product-category').value = product.category || '';
                 document.getElementById('product-price').value = product.priceAVista || product.basePrice || 0;
+                
+                // Preencher novos campos do modelo Excel
+                document.getElementById('product-altura').value = product.altura || 0;
+                document.getElementById('product-largura').value = product.largura || 0;
+                document.getElementById('product-comprimento').value = product.comprimento || 0;
+                document.getElementById('product-peso').value = product.peso || 0;
+                document.getElementById('product-description').value = product.description || '';
+                
                 modal.dataset.editIndex = productIndex;
             } else {
                 title.textContent = 'Adicionar Produto';

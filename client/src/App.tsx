@@ -4,7 +4,7 @@ import { Admin } from '@/pages/admin';
 import { LoginModal } from '@/components/modals/login-modal';
 import { GitHubConfigModal } from '@/components/modals/github-config-modal';
 import { useToast } from '@/hooks/use-toast';
-import { githubClient } from '@/lib/github-client';
+import { useGitHubPagesData } from '@/hooks/use-github-pages-data';
 import { auth } from '@/lib/auth';
 
 type View = 'login' | 'catalog' | 'admin';
@@ -13,10 +13,10 @@ function App() {
   const [currentView, setCurrentView] = useState<View>('login');
   const [showGitHubConfig, setShowGitHubConfig] = useState(false);
   const { toast } = useToast();
+  const { authenticate } = useGitHubPagesData();
   
   useEffect(() => {
-    console.log('Sistema rodando com GitHub como backend');
-    githubClient.loadCredentials();
+    console.log('Sistema rodando com GitHub Pages como backend');
   }, []);
 
   useEffect(() => {
@@ -28,17 +28,27 @@ function App() {
     }
   }, []);
 
-  const handleAdminLogin = (username: string, password: string) => {
-    if (auth.login(username, password)) {
-      setCurrentView('admin');
-      toast({
-        title: "Sucesso",
-        description: "Login realizado com sucesso!",
-      });
-    } else {
+  const handleAdminLogin = async (username: string, password: string) => {
+    try {
+      const user = await authenticate(username, password);
+      if (user) {
+        auth.setUser(user);
+        setCurrentView('admin');
+        toast({
+          title: "Sucesso",
+          description: "Login realizado com sucesso!",
+        });
+      } else {
+        toast({
+          title: "Erro",
+          description: "Credenciais inválidas",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
         title: "Erro",
-        description: "Credenciais inválidas",
+        description: "Erro ao fazer login",
         variant: "destructive",
       });
     }

@@ -8,14 +8,14 @@ import { ProductCompact } from '@/components/products/product-compact';
 import { ProductModal } from '@/components/modals/product-modal';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGitHubProducts } from '@/hooks/use-github-products';
+import { useGitHubPagesData } from '@/hooks/use-github-pages-data';
 
 interface CatalogProps {
   onShowAdminLogin: () => void;
 }
 
 export function Catalog({ onShowAdminLogin }: CatalogProps) {
-  const { products, categories } = useGitHubProducts();
+  const { products, categories } = useGitHubPagesData();
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'compact'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');

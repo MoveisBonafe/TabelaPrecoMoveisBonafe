@@ -1317,15 +1317,7 @@
             window.location.href = 'login.html';
         }
 
-        function closeProductModal(event) {
-            if (event && event.target !== event.currentTarget && !event.target.classList.contains('product-modal-close')) {
-                return;
-            }
-            
-            const modal = document.getElementById('product-modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+
 
         // Initialize application
         const catalogClient = new CatalogClient();

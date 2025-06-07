@@ -395,9 +395,9 @@
         .product-modal-content {
             background: white;
             border-radius: 12px;
-            max-width: 800px;
-            max-height: 90vh;
-            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            width: 95%;
             overflow: hidden;
             position: relative;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
@@ -434,7 +434,7 @@
 
         .product-modal-image {
             width: 100%;
-            height: 400px;
+            height: 350px;
             background: #f8f9fa;
             display: flex;
             align-items: center;
@@ -524,25 +524,23 @@
             word-wrap: break-word;
         }
 
-        .product-modal-actions {
-            margin-top: 24px;
-            text-align: center;
-        }
-
         .view-product-btn {
             background: #d4831e;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .view-product-btn:hover {
             background: #b8701a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         @media (min-width: 768px) {
@@ -630,9 +628,6 @@
                     <div class="product-modal-colors" id="modal-product-colors">
                         <h4>Cores:</h4>
                         <div class="color-options" id="modal-color-options"></div>
-                    </div>
-                    <div class="product-modal-actions">
-                        <button class="view-product-btn" id="modal-view-btn">👁 Ver Produto</button>
                     </div>
                 </div>
             </div>
@@ -1035,17 +1030,15 @@
                 grid.style.display = 'grid';
                 grid.innerHTML = '';
 
-                this.filteredProducts.forEach(product => {
+                this.filteredProducts.forEach((product, index) => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
-                    card.style.cursor = 'pointer';
-                    card.innerHTML = this.createProductCard(product);
-                    card.addEventListener('click', () => this.openProductModal(product));
+                    card.innerHTML = this.createProductCard(product, index);
                     grid.appendChild(card);
                 });
             }
 
-            createProductCard(product) {
+            createProductCard(product, index) {
                 const prices = this.calculatePrices(product);
                 const productImage = this.getProductImage(product);
 
@@ -1065,6 +1058,9 @@
                                     <span class="price-label">Pagamento à Vista</span>
                                     <span class="special-price-value">R$ ${prices.vista.toFixed(2)}</span>
                                 </div>
+                            </div>
+                            <div class="product-actions" style="margin-top: 12px; text-align: center;">
+                                <button class="view-product-btn" onclick="catalogClient.openProductModal(catalogClient.filteredProducts[${index}])">👁 Ver Produto</button>
                             </div>
                         </div>
                     `;
@@ -1093,6 +1089,9 @@
                                 <span class="price-label">30/60/90d</span>
                                 <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
                             </div>
+                        </div>
+                        <div class="product-actions" style="margin-top: 12px; text-align: center;">
+                            <button class="view-product-btn" onclick="catalogClient.openProductModal(catalogClient.filteredProducts[${index}])">👁 Ver Produto</button>
                         </div>
                     </div>
                 `;

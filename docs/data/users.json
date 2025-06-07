@@ -1,0 +1,35 @@
+[
+  {
+    "id": "61",
+    "username": "lojas",
+    "passwordHash": "lojas@moveisbonafe",
+    "name": "Lojas Móveis Bonafe",
+    "role": "customer",
+    "active": true,
+    "priceMultiplier": 1.00,
+    "createdAt": "2025-05-25T03:33:06.866Z",
+    "updatedAt": "2025-05-25T03:33:06.866Z"
+  },
+  {
+    "id": "63",
+    "username": "moveisbonafe",
+    "passwordHash": "bonafe1108",
+    "name": "Administrador",
+    "role": "admin",
+    "active": true,
+    "priceMultiplier": 1.00,
+    "createdAt": "2025-05-25T03:49:54.878Z",
+    "updatedAt": "2025-05-25T03:49:54.878Z"
+  },
+  {
+    "id": "64",
+    "username": "restaurantes",
+    "passwordHash": "restaurantes@moveisbonafe",
+    "name": "Restaurantes Móveis Bonafe",
+    "role": "customer_restaurant",
+    "active": true,
+    "priceMultiplier": 1.06,
+    "createdAt": "2025-05-25T09:53:21.213Z",
+    "updatedAt": "2025-05-25T09:53:21.213Z"
+  }
+]

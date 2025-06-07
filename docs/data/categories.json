@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Mesas",
+    "description": "Sofás e estofados",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABGcAAAZlCAYAAACDgLtKAAAAAXNSR0IArs4c6QAAIABJREFUeJzsvWuwLUlWHvatlVl773PP7dvv6el5v4cZxNOAJoxQIGE9HP5jS5oJI8lEELYYh/BgGwVC2MhxrBCSQVgoBpDdAxIGI2QzNhGybDkUBA4kgXmEeQ7DMDAzTM+je2b6ebvvvefsXZlr+UdVVmVlZe2qvc8+557uW19Ex+19qmorMysrK9eX31qLMGPGjBkzZsyYcZfi/3jsO19ni6O3LNSfKot64VMAMCxHAnleyvIdxtBN4uVG1StUlyT20w7uy4lwzIaeMGTcv/mk/X/+2Bvx9WW5eQgiaxh",
+    "color": "#f59e0b",
+    "active": true,
+    "productCount": 12,
+    "createdAt": "2025-01-07T20:47:00.000Z"
+  },
+  {
+    "id": "2",
+    "name": "Cadeiras",
+    "description": "Mesas de centro e jantar",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAnUAAAVVCAYAAAB9/D3sAAAAAXNSR0IArs4c6QAAIABJREFUeJzsvVmwHFea3/f/zjmZWVnb3QFcECQWkiAJcJq9cDTd6rHIjh5LFhWjmZEEWvJE2Ao/eB4UofCDFQ6/VfjJYU3ERLStcHBCo5YUsjUCPGrPdJvTrWk32dv0RrLJZgMgARLEcnG3ulutWbmc8/nhZFZl1b0XAEmAYE/nLyJvVeVWWXmrTv7zWwkFBQUFBQUfkhdeeMGprHzHd0sRRYMuu6WYooHD+XXCfpsBwCvXKT+vVna404+pVrvre36dwqCdbrsAABh0WwwApWpEg67LawAO7nEcBw8iXbLXGmv5NcfmRz2P3Uo4PK6o59n3XwTcdkjD1yluZfe8SYJ6iY8AWAJwoX0ubDRgbr",
+    "color": "#10b981", 
+    "active": true,
+    "productCount": 6,
+    "createdAt": "2025-01-07T20:47:00.000Z"
+  },
+  {
+    "id": "4",
+    "name": "Banquetas",
+    "description": "Itens decorativos",
+    "icon": "data:image/x-icon;base64,AAABAAEApQAAAAEAIAAorAIAFgAAACgAAAClAAAAAAIAAAEAIAAAAAAAAJQCAAAAAAAAAAAAAAAAAAAAAAB0mLsEZprMBVGXtwVTpMIGVqq2Bl6p0gZOjr4HJW6TBytxlQc+ep8IQnylCEGAnwhCg6UIQoWlCEOGqwg+fKgJTX+bB0FjYQFCZ2cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgI+/AJOJvgBunb0FbKfFCHSnxQh6uNkIcbbZB2622gdwuNwHZqXKB0qGogdIe5MHSJGUB0mClAdJiqYHSYKgB0nukgdHbZIHNWuNB",
+    "color": "#f97316",
+    "active": true,
+    "productCount": 2,
+    "createdAt": "2025-01-07T20:47:00.000Z"
+  },
+  {
+    "id": "13",
+    "name": "Camas",
+    "description": "",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABkAAAATuCAIAAAAa53hHAAAAAXNSR0IArs4c6QAAIABJREFUeJzsvVmwJUd6Hvb9f2ad5W59e8UyGzgghrNwZjjUDJdhUKSDtC2FxDBliaIcIh8coVDY8oPDevKDwy+iKVuMcEh2OGxSJkWKIil6KFJkxAw5G2fDYIDBYCEwAAaYRmNrAN3o9fZdzlKV/++HzKzKqnPOXbrRmO6L/GKmcW6dqqzMrKw8lV99//eTqiIjIyMjIyPjxiDJZ160U/qTSze3Pjcf3Ranf/uGUmeP7tfpEdLdSxb0IjdHSbL/wj6fU9v9HZGRkZGRkZGRkXErIT+9ZWRkZGRkZNwmIEDzo0tGRkZGRkZGxtsR9ntdgYyMjIyMjIzbHY2+KRWZKcKrMoLUezAAWkRCJXt1FGoKUNB0CXieoiojIyMjIyMjI+Mw",
+    "color": "#8b5cf6",
+    "active": true,
+    "productCount": 2,
+    "createdAt": "2025-01-07T20:47:00.000Z"
+  },
+  {
+    "id": "15",
+    "name": "Beliches",
+    "description": "",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABOIAAAXWCAYAAAAuGgJJAAAAAXNSR0IArs4c6QAAIABJREFUeJzsvXmYJFd55vt+58SSS1V1q9VqCe209gUtSC20IcQiyWCQAE9jY8YeYY+FPc+Dx8a+Y/vewdNjz9zh8cWDr5exR7av8QJeZCObzaySACG0oQ2phYQQWmhtvVR3V1dmRsQ557t/nIjIyMiIzKzqqu7q6vPTo6crM2M5cWI9b7zf9xEcDofD4XA4HI4F8jM/c/10uz1N33vkB2c0p6a6vV7X9HrJmSpSAhLJzFR7b6RVsmd2z7FhGHTuvPeBz/7SjTeuve+xR6476uijftCZmz96796507rd7iYQSGkNozUAsCd9DgJ/eyMMHpDC765fs+a54846a2u4O9Qf/euPzh/sbXc4HA6Hw+FYLHSwG+BwOBwOh8PhWPn8p",
+    "color": "#06b6d4",
+    "active": true,
+    "productCount": 1,
+    "createdAt": "2025-01-07T20:47:00.000Z"
+  }
+]

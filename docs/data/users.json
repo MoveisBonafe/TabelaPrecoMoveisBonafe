@@ -1,14 +1,14 @@
 [
   {
     "id": "61",
-    "name": "Lojas Móveis Bonafé",
+    "name": "Lojas Moveis Bonafe",
     "username": "lojas",
     "passwordHash": "lojas@moveisbonafe",
     "role": "loja",
     "priceMultiplier": 1,
     "active": true,
     "createdAt": "2025-05-25T03:33:06.866Z",
-    "updatedAt": "2025-06-07T20:10:08.848Z"
+    "updatedAt": "2025-06-07T20:10:44.024Z"
   },
   {
     "id": "63",

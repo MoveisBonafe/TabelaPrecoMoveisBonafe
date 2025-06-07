@@ -18,7 +18,7 @@
     "id": 1749324636911,
     "name": "Banqueta 70 cm",
     "category": "Banquetas",
-    "priceAVista": 56,
+    "priceAVista": 50,
     "altura": 70,
     "largura": 30,
     "comprimento": 30,
@@ -27,7 +27,7 @@
     "colorVariations": [],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-07T20:27:32.754Z"
+    "updatedAt": "2025-06-07T20:34:21.770Z"
   },
   {
     "name": "Cadeira Alta",

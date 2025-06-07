@@ -23,13 +23,13 @@
   },
   {
     "id": "64",
-    "name": "Restaurantes Móveis Bonafé",
+    "name": "Restaurantes Moveis Bonafe",
     "username": "restaurantes",
     "passwordHash": "restaurantes@moveisbonafe",
     "role": "loja",
     "priceMultiplier": 1.06,
     "active": true,
     "createdAt": "2025-05-25T09:53:21.213Z",
-    "updatedAt": "2025-06-07T20:10:19.976Z"
+    "updatedAt": "2025-06-07T20:10:52.630Z"
   }
 ]

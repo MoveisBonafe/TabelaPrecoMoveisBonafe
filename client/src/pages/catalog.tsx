@@ -16,7 +16,7 @@ interface CatalogProps {
 
 export function Catalog({ onShowAdminLogin }: CatalogProps) {
   const { products, categories } = useGitHubPagesData();
-  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'compact'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('name');

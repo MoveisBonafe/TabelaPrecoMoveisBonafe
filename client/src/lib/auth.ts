@@ -100,6 +100,23 @@ export class AuthManager {
   getUser() {
     return this.getAuthState().user;
   }
+
+  setUser(user: any): void {
+    const authState: AuthState = {
+      isAuthenticated: true,
+      user: {
+        username: user.username,
+        role: 'admin',
+        permissions: {
+          canEditProducts: user.role === 'admin',
+          canViewPrices: true,
+          canEditPrices: user.role === 'admin',
+          priceLevel: 'vip'
+        }
+      }
+    };
+    this.saveAuthState(authState);
+  }
 }
 
 export const auth = new AuthManager();

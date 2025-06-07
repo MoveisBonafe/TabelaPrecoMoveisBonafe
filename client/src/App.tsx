@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Catalog } from '@/pages/catalog';
 import { Admin } from '@/pages/admin';
-import { LoginModal } from '@/components/modals/login-modal';
-import { GitHubConfigModal } from '@/components/modals/github-config-modal';
+import { Login } from '@/pages/login';
 import { useToast } from '@/hooks/use-toast';
 import { useGitHubPagesData } from '@/hooks/use-github-pages-data';
 import { auth } from '@/lib/auth';
@@ -10,8 +9,7 @@ import { auth } from '@/lib/auth';
 type View = 'login' | 'catalog' | 'admin';
 
 function App() {
-  const [currentView, setCurrentView] = useState<View>('login');
-  const [showGitHubConfig, setShowGitHubConfig] = useState(false);
+  const [currentView, setCurrentView] = useState<View>('catalog');
   const { toast } = useToast();
   const { authenticate } = useGitHubPagesData();
   
@@ -24,7 +22,7 @@ function App() {
     if (auth.isAuthenticated()) {
       setCurrentView('admin');
     } else {
-      setCurrentView('login');
+      setCurrentView('catalog');
     }
   }, []);
 

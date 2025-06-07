@@ -1011,21 +1011,51 @@
 
             async loadAllData() {
                 try {
-                    const [products, categories, users, priceSettings, promotions] = await Promise.all([
-                        this.loadData('products.json'),
-                        this.loadData('categories.json'),
-                        this.loadData('users.json'),
-                        this.loadData('price_settings.json'),
-                        this.loadData('promotions.json')
-                    ]);
+                    // First, load from localStorage (most recent changes)
+                    const localProducts = localStorage.getItem('moveisbonafe_products');
+                    const localCategories = localStorage.getItem('moveisbonafe_categories');
+                    const localUsers = localStorage.getItem('moveisbonafe_users');
+                    const localPriceSettings = localStorage.getItem('moveisbonafe_price_settings');
+                    const localPromotions = localStorage.getItem('moveisbonafe_promotions');
 
-                    this.data.products = products || [];
-                    this.data.categories = categories || [];
-                    this.data.users = users || [];
-                    this.data.priceSettings = priceSettings || [];
-                    this.data.promotions = promotions || [];
+                    // If localStorage has data, use it (preserves deletions and edits)
+                    if (localProducts) {
+                        this.data.products = JSON.parse(localProducts);
+                        console.log(`📦 Carregado ${this.data.products.length} produtos do localStorage`);
+                    } else {
+                        const products = await this.loadData('products.json');
+                        this.data.products = products || [];
+                    }
 
-                    console.log(`Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço, ${this.data.promotions.length} promoções`);
+                    if (localCategories) {
+                        this.data.categories = JSON.parse(localCategories);
+                    } else {
+                        const categories = await this.loadData('categories.json');
+                        this.data.categories = categories || [];
+                    }
+
+                    if (localUsers) {
+                        this.data.users = JSON.parse(localUsers);
+                    } else {
+                        const users = await this.loadData('users.json');
+                        this.data.users = users || [];
+                    }
+
+                    if (localPriceSettings) {
+                        this.data.priceSettings = JSON.parse(localPriceSettings);
+                    } else {
+                        const priceSettings = await this.loadData('price_settings.json');
+                        this.data.priceSettings = priceSettings || [];
+                    }
+
+                    if (localPromotions) {
+                        this.data.promotions = JSON.parse(localPromotions);
+                    } else {
+                        const promotions = await this.loadData('promotions.json');
+                        this.data.promotions = promotions || [];
+                    }
+
+                    console.log(`✅ Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço, ${this.data.promotions.length} promoções`);
                 } catch (error) {
                     console.error('Erro ao carregar dados:', error);
                 }
@@ -1053,8 +1083,30 @@
                     const row = table.insertRow();
                     const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
                     
+                    // Generate product image display
+                    let imageCell = '<div class="product-image-cell">📦</div>';
+                    if (product.imageFile) {
+                        let imageSrc = product.imageFile;
+                        
+                        // Check if it's a local storage reference
+                        if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                            const storedImage = localStorage.getItem(`image_${imageSrc}`);
+                            if (storedImage) {
+                                imageSrc = storedImage;
+                            }
+                        }
+                        
+                        imageCell = `
+                            <div class="product-image-cell">
+                                <img src="${imageSrc}" 
+                                     alt="${product.name}" 
+                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+                            </div>
+                        `;
+                    }
+                    
                     row.innerHTML = `
-                        <td><div class="product-image-cell">📦</div></td>
+                        <td>${imageCell}</td>
                         <td><strong>${product.name || 'Sem nome'}</strong><br><small>${product.category || 'Sem categoria'}</small></td>
                         <td class="price-cell">R$ ${basePrice.toFixed(2)}</td>
                         <td class="price-cell">R$ ${(basePrice * 1.1).toFixed(2)}</td>
@@ -1486,9 +1538,23 @@ O token será salvo localmente no navegador.`);
 
         function deleteProduct(index) {
             if (confirm('Tem certeza que deseja excluir este produto?')) {
+                // Get the product being deleted
+                const productToDelete = adminClient.data.products[index];
+                console.log(`🗑️ Deletando produto: ${productToDelete.name}`);
+                
+                // Remove from data array
                 adminClient.data.products.splice(index, 1);
+                
+                // Save immediately to localStorage and GitHub
                 adminClient.saveData('products', adminClient.data.products);
+                
+                // Re-render the table
                 adminClient.renderProducts();
+                
+                // Add log for monitoring
+                addSystemLog(`Produto "${productToDelete.name}" deletado`);
+                
+                console.log(`✅ Produto deletado. Total restante: ${adminClient.data.products.length}`);
             }
         }
 
@@ -1948,11 +2014,22 @@ O token será salvo localmente no navegador.`);
             if (!preview) {
                 preview = document.createElement('div');
                 preview.className = 'image-preview';
-                preview.style.cssText = 'margin-top: 8px; max-width: 100px; max-height: 100px; overflow: hidden; border-radius: 4px; border: 1px solid #ddd;';
+                preview.style.cssText = `
+                    margin-top: 8px; 
+                    max-width: 120px; 
+                    max-height: 120px; 
+                    overflow: hidden; 
+                    border-radius: 8px; 
+                    border: 2px solid #e0e0e0;
+                    background: #f8f9fa;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
                 input.parentNode.insertBefore(preview, input.nextSibling);
             }
             
-            preview.innerHTML = `<img src="${base64}" style="width: 100%; height: auto;">`;
+            preview.innerHTML = `<img src="${base64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">`;
         }
 
         // Monitor tab real-time updates

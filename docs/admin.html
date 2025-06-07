@@ -2698,12 +2698,19 @@ O token será salvo localmente no navegador.`);
                 product.imageFile = adminClient.data.products[index].imageFile;
             }
             
-            // Handle new image upload if present
+            // Handle multiple image uploads if present
             const form = document.getElementById('product-form');
-            if (form.dataset.imageFile && form.dataset.imageData) {
-                product.imageFile = `data/images/${form.dataset.imageFile}`;
-                // Upload image to GitHub asynchronously
-                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile);
+            if (form.dataset.imageFiles && form.dataset.imageData) {
+                const fileNames = JSON.parse(form.dataset.imageFiles);
+                const imageDataArray = JSON.parse(form.dataset.imageData);
+                
+                product.images = fileNames.map(fileName => `data/images/${fileName}`);
+                product.imageFile = product.images[0]; // Keep compatibility with single image reference
+                
+                // Upload all images to GitHub asynchronously
+                fileNames.forEach((fileName, index) => {
+                    uploadImageToGitHub(imageDataArray[index], fileName);
+                });
             }
             
             // Save product data immediately

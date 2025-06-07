@@ -1180,8 +1180,11 @@
             }
 
             getProductImage(product) {
-                if (product.imageFile) {
-                    let imageSrc = product.imageFile;
+                // Support multiple images - show first image or fallback to single image
+                const images = product.images || (product.imageFile ? [product.imageFile] : []);
+                
+                if (images.length > 0) {
+                    let imageSrc = images[0];
                     
                     // Check if it's already a base64 data URL
                     if (imageSrc.startsWith('data:')) {

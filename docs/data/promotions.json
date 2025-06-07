@@ -1,9 +1,10 @@
 [
-    {
-        "id": 1,
-        "title": "🎉 mês de Maio",
-        "description": "Desconto válido em todos os móveis até o final do mês.",
-        "color": "#f39c12",
-        "active": true
-    }
+  {
+    "id": "4",
+    "title": "Mês de Maio",
+    "description": "Desconto válido em todos os móveis até o final do mês.",
+    "color": "#f59e0b",
+    "active": false,
+    "createdAt": "2025-05-25T20:50:06.944Z"
+  }
 ]

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveisBonafe - Login</title>
+    <meta name="description" content="Sistema de acesso MoveisBonafe - Tabela de preços para lojas e restaurantes.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4831e;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            color: #374151;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f9fafb;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #d4831e;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(212, 131, 30, 0.1);
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #d4831e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        
+        .login-btn:hover {
+            background: #b8711a;
+            transform: translateY(-1px);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 16px;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 32px 24px;
+            }
+            
+            .logo {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="logo">Móveis Bonafé</h1>
+        <p class="subtitle">Tabela Preço</p>
+        
+        <div id="error-message" class="error-message"></div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label class="form-label" for="username">Usuário</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    class="form-input" 
+                    placeholder="moveisbonafe"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="password">Senha</label>
+                <div class="password-toggle">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input" 
+                        placeholder="••••••••"
+                        required
+                        autocomplete="current-password"
+                    >
+                    <button type="button" class="toggle-btn" onclick="togglePassword()">👁</button>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn" id="login-btn">
+                Entrar
+            </button>
+        </form>
+        
+        <div id="loading" class="loading">
+            Verificando credenciais...
+        </div>
+    </div>
+
+    <script>
+        // GitHub Pages Authentication Client
+        class AuthClient {
+            constructor() {
+                this.baseUrl = window.location.origin + window.location.pathname.replace('/login.html', '');
+            }
+
+            async loadUsers() {
+                try {
+                    const response = await fetch(`${this.baseUrl}/data/users.json`);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error('Erro ao carregar usuários:', error);
+                    throw new Error('Não foi possível conectar ao sistema');
+                }
+            }
+
+            async authenticate(username, password) {
+                const users = await this.loadUsers();
+                const user = users.find(u => u.username === username && u.password === password && u.active !== false);
+                
+                if (!user) {
+                    throw new Error('Usuário ou senha incorretos');
+                }
+                
+                return user;
+            }
+
+            redirectUser(user) {
+                // Store user session
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                
+                // Redirect based on role
+                switch(user.role) {
+                    case 'admin':
+                        window.location.href = 'admin.html';
+                        break;
+                    case 'loja':
+                        window.location.href = 'catalogo.html?tipo=loja';
+                        break;
+                    case 'restaurante':
+                        window.location.href = 'catalogo.html?tipo=restaurante';
+                        break;
+                    default:
+                        window.location.href = 'catalogo.html';
+                }
+            }
+        }
+
+        // Global variables
+        const authClient = new AuthClient();
+
+        // Password toggle
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁';
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Handle login form
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('login-btn');
+            const loading = document.getElementById('loading');
+            
+            if (!username || !password) {
+                showError('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Entrando...';
+                loading.style.display = 'block';
+                
+                // Authenticate user
+                const user = await authClient.authenticate(username, password);
+                console.log('✅ Login bem-sucedido:', user.name, `(${user.role})`);
+                
+                // Redirect user
+                authClient.redirectUser(user);
+                
+            } catch (error) {
+                console.error('❌ Erro no login:', error);
+                showError(error.message);
+                
+                // Reset form state
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Entrar';
+                loading.style.display = 'none';
+            }
+        });
+
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                console.log('👤 Usuário já logado:', user.name);
+                authClient.redirectUser(user);
+            }
+        });
+
+        // Auto-focus username field
+        document.getElementById('username').focus();
+        
+        console.log('🔐 MoveisBonafe Login - GitHub Pages');
+        console.log('👥 Suporte a múltiplos perfis: admin, loja, restaurante');
+    </script>
+</body>
+</html>

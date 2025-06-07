@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveisBonafe - Catálogo</title>
+    <meta name="description" content="Catálogo MoveisBonafe - Móveis para lojas e restaurantes com preços especiais.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            line-height: 1.6;
+            color: #1f2937;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d4831e;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-badge {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .logout-btn {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+        
+        .search-bar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f9fafb;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #d4831e;
+            background: white;
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            font-size: 0.9rem;
+        }
+        
+        .categories-section {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        
+        .category-card {
+            text-align: center;
+            padding: 20px 16px;
+            border: 2px solid #f3f4f6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+        
+        .category-card:hover {
+            border-color: #d4831e;
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .category-card.active {
+            border-color: #d4831e;
+            background: #fef3e2;
+        }
+        
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+        
+        .category-count {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        
+        .products-section {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            transition: all 0.2s;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #d1d5db;
+        }
+        
+        .product-info {
+            padding: 16px;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .product-category {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .price-item {
+            text-align: center;
+            padding: 8px;
+            background: #f9fafb;
+            border-radius: 4px;
+        }
+        
+        .price-label {
+            color: #6b7280;
+            font-size: 0.75rem;
+            display: block;
+        }
+        
+        .price-value {
+            font-weight: 600;
+            color: #059669;
+            font-size: 0.9rem;
+        }
+        
+        .price-highlight {
+            background: #fef3e2;
+            border: 1px solid #d4831e;
+        }
+        
+        .price-highlight .price-value {
+            color: #d4831e;
+            font-size: 1rem;
+        }
+        
+        .restaurant-price-banner {
+            margin-top: 12px;
+        }
+        
+        .golden-banner {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(243, 156, 18, 0.3);
+        }
+        
+        .banner-icon {
+            font-size: 1rem;
+        }
+        
+        .banner-text {
+            font-size: 0.8rem;
+        }
+        
+        .special-price {
+            text-align: center;
+            padding: 12px;
+            background: #fef3e2;
+            border: 2px solid #f39c12;
+            border-radius: 6px;
+        }
+        
+        .special-price .price-label {
+            display: block;
+            color: #8b5a2b;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        
+        .special-price-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #d68910;
+        }
+        
+        .no-products {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">Móveis Bonafé</div>
+            <div class="user-info">
+                <span class="user-badge" id="user-info">Carregando...</span>
+                <button class="logout-btn" onclick="logout()">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-bar">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="search-input"
+                placeholder="Buscar produtos..."
+            >
+            <div class="filter-row">
+                <select class="filter-select" id="category-filter">
+                    <option value="">Todas as categorias</option>
+                </select>
+                <select class="filter-select" id="sort-filter">
+                    <option value="name">Ordenar por nome</option>
+                    <option value="price-asc">Menor preço</option>
+                    <option value="price-desc">Maior preço</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="categories-section">
+            <h2 class="section-title">Categorias</h2>
+            <div class="categories-grid" id="categories-grid">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+
+        <div class="products-section">
+            <h2 class="section-title">Produtos Disponíveis</h2>
+            <div id="loading" class="loading">Carregando produtos...</div>
+            <div class="products-grid" id="products-grid" style="display: none;">
+                <!-- Products will be loaded here -->
+            </div>
+            <div id="no-products" class="no-products" style="display: none;">
+                Nenhum produto encontrado
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GitHub Pages Catalog Client
+        class CatalogClient {
+            constructor() {
+                this.baseUrl = window.location.origin + window.location.pathname.replace('/catalogo.html', '');
+                this.currentUser = null;
+                this.userType = null;
+                this.products = [];
+                this.categories = [];
+                this.filteredProducts = [];
+            }
+
+            async loadData(filename) {
+                try {
+                    const response = await fetch(`${this.baseUrl}/data/${filename}`);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error(`Erro ao carregar ${filename}:`, error);
+                    throw error;
+                }
+            }
+
+            async init() {
+                // Check authentication
+                const userSession = sessionStorage.getItem('currentUser');
+                if (!userSession) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                this.currentUser = JSON.parse(userSession);
+                
+                // Get user type from URL or user role
+                const urlParams = new URLSearchParams(window.location.search);
+                this.userType = urlParams.get('tipo') || this.currentUser.role;
+
+                // Update user info display
+                document.getElementById('user-info').textContent = 
+                    `${this.currentUser.name} (${this.userType.charAt(0).toUpperCase() + this.userType.slice(1)})`;
+
+                // Load data
+                await this.loadAllData();
+                this.setupEventListeners();
+                this.renderCategories();
+                this.renderProducts();
+            }
+
+            async loadAllData() {
+                try {
+                    const [products, categories] = await Promise.all([
+                        this.loadData('products.json'),
+                        this.loadData('categories.json')
+                    ]);
+
+                    this.products = products.filter(p => p.active !== false);
+                    this.categories = categories.filter(c => c.active !== false);
+                    this.filteredProducts = [...this.products];
+
+                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias`);
+                } catch (error) {
+                    console.error('❌ Erro ao carregar dados:', error);
+                    throw error;
+                }
+            }
+
+            setupEventListeners() {
+                document.getElementById('search-input').addEventListener('input', () => this.filterProducts());
+                document.getElementById('category-filter').addEventListener('change', () => this.filterProducts());
+                document.getElementById('sort-filter').addEventListener('change', () => this.sortProducts());
+            }
+
+            renderCategories() {
+                const grid = document.getElementById('categories-grid');
+                const filter = document.getElementById('category-filter');
+                
+                // Category icons mapping
+                const icons = {
+                    'Mesas': '🍽️',
+                    'Cadeiras': '🪑',
+                    'Banquetas': '🪑',
+                    'Camas': '🛏️',
+                    'Beliches': '🛏️'
+                };
+
+                grid.innerHTML = '';
+                filter.innerHTML = '<option value="">Todas as categorias</option>';
+
+                this.categories.forEach(category => {
+                    const productCount = this.products.filter(p => p.category === category.name).length;
+                    
+                    // Category card
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+                    card.onclick = () => this.filterByCategory(category.name);
+                    card.innerHTML = `
+                        <div class="category-icon">${icons[category.name] || '📦'}</div>
+                        <div class="category-name">${category.name}</div>
+                        <div class="category-count">${productCount} produtos</div>
+                    `;
+                    grid.appendChild(card);
+
+                    // Filter option
+                    const option = document.createElement('option');
+                    option.value = category.name;
+                    option.textContent = category.name;
+                    filter.appendChild(option);
+                });
+            }
+
+            renderProducts() {
+                const grid = document.getElementById('products-grid');
+                const loading = document.getElementById('loading');
+                const noProducts = document.getElementById('no-products');
+
+                loading.style.display = 'none';
+                
+                if (this.filteredProducts.length === 0) {
+                    grid.style.display = 'none';
+                    noProducts.style.display = 'block';
+                    return;
+                }
+
+                noProducts.style.display = 'none';
+                grid.style.display = 'grid';
+                grid.innerHTML = '';
+
+                this.filteredProducts.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = this.createProductCard(product);
+                    grid.appendChild(card);
+                });
+            }
+
+            createProductCard(product) {
+                const prices = this.calculatePrices(product);
+                const productIcon = this.getProductIcon(product.category);
+
+                // For restaurant users, show the special golden banner
+                if (this.userType === 'restaurante') {
+                    return `
+                        <div class="product-image">${productIcon}</div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-category">${product.category}</div>
+                            <div class="restaurant-price-banner">
+                                <div class="golden-banner">
+                                    <span class="banner-icon">💰</span>
+                                    <span class="banner-text">Preço Especial Restaurante</span>
+                                </div>
+                                <div class="special-price">
+                                    <span class="price-label">Pagamento à Vista</span>
+                                    <span class="special-price-value">R$ ${prices.vista.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // For loja and other users, show the regular price grid
+                return `
+                    <div class="product-image">${productIcon}</div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-category">${product.category}</div>
+                        <div class="price-grid">
+                            <div class="price-item ${this.userType === 'loja' ? 'price-highlight' : ''}">
+                                <span class="price-label">À Vista</span>
+                                <span class="price-value">R$ ${prices.vista.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30d</span>
+                                <span class="price-value">R$ ${prices.prazo30.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30/60d</span>
+                                <span class="price-value">R$ ${prices.prazo3060.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30/60/90d</span>
+                                <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            calculatePrices(product) {
+                const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                const multiplier = this.currentUser.priceMultiplier || 1.0;
+
+                return {
+                    vista: basePrice * multiplier,
+                    prazo30: (basePrice * 1.1) * multiplier,
+                    prazo3060: (basePrice * 1.15) * multiplier,
+                    prazo306090: (basePrice * 1.2) * multiplier
+                };
+            }
+
+            getProductIcon(category) {
+                const icons = {
+                    'Mesas': '🍽️',
+                    'Cadeiras': '🪑',
+                    'Banquetas': '🪑',
+                    'Camas': '🛏️',
+                    'Beliches': '🛏️'
+                };
+                return icons[category] || '📦';
+            }
+
+            filterByCategory(categoryName) {
+                document.getElementById('category-filter').value = categoryName;
+                this.filterProducts();
+
+                // Update category visual state
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.classList.remove('active');
+                    if (card.querySelector('.category-name').textContent === categoryName) {
+                        card.classList.add('active');
+                    }
+                });
+            }
+
+            filterProducts() {
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                const categoryFilter = document.getElementById('category-filter').value;
+
+                this.filteredProducts = this.products.filter(product => {
+                    const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !categoryFilter || product.category === categoryFilter;
+                    return matchesSearch && matchesCategory;
+                });
+
+                this.sortProducts();
+            }
+
+            sortProducts() {
+                const sortBy = document.getElementById('sort-filter').value;
+
+                switch (sortBy) {
+                    case 'name':
+                        this.filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'price-asc':
+                        this.filteredProducts.sort((a, b) => {
+                            const priceA = a.priceAVista || a.basePrice || a.finalPrice || 0;
+                            const priceB = b.priceAVista || b.basePrice || b.finalPrice || 0;
+                            return priceA - priceB;
+                        });
+                        break;
+                    case 'price-desc':
+                        this.filteredProducts.sort((a, b) => {
+                            const priceA = a.priceAVista || a.basePrice || a.finalPrice || 0;
+                            const priceB = b.priceAVista || b.basePrice || b.finalPrice || 0;
+                            return priceB - priceA;
+                        });
+                        break;
+                }
+
+                this.renderProducts();
+            }
+        }
+
+        // Global functions
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize application
+        const catalogClient = new CatalogClient();
+        document.addEventListener('DOMContentLoaded', () => {
+            catalogClient.init().catch(error => {
+                console.error('❌ Erro na inicialização:', error);
+                alert('Erro ao carregar o catálogo. Tente novamente.');
+            });
+        });
+
+        console.log('🛍️ MoveisBonafe Catálogo - GitHub Pages');
+    </script>
+</body>
+</html>

@@ -3,465 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoveisBonafe - Catálogo</title>
-    <meta name="description" content="MoveisBonafe - Catálogo completo de móveis com 26 produtos autênticos e tabelas de preços personalizadas.">
+    <title>MoveisBonafe - Redirecionando...</title>
+    <meta name="description" content="MoveisBonafe - Sistema de acesso para catálogo de móveis.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f8fafc;
-            line-height: 1.6;
-            color: #1f2937;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .header {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .redirect-container {
             text-align: center;
+            padding: 40px;
         }
         
-        .header h1 {
-            color: #1f2937;
+        .logo {
             font-size: 2.5rem;
-            margin-bottom: 8px;
             font-weight: 700;
+            color: #d4831e;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
-        .header p {
-            color: #6b7280;
+        .loading-text {
             font-size: 1.1rem;
-        }
-        
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-            font-size: 1.1rem;
-            color: #6b7280;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .card-image {
-            width: 100%;
-            height: 200px;
-            background: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #9ca3af;
-            font-size: 3rem;
-        }
-        
-        .card-content {
-            padding: 16px;
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #1f2937;
-        }
-        
-        .card-category {
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-        }
-        
-        .card-price {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #059669;
-        }
-        
-        .filters {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            opacity: 0.9;
         }
         
-        .filter-row {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            align-items: center;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
         
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        .filter-label {
-            font-weight: 600;
-            color: #374151;
-            font-size: 0.9rem;
-        }
-        
-        .filter-input {
-            padding: 8px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            min-width: 200px;
-        }
-        
-        .filter-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #2563eb;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #6b7280;
-            border-top: 1px solid #e5e7eb;
-            margin-top: 40px;
-        }
-        
-        .admin-link {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #1f2937;
-            color: white;
-            padding: 12px 16px;
+        .manual-link {
+            margin-top: 32px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: all 0.2s;
+            color: white;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.3s;
         }
         
-        .admin-link:hover {
-            background: #111827;
-            transform: translateY(-1px);
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-            }
-            
-            .grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 16px;
-            }
-            
-            .filter-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .filter-input {
-                min-width: auto;
-            }
+        .manual-link:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>MoveisBonafe</h1>
-            <p>Catálogo de Móveis - GitHub Pages</p>
-        </div>
-        
-        <div class="filters">
-            <div class="filter-row">
-                <div class="filter-group">
-                    <label class="filter-label">Buscar Produtos</label>
-                    <input type="text" id="searchInput" class="filter-input" placeholder="Digite o nome do produto...">
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label">Categoria</label>
-                    <select id="categoryFilter" class="filter-input">
-                        <option value="">Todas as categorias</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label">Ordenar por</label>
-                    <select id="sortFilter" class="filter-input">
-                        <option value="name">Nome</option>
-                        <option value="price-low">Menor preço</option>
-                        <option value="price-high">Maior preço</option>
-                        <option value="category">Categoria</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        
-        <div id="productsContainer">
-            <div class="loading">
-                📦 Carregando catálogo...
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>MoveisBonafe - Sistema GitHub Pages</p>
-            <p>Dados servidos diretamente de arquivos JSON estáticos</p>
-        </div>
+    <div class="redirect-container">
+        <h1 class="logo">Móveis Bonafé</h1>
+        <p class="loading-text">Redirecionando para o sistema de login...</p>
+        <div class="spinner"></div>
+        <a href="login.html" class="manual-link">Clique aqui se não for redirecionado automaticamente</a>
     </div>
-    
-    <a href="#" id="adminLink" class="admin-link" style="display: none;">
-        🔐 Admin
-    </a>
 
     <script>
-        // GitHub Pages Data Client
-        class GitHubPagesClient {
-            constructor() {
-                this.baseUrl = window.location.origin + window.location.pathname.replace('/index.html', '');
-            }
-
-            async loadData(filename) {
-                try {
-                    const response = await fetch(`${this.baseUrl}/data/${filename}`);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    console.error(`Erro ao carregar ${filename}:`, error);
-                    return [];
-                }
-            }
-
-            async getProducts() {
-                return await this.loadData('products.json');
-            }
-
-            async getCategories() {
-                return await this.loadData('categories.json');
-            }
-
-            async getUsers() {
-                return await this.loadData('users.json');
-            }
-        }
-
-        // Global variables
-        const client = new GitHubPagesClient();
-        let allProducts = [];
-        let allCategories = [];
-        let filteredProducts = [];
-
-        // Initialize application
-        async function initApp() {
-            console.log('🚀 Iniciando sistema GitHub Pages');
-            
-            try {
-                // Load data
-                const [products, categories] = await Promise.all([
-                    client.getProducts(),
-                    client.getCategories()
-                ]);
-
-                allProducts = products || [];
-                allCategories = categories || [];
-                filteredProducts = [...allProducts];
-
-                console.log(`✅ Carregados: ${allProducts.length} produtos, ${allCategories.length} categorias`);
-
-                // Populate category filter
-                populateCategoryFilter();
-                
-                // Render products
-                renderProducts();
-                
-                // Setup event listeners
-                setupEventListeners();
-                
-                // Show admin link
-                document.getElementById('adminLink').style.display = 'block';
-                
-            } catch (error) {
-                console.error('❌ Erro na inicialização:', error);
-                document.getElementById('productsContainer').innerHTML = `
-                    <div class="loading">
-                        ❌ Erro ao carregar dados. Verifique se os arquivos JSON estão acessíveis.
-                    </div>
-                `;
-            }
-        }
-
-        function populateCategoryFilter() {
-            const categoryFilter = document.getElementById('categoryFilter');
-            allCategories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.name;
-                option.textContent = category.name;
-                categoryFilter.appendChild(option);
-            });
-        }
-
-        function renderProducts() {
-            const container = document.getElementById('productsContainer');
-            
-            if (filteredProducts.length === 0) {
-                container.innerHTML = `
-                    <div class="loading">
-                        📭 Nenhum produto encontrado
-                    </div>
-                `;
-                return;
-            }
-
-            const grid = document.createElement('div');
-            grid.className = 'grid';
-
-            filteredProducts.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                
-                const price = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                
-                card.innerHTML = `
-                    <div class="card-image">
-                        ${product.image ? 
-                            `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">` :
-                            '📦'
-                        }
-                    </div>
-                    <div class="card-content">
-                        <div class="card-title">${product.name || 'Produto sem nome'}</div>
-                        <div class="card-category">${product.category || 'Categoria não informada'}</div>
-                        <div class="card-price">R$ ${price.toFixed(2)}</div>
-                    </div>
-                `;
-                
-                grid.appendChild(card);
-            });
-
-            container.innerHTML = '';
-            container.appendChild(grid);
-        }
-
-        function filterProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const selectedCategory = document.getElementById('categoryFilter').value;
-            const sortBy = document.getElementById('sortFilter').value;
-
-            // Filter products
-            filteredProducts = allProducts.filter(product => {
-                const matchesSearch = !searchTerm || 
-                    (product.name && product.name.toLowerCase().includes(searchTerm)) ||
-                    (product.description && product.description.toLowerCase().includes(searchTerm));
-                
-                const matchesCategory = !selectedCategory || product.category === selectedCategory;
-                
-                return matchesSearch && matchesCategory && product.active !== false;
-            });
-
-            // Sort products
-            filteredProducts.sort((a, b) => {
-                switch (sortBy) {
-                    case 'name':
-                        return (a.name || '').localeCompare(b.name || '', 'pt-BR');
-                    case 'price-low':
-                        const priceA = a.priceAVista || a.basePrice || a.finalPrice || 0;
-                        const priceB = b.priceAVista || b.basePrice || b.finalPrice || 0;
-                        return priceA - priceB;
-                    case 'price-high':
-                        const priceA2 = a.priceAVista || a.basePrice || a.finalPrice || 0;
-                        const priceB2 = b.priceAVista || b.basePrice || b.finalPrice || 0;
-                        return priceB2 - priceA2;
-                    case 'category':
-                        return (a.category || '').localeCompare(b.category || '', 'pt-BR');
-                    default:
-                        return 0;
-                }
-            });
-
-            renderProducts();
-        }
-
-        function setupEventListeners() {
-            document.getElementById('searchInput').addEventListener('input', filterProducts);
-            document.getElementById('categoryFilter').addEventListener('change', filterProducts);
-            document.getElementById('sortFilter').addEventListener('change', filterProducts);
-            
-            document.getElementById('adminLink').addEventListener('click', (e) => {
-                e.preventDefault();
-                showAdminLogin();
-            });
-        }
-
-        function showAdminLogin() {
-            const username = prompt('Username:');
-            const password = prompt('Password:');
-            
-            if (username === 'moveisbonafe' && password === 'bonafe1108') {
-                alert('Login realizado! Redirecionando para o painel admin...');
-                // In a real GitHub Pages setup, this would redirect to an admin.html page
-                window.location.href = 'admin.html';
-            } else if (username && password) {
-                alert('Credenciais inválidas!');
-            }
-        }
-
-        // Start the application
-        document.addEventListener('DOMContentLoaded', initApp);
+        // Automatic redirect to login page
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
         
-        // Log system status
-        console.log('📊 Sistema MoveisBonafe - GitHub Pages');
-        console.log('🔗 Backend: Arquivos JSON estáticos');
-        console.log('⚡ Performance: Servido via CDN');
+        console.log('MoveisBonafe - Redirecionando para login');
     </script>
 </body>
 </html>

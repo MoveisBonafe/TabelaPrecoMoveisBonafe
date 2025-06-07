@@ -1,0 +1,45 @@
+admin.html:2575 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:2576 Sistema: GitHub API integrado com fallback localStorage
+admin.html:1039 📦 Carregado 7 produtos do localStorage
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" placeholder=​"••••••••••••••••••••••••••••••••••••••••• (Configurado)​" style=​"width:​ 100%;​ padding:​ 8px 12px;​ border:​ 1px solid #ddd;​ border-radius:​ 4px;​ font-family:​ monospace;​">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" class=​"form-input" id=​"user-password" required>​
+admin.html:1073 ✅ Dados carregados: 7 produtos, 6 categorias, 3 usuários, 5 tabelas de preço, 1 promoções
+admin.html:1435 📢 Notificação enviada: products atualizado
+admin.html:1366 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1 Access to fetch at 'https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/products.json' from origin 'https://moveisbonafe.github.io' has been blocked by CORS policy: Request header field cache-control is not allowed by Access-Control-Allow-Headers in preflight response.
+admin.html:1329 
+            
+            
+           GET https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/products.json net::ERR_FAILED
+getFileSHA @ admin.html:1329
+saveToGitHub @ admin.html:1285
+saveData @ admin.html:1413
+(anônimo) @ admin.html:2408
+admin.html:1348 Erro ao verificar arquivo products.json: TypeError: Failed to fetch
+    at AdminClient.getFileSHA (admin.html:1329:44)
+    at AdminClient.saveToGitHub (admin.html:1285:44)
+    at AdminClient.saveData (admin.html:1413:26)
+    at HTMLFormElement.<anonymous> (admin.html:2408:25)
+admin.html:1366 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1302 
+            
+            
+           PUT https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/products.json 422 (Unprocessable Content)
+saveToGitHub @ admin.html:1302
+await in saveToGitHub
+saveData @ admin.html:1413
+(anônimo) @ admin.html:2408
+admin.html:1318 ❌ GitHub API Error 422: {message: `Invalid request.\n\n"sha" wasn't supplied.`, documentation_url: 'https://docs.github.com/rest/repos/contents#create-or-update-file-contents', status: '422'}
+saveToGitHub @ admin.html:1318
+await in saveToGitHub
+saveData @ admin.html:1413
+(anônimo) @ admin.html:2408
+admin.html:1322 ❌ Erro ao salvar no GitHub: Error: GitHub API error: 422 - Invalid request.
+
+"sha" wasn't supplied.
+    at AdminClient.saveToGitHub (admin.html:1319:31)
+saveToGitHub @ admin.html:1322
+await in saveToGitHub
+saveData @ admin.html:1413
+(anônimo) @ admin.html:2408
+admin.html:1417 ❌ Erro ao salvar products no GitHub, mantido localmente

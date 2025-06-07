@@ -1406,35 +1406,57 @@ O token será salvo localmente no navegador.`);
         }
 
         function parseCSVData(csvData) {
-            const lines = csvData.split('\n');
-            const headers = lines[0].split(',').map(h => h.trim());
+            const lines = csvData.split('\n').filter(line => line.trim());
+            if (lines.length < 2) {
+                alert('Arquivo vazio ou inválido.');
+                return;
+            }
             
+            // Auto-detect separator (tab or comma)
+            let separator = ',';
+            if (lines[0].includes('\t')) {
+                separator = '\t';
+            }
+            
+            const headers = lines[0].split(separator).map(h => h.trim());
             const expectedHeaders = ['Nome', 'Categoria', 'Preço', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descrição'];
-            const isValidFormat = expectedHeaders.every(h => headers.includes(h));
             
-            if (!isValidFormat) {
-                alert('Formato inválido. Use as colunas: ' + expectedHeaders.join(', '));
+            // Check if headers match (case insensitive)
+            const headerMap = {};
+            headers.forEach((header, index) => {
+                const normalizedHeader = header.trim().toLowerCase();
+                expectedHeaders.forEach(expected => {
+                    if (normalizedHeader === expected.toLowerCase()) {
+                        headerMap[expected] = index;
+                    }
+                });
+            });
+            
+            if (Object.keys(headerMap).length < 3) {
+                alert('Formato inválido. Certifique-se que o arquivo contém pelo menos: Nome, Categoria, Preço');
                 return;
             }
 
             const products = [];
             for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',').map(v => v.trim());
-                if (values.length >= expectedHeaders.length && values[0]) {
-                    products.push({
-                        id: Date.now() + i,
-                        name: values[0],
-                        category: values[1],
-                        priceAVista: parseFloat(values[2]) || 0,
-                        altura: parseFloat(values[3]) || 0,
-                        largura: parseFloat(values[4]) || 0,
-                        comprimento: parseFloat(values[5]) || 0,
-                        peso: parseFloat(values[6]) || 0,
-                        description: values[7] || '',
-                        active: true,
-                        createdAt: new Date().toISOString()
-                    });
-                }
+                const values = lines[i].split(separator).map(v => v.trim());
+                
+                const name = values[headerMap['Nome']]?.trim();
+                if (!name) continue; // Skip empty rows
+                
+                products.push({
+                    id: Date.now() + i,
+                    name: name,
+                    category: values[headerMap['Categoria']]?.trim() || 'Geral',
+                    priceAVista: parseFloat(values[headerMap['Preço']]?.replace(',', '.')) || 0,
+                    altura: parseFloat(values[headerMap['Altura']]?.replace(',', '.')) || 0,
+                    largura: parseFloat(values[headerMap['Largura']]?.replace(',', '.')) || 0,
+                    comprimento: parseFloat(values[headerMap['Comprimento']]?.replace(',', '.')) || 0,
+                    peso: parseFloat(values[headerMap['Peso']]?.replace(',', '.')) || 0,
+                    description: values[headerMap['Descrição']]?.trim() || '',
+                    active: true,
+                    createdAt: new Date().toISOString()
+                });
             }
 
             if (products.length > 0) {
@@ -1442,6 +1464,7 @@ O token será salvo localmente no navegador.`);
                 adminClient.saveData('products', adminClient.data.products);
                 adminClient.renderProducts();
                 alert(`${products.length} produtos importados com sucesso!`);
+                addSystemLog(`${products.length} produtos importados via CSV`);
             } else {
                 alert('Nenhum produto válido encontrado no arquivo.');
             }
@@ -1807,6 +1830,91 @@ O token será salvo localmente no navegador.`);
             localStorage.setItem('system_logs', JSON.stringify(logs));
         }
 
+        // Handle image upload for products and categories
+        function handleImageUpload(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Arquivo muito grande. Tamanho máximo: 2MB');
+                event.target.value = '';
+                return;
+            }
+            
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('Formato inválido. Use JPG, PNG ou WebP');
+                event.target.value = '';
+                return;
+            }
+            
+            // Convert to base64
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                const form = document.getElementById(`${type}-form`);
+                form.dataset.imageFile = base64Data;
+                
+                // Show preview
+                showImagePreview(base64Data, type);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function showImagePreview(base64Data, type) {
+            const previewContainer = document.getElementById(`${type}-image-preview`) || createImagePreview(type);
+            previewContainer.innerHTML = `
+                <img src="${base64Data}" style="max-width: 100px; max-height: 100px; border-radius: 4px; border: 1px solid #ddd;">
+                <button type="button" onclick="removeImagePreview('${type}')" style="margin-left: 10px; padding: 2px 8px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;">Remover</button>
+            `;
+        }
+        
+        function createImagePreview(type) {
+            const container = document.createElement('div');
+            container.id = `${type}-image-preview`;
+            container.style.marginTop = '10px';
+            
+            const input = document.getElementById(`${type}-image`);
+            input.parentNode.appendChild(container);
+            
+            return container;
+        }
+        
+        function removeImagePreview(type) {
+            const form = document.getElementById(`${type}-form`);
+            delete form.dataset.imageFile;
+            
+            const preview = document.getElementById(`${type}-image-preview`);
+            if (preview) preview.innerHTML = '';
+            
+            const input = document.getElementById(`${type}-image`);
+            input.value = '';
+        }
+
+        // Configure GitHub Token with status update
+        function configureGitHubToken() {
+            const currentToken = localStorage.getItem('github_token');
+            const message = currentToken ? 
+                'Token GitHub já configurado. Deseja alterar?\n\nPara gerar um novo token:\n1. Acesse GitHub.com → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Selecione escopo "repo"\n\nNovo token:' :
+                'Configure seu GitHub Token para salvar alterações:\n\n1. Acesse GitHub.com → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Selecione escopo "repo"\n5. Cole o token abaixo:\n\nToken:';
+            
+            const token = prompt(message);
+            
+            if (token && token.trim()) {
+                localStorage.setItem('github_token', token.trim());
+                updateGitHubTokenStatus();
+                alert('Token GitHub configurado com sucesso!\nAgora suas alterações serão salvas no GitHub.');
+                addSystemLog('Token GitHub configurado');
+            } else if (token === '') {
+                localStorage.removeItem('github_token');
+                updateGitHubTokenStatus();
+                alert('Token GitHub removido. Alterações serão salvas apenas localmente.');
+                addSystemLog('Token GitHub removido');
+            }
+        }
+
         function logout() {
             sessionStorage.removeItem('currentUser');
             window.location.href = 'login.html';
@@ -1867,6 +1975,12 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
+            // Add image if uploaded
+            const form = document.getElementById('category-form');
+            if (form.dataset.imageFile) {
+                category.imageFile = form.dataset.imageFile;
+            }
+            
             if (isEdit) {
                 adminClient.data.categories[index] = category;
             } else {
@@ -1914,6 +2028,24 @@ O token será salvo localmente no navegador.`);
             addSystemLog(`${isEdit ? 'Editado' : 'Criado'} usuário: ${user.name}`);
         });
 
+        // Check GitHub token status and update button
+        function updateGitHubTokenStatus() {
+            const token = localStorage.getItem('github_token');
+            const button = document.getElementById('github-token-btn');
+            
+            if (token) {
+                button.style.background = '#28a745';
+                button.style.color = 'white';
+                button.innerHTML = '✅ GitHub Configurado';
+                button.title = 'Token GitHub configurado - Clique para alterar';
+            } else {
+                button.style.background = '#dc3545';
+                button.style.color = 'white';
+                button.innerHTML = '⚠️ Configurar GitHub Token';
+                button.title = 'IMPORTANTE: Configure o token para salvar alterações';
+            }
+        }
+
         // Initialize application
         document.addEventListener('DOMContentLoaded', () => {
             adminClient = new AdminClient();
@@ -1923,6 +2055,9 @@ O token será salvo localmente no navegador.`);
             
             // Start monitor updates
             startMonitorUpdates();
+            
+            // Update GitHub token status
+            updateGitHubTokenStatus();
             
             // Add initial system log
             addSystemLog('Sistema inicializado');

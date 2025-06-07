@@ -200,18 +200,5 @@
     "description": "",
     "active": true,
     "createdAt": "2025-06-07T19:17:13.581Z"
-  },
-  {
-    "id": 1749323833586,
-    "name": "Cama Paris Solteiro",
-    "category": "Camas",
-    "priceAVista": 0,
-    "altura": 0,
-    "largura": 0,
-    "comprimento": 0,
-    "peso": 0,
-    "description": "",
-    "active": true,
-    "createdAt": "2025-06-07T19:17:13.581Z"
   }
 ]

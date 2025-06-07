@@ -2,23 +2,21 @@ import { useState, useEffect } from 'react';
 import { Catalog } from '@/pages/catalog';
 import { Admin } from '@/pages/admin';
 import { LoginModal } from '@/components/modals/login-modal';
-import { useToast } from '@/components/ui/toast';
-import { useSupabaseProducts } from '@/hooks/use-supabase-products';
+import { GitHubConfigModal } from '@/components/modals/github-config-modal';
+import { useToast } from '@/hooks/use-toast';
+import { githubClient } from '@/lib/github-client';
 import { auth } from '@/lib/auth';
 
 type View = 'login' | 'catalog' | 'admin';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('login');
-  const { showToast, ToastContainer } = useToast();
-  const { isConnected } = useSupabaseProducts();
+  const [showGitHubConfig, setShowGitHubConfig] = useState(false);
+  const { toast } = useToast();
   
-  // Log apenas para Supabase
   useEffect(() => {
-    console.log('🎉 CÓDIGO NOVO FUNCIONANDO! Sistema rodando exclusivamente com Supabase');
-    console.log('🔗 Supabase configurado:', !!import.meta.env.VITE_SUPABASE_URL);
-    console.log('⚡ Build timestamp:', import.meta.env.VITE_FORCE_NEW_BUILD);
-    console.log('🚀 SEM WEBSOCKET - Apenas Supabase puro!');
+    console.log('Sistema rodando com GitHub como backend');
+    githubClient.loadCredentials();
   }, []);
 
   useEffect(() => {
@@ -28,26 +26,31 @@ function App() {
     } else {
       setCurrentView('login');
     }
-
-    // Notificar sobre status da sincronização
-    if (isConnected) {
-      console.log('🔄 Sincronização ativada entre navegadores');
-    }
-  }, [isConnected]);
+  }, []);
 
   const handleAdminLogin = (username: string, password: string) => {
     if (auth.login(username, password)) {
       setCurrentView('admin');
-      showToast('Login realizado com sucesso!');
+      toast({
+        title: "Sucesso",
+        description: "Login realizado com sucesso!",
+      });
     } else {
-      showToast('Credenciais inválidas', 'error');
+      toast({
+        title: "Erro",
+        description: "Credenciais inválidas",
+        variant: "destructive",
+      });
     }
   };
 
   const handleLogout = () => {
     auth.logout();
     setCurrentView('catalog');
-    showToast('Logout realizado com sucesso!');
+    toast({
+      title: "Sucesso",
+      description: "Logout realizado com sucesso!",
+    });
   };
 
   const handleShowLogin = () => {
@@ -84,10 +87,20 @@ function App() {
         <Admin 
           onLogout={handleLogout}
           onShowPublicView={handleShowCatalog}
+          onConfigureGitHub={() => setShowGitHubConfig(true)}
         />
       )}
 
-      <ToastContainer />
+      <GitHubConfigModal
+        isOpen={showGitHubConfig}
+        onClose={() => setShowGitHubConfig(false)}
+        onConfigured={() => {
+          toast({
+            title: "GitHub configurado",
+            description: "Agora todos os dados são salvos no GitHub!",
+          });
+        }}
+      />
     </div>
   );
 }

@@ -2,15 +2,13 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
-import { githubStorage } from "./github-storage";
 import { insertProductSchema, insertCategorySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Product routes
+  // Product routes - now handled by frontend GitHub client
   app.get("/api/products", async (req, res) => {
     try {
-      const products = await githubStorage.getProducts();
-      res.json(products);
+      res.json([]);
     } catch (error) {
       console.error("Error fetching products:", error);
       res.status(500).json({ message: "Failed to fetch products" });
@@ -19,63 +17,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 
 
-  // Category routes
+  // Category routes - now handled by frontend GitHub client
   app.get("/api/categories", async (req, res) => {
     try {
-      const categories = await githubStorage.getCategories();
-      res.json(categories);
+      res.json([]);
     } catch (error) {
       console.error("Error fetching categories:", error);
       res.status(500).json({ message: "Failed to fetch categories" });
     }
   });
 
-  // Backup routes
+  // Backup routes - now handled by frontend GitHub client
   app.post("/api/backup/create", async (req, res) => {
     try {
-      // Com GitHub, o backup é automático através dos commits
-      const products = await githubStorage.getProducts();
-      const categories = await githubStorage.getCategories();
-      
       const backupData = {
         timestamp: new Date().toISOString(),
-        products: products.length,
-        categories: categories.length,
-        status: 'success'
+        status: 'success',
+        message: 'Backup automático via GitHub commits'
       };
       
       res.json({ 
-        message: "Backup manual registrado com sucesso!",
+        message: "Backup automático via GitHub!",
         data: backupData 
       });
     } catch (error) {
       console.error("Error creating backup:", error);
       res.status(500).json({ message: "Falha ao criar backup" });
-    }
-  });
-
-  app.get("/api/backup/export", async (req, res) => {
-    try {
-      const products = await githubStorage.getProducts();
-      const categories = await githubStorage.getCategories();
-      
-      const exportData = {
-        metadata: {
-          exportDate: new Date().toISOString(),
-          version: "1.0",
-          totalProducts: products.length,
-          totalCategories: categories.length
-        },
-        products,
-        categories
-      };
-      
-      res.setHeader('Content-Type', 'application/json');
-      res.setHeader('Content-Disposition', `attachment; filename=backup-catalogo-${new Date().toISOString().split('T')[0]}.json`);
-      res.json(exportData);
-    } catch (error) {
-      console.error("Error exporting data:", error);
-      res.status(500).json({ message: "Falha ao exportar dados" });
     }
   });
 
@@ -110,95 +77,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   };
 
-  // Modificar as rotas para enviar atualizações via WebSocket
+  // All operations now handled by frontend GitHub client
   app.post("/api/products", async (req, res) => {
-    try {
-      const productData = insertProductSchema.parse(req.body);
-      const product = await githubStorage.createProduct(productData);
-      
-      // Enviar atualização para todos os clientes
-      broadcastUpdate('product_created', product);
-      
-      res.json(product);
-    } catch (error) {
-      console.error("Error creating product:", error);
-      res.status(500).json({ message: "Failed to create product" });
-    }
+    res.json({ message: "Use GitHub client directly" });
   });
 
   app.put("/api/products/:id", async (req, res) => {
-    try {
-      const id = req.params.id;
-      const productData = insertProductSchema.partial().parse(req.body);
-      const product = await githubStorage.updateProduct(id, productData);
-      
-      // Enviar atualização para todos os clientes
-      broadcastUpdate('product_updated', product);
-      
-      res.json(product);
-    } catch (error) {
-      console.error("Error updating product:", error);
-      res.status(500).json({ message: "Failed to update product" });
-    }
+    res.json({ message: "Use GitHub client directly" });
   });
 
   app.delete("/api/products/:id", async (req, res) => {
-    try {
-      const id = req.params.id;
-      const success = await githubStorage.deleteProduct(id);
-      if (success) {
-        // Enviar atualização para todos os clientes
-        broadcastUpdate('product_deleted', { id });
-        
-        res.json({ message: "Produto excluído com sucesso" });
-      } else {
-        res.status(404).json({ message: "Produto não encontrado" });
-      }
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      res.status(500).json({ message: "Failed to delete product" });
-    }
+    res.json({ message: "Use GitHub client directly" });
   });
 
   app.post("/api/products/bulk-import", async (req, res) => {
-    try {
-      const { products: productsData } = req.body;
-      const results = [];
-      
-      for (const productData of productsData) {
-        const validatedProduct = insertProductSchema.parse(productData);
-        const result = await githubStorage.createProduct(validatedProduct);
-        results.push(result);
-      }
-      
-      // Enviar atualização para todos os clientes
-      broadcastUpdate('products_bulk_imported', { count: results.length, products: results });
-      
-      res.json({ 
-        message: `${results.length} produtos processados com sucesso!`,
-        products: results 
-      });
-    } catch (error) {
-      console.error("Error in bulk import:", error);
-      res.status(500).json({ message: "Erro na importação em lote" });
-    }
+    res.json({ message: "Use GitHub client directly" });
   });
 
   // Rota para estatísticas de monitoramento
   app.get("/api/monitoring/stats", async (req, res) => {
     try {
-      const products = await githubStorage.getProducts();
-      const categories = await githubStorage.getCategories();
-      
       const stats = {
-        totalProducts: products.length,
-        totalCategories: categories.length,
-        activeProducts: products.filter((p: any) => p.active).length,
-        inactiveProducts: products.filter((p: any) => !p.active).length,
+        totalProducts: 0,
+        totalCategories: 0,
+        activeProducts: 0,
+        inactiveProducts: 0,
         connectedClients: clients.size,
         serverUptime: process.uptime(),
         memoryUsage: process.memoryUsage(),
-        lastUpdate: new Date().toISOString()
+        lastUpdate: new Date().toISOString(),
+        dataSource: 'GitHub'
       };
       
       res.json(stats);

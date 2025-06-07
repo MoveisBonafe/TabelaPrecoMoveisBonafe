@@ -13,39 +13,42 @@ import { MonitoringTabSimple } from '@/components/admin/monitoring-tab-simple';
 import { ProductModal } from '@/components/modals/product-modal';
 import { ProductFormModal } from '@/components/modals/product-form-modal';
 import { PromotionModal } from '@/components/modals/promotion-modal';
-import { useProducts } from '@/hooks/use-products';
-import { useCategories } from '@/hooks/use-categories';
-import { usePromotions, Promotion, InsertPromotion } from '@/hooks/use-promotions';
-import { useToast } from '@/components/ui/toast';
+import { useGitHubProducts } from '@/hooks/use-github-products';
+import { useToast } from '@/hooks/use-toast';
+import { githubClient } from '@/lib/github-client';
 import { auth } from '@/lib/auth';
 
 interface AdminProps {
   onLogout: () => void;
   onShowPublicView: () => void;
+  onConfigureGitHub: () => void;
 }
 
-export function Admin({ onLogout, onShowPublicView }: AdminProps) {
-  const { products, createProduct, updateProduct, deleteProduct } = useProducts();
-  const { categories, createCategory, updateCategory, deleteCategory } = useCategories();
-  const { promotions, createPromotion, updatePromotion, deletePromotion } = usePromotions();
-  const { showToast, ToastContainer } = useToast();
+export function Admin({ onLogout, onShowPublicView, onConfigureGitHub }: AdminProps) {
+  const { products, createProduct, updateProduct, deleteProduct } = useGitHubProducts();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('products');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [selectedPromotion, setSelectedPromotion] = useState<Promotion | null>(null);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isProductFormModalOpen, setIsProductFormModalOpen] = useState(false);
-  const [isPromotionModalOpen, setIsPromotionModalOpen] = useState(false);
   
   const currentUser = auth.getUser();
   const canEditProducts = currentUser?.permissions?.canEditProducts ?? false;
   const canEditPrices = currentUser?.permissions?.canEditPrices ?? false;
 
-  const handleCreateProduct = (productData: InsertProduct) => {
+  const handleCreateProduct = async (productData: InsertProduct) => {
     try {
-      createProduct(productData);
-      showToast('Produto criado com sucesso!');
-    } catch (error) {
-      showToast('Erro ao criar produto', 'error');
+      await createProduct(productData);
+      toast({
+        title: "Sucesso",
+        description: "Produto criado com sucesso!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao criar produto",
+        variant: "destructive",
+      });
     }
   };
 

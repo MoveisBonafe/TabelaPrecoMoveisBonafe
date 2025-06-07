@@ -415,7 +415,12 @@
             <span class="admin-badge">📋 Admin Panel</span>
             <span class="admin-label">Administrador</span>
         </div>
-        <button class="logout-btn" onclick="logout()">Sair</button>
+        <div class="header-right">
+            <button id="github-token-btn" class="btn" onclick="configureGitHubToken()" style="margin-right: 15px; padding: 8px 16px; font-size: 14px; font-weight: bold; background: #ffc107; color: #212529; border: 2px solid #fff; border-radius: 6px;">
+                🔑 Configurar GitHub Token
+            </button>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
     </div>
 
     <div class="nav-tabs">
@@ -850,6 +855,11 @@
                 <div class="form-group">
                     <label class="form-label">Cor</label>
                     <input type="color" class="form-input" id="category-color" value="#4a90e2">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Imagem da Categoria</label>
+                    <input type="file" class="form-input" id="category-image" accept="image/*" onchange="handleImageUpload(event, 'category')">
+                    <small style="color: #666;">Formatos aceitos: JPG, PNG, WebP (máx. 2MB)</small>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-cancel" onclick="closeModal('category-modal')">Cancelar</button>
@@ -1372,15 +1382,20 @@ O token será salvo localmente no navegador.`);
             const file = event.target.files[0];
             if (!file) return;
 
+            if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                // For Excel files, we'll need to convert them
+                alert('Para importar arquivos Excel (.xlsx):\n\n1. Abra o arquivo no Excel\n2. Vá em "Arquivo" → "Salvar como"\n3. Escolha formato "CSV (separado por vírgulas)"\n4. Importe o arquivo CSV gerado\n\nOu use nosso modelo CSV para criar novos produtos.');
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const data = e.target.result;
-                    // For CSV files
                     if (file.name.endsWith('.csv')) {
                         parseCSVData(data);
                     } else {
-                        alert('Formato suportado: CSV\nPara Excel (.xlsx), exporte primeiro como CSV.');
+                        alert('Formato suportado: CSV\nPara arquivos Excel, primeiro converta para CSV.');
                     }
                 } catch (error) {
                     console.error('Erro ao processar arquivo:', error);
@@ -1434,7 +1449,7 @@ O token será salvo localmente no navegador.`);
 
         function exportToCSV() {
             const headers = ['Nome', 'Categoria', 'Preço', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descrição'];
-            let csvContent = headers.join(',') + '\n';
+            let csvContent = headers.join('\t') + '\n'; // Use tab separation for Excel compatibility
 
             adminClient.data.products.forEach(product => {
                 const row = [
@@ -1447,14 +1462,14 @@ O token será salvo localmente no navegador.`);
                     product.peso || 0,
                     product.description || ''
                 ];
-                csvContent += row.join(',') + '\n';
+                csvContent += row.join('\t') + '\n'; // Tab-separated for proper columns
             });
 
-            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `moveisbonafe_produtos_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

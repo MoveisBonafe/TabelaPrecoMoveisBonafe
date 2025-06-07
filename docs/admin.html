@@ -1172,7 +1172,7 @@
                         },
                         body: JSON.stringify({
                             message: `Update ${filename} via admin panel`,
-                            content: btoa(JSON.stringify(data, null, 2)),
+                            content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2)))),
                             sha: await this.getFileSHA(filename, token)
                         })
                     });

@@ -1209,7 +1209,7 @@
                         },
                         body: JSON.stringify({
                             message: `Update ${filename} via admin panel`,
-                            content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2)))),
+                            content: this.base64EncodeUTF8(JSON.stringify(data, null, 2)),
                             sha: await this.getFileSHA(filename, token)
                         })
                     });
@@ -1258,6 +1258,13 @@
                 return 'user/repository';
             }
 
+            base64EncodeUTF8(str) {
+                // Properly encode UTF-8 strings for GitHub API
+                return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                    return String.fromCharCode('0x' + p1);
+                }));
+            }
+
             requestGitHubToken() {
                 const token = prompt(`Para salvar dados no GitHub, insira seu Personal Access Token:
 
@@ -1279,17 +1286,23 @@ O token será salvo localmente no navegador.`);
             saveData(type, data) {
                 this.data[type] = data;
                 
-                // Save to GitHub if token is available
-                const filename = `${type}.json`;
-                this.saveToGitHub(filename, data).then(success => {
-                    if (success) {
-                        alert(`${type} salvo no GitHub com sucesso!`);
-                    } else {
-                        // Fallback to localStorage
-                        localStorage.setItem(`moveisbonafe_${type}`, JSON.stringify(data));
-                        alert(`${type} salvo localmente (GitHub indisponível)`);
-                    }
-                });
+                // Always save to localStorage first for immediate persistence
+                localStorage.setItem(`moveisbonafe_${type}`, JSON.stringify(data));
+                
+                // Then try to save to GitHub if token is available
+                const token = localStorage.getItem('github_token');
+                if (token) {
+                    const filename = `${type}.json`;
+                    this.saveToGitHub(filename, data).then(success => {
+                        if (success) {
+                            console.log(`✅ ${type} salvo no GitHub`);
+                        } else {
+                            console.log(`❌ Erro ao salvar ${type} no GitHub, mantido localmente`);
+                        }
+                    });
+                } else {
+                    console.log(`${type} salvo apenas localmente (token GitHub não configurado)`);
+                }
             }
         }
 
@@ -1448,7 +1461,6 @@ O token será salvo localmente no navegador.`);
             if (!file) return;
 
             if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-                // For Excel files, we'll need to convert them
                 alert('Para importar arquivos Excel (.xlsx):\n\n1. Abra o arquivo no Excel\n2. Vá em "Arquivo" → "Salvar como"\n3. Escolha formato "CSV (separado por vírgulas)"\n4. Importe o arquivo CSV gerado\n\nOu use nosso modelo CSV para criar novos produtos.');
                 return;
             }
@@ -1467,7 +1479,8 @@ O token será salvo localmente no navegador.`);
                     alert('Erro ao processar arquivo. Verifique o formato.');
                 }
             };
-            reader.readAsText(file);
+            // Use UTF-8 encoding for proper character handling
+            reader.readAsText(file, 'UTF-8');
         }
 
         function parseCSVData(csvData) {
@@ -1909,23 +1922,40 @@ O token será salvo localmente no navegador.`);
             const file = event.target.files[0];
             if (!file) return;
             
-            // Validate file size (max 5MB for high quality)
-            if (file.size > 5 * 1024 * 1024) {
-                alert('Arquivo muito grande. Tamanho máximo: 5MB');
+            // Validate file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Arquivo muito grande. Tamanho máximo: 2MB');
                 event.target.value = '';
                 return;
             }
             
-            // Validate file type - only high quality formats
+            // Validate file type
             const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
             if (!validTypes.includes(file.type)) {
-                alert('Formato inválido. Use apenas JPG ou PNG para alta qualidade');
+                alert('Formato inválido. Use JPG ou PNG');
                 event.target.value = '';
                 return;
             }
             
-            // Process and upload image to GitHub
-            processAndUploadImage(file, type);
+            // Convert to base64 and store reference
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                const timestamp = Date.now();
+                const extension = file.type === 'image/png' ? 'png' : 'jpg';
+                const fileName = `${type}_${timestamp}.${extension}`;
+                
+                // Store image data for the form
+                const form = document.getElementById(`${type}-form`);
+                form.dataset.imageFile = fileName;
+                form.dataset.imageData = base64Data;
+                
+                // Show preview
+                showImagePreview(base64Data, type);
+                
+                addSystemLog(`Imagem ${fileName} preparada para upload`);
+            };
+            reader.readAsDataURL(file);
         }
 
         // Process image and upload to GitHub data/images folder
@@ -1999,8 +2029,8 @@ O token será salvo localmente no navegador.`);
             reader.readAsDataURL(file);
         }
 
-        // Upload image blob to GitHub data/images folder
-        async function uploadImageToGitHub(blob, fileName) {
+        // Upload image to GitHub data/images folder
+        async function uploadImageToGitHub(base64Data, fileName) {
             const token = localStorage.getItem('github_token');
             if (!token) {
                 alert('Token GitHub necessário para salvar imagens');
@@ -2008,9 +2038,8 @@ O token será salvo localmente no navegador.`);
             }
             
             try {
-                // Convert blob to base64
-                const arrayBuffer = await blob.arrayBuffer();
-                const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+                // Extract base64 data without data:image prefix
+                const base64Content = base64Data.split(',')[1];
                 
                 const repoPath = adminClient.getRepoPath();
                 const apiUrl = `https://api.github.com/repos/${repoPath}/contents/docs/data/images/${fileName}`;
@@ -2023,11 +2052,17 @@ O token será salvo localmente no navegador.`);
                     },
                     body: JSON.stringify({
                         message: `Add image ${fileName}`,
-                        content: base64
+                        content: base64Content
                     })
                 });
                 
-                return response.ok;
+                if (response.ok) {
+                    console.log(`✅ Imagem ${fileName} salva no GitHub`);
+                    return true;
+                } else {
+                    console.error(`❌ Erro ao salvar imagem: ${response.status}`);
+                    return false;
+                }
             } catch (error) {
                 console.error('Erro ao fazer upload da imagem:', error);
                 return false;
@@ -2109,26 +2144,47 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Add image if uploaded
+            // Handle image upload if present
             const form = document.getElementById('product-form');
-            if (form.dataset.imageFile) {
-                product.imageFile = form.dataset.imageFile;
-            } else if (isEdit && adminClient.data.products[index].imageFile) {
-                product.imageFile = adminClient.data.products[index].imageFile;
-            }
-            
-            if (isEdit) {
-                adminClient.data.products[index] = product;
+            if (form.dataset.imageFile && form.dataset.imageData) {
+                // Upload image to GitHub first
+                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile).then(success => {
+                    if (success) {
+                        product.imageFile = `data/images/${form.dataset.imageFile}`;
+                    }
+                    
+                    if (isEdit) {
+                        adminClient.data.products[index] = product;
+                    } else {
+                        adminClient.data.products.push(product);
+                    }
+                    
+                    adminClient.saveData('products', adminClient.data.products);
+                    adminClient.renderProducts();
+                    adminClient.updateMonitorData();
+                    closeModal('product-modal');
+                    
+                    addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
+                });
             } else {
-                adminClient.data.products.push(product);
+                // No image, just save product data
+                if (isEdit && adminClient.data.products[index].imageFile) {
+                    product.imageFile = adminClient.data.products[index].imageFile;
+                }
+                
+                if (isEdit) {
+                    adminClient.data.products[index] = product;
+                } else {
+                    adminClient.data.products.push(product);
+                }
+                
+                adminClient.saveData('products', adminClient.data.products);
+                adminClient.renderProducts();
+                adminClient.updateMonitorData();
+                closeModal('product-modal');
+                
+                addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
             }
-            
-            adminClient.saveData('products', adminClient.data.products);
-            adminClient.renderProducts();
-            adminClient.updateMonitorData();
-            closeModal('product-modal');
-            
-            addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
         });
 
         document.getElementById('category-form').addEventListener('submit', (e) => {
@@ -2148,26 +2204,47 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Add image if uploaded
+            // Handle image upload if present
             const form = document.getElementById('category-form');
-            if (form.dataset.imageFile) {
-                category.imageFile = form.dataset.imageFile;
-            } else if (isEdit && adminClient.data.categories[index].imageFile) {
-                category.imageFile = adminClient.data.categories[index].imageFile;
-            }
-            
-            if (isEdit) {
-                adminClient.data.categories[index] = category;
+            if (form.dataset.imageFile && form.dataset.imageData) {
+                // Upload image to GitHub first
+                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile).then(success => {
+                    if (success) {
+                        category.imageFile = `data/images/${form.dataset.imageFile}`;
+                    }
+                    
+                    if (isEdit) {
+                        adminClient.data.categories[index] = category;
+                    } else {
+                        adminClient.data.categories.push(category);
+                    }
+                    
+                    adminClient.saveData('categories', adminClient.data.categories);
+                    adminClient.renderCategories();
+                    adminClient.updateMonitorData();
+                    closeModal('category-modal');
+                    
+                    addSystemLog(`${isEdit ? 'Editada' : 'Criada'} categoria: ${category.name}`);
+                });
             } else {
-                adminClient.data.categories.push(category);
+                // No image, just save category data
+                if (isEdit && adminClient.data.categories[index].imageFile) {
+                    category.imageFile = adminClient.data.categories[index].imageFile;
+                }
+                
+                if (isEdit) {
+                    adminClient.data.categories[index] = category;
+                } else {
+                    adminClient.data.categories.push(category);
+                }
+                
+                adminClient.saveData('categories', adminClient.data.categories);
+                adminClient.renderCategories();
+                adminClient.updateMonitorData();
+                closeModal('category-modal');
+                
+                addSystemLog(`${isEdit ? 'Editada' : 'Criada'} categoria: ${category.name}`);
             }
-            
-            adminClient.saveData('categories', adminClient.data.categories);
-            adminClient.renderCategories();
-            adminClient.updateMonitorData();
-            closeModal('category-modal');
-            
-            addSystemLog(`${isEdit ? 'Editada' : 'Criada'} categoria: ${category.name}`);
         });
 
         document.getElementById('user-form').addEventListener('submit', (e) => {

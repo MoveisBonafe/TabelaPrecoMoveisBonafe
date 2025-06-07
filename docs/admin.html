@@ -469,9 +469,6 @@
             <div class="content-header">
                 <h2 class="content-title">Gerenciar Produtos</h2>
                 <div class="action-buttons">
-                    <button class="btn btn-success" onclick="importExcel()">
-                        📊 Importar Excel
-                    </button>
                     <button class="btn btn-primary" onclick="openProductModal()">
                         ➕ Novo Produto
                     </button>
@@ -1158,7 +1155,16 @@
                         this.data.promotions = promotions || [];
                     }
 
-                    console.log(`✅ Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço, ${this.data.promotions.length} promoções`);
+                    // Load colors
+                    const localColors = localStorage.getItem('moveisbonafe_colors');
+                    if (localColors) {
+                        this.data.colors = JSON.parse(localColors);
+                    } else {
+                        const colors = await this.loadData('colors.json');
+                        this.data.colors = colors || [];
+                    }
+
+                    console.log(`✅ Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.colors.length} cores, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço, ${this.data.promotions.length} promoções`);
                 } catch (error) {
                     console.error('Erro ao carregar dados:', error);
                 }
@@ -1335,6 +1341,41 @@
                         <td class="action-buttons-cell">
                             <button class="btn btn-edit btn-sm" onclick="editPromotion(${index})">✏️</button>
                             <button class="btn btn-delete btn-sm" onclick="deletePromotion(${index})">🗑️</button>
+                        </td>
+                    `;
+                });
+            }
+
+            renderColors() {
+                const loading = document.getElementById('cores-loading');
+                const content = document.getElementById('cores-content');
+                const table = document.getElementById('cores-table');
+                const empty = document.getElementById('cores-empty');
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+
+                if (this.data.colors.length === 0) {
+                    table.style.display = 'none';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                empty.style.display = 'none';
+                table.innerHTML = '';
+
+                this.data.colors.forEach((color, index) => {
+                    const row = table.insertRow();
+                    
+                    row.innerHTML = `
+                        <td><strong>${color.name}</strong></td>
+                        <td>
+                            <div style="width: 30px; height: 30px; background-color: ${color.code}; border: 1px solid #ddd; border-radius: 4px; display: inline-block;"></div>
+                        </td>
+                        <td><code>${color.code}</code></td>
+                        <td class="action-buttons-cell">
+                            <button class="btn btn-edit btn-sm" onclick="editColor(${index})">✏️</button>
+                            <button class="btn btn-delete btn-sm" onclick="deleteColor(${index})">🗑️</button>
                         </td>
                     `;
                 });
@@ -2491,7 +2532,7 @@ O token será salvo localmente no navegador.`);
             reader.readAsDataURL(file);
         }
 
-        // Upload image to GitHub data/images folder
+        // Upload image to GitHub data/images folder with conflict handling
         async function uploadImageToGitHub(base64Data, fileName) {
             const token = localStorage.getItem('github_token');
             if (!token) {
@@ -2506,23 +2547,45 @@ O token será salvo localmente no navegador.`);
                 const repoPath = adminClient.getRepoPath();
                 const apiUrl = `https://api.github.com/repos/${repoPath}/contents/docs/data/images/${fileName}`;
                 
+                // First, try to get the existing file to handle conflicts
+                let sha = null;
+                try {
+                    const existingFile = await fetch(apiUrl, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (existingFile.ok) {
+                        const fileData = await existingFile.json();
+                        sha = fileData.sha;
+                        console.log(`📝 Arquivo existente encontrado, atualizando: ${fileName}`);
+                    }
+                } catch (e) {
+                    console.log(`📁 Novo arquivo: ${fileName}`);
+                }
+                
+                const body = {
+                    message: sha ? `Update image ${fileName}` : `Add image ${fileName}`,
+                    content: base64Content
+                };
+                
+                if (sha) {
+                    body.sha = sha;
+                }
+                
                 const response = await fetch(apiUrl, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${token}`,
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        message: `Add image ${fileName}`,
-                        content: base64Content
-                    })
+                    body: JSON.stringify(body)
                 });
                 
                 if (response.ok) {
                     console.log(`✅ Imagem ${fileName} salva no GitHub`);
                     return true;
                 } else {
-                    console.error(`❌ Erro ao salvar imagem: ${response.status}`);
+                    const errorData = await response.json();
+                    console.error(`❌ Erro ao salvar imagem: ${response.status}`, errorData);
                     return false;
                 }
             } catch (error) {

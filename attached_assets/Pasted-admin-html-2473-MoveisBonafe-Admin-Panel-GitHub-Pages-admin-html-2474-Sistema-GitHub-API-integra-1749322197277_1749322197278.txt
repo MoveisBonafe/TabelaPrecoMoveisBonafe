@@ -1,0 +1,34 @@
+admin.html:2473 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:2474 Sistema: GitHub API integrado com fallback localStorage
+admin.html:1024 📦 Carregado 7 produtos do localStorage
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" placeholder=​"••••••••••••••••••••••••••••••••••••••••• (Configurado)​" style=​"width:​ 100%;​ padding:​ 8px 12px;​ border:​ 1px solid #ddd;​ border-radius:​ 4px;​ font-family:​ monospace;​">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" class=​"form-input" id=​"user-password" required>​
+admin.html:1058 ✅ Dados carregados: 7 produtos, 6 categorias, 3 usuários, 5 tabelas de preço, 1 promoções
+admin.html:1349 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1418 📢 Notificação enviada: categories atualizado
+admin.html:1349 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1321 📁 Arquivo categories.json existe (SHA: bb0301c6)
+admin.html:1349 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:2198 ✅ Imagem category_1749322089935.jpg salva no GitHub
+admin.html:1286 
+            
+            
+           PUT https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/categories.json 409 (Conflict)
+saveToGitHub @ admin.html:1286
+await in saveToGitHub
+saveData @ admin.html:1396
+(anônimo) @ admin.html:2352
+admin.html:1302 ❌ GitHub API Error 409: {message: 'is at 74fd2d940174b2df0567c14602e51234e8debbc1 but expected 3f6dc959228162fbb01a9da0c2bd0ede3e9a5958', documentation_url: 'https://docs.github.com/rest/repos/contents#create-or-update-file-contents', status: '409'}
+saveToGitHub @ admin.html:1302
+await in saveToGitHub
+saveData @ admin.html:1396
+(anônimo) @ admin.html:2352
+admin.html:1306 ❌ Erro ao salvar no GitHub: Error: GitHub API error: 409 - is at 74fd2d940174b2df0567c14602e51234e8debbc1 but expected 3f6dc959228162fbb01a9da0c2bd0ede3e9a5958
+    at AdminClient.saveToGitHub (admin.html:1303:31)
+saveToGitHub @ admin.html:1306
+await in saveToGitHub
+saveData @ admin.html:1396
+(anônimo) @ admin.html:2352
+admin.html:1400 ❌ Erro ao salvar categories no GitHub, mantido localmente
+admin.html:789 [Violation] 'click' handler took 1204ms
+admin.html:789 [Violation] 'click' handler took 1068ms

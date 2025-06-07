@@ -963,11 +963,24 @@
 
             async loadData(filename) {
                 try {
+                    // Try to load from GitHub first
                     const response = await fetch(`${this.baseUrl}/data/${filename}`);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     return await response.json();
                 } catch (error) {
-                    console.error(`Erro ao carregar ${filename}:`, error);
+                    console.log(`GitHub data unavailable for ${filename}, checking localStorage...`);
+                    
+                    // Fallback to localStorage
+                    const dataType = filename.replace('.json', '').replace('_', '');
+                    const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+                    const localData = localStorage.getItem(localKey);
+                    
+                    if (localData) {
+                        console.log(`Loaded ${filename} from localStorage`);
+                        return JSON.parse(localData);
+                    }
+                    
+                    console.error(`No data found for ${filename} in GitHub or localStorage`);
                     return [];
                 }
             }
@@ -2144,47 +2157,33 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Handle image upload if present
+            // Preserve existing image if editing
+            if (isEdit && adminClient.data.products[index].imageFile) {
+                product.imageFile = adminClient.data.products[index].imageFile;
+            }
+            
+            // Handle new image upload if present
             const form = document.getElementById('product-form');
             if (form.dataset.imageFile && form.dataset.imageData) {
-                // Upload image to GitHub first
-                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile).then(success => {
-                    if (success) {
-                        product.imageFile = `data/images/${form.dataset.imageFile}`;
-                    }
-                    
-                    if (isEdit) {
-                        adminClient.data.products[index] = product;
-                    } else {
-                        adminClient.data.products.push(product);
-                    }
-                    
-                    adminClient.saveData('products', adminClient.data.products);
-                    adminClient.renderProducts();
-                    adminClient.updateMonitorData();
-                    closeModal('product-modal');
-                    
-                    addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
-                });
-            } else {
-                // No image, just save product data
-                if (isEdit && adminClient.data.products[index].imageFile) {
-                    product.imageFile = adminClient.data.products[index].imageFile;
-                }
-                
-                if (isEdit) {
-                    adminClient.data.products[index] = product;
-                } else {
-                    adminClient.data.products.push(product);
-                }
-                
-                adminClient.saveData('products', adminClient.data.products);
-                adminClient.renderProducts();
-                adminClient.updateMonitorData();
-                closeModal('product-modal');
-                
-                addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
+                product.imageFile = `data/images/${form.dataset.imageFile}`;
+                // Upload image to GitHub asynchronously
+                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile);
             }
+            
+            // Save product data immediately
+            if (isEdit) {
+                adminClient.data.products[index] = product;
+            } else {
+                adminClient.data.products.push(product);
+            }
+            
+            // Persist data immediately
+            adminClient.saveData('products', adminClient.data.products);
+            adminClient.renderProducts();
+            adminClient.updateMonitorData();
+            closeModal('product-modal');
+            
+            addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
         });
 
         document.getElementById('category-form').addEventListener('submit', (e) => {
@@ -2204,47 +2203,33 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Handle image upload if present
+            // Preserve existing image if editing
+            if (isEdit && adminClient.data.categories[index].imageFile) {
+                category.imageFile = adminClient.data.categories[index].imageFile;
+            }
+            
+            // Handle new image upload if present
             const form = document.getElementById('category-form');
             if (form.dataset.imageFile && form.dataset.imageData) {
-                // Upload image to GitHub first
-                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile).then(success => {
-                    if (success) {
-                        category.imageFile = `data/images/${form.dataset.imageFile}`;
-                    }
-                    
-                    if (isEdit) {
-                        adminClient.data.categories[index] = category;
-                    } else {
-                        adminClient.data.categories.push(category);
-                    }
-                    
-                    adminClient.saveData('categories', adminClient.data.categories);
-                    adminClient.renderCategories();
-                    adminClient.updateMonitorData();
-                    closeModal('category-modal');
-                    
-                    addSystemLog(`${isEdit ? 'Editada' : 'Criada'} categoria: ${category.name}`);
-                });
-            } else {
-                // No image, just save category data
-                if (isEdit && adminClient.data.categories[index].imageFile) {
-                    category.imageFile = adminClient.data.categories[index].imageFile;
-                }
-                
-                if (isEdit) {
-                    adminClient.data.categories[index] = category;
-                } else {
-                    adminClient.data.categories.push(category);
-                }
-                
-                adminClient.saveData('categories', adminClient.data.categories);
-                adminClient.renderCategories();
-                adminClient.updateMonitorData();
-                closeModal('category-modal');
-                
-                addSystemLog(`${isEdit ? 'Editada' : 'Criada'} categoria: ${category.name}`);
+                category.imageFile = `data/images/${form.dataset.imageFile}`;
+                // Upload image to GitHub asynchronously
+                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile);
             }
+            
+            // Save category data immediately
+            if (isEdit) {
+                adminClient.data.categories[index] = category;
+            } else {
+                adminClient.data.categories.push(category);
+            }
+            
+            // Persist data immediately
+            adminClient.saveData('categories', adminClient.data.categories);
+            adminClient.renderCategories();
+            adminClient.updateMonitorData();
+            closeModal('category-modal');
+            
+            addSystemLog(`${isEdit ? 'Editada' : 'Criada'} categoria: ${category.name}`);
         });
 
         document.getElementById('user-form').addEventListener('submit', (e) => {

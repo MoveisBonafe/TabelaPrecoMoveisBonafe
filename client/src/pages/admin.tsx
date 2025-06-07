@@ -25,7 +25,16 @@ interface AdminProps {
 }
 
 export function Admin({ onLogout, onShowPublicView, onConfigureGitHub }: AdminProps) {
-  const { products, createProduct, updateProduct, deleteProduct } = useGitHubProducts();
+  const { 
+    products, 
+    categories,
+    createProduct, 
+    updateProduct, 
+    deleteProduct,
+    createCategory,
+    updateCategory,
+    deleteCategory
+  } = useGitHubProducts();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('products');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);

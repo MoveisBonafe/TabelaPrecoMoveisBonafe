@@ -1,8 +1,8 @@
 [
   {
     "id": "4",
-    "text": "Oferta Especial MÃªs de Maio -5%",
-    "description": "Desconto vÃ¡lido em todos os mÃ³veis atÃ© o final do mÃªs",
+    "title": "Mês de Maio",
+    "description": "Desconto válido em todos os móveis até o final do mês.",
     "color": "#f59e0b",
     "active": true,
     "createdAt": "2025-05-25T20:50:06.944Z"

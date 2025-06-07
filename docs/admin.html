@@ -6,6 +6,7 @@
     <title>Admin Panel</title>
     <meta name="description" content="MoveisBonafe - Painel administrativo completo.">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -633,11 +634,11 @@
                             <h3 style="margin: 0; color: #333;">Importar Produtos</h3>
                         </div>
                         <p style="color: #666; margin-bottom: 16px; font-size: 14px;">
-                            Importe produtos em massa usando arquivo Excel (.xlsx/.csv)
+                            Importe produtos em massa usando arquivo Excel (.xlsx) ou CSV
                         </p>
-                        <input type="file" id="excel-upload" accept=".xlsx,.csv" style="display: none;" onchange="handleExcelUpload(event)">
+                        <input type="file" id="excel-upload" accept=".xlsx,.xls,.csv" style="display: none;" onchange="handleExcelUpload(event)">
                         <button class="btn btn-success" onclick="document.getElementById('excel-upload').click()">
-                            Selecionar Arquivo
+                            📊 Selecionar Excel/CSV
                         </button>
                     </div>
                     
@@ -1602,27 +1603,101 @@ O token será salvo localmente no navegador.`);
             const file = event.target.files[0];
             if (!file) return;
 
+            const reader = new FileReader();
+            
             if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-                alert('Para importar arquivos Excel (.xlsx):\n\n1. Abra o arquivo no Excel\n2. Vá em "Arquivo" → "Salvar como"\n3. Escolha formato "CSV (separado por vírgulas)"\n4. Importe o arquivo CSV gerado\n\nOu use nosso modelo CSV para criar novos produtos.');
+                // Handle Excel files
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[sheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        
+                        parseExcelData(jsonData);
+                    } catch (error) {
+                        console.error('Erro ao processar arquivo Excel:', error);
+                        alert('Erro ao processar arquivo Excel. Verifique se o arquivo não está corrompido.');
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else if (file.name.endsWith('.csv')) {
+                // Handle CSV files
+                reader.onload = function(e) {
+                    try {
+                        const data = e.target.result;
+                        parseCSVData(data);
+                    } catch (error) {
+                        console.error('Erro ao processar arquivo CSV:', error);
+                        alert('Erro ao processar arquivo CSV. Verifique o formato.');
+                    }
+                };
+                reader.readAsText(file, 'UTF-8');
+            } else {
+                alert('Formato não suportado. Use arquivos .xlsx, .xls ou .csv');
+            }
+        }
+
+        function parseExcelData(excelData) {
+            if (!excelData || excelData.length < 2) {
+                alert('Arquivo Excel vazio ou inválido.');
+                return;
+            }
+            
+            const headers = excelData[0];
+            const expectedHeaders = ['Nome', 'Categoria', 'Preço', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descrição'];
+            
+            // Check if headers match (case insensitive)
+            const headerMap = {};
+            headers.forEach((header, index) => {
+                if (header) {
+                    const normalizedHeader = header.toString().trim().toLowerCase();
+                    expectedHeaders.forEach(expected => {
+                        if (normalizedHeader === expected.toLowerCase()) {
+                            headerMap[expected] = index;
+                        }
+                    });
+                }
+            });
+            
+            if (Object.keys(headerMap).length < 3) {
+                alert('Formato inválido. Certifique-se que o arquivo Excel contém pelo menos: Nome, Categoria, Preço\n\nColunas encontradas: ' + headers.join(', '));
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = e.target.result;
-                    if (file.name.endsWith('.csv')) {
-                        parseCSVData(data);
-                    } else {
-                        alert('Formato suportado: CSV\nPara arquivos Excel, primeiro converta para CSV.');
-                    }
-                } catch (error) {
-                    console.error('Erro ao processar arquivo:', error);
-                    alert('Erro ao processar arquivo. Verifique o formato.');
-                }
-            };
-            // Use UTF-8 encoding for proper character handling
-            reader.readAsText(file, 'UTF-8');
+            const products = [];
+            for (let i = 1; i < excelData.length; i++) {
+                const row = excelData[i];
+                if (!row || row.length === 0) continue;
+                
+                const name = row[headerMap['Nome']]?.toString().trim();
+                if (!name) continue; // Skip empty rows
+                
+                products.push({
+                    id: Date.now() + i,
+                    name: name,
+                    category: row[headerMap['Categoria']]?.toString().trim() || 'Geral',
+                    priceAVista: parseFloat(row[headerMap['Preço']]?.toString().replace(',', '.')) || 0,
+                    altura: parseFloat(row[headerMap['Altura']]?.toString().replace(',', '.')) || 0,
+                    largura: parseFloat(row[headerMap['Largura']]?.toString().replace(',', '.')) || 0,
+                    comprimento: parseFloat(row[headerMap['Comprimento']]?.toString().replace(',', '.')) || 0,
+                    peso: parseFloat(row[headerMap['Peso']]?.toString().replace(',', '.')) || 0,
+                    description: row[headerMap['Descrição']]?.toString().trim() || '',
+                    active: true,
+                    createdAt: new Date().toISOString()
+                });
+            }
+
+            if (products.length > 0) {
+                adminClient.data.products = [...adminClient.data.products, ...products];
+                adminClient.saveData('products', adminClient.data.products);
+                adminClient.renderProducts();
+                alert(`${products.length} produtos importados com sucesso do arquivo Excel!`);
+                addSystemLog(`${products.length} produtos importados via Excel`);
+            } else {
+                alert('Nenhum produto válido encontrado no arquivo Excel.');
+            }
         }
 
         function parseCSVData(csvData) {
@@ -1691,12 +1766,19 @@ O token será salvo localmente no navegador.`);
         }
 
         function exportToCSV() {
-            // Create proper Excel format with tab separation
-            const headers = ['Nome', 'Categoria', 'Preco', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descricao'];
-            const rows = [headers];
+            exportToExcel();
+        }
+
+        function exportToExcel() {
+            // Create workbook and worksheet
+            const wb = XLSX.utils.book_new();
+            
+            // Prepare data with proper headers matching your format
+            const headers = ['Nome', 'Categoria', 'Preço', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descrição'];
+            const data = [headers];
 
             adminClient.data.products.forEach(product => {
-                rows.push([
+                data.push([
                     product.name || '',
                     product.category || '',
                     product.priceAVista || 0,
@@ -1708,24 +1790,31 @@ O token será salvo localmente no navegador.`);
                 ]);
             });
 
-            // Convert to proper tab-separated format
-            const csvContent = rows.map(row => row.join('\t')).join('\n');
+            // Create worksheet
+            const ws = XLSX.utils.aoa_to_sheet(data);
             
-            // Add BOM for proper Excel UTF-8 support
-            const blob = new Blob(['\ufeff' + csvContent], { 
-                type: 'text/tab-separated-values;charset=utf-8;' 
-            });
+            // Set column widths for better readability
+            ws['!cols'] = [
+                { wch: 30 }, // Nome
+                { wch: 15 }, // Categoria
+                { wch: 12 }, // Preço
+                { wch: 10 }, // Altura
+                { wch: 10 }, // Largura
+                { wch: 12 }, // Comprimento
+                { wch: 10 }, // Peso
+                { wch: 40 }  // Descrição
+            ];
             
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            // Add worksheet to workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Produtos');
             
-            addSystemLog('Produtos exportados para Excel');
+            // Generate filename with current date
+            const filename = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}_${Date.now()}.xlsx`;
+            
+            // Save file
+            XLSX.writeFile(wb, filename);
+            
+            addSystemLog('Dados exportados para Excel (.xlsx)');
         }
 
         function downloadBackup() {

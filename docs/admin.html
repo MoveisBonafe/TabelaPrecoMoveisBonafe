@@ -769,6 +769,43 @@
                     </div>
                 </div>
                 
+                <!-- GitHub Configuration -->
+                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                        <span id="github-status-online" style="display: inline-block; width: 12px; height: 12px; background: #5cb85c; border-radius: 50%;"></span>
+                        <span style="color: #5cb85c; font-weight: bold;">Online</span>
+                        <span id="github-status-token" style="display: inline-block; width: 12px; height: 12px; background: #5cb85c; border-radius: 50%; margin-left: 20px;"></span>
+                        <span id="github-status-token-text" style="color: #5cb85c; font-weight: bold;">Token válido</span>
+                    </div>
+                    
+                    <h3 style="margin: 0 0 16px 0; color: #333;">⚙️ Configuração GitHub</h3>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: bold;">Token GitHub (para upload de imagens):</label>
+                        <input type="password" id="github-token-input" placeholder="•••••••••••••••••••••••••••••••••••••••••" 
+                               style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace;">
+                    </div>
+                    
+                    <button onclick="saveGitHubToken()" style="background: #f39c12; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                        Salvar Token
+                    </button>
+                    
+                    <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px; padding: 16px; margin-top: 16px;">
+                        <h4 style="margin: 0 0 8px 0; color: #333;">Como funciona a sincronização:</h4>
+                        <ul style="margin: 8px 0; padding-left: 20px; color: #666;">
+                            <li>Configure o token UMA ÚNICA VEZ neste dispositivo</li>
+                            <li>Todos os dispositivos verão automaticamente os produtos</li>
+                            <li>Clientes NÃO precisam configurar nada</li>
+                            <li>Imagens ficam disponíveis para todos automaticamente</li>
+                        </ul>
+                        
+                        <p style="margin: 8px 0 0 0; color: #666; font-size: 14px;">
+                            <strong>Token necessário para fazer upload de imagens para o repositório GitHub</strong><br>
+                            <span style="color: #e74c3c;">Token carregado do armazenamento local</span>
+                        </p>
+                    </div>
+                </div>
+
                 <!-- System Status -->
                 <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px;">
                     <h3 style="margin: 0 0 16px 0; color: #333;">Status do Sistema</h3>
@@ -1499,12 +1536,12 @@ O token será salvo localmente no navegador.`);
         }
 
         function exportToCSV() {
-            // Excel format matching your structure
+            // Create proper Excel format with tab separation
             const headers = ['Nome', 'Categoria', 'Preco', 'Altura', 'Largura', 'Comprimento', 'Peso', 'Descricao'];
-            let csvContent = headers.join('\t') + '\n';
+            const rows = [headers];
 
             adminClient.data.products.forEach(product => {
-                const row = [
+                rows.push([
                     product.name || '',
                     product.category || '',
                     product.priceAVista || 0,
@@ -1513,18 +1550,21 @@ O token será salvo localmente no navegador.`);
                     product.comprimento || 0,
                     product.peso || 0,
                     product.description || ''
-                ];
-                csvContent += row.join('\t') + '\n';
+                ]);
             });
 
-            // Create Excel-compatible file
+            // Convert to proper tab-separated format
+            const csvContent = rows.map(row => row.join('\t')).join('\n');
+            
+            // Add BOM for proper Excel UTF-8 support
             const blob = new Blob(['\ufeff' + csvContent], { 
-                type: 'text/csv;charset=utf-8;' 
+                type: 'text/tab-separated-values;charset=utf-8;' 
             });
+            
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}.xlsx`;
+            a.download = `produtos-moveisbonafe-${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1869,32 +1909,129 @@ O token será salvo localmente no navegador.`);
             const file = event.target.files[0];
             if (!file) return;
             
-            // Validate file size (max 2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Arquivo muito grande. Tamanho máximo: 2MB');
+            // Validate file size (max 5MB for high quality)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Arquivo muito grande. Tamanho máximo: 5MB');
                 event.target.value = '';
                 return;
             }
             
-            // Validate file type
-            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            // Validate file type - only high quality formats
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
             if (!validTypes.includes(file.type)) {
-                alert('Formato inválido. Use JPG, PNG ou WebP');
+                alert('Formato inválido. Use apenas JPG ou PNG para alta qualidade');
                 event.target.value = '';
                 return;
             }
             
-            // Convert to base64
+            // Process and upload image to GitHub
+            processAndUploadImage(file, type);
+        }
+
+        // Process image and upload to GitHub data/images folder
+        async function processAndUploadImage(file, type) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = async function() {
+                // Set canvas size for high quality
+                const maxWidth = 1200;
+                const maxHeight = 1200;
+                let { width, height } = img;
+                
+                // Maintain aspect ratio
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = (width * maxHeight) / height;
+                        height = maxHeight;
+                    }
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                // Draw image with high quality settings
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Convert to high quality format
+                const imageFormat = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                const quality = imageFormat === 'image/jpeg' ? 0.9 : 1.0; // High quality JPEG or lossless PNG
+                
+                canvas.toBlob(async (blob) => {
+                    const timestamp = Date.now();
+                    const extension = imageFormat === 'image/png' ? 'png' : 'jpg';
+                    const fileName = `${type}_${timestamp}.${extension}`;
+                    
+                    // Upload to GitHub data/images folder
+                    const success = await uploadImageToGitHub(blob, fileName);
+                    
+                    if (success) {
+                        const form = document.getElementById(`${type}-form`);
+                        form.dataset.imageFile = `data/images/${fileName}`;
+                        
+                        // Show preview
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            showImagePreview(e.target.result, type);
+                        };
+                        reader.readAsDataURL(blob);
+                        
+                        alert('Imagem salva com sucesso!');
+                        addSystemLog(`Imagem ${fileName} salva no GitHub`);
+                    } else {
+                        alert('Erro ao salvar imagem. Verifique o token GitHub.');
+                    }
+                }, imageFormat, quality);
+            };
+            
             const reader = new FileReader();
             reader.onload = function(e) {
-                const base64Data = e.target.result;
-                const form = document.getElementById(`${type}-form`);
-                form.dataset.imageFile = base64Data;
-                
-                // Show preview
-                showImagePreview(base64Data, type);
+                img.src = e.target.result;
             };
             reader.readAsDataURL(file);
+        }
+
+        // Upload image blob to GitHub data/images folder
+        async function uploadImageToGitHub(blob, fileName) {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                alert('Token GitHub necessário para salvar imagens');
+                return false;
+            }
+            
+            try {
+                // Convert blob to base64
+                const arrayBuffer = await blob.arrayBuffer();
+                const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+                
+                const repoPath = adminClient.getRepoPath();
+                const apiUrl = `https://api.github.com/repos/${repoPath}/contents/docs/data/images/${fileName}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: `Add image ${fileName}`,
+                        content: base64
+                    })
+                });
+                
+                return response.ok;
+            } catch (error) {
+                console.error('Erro ao fazer upload da imagem:', error);
+                return false;
+            }
         }
         
         function showImagePreview(base64Data, type) {
@@ -2081,6 +2218,51 @@ O token será salvo localmente no navegador.`);
                 button.style.color = 'white';
                 button.innerHTML = '⚠️ Configurar GitHub Token';
                 button.title = 'IMPORTANTE: Configure o token para salvar alterações';
+            }
+            
+            // Update monitor tab status indicators
+            updateMonitorTokenStatus();
+        }
+
+        // Update token status in Monitor tab
+        function updateMonitorTokenStatus() {
+            const token = localStorage.getItem('github_token');
+            const statusDot = document.getElementById('github-status-token');
+            const statusText = document.getElementById('github-status-token-text');
+            const tokenInput = document.getElementById('github-token-input');
+            
+            if (statusDot && statusText) {
+                if (token) {
+                    statusDot.style.background = '#5cb85c';
+                    statusText.textContent = 'Token válido';
+                    statusText.style.color = '#5cb85c';
+                    if (tokenInput) {
+                        tokenInput.placeholder = '••••••••••••••••••••••••••••••••••••••••• (Configurado)';
+                    }
+                } else {
+                    statusDot.style.background = '#e74c3c';
+                    statusText.textContent = 'Token não configurado';
+                    statusText.style.color = '#e74c3c';
+                    if (tokenInput) {
+                        tokenInput.placeholder = 'Cole seu token GitHub aqui';
+                    }
+                }
+            }
+        }
+
+        // Save GitHub token from Monitor tab
+        function saveGitHubToken() {
+            const input = document.getElementById('github-token-input');
+            const token = input.value.trim();
+            
+            if (token) {
+                localStorage.setItem('github_token', token);
+                input.value = '';
+                updateGitHubTokenStatus();
+                alert('Token GitHub salvo com sucesso!');
+                addSystemLog('Token GitHub configurado via Monitor');
+            } else {
+                alert('Por favor, insira um token válido.');
             }
         }
 

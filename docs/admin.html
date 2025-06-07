@@ -577,32 +577,222 @@
             </div>
         </div>
 
+        <!-- Promoções Tab -->
         <div id="promocoes-tab" class="tab-content">
             <div class="content-header">
-                <h2 class="content-title">Promoções Ativas</h2>
+                <h2 class="content-title">🎯 Gerenciar Promoções</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="openPromotionModal()">
+                        ➕ Nova Promoção
+                    </button>
+                </div>
             </div>
-            <div class="loading">Funcionalidade em desenvolvimento</div>
+            <div id="promocoes-loading" class="loading">Carregando promoções...</div>
+            <div id="promocoes-content" style="display: none;">
+                <div class="promotion-info" style="background: #e3f2fd; border: 1px solid #2196f3; border-radius: 6px; padding: 16px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 16px;">💡</span>
+                        <strong style="color: #1976d2;">Dica:</strong>
+                    </div>
+                    <p style="color: #1976d2; font-size: 14px; margin: 0;">
+                        Apenas uma promoção pode estar ativa por vez. Ao ativar uma nova promoção, as outras serão automaticamente desativadas.
+                    </p>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Texto</th>
+                            <th>Descrição</th>
+                            <th>Cor</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="promocoes-table">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
+        <!-- Excel Tab -->
         <div id="excel-tab" class="tab-content">
             <div class="content-header">
                 <h2 class="content-title">Importar/Exportar Excel</h2>
             </div>
-            <div class="loading">Funcionalidade em desenvolvimento</div>
+            <div style="padding: 24px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px;">
+                    <!-- Import Section -->
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 24px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                            <span style="font-size: 20px;">📥</span>
+                            <h3 style="margin: 0; color: #333;">Importar Produtos</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 16px; font-size: 14px;">
+                            Importe produtos em massa usando arquivo Excel (.xlsx/.csv)
+                        </p>
+                        <input type="file" id="excel-upload" accept=".xlsx,.csv" style="display: none;" onchange="handleExcelUpload(event)">
+                        <button class="btn btn-success" onclick="document.getElementById('excel-upload').click()">
+                            Selecionar Arquivo
+                        </button>
+                    </div>
+                    
+                    <!-- Export Section -->
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 24px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                            <span style="font-size: 20px;">📤</span>
+                            <h3 style="margin: 0; color: #333;">Exportar Produtos</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 16px; font-size: 14px;">
+                            Exporte todos os produtos para arquivo CSV
+                        </p>
+                        <button class="btn btn-primary" onclick="exportToCSV()">
+                            Baixar CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Format Guide -->
+                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px;">
+                    <h3 style="margin: 0 0 16px 0; color: #333;">Formato de Importação</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Altura</th>
+                                <th>Largura</th>
+                                <th>Comprimento</th>
+                                <th>Peso</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sofá 3 Lugares</td>
+                                <td>Sala de Estar</td>
+                                <td>1200.00</td>
+                                <td>85</td>
+                                <td>200</td>
+                                <td>90</td>
+                                <td>45.5</td>
+                                <td>Sofá confortável para sala</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="color: #666; font-size: 13px; margin: 12px 0 0 0;">
+                        <strong>Importante:</strong> Use separação por TAB (colunas) para melhor compatibilidade com Excel. Evite acentos nos cabeçalhos.
+                    </p>
+                </div>
+            </div>
         </div>
 
+        <!-- Backup Tab -->
         <div id="backup-tab" class="tab-content">
             <div class="content-header">
-                <h2 class="content-title">Backup do Sistema</h2>
+                <h2 class="content-title">💾 Backup do Sistema</h2>
             </div>
-            <div class="loading">Funcionalidade em desenvolvimento</div>
+            <div style="padding: 24px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                    <!-- Backup Section -->
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 24px;">
+                        <h3 style="margin: 0 0 16px 0; color: #333;">Fazer Backup</h3>
+                        <p style="color: #666; margin-bottom: 16px; font-size: 14px;">
+                            Baixe todos os dados do sistema em formato JSON
+                        </p>
+                        <button class="btn btn-primary" onclick="downloadBackup()">
+                            📥 Baixar Backup Completo
+                        </button>
+                    </div>
+                    
+                    <!-- Restore Section -->
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 24px;">
+                        <h3 style="margin: 0 0 16px 0; color: #333;">Restaurar Backup</h3>
+                        <p style="color: #666; margin-bottom: 16px; font-size: 14px;">
+                            Restaure dados de um arquivo de backup JSON
+                        </p>
+                        <input type="file" id="backup-upload" accept=".json" style="display: none;" onchange="handleBackupRestore(event)">
+                        <button class="btn btn-success" onclick="document.getElementById('backup-upload').click()">
+                            📤 Selecionar Backup
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Backup Info -->
+                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-top: 24px;">
+                    <h3 style="margin: 0 0 16px 0; color: #333;">Informações do Sistema</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                        <div>
+                            <strong>Última Atualização:</strong><br>
+                            <span id="last-backup-date">-</span>
+                        </div>
+                        <div>
+                            <strong>Total de Registros:</strong><br>
+                            <span id="total-records">-</span>
+                        </div>
+                        <div>
+                            <strong>Tamanho dos Dados:</strong><br>
+                            <span id="data-size">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Monitor Tab -->
         <div id="monitor-tab" class="tab-content">
             <div class="content-header">
-                <h2 class="content-title">Monitor do Sistema</h2>
+                <h2 class="content-title">📈 Monitor do Sistema</h2>
             </div>
-            <div class="loading">Funcionalidade em desenvolvimento</div>
+            <div style="padding: 24px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 24px;">
+                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: center;">
+                        <h3 style="margin: 0 0 8px 0; color: #4a90e2; font-size: 2rem;" id="monitor-products">-</h3>
+                        <p style="margin: 0; color: #666;">Produtos Ativos</p>
+                    </div>
+                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: center;">
+                        <h3 style="margin: 0 0 8px 0; color: #5cb85c; font-size: 2rem;" id="monitor-categories">-</h3>
+                        <p style="margin: 0; color: #666;">Categorias</p>
+                    </div>
+                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: center;">
+                        <h3 style="margin: 0 0 8px 0; color: #f39c12; font-size: 2rem;" id="monitor-users">-</h3>
+                        <p style="margin: 0; color: #666;">Usuários Ativos</p>
+                    </div>
+                    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: center;">
+                        <h3 style="margin: 0 0 8px 0; color: #e74c3c; font-size: 2rem;" id="monitor-promotions">-</h3>
+                        <p style="margin: 0; color: #666;">Promoções Ativas</p>
+                    </div>
+                </div>
+                
+                <!-- System Status -->
+                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px;">
+                    <h3 style="margin: 0 0 16px 0; color: #333;">Status do Sistema</h3>
+                    <table class="data-table">
+                        <tbody>
+                            <tr>
+                                <td><strong>Plataforma</strong></td>
+                                <td>GitHub Pages</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Modo de Operação</strong></td>
+                                <td>Somente Leitura (JSON Estático)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Autenticação</strong></td>
+                                <td>Local (SessionStorage)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Armazenamento</strong></td>
+                                <td>Arquivos JSON no GitHub</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Performance</strong></td>
+                                <td><span style="color: #5cb85c;">✓ Ótima (CDN Global)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -713,7 +903,9 @@
                 this.data = {
                     products: [],
                     categories: [],
-                    users: []
+                    users: [],
+                    priceSettings: [],
+                    promotions: []
                 };
             }
 
@@ -752,19 +944,21 @@
 
             async loadAllData() {
                 try {
-                    const [products, categories, users, priceSettings] = await Promise.all([
+                    const [products, categories, users, priceSettings, promotions] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
                         this.loadData('users.json'),
-                        this.loadData('price_settings.json')
+                        this.loadData('price_settings.json'),
+                        this.loadData('promotions.json')
                     ]);
 
                     this.data.products = products || [];
                     this.data.categories = categories || [];
                     this.data.users = users || [];
                     this.data.priceSettings = priceSettings || [];
+                    this.data.promotions = promotions || [];
 
-                    console.log(`Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço`);
+                    console.log(`Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço, ${this.data.promotions.length} promoções`);
                 } catch (error) {
                     console.error('Erro ao carregar dados:', error);
                 }

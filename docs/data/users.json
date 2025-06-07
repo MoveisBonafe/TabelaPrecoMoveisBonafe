@@ -1,14 +1,14 @@
 [
   {
     "id": "61",
+    "name": "Lojas MÃ³veis BonafÃ©",
     "username": "lojas",
     "passwordHash": "lojas@moveisbonafe",
-    "name": "Lojas Móveis Bonafe",
-    "role": "customer",
-    "active": true,
+    "role": "loja",
     "priceMultiplier": 1,
+    "active": true,
     "createdAt": "2025-05-25T03:33:06.866Z",
-    "updatedAt": "2025-05-25T03:33:06.866Z"
+    "updatedAt": "2025-06-07T20:10:08.848Z"
   },
   {
     "id": "63",
@@ -25,7 +25,7 @@
     "id": "64",
     "username": "restaurantes",
     "passwordHash": "restaurantes@moveisbonafe",
-    "name": "Restaurantes Móveis Bonafe",
+    "name": "Restaurantes Mï¿½veis Bonafe",
     "role": "customer_restaurant",
     "active": true,
     "priceMultiplier": 1.06,

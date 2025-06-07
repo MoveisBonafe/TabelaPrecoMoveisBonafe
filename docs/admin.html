@@ -1798,8 +1798,11 @@ O token será salvo localmente no navegador.`);
                 }
             });
             
+            console.log('Headers encontrados:', headers);
+            console.log('Mapeamento de colunas:', headerMap);
+            
             if (Object.keys(headerMap).length < 3) {
-                alert('Formato inválido. Certifique-se que o arquivo Excel contém pelo menos: Nome, Categoria, Preço\n\nColunas encontradas: ' + headers.join(', '));
+                alert('Formato inválido. Certifique-se que o arquivo Excel contém pelo menos: Nome, Categoria, Preço\n\nColunas encontradas: ' + headers.join(', ') + '\n\nMapeamento: ' + JSON.stringify(headerMap));
                 return;
             }
 
@@ -1813,9 +1816,11 @@ O token será salvo localmente no navegador.`);
                 const name = row[headerMap['Nome']]?.toString().trim();
                 if (!name) continue; // Skip empty rows
                 
-                // Parse price with better error handling
+                // Parse price with better error handling and debugging
                 const priceValue = row[headerMap['Preço']];
                 let parsedPrice = 0;
+                
+                console.log(`Debug - Produto: "${name}", Preço raw:`, priceValue);
                 
                 if (priceValue !== undefined && priceValue !== null && priceValue !== '') {
                     const priceStr = priceValue.toString().trim()
@@ -1827,7 +1832,11 @@ O token será salvo localmente no navegador.`);
                     if (isNaN(parsedPrice)) {
                         parsedPrice = 0;
                         console.warn(`Preço inválido para produto "${name}": ${priceValue}`);
+                    } else {
+                        console.log(`Debug - Preço parseado: ${parsedPrice}`);
                     }
+                } else {
+                    console.warn(`Debug - Preço vazio ou null para produto "${name}"`);
                 }
                 
                 const productData = {
@@ -2475,10 +2484,10 @@ O token será salvo localmente no navegador.`);
                 return;
             }
             
-            // Validate file type
-            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            // Validate file type - support PNG, JPEG, JPG, WebP
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
             if (!validTypes.includes(file.type)) {
-                alert('Formato inválido. Use JPG ou PNG');
+                alert('Formato inválido. Use JPG, PNG ou WebP');
                 event.target.value = '';
                 return;
             }
@@ -2488,7 +2497,11 @@ O token será salvo localmente no navegador.`);
             reader.onload = function(e) {
                 const base64Data = e.target.result;
                 const timestamp = Date.now();
-                const extension = file.type === 'image/png' ? 'png' : 'jpg';
+                let extension = 'jpg';
+                if (file.type === 'image/png') extension = 'png';
+                else if (file.type === 'image/webp') extension = 'webp';
+                else if (file.type.includes('jpeg') || file.type.includes('jpg')) extension = 'jpg';
+                
                 const fileName = `${type}_${timestamp}.${extension}`;
                 
                 // Store image data for the form
@@ -2590,19 +2603,30 @@ O token será salvo localmente no navegador.`);
                 const repoPath = adminClient.getRepoPath();
                 const apiUrl = `https://api.github.com/repos/${repoPath}/contents/docs/data/images/${fileName}`;
                 
-                // First, try to get the existing file to handle conflicts
+                // Try to get the existing file to handle conflicts with retry logic
                 let sha = null;
-                try {
-                    const existingFile = await fetch(apiUrl, {
-                        headers: { 'Authorization': `token ${token}` }
-                    });
-                    if (existingFile.ok) {
-                        const fileData = await existingFile.json();
-                        sha = fileData.sha;
-                        console.log(`📝 Arquivo existente encontrado, atualizando: ${fileName}`);
+                let retries = 3;
+                
+                while (retries > 0) {
+                    try {
+                        const existingFile = await fetch(apiUrl, {
+                            headers: { 'Authorization': `token ${token}` }
+                        });
+                        if (existingFile.ok) {
+                            const fileData = await existingFile.json();
+                            sha = fileData.sha;
+                            console.log(`📝 Arquivo existente encontrado, atualizando: ${fileName} (SHA: ${sha.substring(0,8)})`);
+                        } else {
+                            console.log(`📁 Novo arquivo: ${fileName}`);
+                        }
+                        break;
+                    } catch (e) {
+                        retries--;
+                        if (retries > 0) {
+                            console.log(`Tentativa de obter SHA falhou, tentando novamente... (${retries} restantes)`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
                     }
-                } catch (e) {
-                    console.log(`📁 Novo arquivo: ${fileName}`);
                 }
                 
                 const body = {
@@ -2614,23 +2638,51 @@ O token será salvo localmente no navegador.`);
                     body.sha = sha;
                 }
                 
-                const response = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(body)
-                });
+                // Retry upload with fresh SHA on conflict
+                let uploadRetries = 3;
                 
-                if (response.ok) {
-                    console.log(`✅ Imagem ${fileName} salva no GitHub`);
-                    return true;
-                } else {
-                    const errorData = await response.json();
-                    console.error(`❌ Erro ao salvar imagem: ${response.status}`, errorData);
-                    return false;
+                while (uploadRetries > 0) {
+                    const response = await fetch(apiUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(body)
+                    });
+                    
+                    if (response.ok) {
+                        console.log(`✅ Imagem ${fileName} salva no GitHub`);
+                        return true;
+                    } else if (response.status === 409 && uploadRetries > 1) {
+                        console.log(`🔄 Conflito 409 detectado, recarregando SHA e tentando novamente...`);
+                        uploadRetries--;
+                        
+                        // Get fresh SHA for retry
+                        try {
+                            const freshFile = await fetch(apiUrl, {
+                                headers: { 'Authorization': `token ${token}` }
+                            });
+                            if (freshFile.ok) {
+                                const freshData = await freshFile.json();
+                                body.sha = freshData.sha;
+                                body.message = `Update image ${fileName}`;
+                                console.log(`🔄 SHA atualizado: ${freshData.sha.substring(0,8)}`);
+                            }
+                        } catch (e) {
+                            console.log(`Erro ao obter SHA fresco: ${e.message}`);
+                        }
+                        
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    } else {
+                        const errorData = await response.json();
+                        console.error(`❌ Erro ao salvar imagem: ${response.status}`, errorData);
+                        return false;
+                    }
                 }
+                
+                console.error(`❌ Falha após múltiplas tentativas para ${fileName}`);
+                return false;
             } catch (error) {
                 console.error('Erro ao fazer upload da imagem:', error);
                 return false;

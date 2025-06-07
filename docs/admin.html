@@ -861,9 +861,24 @@
                     <input type="number" class="form-input" id="product-price" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Imagem do Produto</label>
+                    <label class="form-label">Imagem Principal do Produto</label>
                     <input type="file" class="form-input" id="product-image" accept="image/*" onchange="handleImageUpload(event, 'product')">
                     <small style="color: #666;">Formatos aceitos: JPG, PNG, WebP (máx. 2MB)</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Variações de Cores</label>
+                    <div id="color-variations" style="border: 1px solid #ddd; border-radius: 6px; padding: 16px; background: #f9f9f9;">
+                        <div style="margin-bottom: 12px;">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addColorVariation()">+ Adicionar Cor</button>
+                        </div>
+                        <div id="color-list" style="display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Color variations will be added here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Especificações Técnicas</label>
+                    <textarea class="form-input" id="product-specs" rows="4" placeholder="Ex:&#10;Altura: 100cm&#10;Largura: 44cm&#10;Comprimento: 44cm&#10;Peso: 5,50kg"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-cancel" onclick="closeModal('product-modal')">Cancelar</button>
@@ -2057,6 +2072,72 @@ O token será salvo localmente no navegador.`);
             localStorage.setItem('system_logs', JSON.stringify(logs));
         }
 
+        // Color variation management
+        function addColorVariation() {
+            const colorList = document.getElementById('color-list');
+            const colorId = Date.now();
+            
+            const colorItem = document.createElement('div');
+            colorItem.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 8px;
+                background: white;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+            `;
+            colorItem.id = `color-${colorId}`;
+            
+            colorItem.innerHTML = `
+                <input type="text" placeholder="Nome da cor (ex: Imbuia)" 
+                       style="flex: 1; padding: 6px 8px; border: 1px solid #ddd; border-radius: 3px;"
+                       class="color-name">
+                <input type="color" value="#8B4513"
+                       style="width: 40px; height: 30px; border: none; border-radius: 3px; cursor: pointer;"
+                       class="color-picker">
+                <input type="file" accept="image/*" 
+                       style="flex: 1; font-size: 12px;"
+                       class="color-image" onchange="handleColorImageUpload(event, '${colorId}')">
+                <button type="button" onclick="removeColorVariation('${colorId}')" 
+                        style="background: #e74c3c; color: white; border: none; padding: 6px 8px; border-radius: 3px; cursor: pointer;">
+                    🗑️
+                </button>
+            `;
+            
+            colorList.appendChild(colorItem);
+        }
+
+        function removeColorVariation(colorId) {
+            const colorItem = document.getElementById(`color-${colorId}`);
+            if (colorItem) {
+                colorItem.remove();
+            }
+        }
+
+        function handleColorImageUpload(event, colorId) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Arquivo muito grande. Máximo 2MB.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileName = `color_${colorId}_${Date.now()}.${file.name.split('.').pop()}`;
+                localStorage.setItem(`image_${fileName}`, e.target.result);
+                
+                // Store reference in the color item
+                const colorItem = document.getElementById(`color-${colorId}`);
+                colorItem.dataset.imageFile = fileName;
+                
+                console.log(`Imagem da cor ${fileName} salva`);
+            };
+            reader.readAsDataURL(file);
+        }
+
         // Handle image upload for products and categories
         function handleImageUpload(event, type) {
             const file = event.target.files[0];
@@ -2274,11 +2355,30 @@ O token será salvo localmente no navegador.`);
             const isEdit = modal.dataset.editIndex !== undefined;
             const index = isEdit ? parseInt(modal.dataset.editIndex) : null;
             
+            // Collect color variations
+            const colorVariations = [];
+            const colorItems = document.querySelectorAll('#color-list > div');
+            colorItems.forEach(item => {
+                const name = item.querySelector('.color-name').value;
+                const color = item.querySelector('.color-picker').value;
+                const imageFile = item.dataset.imageFile;
+                
+                if (name && color) {
+                    colorVariations.push({
+                        name: name,
+                        color: color,
+                        imageFile: imageFile || null
+                    });
+                }
+            });
+
             const product = {
                 id: isEdit ? adminClient.data.products[index].id : Date.now().toString(),
                 name: document.getElementById('product-name').value,
                 category: document.getElementById('product-category').value,
                 priceAVista: parseFloat(document.getElementById('product-price').value),
+                specifications: document.getElementById('product-specs').value,
+                colorVariations: colorVariations,
                 active: true,
                 createdAt: isEdit ? adminClient.data.products[index].createdAt : new Date().toISOString(),
                 updatedAt: new Date().toISOString()

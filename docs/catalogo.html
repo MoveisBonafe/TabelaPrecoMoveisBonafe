@@ -428,6 +428,30 @@
         </div>
     </div>
 
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="product-modal" onclick="closeProductModal(event)">
+        <div class="product-modal-content" onclick="event.stopPropagation()">
+            <button class="product-modal-close" onclick="closeProductModal()">&times;</button>
+            <div class="product-modal-body">
+                <div class="product-modal-image">
+                    <img id="modal-product-image" src="" alt="">
+                </div>
+                <div class="product-modal-info">
+                    <div class="product-modal-category" id="modal-product-category"></div>
+                    <h2 class="product-modal-title" id="modal-product-title"></h2>
+                    <div class="product-modal-specs" id="modal-product-specs"></div>
+                    <div class="product-modal-colors" id="modal-product-colors">
+                        <h4>Cores:</h4>
+                        <div class="color-options" id="modal-color-options"></div>
+                    </div>
+                    <div class="product-modal-actions">
+                        <button class="view-product-btn" id="modal-view-btn">👁 Ver Produto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // GitHub Pages Catalog Client
         class CatalogClient {
@@ -722,7 +746,9 @@
                 this.filteredProducts.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
+                    card.style.cursor = 'pointer';
                     card.innerHTML = this.createProductCard(product);
+                    card.addEventListener('click', () => this.openProductModal(product));
                     grid.appendChild(card);
                 });
             }

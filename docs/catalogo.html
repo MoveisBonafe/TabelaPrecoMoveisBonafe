@@ -370,34 +370,82 @@
             font-size: 0.85rem;
         }
 
-        /* Responsive design for mobile devices */
-        @media (max-width: 768px) {
+        /* Responsive design for tablet */
+        @media (max-width: 1024px) and (min-width: 769px) {
             .price-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 4px;
+                gap: 5px;
             }
             
             .price-item {
-                padding: 4px 2px;
+                padding: 6px 4px;
             }
             
             .price-label {
-                font-size: 0.6rem;
+                font-size: 0.7rem;
             }
             
             .price-value {
-                font-size: 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Responsive design for mobile devices */
+        @media (max-width: 768px) {
+            .price-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .price-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 12px;
+                background: #f9fafb;
+                border-radius: 6px;
+                border: 1px solid #e5e7eb;
+            }
+            
+            .price-label {
+                font-size: 0.85rem;
+                font-weight: 500;
+                color: #374151;
+            }
+            
+            .price-value {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #059669;
+            }
+            
+            .price-highlight {
+                background: #fef3e2;
+                border: 2px solid #d4831e;
+            }
+            
+            .price-highlight .price-value {
+                color: #d4831e;
+                font-size: 1.1rem;
             }
         }
 
         @media (max-width: 480px) {
-            .price-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 4px;
+            .product-card {
+                margin-bottom: 20px;
             }
             
-            .price-item:nth-child(n+5) {
-                grid-column: span 1;
+            .price-item {
+                padding: 10px 12px;
+            }
+            
+            .price-label {
+                font-size: 0.9rem;
+            }
+            
+            .price-value {
+                font-size: 1.1rem;
             }
         }
         

@@ -520,12 +520,33 @@
             </div>
         </div>
 
-        <!-- Outros tabs com conteúdo similar -->
+        <!-- Preços Tab -->
         <div id="precos-tab" class="tab-content">
             <div class="content-header">
-                <h2 class="content-title">Configurações de Preços</h2>
+                <h2 class="content-title">Gerenciar Tabelas de Preços</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="openPriceModal()">
+                        ➕ Nova Tabela
+                    </button>
+                </div>
             </div>
-            <div class="loading">Funcionalidade em desenvolvimento</div>
+            <div id="precos-loading" class="loading">Carregando tabelas de preços...</div>
+            <div id="precos-content" style="display: none;">
+                <h3 style="margin-bottom: 16px; color: #333; font-size: 16px;">Tabelas de Preços Configuradas</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome da Tabela</th>
+                            <th>Percentual (%)</th>
+                            <th>Multiplicador</th>
+                            <th>Exemplo (R$ 100)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="precos-table">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="usuarios-tab" class="tab-content">
@@ -726,21 +747,24 @@
                 this.renderProducts();
                 this.renderCategories();
                 this.renderUsers();
+                this.renderPriceSettings();
             }
 
             async loadAllData() {
                 try {
-                    const [products, categories, users] = await Promise.all([
+                    const [products, categories, users, priceSettings] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
-                        this.loadData('users.json')
+                        this.loadData('users.json'),
+                        this.loadData('price_settings.json')
                     ]);
 
                     this.data.products = products || [];
                     this.data.categories = categories || [];
                     this.data.users = users || [];
+                    this.data.priceSettings = priceSettings || [];
 
-                    console.log(`Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários`);
+                    console.log(`Dados carregados: ${this.data.products.length} produtos, ${this.data.categories.length} categorias, ${this.data.users.length} usuários, ${this.data.priceSettings.length} tabelas de preço`);
                 } catch (error) {
                     console.error('Erro ao carregar dados:', error);
                 }

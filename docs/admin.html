@@ -2681,10 +2681,44 @@ O token será salvo localmente no navegador.`);
             reader.readAsDataURL(file);
         }
 
-        // Handle image upload for products and categories (GitHub Pages - disabled)
+        // Handle image upload for products and categories (GitHub Pages compatible)
         function handleImageUpload(event, type) {
-            alert('Upload de imagens não disponível no GitHub Pages. Use a versão local para fazer uploads.');
-            event.target.value = '';
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file size (max 1MB for GitHub Pages)
+            if (file.size > 1024 * 1024) {
+                alert('Arquivo muito grande. Tamanho máximo: 1MB para GitHub Pages');
+                event.target.value = '';
+                return;
+            }
+            
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('Formato inválido. Use JPG, PNG ou WebP');
+                event.target.value = '';
+                return;
+            }
+            
+            // Convert to base64 for GitHub Pages storage
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                const timestamp = Date.now();
+                const fileName = `${type}_${timestamp}`;
+                
+                // Store image data for the form
+                const form = document.getElementById(`${type}-form`);
+                form.dataset.imageFile = fileName;
+                form.dataset.imageData = base64Data;
+                
+                // Show preview
+                showImagePreview(base64Data, type);
+                
+                addSystemLog(`Imagem ${fileName} preparada para salvamento`);
+            };
+            reader.readAsDataURL(file);
         }
 
         // Process image and upload to GitHub data/images folder
@@ -3204,10 +3238,59 @@ O token será salvo localmente no navegador.`);
             delete this.dataset.editIndex;
         });
 
-        // Multiple image upload handler (GitHub Pages - disabled)
+        // Multiple image upload handler (GitHub Pages compatible)
         function handleMultipleImageUpload(event) {
-            alert('Upload de imagens não disponível no GitHub Pages. Use a versão local para fazer uploads.');
-            event.target.value = '';
+            const files = Array.from(event.target.files);
+            const previewContainer = document.getElementById('image-preview-container');
+            
+            if (!files.length) return;
+            
+            previewContainer.innerHTML = '';
+            const form = document.getElementById('product-form');
+            
+            const imageDataArray = [];
+            const fileNames = [];
+            let processed = 0;
+            
+            files.forEach((file, index) => {
+                // Validate file size (max 1MB each for GitHub Pages)
+                if (file.size > 1024 * 1024) {
+                    alert(`Arquivo ${file.name} muito grande. Máximo: 1MB para GitHub Pages`);
+                    return;
+                }
+                
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    alert(`Formato inválido para ${file.name}. Use JPG, PNG ou WebP`);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const timestamp = Date.now();
+                    const fileName = `product_${timestamp}_${index}`;
+                    
+                    fileNames.push(fileName);
+                    imageDataArray.push(e.target.result);
+                    
+                    // Create preview
+                    const previewDiv = document.createElement('div');
+                    previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
+                    previewDiv.innerHTML = `
+                        <img src="${e.target.result}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                        <button type="button" onclick="removeImagePreview(this)" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
+                    `;
+                    previewContainer.appendChild(previewDiv);
+                    
+                    processed++;
+                    if (processed === files.length) {
+                        form.dataset.imageFiles = JSON.stringify(fileNames);
+                        form.dataset.imageData = JSON.stringify(imageDataArray);
+                        addSystemLog(`${files.length} imagens preparadas para salvamento`);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
         }
 
         function removeImagePreview(button) {

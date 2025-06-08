@@ -2323,8 +2323,11 @@
                     // If product has specific color variations, use those
                     if (product.colorVariations && product.colorVariations.length > 0) {
                         console.log('Product has color variations:', product.colorVariations);
+                        console.log('Available colors:', colors.map(c => c.name));
+                        
                         product.colorVariations.forEach((colorName, index) => {
                             const colorData = colors.find(c => c.name === colorName);
+                            console.log('Looking for color:', colorName, 'Found:', colorData);
                             if (colorData) {
                                 const colorDiv = document.createElement('div');
                                 colorDiv.className = `modal-color-option ${index === 0 ? 'selected' : ''}`;
@@ -2332,6 +2335,9 @@
                                 colorDiv.title = colorData.name;
                                 colorDiv.onclick = () => selectModalColor(colorData, colorDiv);
                                 colorOptions.appendChild(colorDiv);
+                                console.log('Added color option for:', colorData.name, colorData.code);
+                            } else {
+                                console.warn('Color not found:', colorName);
                             }
                         });
                         
@@ -2362,13 +2368,19 @@
                         
                         console.log('Color options added to container:', colorOptions.children.length);
                         console.log('Color section display:', colorSection.style.display);
-                        console.log('Color options container:', colorOptions);
+                        console.log('Color options container HTML:', colorOptions.innerHTML);
                         
-                        // Force visibility check
+                        // Force visibility and debugging
                         if (colorOptions.children.length > 0) {
                             console.log('First color option:', colorOptions.children[0]);
-                            console.log('First color option style:', colorOptions.children[0].style.cssText);
+                            console.log('First color option classes:', colorOptions.children[0].className);
+                            console.log('First color option styles:', window.getComputedStyle(colorOptions.children[0]));
                         }
+                        
+                        // Double check all color options
+                        Array.from(colorOptions.children).forEach((child, i) => {
+                            console.log(`Color option ${i}:`, child.title, child.style.backgroundColor);
+                        });
                     }
                 } else {
                     console.log('No colors available, hiding color section');

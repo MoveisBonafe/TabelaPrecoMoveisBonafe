@@ -732,7 +732,12 @@
         // GitHub Pages Catalog Client
         class CatalogClient {
             constructor() {
-                this.baseUrl = window.location.origin + window.location.pathname.replace('/catalogo.html', '');
+                // Force localhost for development, GitHub Pages for production
+                if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit') || window.location.port === '5000') {
+                    this.baseUrl = 'http://localhost:5000';
+                } else {
+                    this.baseUrl = window.location.origin + window.location.pathname.replace('/catalogo.html', '');
+                }
                 this.currentUser = null;
                 this.userType = null;
                 this.products = [];
@@ -2523,14 +2528,9 @@
                 cartItemDiv.className = 'cart-item';
                 
                 let imageSrc = item.image;
-                if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                    const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                    const storedImage = localStorage.getItem(`image_${cleanPath}`);
-                    if (storedImage && storedImage.startsWith('data:')) {
-                        imageSrc = storedImage;
-                    } else if (catalogClient) {
-                        imageSrc = `${catalogClient.baseUrl}/${imageSrc}`;
-                    }
+                if (imageSrc && !imageSrc.startsWith('http')) {
+                    // Always use local server paths for all images
+                    imageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
                 }
                 
                 cartItemDiv.innerHTML = `

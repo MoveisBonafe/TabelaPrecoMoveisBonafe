@@ -1078,7 +1078,12 @@
         // GitHub Pages Admin Client
         class AdminClient {
             constructor() {
-                this.baseUrl = window.location.origin + window.location.pathname.replace('/admin.html', '');
+                // Force localhost for development, GitHub Pages for production
+                if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit') || window.location.port === '5000') {
+                    this.baseUrl = 'http://localhost:5000';
+                } else {
+                    this.baseUrl = window.location.origin + window.location.pathname.replace('/admin.html', '');
+                }
                 this.data = {
                     products: [],
                     categories: [],
@@ -3501,14 +3506,9 @@ O token será salvo localmente no navegador.`);
             if (category.imageFile) {
                 let imageSrc = category.imageFile;
                 
-                // Handle different image path formats
-                if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                    const storedImage = localStorage.getItem(`image_${imageSrc}`);
-                    if (storedImage) {
-                        imageSrc = storedImage;
-                    } else if (adminClient) {
-                        imageSrc = `${adminClient.baseUrl}/${imageSrc}`;
-                    }
+                // Always use local server paths for all images
+                if (!imageSrc.startsWith('http')) {
+                    imageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
                 }
                 
                 // Create preview element

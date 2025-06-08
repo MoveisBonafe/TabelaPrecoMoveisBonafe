@@ -335,8 +335,11 @@
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center;
             border: none;
+            max-width: 100%;
+            max-height: 100%;
         }
         
         .product-info {
@@ -1336,21 +1339,26 @@
                     
                     // Check if it's already a base64 data URL
                     if (imageSrc.startsWith('data:')) {
-                        return `<img src="${imageSrc}" alt="${product.name}">`;
+                        return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
                     }
                     
                     // Check if it's a localStorage reference
                     if (!imageSrc.startsWith('http')) {
-                        const storedImage = localStorage.getItem(`image_${imageSrc}`);
-                        if (storedImage) {
-                            return `<img src="${storedImage}" alt="${product.name}">`;
+                        const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                        const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                        if (storedImage && storedImage.startsWith('data:')) {
+                            return `<img src="${storedImage}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
                         }
                         
                         // Try with GitHub path
-                        imageSrc = `${this.baseUrl}/${imageSrc}`;
+                        if (imageSrc.startsWith('data/images/')) {
+                            imageSrc = `${this.baseUrl}/${imageSrc}`;
+                        } else {
+                            imageSrc = `${this.baseUrl}/data/images/${cleanPath}`;
+                        }
                     }
                     
-                    return `<img src="${imageSrc}" alt="${product.name}">`;
+                    return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
                 } else {
                     // Fallback para ícone da categoria
                     return this.getProductIcon(product.category);

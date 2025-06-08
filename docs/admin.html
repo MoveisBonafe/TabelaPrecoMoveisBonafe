@@ -1079,6 +1079,13 @@
         class AdminClient {
             constructor() {
                 this.baseUrl = window.location.origin + window.location.pathname.replace('/admin.html', '');
+                
+                // Initialize repository info from URL
+                const repoPath = this.getRepoPath();
+                const [owner, name] = repoPath.split('/');
+                this.repoOwner = owner;
+                this.repoName = name;
+                
                 this.data = {
                     products: [],
                     categories: [],
@@ -1271,7 +1278,13 @@
                                 <img src="${imageSrc}" 
                                      alt="${product.name}" 
                                      class="product-thumbnail"
-                                     onerror="this.parentNode.innerHTML='<svg width=\\"32\\" height=\\"32\\" viewBox=\\"0 0 32 32\\" fill=\\"none\\"><rect width=\\"32\\" height=\\"32\\" fill=\\"#f3f4f6\\"/><path d=\\"M8 8h16v16H8V8z\\" fill=\\"#d1d5db\\"/><circle cx=\\"13\\" cy=\\"13\\" r=\\"2\\" fill=\\"#9ca3af\\"/><path d=\\"M8 20l4-4 3 3 5-5 4 4v2H8v-2z\\" fill=\\"#9ca3af\\"/></svg>';">
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="display:none;">
+                                    <rect width="32" height="32" fill="#f3f4f6"/>
+                                    <path d="M8 8h16v16H8V8z" fill="#d1d5db"/>
+                                    <circle cx="13" cy="13" r="2" fill="#9ca3af"/>
+                                    <path d="M8 20l4-4 3 3 5-5 4 4v2H8v-2z" fill="#9ca3af"/>
+                                </svg>
                                 ${imageCount}
                             </div>
                         `;
@@ -1316,8 +1329,10 @@
                             `${this.baseUrl}/${imageSrc}` : 
                             `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                         
-                        categoryImageCell = `<img src="${imageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                            <div class="category-image-placeholder" style="display: none;">📦</div>`;
+                        categoryImageCell = `<div class="category-image-cell">
+                                            <img src="${imageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="category-image-placeholder" style="display: none;">📦</div>
+                                        </div>`;
                     }
                     
                     row.innerHTML = `
@@ -3394,6 +3409,11 @@ O token será salvo localmente no navegador.`);
             });
 
             const filePath = `docs/data/images/${fileName}`;
+            // Get repository info from GitHub API if not set
+            if (!adminClient.repoOwner || !adminClient.repoName) {
+                await adminClient.detectRepositoryInfo();
+            }
+            
             const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
 
             // Check if file exists first

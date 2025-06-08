@@ -1,0 +1,48 @@
+admin.html:3692 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:3693 Sistema: GitHub API integrado com fallback localStorage
+admin.html:1153 📦 Carregado 25 produtos do localStorage
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" placeholder=​"••••••••••••••••••••••••••••••••••••••••• (Configurado)​" style=​"width:​ 100%;​ padding:​ 8px 12px;​ border:​ 1px solid #ddd;​ border-radius:​ 4px;​ font-family:​ monospace;​">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" class=​"form-input" id=​"user-password" required>​
+admin.html:1191 🎨 Carregado 4 cores do localStorage
+admin.html:1202 ✅ Dados carregados: 25 produtos, 5 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+category_1749406525739.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/category_1749406525739.png 404 (Not Found)
+admin.html:1677 📢 Notificação enviada: products atualizado
+product_1749421675793_0.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749421675793_0.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:1280
+renderProducts @ admin.html:1226
+(anônimo) @ admin.html:3053
+admin.html:1 Uncaught SyntaxError: Invalid or unexpected token (at admin.html:1:27)
+admin.html:1597 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:3402 
+            
+            
+           GET https://api.github.com/repos/undefined/undefined/contents/docs/data/images/product_1749421675793_0.png 404 (Not Found)
+uploadImageToGitHub @ admin.html:3402
+await in uploadImageToGitHub
+(anônimo) @ admin.html:3028
+(anônimo) @ admin.html:3025
+admin.html:1569 📁 SHA atual: c0a7f00b para products.json
+admin.html:1597 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:3423 
+            
+            
+           PUT https://api.github.com/repos/undefined/undefined/contents/docs/data/images/product_1749421675793_0.png 404 (Not Found)
+uploadImageToGitHub @ admin.html:3423
+await in uploadImageToGitHub
+(anônimo) @ admin.html:3028
+(anônimo) @ admin.html:3025
+admin.html:3031 Erro no upload: Error: Erro no upload: Not Found
+    at uploadImageToGitHub (admin.html:3435:23)
+    at async admin.html:3028:25
+(anônimo) @ admin.html:3031
+await in (anônimo)
+(anônimo) @ admin.html:3025
+admin.html:1532 ✅ products.json salvo no GitHub (SHA: 5566910c)
+admin.html:1651 ✅ products salvo no GitHub

@@ -848,20 +848,22 @@
 
             async loadAllData() {
                 try {
-                    const [products, categories, priceSettings, promotions] = await Promise.all([
+                    const [products, categories, priceSettings, promotions, colors] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
                         this.loadData('price_settings.json'),
-                        this.loadData('promotions.json')
+                        this.loadData('promotions.json'),
+                        this.loadData('colors.json')
                     ]);
 
                     this.products = products.filter(p => p.active !== false);
                     this.categories = categories.filter(c => c.active !== false);
                     this.priceSettings = priceSettings.filter(p => p.active !== false);
                     this.promotions = promotions.filter(p => p.active === true);
+                    this.colors = colors || [];
                     this.filteredProducts = [...this.products];
 
-                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas`);
+                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas, ${this.colors.length} cores`);
                     
                     // Verificar atualizações automáticas a cada 30 segundos
                     this.startAutoSync();
@@ -2135,9 +2137,9 @@
                 // Filter out empty or invalid images
                 modalImages = modalImages.filter(img => img && typeof img === 'string' && img.trim() !== '');
                 
-                // If no valid images, use placeholder
+                // If no valid images, use local fallback
                 if (modalImages.length === 0) {
-                    modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
+                    modalImages = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzE5MS4xNjMgMTUwIDE4NCAxNTcuMTYzIDE4NCAxNjZWMjM0QzE4NCAyNDIuODM3IDE5MS4xNjMgMjUwIDIwMCAyNTBIMjY4QzI3Ni44MzcgMjUwIDI4NCAyNDIuODM3IDI4NCAyMzRWMTY2QzI4NCAxNTcuMTYzIDI3Ni44MzcgMTUwIDI2OCAxNTBIMjAwWk0yMDAgMTY2SDI2OFYyMzRIMjAwVjE2NloiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDEyQzE2LjY4NjMgMTIgMTQgMTQuNjg2MyAxNCAyMFYyOEMxNCAzMS4zMTM3IDE2LjY4NjMgMzQgMjAgMzRIMjhDMzEuMzEzNyAzNCAzNCAzMS4zMTM3IDM0IDI4VjIwQzM0IDE0LjY4NjMgMzEuMzEzNyAxMiAyOCAxMkgyMFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggNEM2Ljg5NTQzIDQgNiA0Ljg5NTQzIDYgNlYxMEM2IDExLjEwNDYgNi44OTU0MyAxMiA4IDEySDEwQzExLjEwNDYgMTIgMTIgMTEuMTA0NiAxMiAxMFY2QzEyIDQuODk1NDMgMTEuMTA0NiA0IDEwIDRIOFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2Zz4KPHN2Zz4KPHN2Zz4KPC9zdmc+'];
                 }
 
                 console.log('Modal images setup:', modalImages);
@@ -2186,7 +2188,7 @@
                 
                 // Add error handling for image loading
                 mainImage.onerror = function() {
-                    this.src = 'https://via.placeholder.com/400x400?text=Imagem+Não+Encontrada';
+                    this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTgwSDIwMFYyMjBIMjAwVjE4MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHRleHQgeD0iMjAwIiB5PSIyMDAiIGZpbGw9IiM2QjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+U2VtIEltYWdlbTwvdGV4dD4KPC9zdmc+';
                     console.warn('Failed to load image:', imageSrc);
                 };
                 
@@ -2288,7 +2290,14 @@
                 const selectedColorText = document.getElementById('modal-selected-color');
                 
                 // Get all available colors from localStorage or catalogClient
-                const colors = catalogClient.colors || JSON.parse(localStorage.getItem('moveisbonafe_colors') || '[]');
+                let colors = catalogClient.colors || JSON.parse(localStorage.getItem('moveisbonafe_colors') || '[]');
+                
+                // If no colors found, try to load from catalogClient data
+                if (colors.length === 0 && catalogClient && catalogClient.data && catalogClient.data.colors) {
+                    colors = catalogClient.data.colors;
+                }
+                
+                console.log('Available colors for modal:', colors);
                 
                 if (colors.length > 0) {
                     colorSection.style.display = 'block';

@@ -2160,9 +2160,14 @@
             let imageSrc = modalImages[index];
             
             try {
-                // Handle different image path formats
-                if (imageSrc && !imageSrc.startsWith('http')) {
-                    // Use GitHub Pages URLs for all images
+                // Check if image is stored as base64 in localStorage first
+                const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                if (currentModalProduct && currentModalProduct.imageData && currentModalProduct.imageData[imageSrc]) {
+                    imageSrc = currentModalProduct.imageData[imageSrc];
+                } else if (imageStorage[imageSrc]) {
+                    imageSrc = imageStorage[imageSrc];
+                } else if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
+                    // Fallback to GitHub Pages URLs for existing images
                     imageSrc = imageSrc.startsWith('data/images/') ? 
                         `${catalogClient.baseUrl}/${imageSrc}` : 
                         `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
@@ -2170,7 +2175,7 @@
                 
                 // Add error handling for image loading
                 mainImage.onerror = function() {
-                    this.style.display = 'none'; // Hide broken images instead of showing placeholder
+                    this.style.display = 'none';
                     console.warn('Failed to load image:', imageSrc);
                 };
                 
@@ -2182,7 +2187,7 @@
                 });
             } catch (error) {
                 console.error('Error updating modal image:', error);
-                mainImage.src = 'https://via.placeholder.com/400x400?text=Erro+na+Imagem';
+                mainImage.style.display = 'none';
             }
         }
 
@@ -2201,8 +2206,14 @@
                 let imageSrc = imagePath;
                 
                 try {
-                    if (imageSrc && !imageSrc.startsWith('http')) {
-                        // Use GitHub Pages URLs for all images
+                    // Check if image is stored as base64 in localStorage first
+                    const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                    if (currentModalProduct && currentModalProduct.imageData && currentModalProduct.imageData[imageSrc]) {
+                        imageSrc = currentModalProduct.imageData[imageSrc];
+                    } else if (imageStorage[imageSrc]) {
+                        imageSrc = imageStorage[imageSrc];
+                    } else if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
+                        // Fallback to GitHub Pages URLs for existing images
                         imageSrc = imageSrc.startsWith('data/images/') ? 
                             `${catalogClient.baseUrl}/${imageSrc}` : 
                             `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
@@ -2216,7 +2227,7 @@
                     img.src = imageSrc;
                     img.alt = `Produto ${index + 1}`;
                     img.onerror = function() {
-                        this.src = 'https://via.placeholder.com/60x60?text=Erro';
+                        this.style.display = 'none';
                     };
                     
                     thumbDiv.appendChild(img);

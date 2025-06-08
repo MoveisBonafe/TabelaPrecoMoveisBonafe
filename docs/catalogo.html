@@ -2268,35 +2268,43 @@
         }
 
         function setupModalColors(product) {
-            const colorSection = document.getElementById('modal-color-section');
-            const colorOptions = document.getElementById('modal-color-options');
-            const selectedColorText = document.getElementById('modal-selected-color');
-            
-            if (product.colorVariations && product.colorVariations.length > 0) {
-                colorSection.style.display = 'block';
-                colorOptions.innerHTML = '';
+            try {
+                const colorSection = document.getElementById('modal-color-section');
+                const colorOptions = document.getElementById('modal-color-options');
+                const selectedColorText = document.getElementById('modal-selected-color');
                 
-                product.colorVariations.forEach((colorName, index) => {
-                    const colorData = catalogClient.colors.find(c => c.name === colorName);
-                    if (colorData) {
-                        const colorDiv = document.createElement('div');
-                        colorDiv.className = `modal-color-option ${index === 0 ? 'selected' : ''}`;
-                        colorDiv.style.backgroundColor = colorData.code;
-                        colorDiv.title = colorData.name;
-                        colorDiv.onclick = () => selectModalColor(colorData, colorDiv);
-                        colorOptions.appendChild(colorDiv);
-                    }
-                });
+                if (product.colorVariations && product.colorVariations.length > 0) {
+                    colorSection.style.display = 'block';
+                    colorOptions.innerHTML = '';
+                    
+                    // Get colors from localStorage if catalogClient.colors is not available
+                    const colors = catalogClient.colors || JSON.parse(localStorage.getItem('moveisbonafe_colors') || '[]');
+                    
+                    product.colorVariations.forEach((colorName, index) => {
+                        const colorData = colors.find(c => c.name === colorName);
+                        if (colorData) {
+                            const colorDiv = document.createElement('div');
+                            colorDiv.className = `modal-color-option ${index === 0 ? 'selected' : ''}`;
+                            colorDiv.style.backgroundColor = colorData.code;
+                            colorDiv.title = colorData.name;
+                            colorDiv.onclick = () => selectModalColor(colorData, colorDiv);
+                            colorOptions.appendChild(colorDiv);
+                        }
+                    });
                 
-                // Set initial selected color
-                if (product.colorVariations[0]) {
-                    const firstColor = catalogClient.colors.find(c => c.name === product.colorVariations[0]);
-                    if (firstColor) {
-                        selectedColorText.textContent = `Cor selecionada: ${firstColor.name}`;
+                    // Set initial selected color
+                    if (product.colorVariations[0]) {
+                        const firstColor = colors.find(c => c.name === product.colorVariations[0]);
+                        if (firstColor) {
+                            selectedColorText.textContent = `Cor selecionada: ${firstColor.name}`;
+                        }
                     }
+                } else {
+                    colorSection.style.display = 'none';
                 }
-            } else {
-                colorSection.style.display = 'none';
+            } catch (error) {
+                console.error('Error setting up modal colors:', error);
+                document.getElementById('modal-color-section').style.display = 'none';
             }
         }
 

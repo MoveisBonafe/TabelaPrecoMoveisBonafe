@@ -10,12 +10,14 @@
     "peso": 2,
     "description": "",
     "colorVariations": [
+      "Imbuia",
       "Cerejeira",
-      "Imbuia"
+      "Tabaco",
+      "Mogno"
     ],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-08T21:04:33.324Z",
+    "updatedAt": "2025-06-08T21:13:04.076Z",
     "images": []
   },
   {

@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Branco",
-        "code": "#ffffff"
+        "code": "#FFFFFF"
     },
     {
         "id": 2,
@@ -12,12 +12,12 @@
     {
         "id": 3,
         "name": "Marrom",
-        "code": "#8b4513"
+        "code": "#8B4513"
     },
     {
         "id": 4,
         "name": "Bege",
-        "code": "#f5f5dc"
+        "code": "#F5F5DC"
     },
     {
         "id": 5,

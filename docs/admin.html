@@ -1916,11 +1916,26 @@ O token será salvo localmente no navegador.`);
             openCategoryModal(index);
         }
 
-        function deleteCategory(index) {
+        async function deleteCategory(index) {
             if (confirm('Tem certeza que deseja excluir esta categoria?')) {
+                // Get the category being deleted
+                const categoryToDelete = adminClient.data.categories[index];
+                console.log(`🗑️ Deletando categoria: ${categoryToDelete.name}`);
+                
+                // Delete associated image from GitHub
+                if (categoryToDelete.imageFile) {
+                    const fileName = categoryToDelete.imageFile.replace('data/images/', '');
+                    await deleteImageFromGitHub(fileName);
+                }
+                
+                // Remove from data array
                 adminClient.data.categories.splice(index, 1);
+                
+                // Save data
                 adminClient.saveData('categories', adminClient.data.categories);
                 adminClient.renderCategories();
+                
+                addSystemLog(`Categoria "${categoryToDelete.name}" deletada`);
             }
         }
 
@@ -3010,7 +3025,7 @@ O token será salvo localmente no navegador.`);
         }
 
         // Configure GitHub Token with status update
-        function configureGitHubToken() {
+        async function configureGitHubToken() {
             const currentToken = localStorage.getItem('github_token');
             const message = currentToken ? 
                 'Token GitHub já configurado. Deseja alterar?\n\nPara gerar um novo token:\n1. Acesse GitHub.com → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Selecione escopo "repo"\n\nNovo token:' :
@@ -3020,6 +3035,10 @@ O token será salvo localmente no navegador.`);
             
             if (token && token.trim()) {
                 localStorage.setItem('github_token', token.trim());
+                
+                // Detect repository information immediately
+                await adminClient.detectRepositoryInfo();
+                
                 updateGitHubTokenStatus();
                 alert('Token GitHub configurado com sucesso!\nAgora suas alterações serão salvas no GitHub.');
                 addSystemLog('Token GitHub configurado');
@@ -3507,8 +3526,17 @@ O token será salvo localmente no navegador.`);
             });
 
             if (!response.ok) {
-                const error = await response.json();
-                throw new Error(`Erro no upload: ${error.message}`);
+                const errorText = await response.text();
+                let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                try {
+                    const errorData = JSON.parse(errorText);
+                    errorMessage = errorData.message || errorMessage;
+                } catch (e) {
+                    // If not JSON, use the text response
+                    errorMessage = errorText || errorMessage;
+                }
+                console.error('GitHub API Error:', errorMessage);
+                throw new Error(`Erro no upload: ${errorMessage}`);
             }
 
             const result = await response.json();

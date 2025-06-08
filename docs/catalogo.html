@@ -561,63 +561,7 @@
             }
         }
         
-        /* Product Modal Styles */
-        .product-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .product-modal.active {
-            display: flex;
-        }
-
-        .product-modal-content {
-            background: white;
-            border-radius: 12px;
-            max-width: 900px;
-            max-height: 85vh;
-            width: 95%;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-modal-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-modal-close:hover {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        .product-modal-body {
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+        /* Product Modal Styles - Using the new detailed modal structure */
 
         .product-modal-image {
             width: 100%;
@@ -2162,33 +2106,43 @@
         }
 
         function setupModalImages(product) {
-            modalImages = [];
-            
-            // Collect all available images
-            if (product.images && product.images.length > 0) {
-                modalImages = [...product.images];
-            } else if (product.imageFile) {
-                modalImages = [product.imageFile];
-            } else {
-                modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
-            }
+            try {
+                modalImages = [];
+                
+                // Collect all available images
+                if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                    modalImages = [...product.images];
+                } else if (product.imageFile) {
+                    modalImages = [product.imageFile];
+                } else {
+                    modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
+                }
 
-            // Filter out empty or invalid images
-            modalImages = modalImages.filter(img => img && img.trim() !== '');
-            
-            // If no valid images, use placeholder
-            if (modalImages.length === 0) {
-                modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
-            }
+                // Filter out empty or invalid images
+                modalImages = modalImages.filter(img => img && typeof img === 'string' && img.trim() !== '');
+                
+                // If no valid images, use placeholder
+                if (modalImages.length === 0) {
+                    modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
+                }
 
-            // Set main image
-            updateModalMainImage(0);
-            
-            // Create thumbnails
-            createModalThumbnails();
-            
-            // Show/hide navigation buttons
-            updateImageNavigation();
+                console.log('Modal images setup:', modalImages);
+
+                // Set main image
+                updateModalMainImage(0);
+                
+                // Create thumbnails
+                createModalThumbnails();
+                
+                // Show/hide navigation buttons
+                updateImageNavigation();
+            } catch (error) {
+                console.error('Error setting up modal images:', error);
+                modalImages = ['https://via.placeholder.com/400x400?text=Erro+Imagem'];
+                updateModalMainImage(0);
+                createModalThumbnails();
+                updateImageNavigation();
+            }
         }
 
         function updateModalMainImage(index) {

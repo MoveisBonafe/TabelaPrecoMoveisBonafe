@@ -2472,7 +2472,12 @@ O token será salvo localmente no navegador.`);
             let gallery = document.getElementById(galleryId);
             if (!gallery) {
                 // Create gallery if it doesn't exist
-                const input = document.getElementById('product-image');
+                const input = document.getElementById('product-image') || document.getElementById('edit-product-image');
+                if (!input) {
+                    console.error('Could not find image input element');
+                    return;
+                }
+                
                 gallery = document.createElement('div');
                 gallery.id = galleryId;
                 gallery.className = 'image-gallery';
@@ -2486,7 +2491,16 @@ O token será salvo localmente no navegador.`);
                     border-radius: 8px;
                     background: #f8f9fa;
                 `;
-                input.parentNode.insertBefore(gallery, input.nextSibling);
+                
+                if (input.parentNode) {
+                    input.parentNode.insertBefore(gallery, input.nextSibling);
+                } else {
+                    // Fallback: append to modal content if parent not found
+                    const modalContent = document.querySelector('.modal-content');
+                    if (modalContent) {
+                        modalContent.appendChild(gallery);
+                    }
+                }
             }
             
             const imageItem = document.createElement('div');

@@ -2137,27 +2137,14 @@
             
             try {
                 // Handle different image path formats
-                if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                    // Clean up the image path
-                    const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                    
-                    // Check localStorage first
-                    const storedImage = localStorage.getItem(`image_${cleanPath}`);
-                    if (storedImage && storedImage.startsWith('data:')) {
-                        imageSrc = storedImage;
-                    } else if (catalogClient) {
-                        // Build proper GitHub URL
-                        if (imageSrc.startsWith('data/images/')) {
-                            imageSrc = `${catalogClient.baseUrl}/${imageSrc}`;
-                        } else {
-                            imageSrc = `${catalogClient.baseUrl}/data/images/${cleanPath}`;
-                        }
-                    }
+                if (imageSrc && !imageSrc.startsWith('http')) {
+                    // Always use local server paths for all images
+                    imageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
                 }
                 
                 // Add error handling for image loading
                 mainImage.onerror = function() {
-                    this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTgwSDIwMFYyMjBIMjAwVjE4MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHRleHQgeD0iMjAwIiB5PSIyMDAiIGZpbGw9IiM2QjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+U2VtIEltYWdlbTwvdGV4dD4KPC9zdmc+';
+                    this.style.display = 'none'; // Hide broken images instead of showing placeholder
                     console.warn('Failed to load image:', imageSrc);
                 };
                 
@@ -2188,22 +2175,9 @@
                 let imageSrc = imagePath;
                 
                 try {
-                    if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                        // Clean up the image path
-                        const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                        
-                        // Check localStorage first
-                        const storedImage = localStorage.getItem(`image_${cleanPath}`);
-                        if (storedImage && storedImage.startsWith('data:')) {
-                            imageSrc = storedImage;
-                        } else if (catalogClient) {
-                            // Build proper GitHub URL
-                            if (imagePath.startsWith('data/images/')) {
-                                imageSrc = `${catalogClient.baseUrl}/${imagePath}`;
-                            } else {
-                                imageSrc = `${catalogClient.baseUrl}/data/images/${cleanPath}`;
-                            }
-                        }
+                    if (imageSrc && !imageSrc.startsWith('http')) {
+                        // Always use local server paths for all images
+                        imageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
                     }
                     
                     const thumbDiv = document.createElement('div');

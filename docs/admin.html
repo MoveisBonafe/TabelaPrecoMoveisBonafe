@@ -3675,22 +3675,33 @@ Permissões: ${repoData.permissions?.push ? 'Escrita' : 'Leitura'}`);
 
         // Delete image file from GitHub repository
         async function deleteImageFromGitHub(fileName) {
+            console.log(`🗑️ Tentando deletar imagem: ${fileName}`);
+            
             const token = localStorage.getItem('github_token');
             if (!token) {
-                console.log('GitHub token não configurado - arquivo não deletado do GitHub');
+                console.log('⚠️ GitHub token não configurado - arquivo não deletado do GitHub');
                 return;
             }
 
-            // Get repository info from GitHub API if not set
+            // Ensure repository info is available
             if (!adminClient.repoOwner || !adminClient.repoName) {
+                console.log('📡 Detectando informações do repositório para deleção...');
                 await adminClient.detectRepositoryInfo();
+                
+                if (!adminClient.repoOwner || !adminClient.repoName) {
+                    console.error('❌ Não foi possível detectar informações do repositório');
+                    return;
+                }
             }
 
             const filePath = `docs/data/images/${fileName}`;
             const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
+            
+            console.log(`🌐 Deletando de: ${apiUrl}`);
 
             try {
                 // Get file SHA first
+                console.log('🔍 Buscando SHA do arquivo...');
                 const getResponse = await fetch(apiUrl, {
                     headers: {
                         'Authorization': `token ${token}`,
@@ -3699,13 +3710,15 @@ Permissões: ${repoData.permissions?.push ? 'Escrita' : 'Leitura'}`);
                 });
 
                 if (!getResponse.ok) {
-                    console.log(`Arquivo ${fileName} não encontrado no GitHub`);
+                    console.log(`📝 Arquivo ${fileName} não encontrado no GitHub (${getResponse.status})`);
                     return;
                 }
 
                 const fileData = await getResponse.json();
+                console.log(`🔑 SHA obtido: ${fileData.sha}`);
                 
                 // Delete the file
+                console.log('🗑️ Executando deleção...');
                 const deleteResponse = await fetch(apiUrl, {
                     method: 'DELETE',
                     headers: {
@@ -3720,12 +3733,15 @@ Permissões: ${repoData.permissions?.push ? 'Escrita' : 'Leitura'}`);
                 });
 
                 if (deleteResponse.ok) {
+                    console.log(`✅ Imagem ${fileName} deletada do GitHub`);
                     addSystemLog(`Imagem ${fileName} deletada do GitHub`);
                 } else {
-                    throw new Error(`Erro ao deletar: ${deleteResponse.statusText}`);
+                    const errorText = await deleteResponse.text();
+                    console.error(`❌ Erro ao deletar (${deleteResponse.status}):`, errorText);
+                    throw new Error(`Erro ao deletar: ${deleteResponse.status} ${deleteResponse.statusText}`);
                 }
             } catch (error) {
-                console.error('Erro ao deletar imagem do GitHub:', error);
+                console.error('❌ Erro ao deletar imagem do GitHub:', error);
                 addSystemLog(`Erro ao deletar ${fileName} do GitHub: ${error.message}`);
             }
         }

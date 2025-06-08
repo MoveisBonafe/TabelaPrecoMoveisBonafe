@@ -27,11 +27,21 @@
     {
         "id": 6,
         "name": "Cerejeira",
-        "code": "#8B4513"
+        "code": "#DC143C"
     },
     {
         "id": 7,
         "name": "Imbuia",
         "code": "#A0522D"
+    },
+    {
+        "id": 8,
+        "name": "Mogno",
+        "code": "#9A1919"
+    },
+    {
+        "id": 9,
+        "name": "Tabaco",
+        "code": "#000000"
     }
 ]

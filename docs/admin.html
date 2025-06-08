@@ -1242,31 +1242,32 @@
                         calculatedPrices.push(basePrice.toFixed(2));
                     }
                     
-                    // Generate product image display
-                    let imageCell = '<div class="product-image-cell">📦</div>';
+                    // Generate product image display with SVG fallback
+                    let imageCell = `
+                        <div class="product-image-cell">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" fill="#f3f4f6"/>
+                                <path d="M8 8h16v16H8V8z" fill="#d1d5db"/>
+                                <circle cx="13" cy="13" r="2" fill="#9ca3af"/>
+                                <path d="M8 20l4-4 3 3 5-5 4 4v2H8v-2z" fill="#9ca3af"/>
+                            </svg>
+                        </div>
+                    `;
                     
                     // Handle multiple images - prioritize first image from images array
                     const images = product.images || (product.imageFile ? [product.imageFile] : []);
-                    console.log('Product images for', product.name, ':', images);
                     if (images.length > 0) {
                         let imageSrc = images[0];
-                        console.log('Original image source:', imageSrc);
                         
                         // Handle different image path formats
                         if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
                             const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                            console.log('Looking for stored image:', `image_${cleanPath}`);
                             const storedImage = localStorage.getItem(`image_${cleanPath}`);
-                            console.log('Found stored image:', storedImage ? 'Yes' : 'No');
                             if (storedImage && storedImage.startsWith('data:')) {
                                 imageSrc = storedImage;
-                                console.log('Using stored image');
                             } else {
                                 imageSrc = `${this.baseUrl}/${imageSrc}`;
-                                console.log('Using fallback URL:', imageSrc);
                             }
-                        } else {
-                            console.log('Using direct image source');
                         }
                         
                         const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';
@@ -1276,8 +1277,7 @@
                                 <img src="${imageSrc}" 
                                      alt="${product.name}" 
                                      class="product-thumbnail"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="image-fallback" style="display: none;">📦</div>
+                                     onerror="this.parentNode.innerHTML='<svg width=\\"32\\" height=\\"32\\" viewBox=\\"0 0 32 32\\" fill=\\"none\\"><rect width=\\"32\\" height=\\"32\\" fill=\\"#f3f4f6\\"/><path d=\\"M8 8h16v16H8V8z\\" fill=\\"#d1d5db\\"/><circle cx=\\"13\\" cy=\\"13\\" r=\\"2\\" fill=\\"#9ca3af\\"/><path d=\\"M8 20l4-4 3 3 5-5 4 4v2H8v-2z\\" fill=\\"#9ca3af\\"/></svg>';">
                                 ${imageCount}
                             </div>
                         `;

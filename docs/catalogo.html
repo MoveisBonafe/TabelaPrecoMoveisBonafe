@@ -225,8 +225,8 @@
         }
         
         .category-icon {
-            width: 48px;
-            height: 48px;
+            width: 64px;
+            height: 64px;
             margin: 0 auto 12px;
             background: #f3f4f6;
             border-radius: 8px;
@@ -234,6 +234,13 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .category-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .category-name {
@@ -579,7 +586,7 @@
         .product-modal-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .product-modal-info {
@@ -2354,8 +2361,17 @@
                         }
                         
                         console.log('Color options added to container:', colorOptions.children.length);
+                        console.log('Color section display:', colorSection.style.display);
+                        console.log('Color options container:', colorOptions);
+                        
+                        // Force visibility check
+                        if (colorOptions.children.length > 0) {
+                            console.log('First color option:', colorOptions.children[0]);
+                            console.log('First color option style:', colorOptions.children[0].style.cssText);
+                        }
                     }
                 } else {
+                    console.log('No colors available, hiding color section');
                     colorSection.style.display = 'none';
                 }
             } catch (error) {

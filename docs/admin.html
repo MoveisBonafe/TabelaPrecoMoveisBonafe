@@ -1261,20 +1261,8 @@
                         
                         // Handle different image path formats
                         if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                            // Try to get from localStorage first
-                            const storedImage = localStorage.getItem(`image_${imageSrc}`);
-                            if (storedImage && storedImage.startsWith('data:')) {
-                                imageSrc = storedImage;
-                            } else {
-                                // Try without prefix
-                                const cleanPath = imageSrc.replace(/^data\/images\//, '').replace(/^images\//, '');
-                                const storedImageClean = localStorage.getItem(`image_${cleanPath}`);
-                                if (storedImageClean && storedImageClean.startsWith('data:')) {
-                                    imageSrc = storedImageClean;
-                                } else {
-                                    imageSrc = `${this.baseUrl}/${imageSrc}`;
-                                }
-                            }
+                            // Use direct file path for uploaded images
+                            imageSrc = `/${imageSrc}`;
                         }
                         
                         const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';
@@ -2442,7 +2430,7 @@ O token será salvo localmente no navegador.`);
         }
 
         // Image Upload Functions
-        function handleImageUpload(event, type) {
+        async function handleImageUpload(event, type) {
             const file = event.target.files[0];
             if (!file) return;
 
@@ -2457,37 +2445,46 @@ O token será salvo localmente no navegador.`);
                 return;
             }
 
-            // For GitHub Pages, we'll save as base64 in the data
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64 = e.target.result;
-                
-                if (type === 'product') {
-                    // Store image reference for product
-                    const fileName = `product_${Date.now()}.${file.name.split('.').pop()}`;
-                    localStorage.setItem(`image_${fileName}`, base64);
-                    
-                    // Update form with multiple image references
-                    const form = document.getElementById('product-form');
-                    let existingImages = form.dataset.images ? JSON.parse(form.dataset.images) : [];
-                    existingImages.push(fileName);
-                    form.dataset.images = JSON.stringify(existingImages);
-                    
-                    // Show preview in gallery
-                    addImageToGallery(base64, fileName, 'product-image-gallery');
-                } else if (type === 'category') {
-                    const fileName = `category_${Date.now()}.${file.name.split('.').pop()}`;
-                    localStorage.setItem(`image_${fileName}`, base64);
-                    
-                    const form = document.getElementById('category-form');
-                    form.dataset.imageFile = fileName;
-                    
-                    showImagePreview(base64, 'category-image');
-                }
+            // Upload file to server
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('type', type);
 
-                console.log(`Imagem ${fileName} salva localmente`);
-            };
-            reader.readAsDataURL(file);
+            try {
+                const response = await fetch('/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    const imagePath = result.path;
+                    
+                    if (type === 'product') {
+                        // Update form with image path reference
+                        const form = document.getElementById('product-form');
+                        let existingImages = form.dataset.images ? JSON.parse(form.dataset.images) : [];
+                        existingImages.push(imagePath);
+                        form.dataset.images = JSON.stringify(existingImages);
+                        
+                        // Show preview in gallery
+                        addImageToGallery(result.url, result.filename, 'product-image-gallery');
+                    } else if (type === 'category') {
+                        const form = document.getElementById('category-form');
+                        form.dataset.imageFile = imagePath;
+                        
+                        showImagePreview(result.url, 'category-image');
+                    }
+
+                    console.log(`Imagem ${result.filename} enviada com sucesso: ${imagePath}`);
+                } else {
+                    alert('Erro ao enviar imagem: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Erro no upload:', error);
+                alert('Erro ao enviar imagem. Tente novamente.');
+            }
         }
 
         function addImageToGallery(base64, fileName, galleryId) {

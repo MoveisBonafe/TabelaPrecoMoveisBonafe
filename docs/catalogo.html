@@ -1215,14 +1215,9 @@
                             // Already a data URL, use as is
                             categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
                         } else {
-                            // Try to get from localStorage with various possible keys
-                            let storedImage = localStorage.getItem(`image_${imageSrc}`);
-                            
-                            if (!storedImage) {
-                                // Try without any path prefixes
-                                const cleanPath = imageSrc.replace(/^(data\/images\/|images\/|data\/)/, '');
-                                storedImage = localStorage.getItem(`image_${cleanPath}`);
-                            }
+                            // Extract filename from path for localStorage lookup
+                            const fileName = imageSrc.split('/').pop();
+                            const storedImage = localStorage.getItem(`image_${fileName}`);
                             
                             if (storedImage && storedImage.startsWith('data:')) {
                                 categoryIcon = `<img src="${storedImage}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;

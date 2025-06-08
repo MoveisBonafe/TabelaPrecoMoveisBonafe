@@ -9,10 +9,15 @@
     "comprimento": 30,
     "peso": 2,
     "description": "",
-    "colorVariations": [],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-08T21:10:13.784Z",
+    "updatedAt": "2025-06-08T21:11:14.633Z",
     "images": []
   },
   {

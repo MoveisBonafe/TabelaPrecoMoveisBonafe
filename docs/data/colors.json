@@ -23,5 +23,15 @@
         "id": 5,
         "name": "Cinza",
         "code": "#808080"
+    },
+    {
+        "id": 6,
+        "name": "Cerejeira",
+        "code": "#8B4513"
+    },
+    {
+        "id": 7,
+        "name": "Imbuia",
+        "code": "#A0522D"
     }
 ]

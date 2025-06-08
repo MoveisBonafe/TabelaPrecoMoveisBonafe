@@ -1878,11 +1878,23 @@ O token será salvo localmente no navegador.`);
             openProductModal(index);
         }
 
-        function deleteProduct(index) {
+        async function deleteProduct(index) {
             if (confirm('Tem certeza que deseja excluir este produto?')) {
                 // Get the product being deleted
                 const productToDelete = adminClient.data.products[index];
                 console.log(`🗑️ Deletando produto: ${productToDelete.name}`);
+                
+                // Delete associated images from GitHub
+                if (productToDelete.images && Array.isArray(productToDelete.images)) {
+                    for (const imagePath of productToDelete.images) {
+                        const fileName = imagePath.replace('data/images/', '');
+                        await deleteImageFromGitHub(fileName);
+                    }
+                } else if (productToDelete.imageFile) {
+                    // Handle legacy single image
+                    const fileName = productToDelete.imageFile.replace('data/images/', '');
+                    await deleteImageFromGitHub(fileName);
+                }
                 
                 // Remove from data array
                 adminClient.data.products.splice(index, 1);
@@ -3025,7 +3037,7 @@ O token será salvo localmente no navegador.`);
         }
 
         // Form submissions
-        document.getElementById('product-form').addEventListener('submit', (e) => {
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const modal = document.getElementById('product-modal');
@@ -3080,17 +3092,26 @@ O token será salvo localmente no navegador.`);
                 const newImagePaths = uploadFileNames.map(name => `data/images/${name}`);
                 product.images = [...product.images, ...newImagePaths];
                 
-                // Upload all images to GitHub in background
-                uploadFiles.forEach(async (file, index) => {
+                // Upload all images to GitHub with proper await
+                const uploadPromises = uploadFiles.map(async (file, index) => {
                     try {
                         const fileName = uploadFileNames[index];
-                        await uploadImageToGitHub(file, fileName);
+                        const githubUrl = await uploadImageToGitHub(file, fileName);
                         addSystemLog(`Imagem ${fileName} enviada para GitHub`);
+                        return githubUrl;
                     } catch (error) {
                         console.error('Erro no upload:', error);
                         addSystemLog(`Erro no upload de ${uploadFileNames[index]}: ${error.message}`);
+                        throw error;
                     }
                 });
+                
+                // Wait for all uploads to complete
+                try {
+                    await Promise.all(uploadPromises);
+                } catch (error) {
+                    console.error('Erro em alguns uploads:', error);
+                }
                 
                 addSystemLog(`Produto salvo, enviando ${uploadFiles.length} imagens...`);
             }
@@ -3116,7 +3137,7 @@ O token será salvo localmente no navegador.`);
             addSystemLog(`${isEdit ? 'Editado' : 'Criado'} produto: ${product.name}`);
         });
 
-        document.getElementById('category-form').addEventListener('submit', (e) => {
+        document.getElementById('category-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const modal = document.getElementById('category-modal');
@@ -3145,22 +3166,13 @@ O token será salvo localmente no navegador.`);
             // Handle new image upload if present
             if (form.uploadFile && form.uploadFileName) {
                 try {
-                    // Upload image to GitHub first
-                    const uploadPromise = uploadImageToGitHub(form.uploadFile, form.uploadFileName);
+                    // Upload image to GitHub with proper await
                     category.imageFile = `data/images/${form.uploadFileName}`;
-                    
-                    // Upload in background
-                    uploadPromise.then(downloadUrl => {
-                        addSystemLog(`Imagem da categoria ${form.uploadFileName} enviada para GitHub`);
-                    }).catch(error => {
-                        console.error('Erro no upload da imagem:', error);
-                        addSystemLog(`Erro no upload da imagem: ${error.message}`);
-                    });
-                    
-                    addSystemLog(`Categoria salva, enviando imagem ${form.uploadFileName}...`);
+                    const githubUrl = await uploadImageToGitHub(form.uploadFile, form.uploadFileName);
+                    addSystemLog(`Imagem da categoria ${form.uploadFileName} enviada para GitHub`);
                 } catch (error) {
-                    console.error('Erro preparando upload:', error);
-                    addSystemLog(`Erro no upload: ${error.message}`);
+                    console.error('Erro no upload da imagem:', error);
+                    addSystemLog(`Erro no upload da imagem: ${error.message}`);
                 }
             }
             
@@ -3501,6 +3513,63 @@ O token será salvo localmente no navegador.`);
 
             const result = await response.json();
             return result.content.download_url;
+        }
+
+        // Delete image file from GitHub repository
+        async function deleteImageFromGitHub(fileName) {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                console.log('GitHub token não configurado - arquivo não deletado do GitHub');
+                return;
+            }
+
+            // Get repository info from GitHub API if not set
+            if (!adminClient.repoOwner || !adminClient.repoName) {
+                await adminClient.detectRepositoryInfo();
+            }
+
+            const filePath = `docs/data/images/${fileName}`;
+            const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
+
+            try {
+                // Get file SHA first
+                const getResponse = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!getResponse.ok) {
+                    console.log(`Arquivo ${fileName} não encontrado no GitHub`);
+                    return;
+                }
+
+                const fileData = await getResponse.json();
+                
+                // Delete the file
+                const deleteResponse = await fetch(apiUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Delete image: ${fileName}`,
+                        sha: fileData.sha
+                    })
+                });
+
+                if (deleteResponse.ok) {
+                    addSystemLog(`Imagem ${fileName} deletada do GitHub`);
+                } else {
+                    throw new Error(`Erro ao deletar: ${deleteResponse.statusText}`);
+                }
+            } catch (error) {
+                console.error('Erro ao deletar imagem do GitHub:', error);
+                addSystemLog(`Erro ao deletar ${fileName} do GitHub: ${error.message}`);
+            }
         }
 
         function removeImagePreview(button) {

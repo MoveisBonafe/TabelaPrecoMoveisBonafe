@@ -1,0 +1,56 @@
+admin.html:3756 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:3757 Sistema: GitHub API integrado com fallback localStorage
+admin.html:1618 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1166 📦 Carregado 25 produtos do localStorage
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" placeholder=​"••••••••••••••••••••••••••••••••••••••••• (Configurado)​" style=​"width:​ 100%;​ padding:​ 8px 12px;​ border:​ 1px solid #ddd;​ border-radius:​ 4px;​ font-family:​ monospace;​">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" class=​"form-input" id=​"user-password" required>​
+admin.html:1204 🎨 Carregado 4 cores do localStorage
+admin.html:1215 ✅ Dados carregados: 25 produtos, 5 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+category_1749406525739.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/category_1749406525739.png 404 (Not Found)
+product_1749421675793_0.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749421675793_0.png 404 (Not Found)
+category_1749421737184.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/category_1749421737184.png 404 (Not Found)
+product_1749421675793_0.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749421675793_0.png 404 (Not Found)
+Image
+addImageToGallery @ admin.html:2583
+(anônimo) @ admin.html:3595
+loadExistingImages @ admin.html:3573
+openProductModal @ admin.html:1811
+editProduct @ admin.html:1878
+onclick @ admin.html:1
+product_1749424300915_0.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749424300915_0.png 404 (Not Found)
+Image
+addImageToGallery @ admin.html:2583
+(anônimo) @ admin.html:3595
+loadExistingImages @ admin.html:3573
+openProductModal @ admin.html:1811
+editProduct @ admin.html:1878
+onclick @ admin.html:1
+admin.html:1736 📢 Notificação enviada: products atualizado
+admin.html:1618 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+product_1749421675793_0.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749421675793_0.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:1299
+renderProducts @ admin.html:1239
+(anônimo) @ admin.html:3112
+admin.html:1590 📁 SHA atual: 6da8e468 para products.json
+admin.html:1618 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1553 ✅ products.json salvo no GitHub (SHA: 7f7ee457)
+admin.html:1710 ✅ products salvo no GitHub

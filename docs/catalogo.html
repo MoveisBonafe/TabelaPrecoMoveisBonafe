@@ -2113,32 +2113,44 @@
         let modalImages = [];
 
         function openProductDetailModal(product) {
-            currentModalProduct = product;
-            modalImages = [];
-            currentModalImageIndex = 0;
+            try {
+                console.log('Opening modal for product:', product.name);
+                currentModalProduct = product;
+                modalImages = [];
+                currentModalImageIndex = 0;
 
-            // Set product name
-            document.getElementById('modal-product-name').textContent = product.name;
-            
-            // Set description
-            const description = product.description || 'Produto de alta qualidade disponível em nossa loja.';
-            document.getElementById('modal-product-description').textContent = description;
+                // Set product name
+                document.getElementById('modal-product-name').textContent = product.name || 'Produto';
+                
+                // Set description
+                const description = product.description || 'Produto de alta qualidade disponível em nossa loja.';
+                document.getElementById('modal-product-description').textContent = description;
 
-            // Setup images
-            setupModalImages(product);
-            
-            // Setup colors
-            setupModalColors(product);
-            
-            // Setup dimensions
-            setupModalDimensions(product);
-            
-            // Reset quantity
-            document.getElementById('modal-quantity').value = '1';
-            
-            // Show modal
-            document.getElementById('product-detail-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
+                // Setup images
+                setupModalImages(product);
+                
+                // Setup colors
+                setupModalColors(product);
+                
+                // Setup dimensions
+                setupModalDimensions(product);
+                
+                // Reset quantity
+                document.getElementById('modal-quantity').value = '1';
+                
+                // Show modal
+                const modal = document.getElementById('product-detail-modal');
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    console.log('Modal opened successfully');
+                } else {
+                    console.error('Modal element not found');
+                }
+            } catch (error) {
+                console.error('Error opening product modal:', error);
+                alert('Erro ao abrir detalhes do produto');
+            }
         }
 
         function closeProductDetailModal() {
@@ -2447,8 +2459,15 @@
             }
         }
 
-        // Shopping Cart System
-        let shoppingCart = JSON.parse(localStorage.getItem('moveisbonafe_cart') || '[]');
+        // Shopping Cart System - Device-specific storage
+        function getDeviceCartKey() {
+            const userAgent = navigator.userAgent;
+            const screenRes = `${screen.width}x${screen.height}`;
+            const deviceId = btoa(userAgent + screenRes).substring(0, 16);
+            return `moveisbonafe_cart_${deviceId}`;
+        }
+        
+        let shoppingCart = JSON.parse(localStorage.getItem(getDeviceCartKey()) || '[]');
 
         function updateCartCount() {
             const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -2483,8 +2502,8 @@
                 shoppingCart.push(cartItem);
             }
             
-            // Save cart to localStorage
-            localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+            // Save cart to device-specific localStorage
+            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
             updateCartCount();
             
             // Show success message
@@ -2558,7 +2577,7 @@
                 if (shoppingCart[itemIndex].quantity <= 0) {
                     shoppingCart.splice(itemIndex, 1);
                 }
-                localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+                localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
                 updateCartCount();
                 renderCartItems();
             }
@@ -2574,7 +2593,7 @@
             const itemIndex = shoppingCart.findIndex(item => item.id === itemId);
             if (itemIndex !== -1) {
                 shoppingCart[itemIndex].quantity = quantity;
-                localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+                localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
                 updateCartCount();
                 renderCartItems();
             }
@@ -2582,7 +2601,7 @@
 
         function removeCartItem(itemId) {
             shoppingCart = shoppingCart.filter(item => item.id !== itemId);
-            localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
             updateCartCount();
             renderCartItems();
         }
@@ -2590,7 +2609,7 @@
         function clearCart() {
             if (confirm('Tem certeza que deseja limpar todo o carrinho?')) {
                 shoppingCart = [];
-                localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+                localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
                 updateCartCount();
                 renderCartItems();
             }

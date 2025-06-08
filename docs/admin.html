@@ -1493,6 +1493,14 @@
                     return false;
                 }
 
+                // Validate token first
+                const isValid = await this.validateGitHubToken(token);
+                if (!isValid) {
+                    console.log('❌ Token inválido, solicitando novo token');
+                    this.requestGitHubToken();
+                    return false;
+                }
+
                 try {
                     // Buscar SHA atual do arquivo
                     const sha = await this.getFileSHA(filename, token);
@@ -1532,6 +1540,20 @@
                     }
                 } catch (error) {
                     console.error(`❌ Erro ao salvar no GitHub:`, error);
+                    return false;
+                }
+            }
+
+            async validateGitHubToken(token) {
+                try {
+                    const response = await fetch('https://api.github.com/user', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    return response.ok;
+                } catch (error) {
                     return false;
                 }
             }
@@ -2700,6 +2722,14 @@ O token será salvo localmente no navegador.`);
             const token = localStorage.getItem('github_token');
             if (!token) {
                 alert('Token GitHub necessário para salvar imagens');
+                return false;
+            }
+
+            // Validate token first
+            const isValid = await adminClient.validateGitHubToken(token);
+            if (!isValid) {
+                alert('Token GitHub inválido ou expirado. Configure um novo token.');
+                adminClient.requestGitHubToken();
                 return false;
             }
             

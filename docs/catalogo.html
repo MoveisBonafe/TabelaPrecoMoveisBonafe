@@ -1215,16 +1215,9 @@
                             // Already a data URL, use as is
                             categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
                         } else {
-                            // Extract filename from path for localStorage lookup
-                            const fileName = imageSrc.split('/').pop();
-                            const storedImage = localStorage.getItem(`image_${fileName}`);
-                            
-                            if (storedImage && storedImage.startsWith('data:')) {
-                                categoryIcon = `<img src="${storedImage}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
-                            } else {
-                                // Try as direct URL path
-                                categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
-                            }
+                            // Use direct file path for uploaded images
+                            const imageUrl = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
+                            categoryIcon = `<img src="${imageUrl}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
                         }
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;

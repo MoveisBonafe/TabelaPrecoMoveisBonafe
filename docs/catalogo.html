@@ -1215,15 +1215,8 @@
                             // Already a data URL, use as is
                             categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
                         } else {
-                            // Handle image paths based on environment
-                            let imageUrl;
-                            if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit')) {
-                                // For local development, use direct file path
-                                imageUrl = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
-                            } else {
-                                // For GitHub Pages, construct proper URL
-                                imageUrl = imageSrc.startsWith('http') ? imageSrc : `https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/${imageSrc}`;
-                            }
+                            // Always use local paths for development
+                            const imageUrl = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
                             categoryIcon = `<img src="${imageUrl}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
                         }
                     } else {

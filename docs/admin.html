@@ -1259,18 +1259,10 @@
                     if (images.length > 0) {
                         let imageSrc = images[0];
                         
-                        // Check if image is stored as base64 in localStorage first
-                        const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                        if (product.imageData && product.imageData[imageSrc]) {
-                            imageSrc = product.imageData[imageSrc];
-                        } else if (imageStorage[imageSrc]) {
-                            imageSrc = imageStorage[imageSrc];
-                        } else {
-                            // Fallback to GitHub Pages URLs for existing images
-                            imageSrc = imageSrc.startsWith('data/images/') ? 
-                                `${this.baseUrl}/${imageSrc}` : 
-                                `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                        }
+                        // Use GitHub Pages URLs for all images
+                        imageSrc = imageSrc.startsWith('data/images/') ? 
+                            `${this.baseUrl}/${imageSrc}` : 
+                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                         
                         const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';
                         
@@ -1319,18 +1311,10 @@
                     if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
-                        // Check if image is stored as base64 in localStorage first
-                        const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                        if (category.imageData) {
-                            imageSrc = category.imageData;
-                        } else if (imageStorage[imageSrc]) {
-                            imageSrc = imageStorage[imageSrc];
-                        } else {
-                            // Fallback to GitHub Pages URLs for existing images
-                            imageSrc = imageSrc.startsWith('data/images/') ? 
-                                `${this.baseUrl}/${imageSrc}` : 
-                                `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                        }
+                        // Use GitHub Pages URLs for all images
+                        imageSrc = imageSrc.startsWith('data/images/') ? 
+                            `${this.baseUrl}/${imageSrc}` : 
+                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                         
                         categoryImageCell = `<img src="${imageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                             <div class="category-image-placeholder" style="display: none;">📦</div>`;
@@ -2698,14 +2682,14 @@ O token será salvo localmente no navegador.`);
             reader.readAsDataURL(file);
         }
 
-        // Handle image upload for products and categories (GitHub Pages compatible)
+        // Handle image upload for products and categories (GitHub Pages - real files)
         function handleImageUpload(event, type) {
             const file = event.target.files[0];
             if (!file) return;
             
-            // Validate file size (max 1MB for GitHub Pages)
-            if (file.size > 1024 * 1024) {
-                alert('Arquivo muito grande. Tamanho máximo: 1MB para GitHub Pages');
+            // Validate file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Arquivo muito grande. Tamanho máximo: 2MB');
                 event.target.value = '';
                 return;
             }
@@ -2718,24 +2702,28 @@ O token será salvo localmente no navegador.`);
                 return;
             }
             
-            // Convert to base64 for GitHub Pages storage
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Data = e.target.result;
-                const timestamp = Date.now();
-                const fileName = `${type}_${timestamp}`;
-                
-                // Store image data for the form
-                const form = document.getElementById(`${type}-form`);
-                form.dataset.imageFile = fileName;
-                form.dataset.imageData = base64Data;
-                
-                // Show preview
-                showImagePreview(base64Data, type);
-                
-                addSystemLog(`Imagem ${fileName} preparada para salvamento`);
-            };
-            reader.readAsDataURL(file);
+            // Generate unique filename with proper extension
+            const timestamp = Date.now();
+            const extension = file.name.split('.').pop().toLowerCase();
+            const fileName = `${type}_${timestamp}.${extension}`;
+            
+            // Create preview URL for immediate display
+            const previewUrl = URL.createObjectURL(file);
+            
+            // Store image file and metadata for the form
+            const form = document.getElementById(`${type}-form`);
+            form.dataset.imageFile = fileName;
+            form.dataset.imageBlob = previewUrl;
+            form.dataset.originalFile = file.name;
+            
+            // Store the actual file object for upload
+            form.uploadFile = file;
+            form.uploadFileName = fileName;
+            
+            // Show preview
+            showImagePreview(previewUrl, type);
+            
+            addSystemLog(`Imagem ${fileName} preparada para upload`);
         }
 
         // Process image and upload to GitHub data/images folder
@@ -3025,22 +3013,27 @@ O token será salvo localmente no navegador.`);
             }
             
             // Handle new image uploads if present
-            if (form.dataset.imageFiles && form.dataset.imageData) {
-                const newImageFiles = JSON.parse(form.dataset.imageFiles);
-                const newImageData = JSON.parse(form.dataset.imageData);
+            if (form.uploadFiles && form.uploadFileNames) {
+                const uploadFiles = form.uploadFiles;
+                const uploadFileNames = form.uploadFileNames;
                 
                 // Add new images to the product
-                product.images = [...product.images, ...newImageFiles];
+                const newImagePaths = uploadFileNames.map(name => `data/images/${name}`);
+                product.images = [...product.images, ...newImagePaths];
                 
-                // Store base64 data for each new image
-                const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                newImageFiles.forEach((fileName, index) => {
-                    product.imageData[fileName] = newImageData[index];
-                    imageStorage[fileName] = newImageData[index];
+                // Upload all images to GitHub in background
+                uploadFiles.forEach(async (file, index) => {
+                    try {
+                        const fileName = uploadFileNames[index];
+                        await uploadImageToGitHub(file, fileName);
+                        addSystemLog(`Imagem ${fileName} enviada para GitHub`);
+                    } catch (error) {
+                        console.error('Erro no upload:', error);
+                        addSystemLog(`Erro no upload de ${uploadFileNames[index]}: ${error.message}`);
+                    }
                 });
-                localStorage.setItem('moveisbonafe_images', JSON.stringify(imageStorage));
                 
-                addSystemLog(`${newImageFiles.length} imagens do produto salvas`);
+                addSystemLog(`Produto salvo, enviando ${uploadFiles.length} imagens...`);
             }
             
             // Maintain backward compatibility with single imageFile
@@ -3091,16 +3084,25 @@ O token será salvo localmente no navegador.`);
             }
             
             // Handle new image upload if present
-            if (form.dataset.imageFile && form.dataset.imageData) {
-                category.imageFile = form.dataset.imageFile;
-                category.imageData = form.dataset.imageData;
-                
-                // Also save to images storage for GitHub Pages
-                const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                imageStorage[form.dataset.imageFile] = form.dataset.imageData;
-                localStorage.setItem('moveisbonafe_images', JSON.stringify(imageStorage));
-                
-                addSystemLog(`Imagem da categoria ${form.dataset.imageFile} salva`);
+            if (form.uploadFile && form.uploadFileName) {
+                try {
+                    // Upload image to GitHub first
+                    const uploadPromise = uploadImageToGitHub(form.uploadFile, form.uploadFileName);
+                    category.imageFile = `data/images/${form.uploadFileName}`;
+                    
+                    // Upload in background
+                    uploadPromise.then(downloadUrl => {
+                        addSystemLog(`Imagem da categoria ${form.uploadFileName} enviada para GitHub`);
+                    }).catch(error => {
+                        console.error('Erro no upload da imagem:', error);
+                        addSystemLog(`Erro no upload da imagem: ${error.message}`);
+                    });
+                    
+                    addSystemLog(`Categoria salva, enviando imagem ${form.uploadFileName}...`);
+                } catch (error) {
+                    console.error('Erro preparando upload:', error);
+                    addSystemLog(`Erro no upload: ${error.message}`);
+                }
             }
             
             // Save category data immediately
@@ -3278,7 +3280,7 @@ O token será salvo localmente no navegador.`);
             delete this.dataset.editIndex;
         });
 
-        // Multiple image upload handler (GitHub Pages compatible)
+        // Multiple image upload handler (GitHub Pages - real files)
         function handleMultipleImageUpload(event) {
             const files = Array.from(event.target.files);
             const previewContainer = document.getElementById('image-preview-container');
@@ -3288,14 +3290,13 @@ O token será salvo localmente no navegador.`);
             previewContainer.innerHTML = '';
             const form = document.getElementById('product-form');
             
-            const imageDataArray = [];
             const fileNames = [];
-            let processed = 0;
+            const uploadFiles = [];
             
             files.forEach((file, index) => {
-                // Validate file size (max 1MB each for GitHub Pages)
-                if (file.size > 1024 * 1024) {
-                    alert(`Arquivo ${file.name} muito grande. Máximo: 1MB para GitHub Pages`);
+                // Validate file size (max 2MB each)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`Arquivo ${file.name} muito grande. Máximo: 2MB`);
                     return;
                 }
                 
@@ -3305,35 +3306,34 @@ O token será salvo localmente no navegador.`);
                     return;
                 }
                 
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const timestamp = Date.now();
-                    const fileName = `product_${timestamp}_${index}`;
-                    
-                    fileNames.push(fileName);
-                    imageDataArray.push(e.target.result);
-                    
-                    // Create preview
-                    const previewDiv = document.createElement('div');
-                    previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
-                    previewDiv.innerHTML = `
-                        <img src="${e.target.result}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
-                        <button type="button" onclick="removeImagePreview(this)" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
-                    `;
-                    previewContainer.appendChild(previewDiv);
-                    
-                    processed++;
-                    if (processed === files.length) {
-                        form.dataset.imageFiles = JSON.stringify(fileNames);
-                        form.dataset.imageData = JSON.stringify(imageDataArray);
-                        addSystemLog(`${files.length} imagens preparadas para salvamento`);
-                    }
-                };
-                reader.readAsDataURL(file);
+                // Generate unique filename with proper extension
+                const timestamp = Date.now();
+                const extension = file.name.split('.').pop().toLowerCase();
+                const fileName = `product_${timestamp}_${index}.${extension}`;
+                
+                fileNames.push(fileName);
+                uploadFiles.push(file);
+                
+                // Create preview using object URL
+                const previewUrl = URL.createObjectURL(file);
+                const previewDiv = document.createElement('div');
+                previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
+                previewDiv.innerHTML = `
+                    <img src="${previewUrl}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                    <button type="button" onclick="removeImagePreview(this)" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
+                `;
+                previewContainer.appendChild(previewDiv);
             });
+            
+            // Store files and filenames in form
+            form.dataset.imageFiles = JSON.stringify(fileNames);
+            form.uploadFiles = uploadFiles;
+            form.uploadFileNames = fileNames;
+            
+            addSystemLog(`${files.length} imagens preparadas para upload`);
         }
 
-        function showImagePreview(base64Data, type) {
+        function showImagePreview(imageUrl, type) {
             const previewContainer = document.getElementById(`${type}-image-preview`);
             if (!previewContainer) {
                 // Create preview container if it doesn't exist
@@ -3350,7 +3350,7 @@ O token será salvo localmente no navegador.`);
             if (previewContainer) {
                 previewContainer.innerHTML = `
                     <div style="position: relative; display: inline-block;">
-                        <img src="${base64Data}" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #ddd;">
+                        <img src="${imageUrl}" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #ddd;">
                         <button type="button" onclick="clearImagePreview('${type}')" style="position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 14px;">×</button>
                     </div>
                 `;
@@ -3365,13 +3365,78 @@ O token será salvo localmente no navegador.`);
             
             const form = document.getElementById(`${type}-form`);
             delete form.dataset.imageFile;
-            delete form.dataset.imageData;
+            delete form.dataset.imageBlob;
+            delete form.uploadFile;
+            delete form.uploadFileName;
             
             // Clear file input
             const fileInput = form.querySelector('input[type="file"]');
             if (fileInput) {
                 fileInput.value = '';
             }
+        }
+
+        // Upload image file to GitHub repository
+        async function uploadImageToGitHub(file, fileName) {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                throw new Error('GitHub token não configurado');
+            }
+
+            // Convert file to base64 for GitHub API
+            const base64Content = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            const filePath = `docs/data/images/${fileName}`;
+            const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
+
+            // Check if file exists first
+            let sha = null;
+            try {
+                const checkResponse = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                if (checkResponse.ok) {
+                    const existingFile = await checkResponse.json();
+                    sha = existingFile.sha;
+                }
+            } catch (error) {
+                // File doesn't exist, that's OK
+            }
+
+            // Upload or update file
+            const uploadData = {
+                message: `Upload image: ${fileName}`,
+                content: base64Content,
+                ...(sha && { sha })
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(uploadData)
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(`Erro no upload: ${error.message}`);
+            }
+
+            const result = await response.json();
+            return result.content.download_url;
         }
 
         function removeImagePreview(button) {

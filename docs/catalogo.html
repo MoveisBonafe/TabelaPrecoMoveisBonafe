@@ -1203,18 +1203,10 @@
                     if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
-                        // Check if image is stored as base64 in localStorage first
-                        const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                        if (category.imageData) {
-                            imageSrc = category.imageData;
-                        } else if (imageStorage[imageSrc]) {
-                            imageSrc = imageStorage[imageSrc];
-                        } else {
-                            // Fallback to GitHub Pages URLs for existing images
-                            imageSrc = imageSrc.startsWith('data/images/') ? 
-                                `${this.baseUrl}/${imageSrc}` : 
-                                `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                        }
+                        // Use GitHub Pages URLs for all images
+                        imageSrc = imageSrc.startsWith('data/images/') ? 
+                            `${this.baseUrl}/${imageSrc}` : 
+                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                         
                         categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
                     } else {
@@ -1329,18 +1321,10 @@
                 if (images.length > 0) {
                     let imageSrc = images[0];
                     
-                    // Check if image is stored as base64 in localStorage first
-                    const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                    if (product.imageData && product.imageData[imageSrc]) {
-                        imageSrc = product.imageData[imageSrc];
-                    } else if (imageStorage[imageSrc]) {
-                        imageSrc = imageStorage[imageSrc];
-                    } else {
-                        // Fallback to GitHub Pages URLs for existing images
-                        imageSrc = imageSrc.startsWith('data/images/') ? 
-                            `${this.baseUrl}/${imageSrc}` : 
-                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                    }
+                    // Use GitHub Pages URLs for all images
+                    imageSrc = imageSrc.startsWith('data/images/') ? 
+                        `${this.baseUrl}/${imageSrc}` : 
+                        `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                     
                     return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
                 } else {
@@ -2160,14 +2144,8 @@
             let imageSrc = modalImages[index];
             
             try {
-                // Check if image is stored as base64 in localStorage first
-                const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                if (currentModalProduct && currentModalProduct.imageData && currentModalProduct.imageData[imageSrc]) {
-                    imageSrc = currentModalProduct.imageData[imageSrc];
-                } else if (imageStorage[imageSrc]) {
-                    imageSrc = imageStorage[imageSrc];
-                } else if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
-                    // Fallback to GitHub Pages URLs for existing images
+                // Use GitHub Pages URLs for all images
+                if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
                     imageSrc = imageSrc.startsWith('data/images/') ? 
                         `${catalogClient.baseUrl}/${imageSrc}` : 
                         `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
@@ -2206,14 +2184,8 @@
                 let imageSrc = imagePath;
                 
                 try {
-                    // Check if image is stored as base64 in localStorage first
-                    const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
-                    if (currentModalProduct && currentModalProduct.imageData && currentModalProduct.imageData[imageSrc]) {
-                        imageSrc = currentModalProduct.imageData[imageSrc];
-                    } else if (imageStorage[imageSrc]) {
-                        imageSrc = imageStorage[imageSrc];
-                    } else if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
-                        // Fallback to GitHub Pages URLs for existing images
+                    // Use GitHub Pages URLs for all images
+                    if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
                         imageSrc = imageSrc.startsWith('data/images/') ? 
                             `${catalogClient.baseUrl}/${imageSrc}` : 
                             `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;

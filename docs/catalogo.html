@@ -2130,8 +2130,8 @@
             // Setup colors
             setupModalColors(product);
             
-            // Setup pricing
-            setupModalPricing(product);
+            // Setup dimensions
+            setupModalDimensions(product);
             
             // Reset quantity
             document.getElementById('modal-quantity').value = '1';
@@ -2423,11 +2423,213 @@
             }
         });
 
+        // Setup product dimensions display
+        function setupModalDimensions(product) {
+            const dimensionsContainer = document.getElementById('modal-dimensions');
+            dimensionsContainer.innerHTML = '';
+            
+            const dimensions = [];
+            if (product.altura && product.altura > 0) dimensions.push(`Altura: ${product.altura}cm`);
+            if (product.largura && product.largura > 0) dimensions.push(`Largura: ${product.largura}cm`);
+            if (product.comprimento && product.comprimento > 0) dimensions.push(`Comprimento: ${product.comprimento}cm`);
+            if (product.peso && product.peso > 0) dimensions.push(`Peso: ${product.peso}kg`);
+            
+            if (dimensions.length > 0) {
+                dimensions.forEach(dim => {
+                    const dimDiv = document.createElement('div');
+                    dimDiv.className = 'dimension-item';
+                    dimDiv.textContent = dim;
+                    dimensionsContainer.appendChild(dimDiv);
+                });
+                document.getElementById('modal-dimensions-section').style.display = 'block';
+            } else {
+                document.getElementById('modal-dimensions-section').style.display = 'none';
+            }
+        }
+
+        // Shopping Cart System
+        let shoppingCart = JSON.parse(localStorage.getItem('moveisbonafe_cart') || '[]');
+
+        function updateCartCount() {
+            const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = totalItems;
+        }
+
+        function addToCart() {
+            if (!currentModalProduct) return;
+            
+            const quantity = parseInt(document.getElementById('modal-quantity').value);
+            const selectedColorElement = document.querySelector('.modal-color-option.selected');
+            const selectedColor = selectedColorElement ? selectedColorElement.title : 'Cor padrão';
+            
+            // Check if item already exists in cart
+            const existingItemIndex = shoppingCart.findIndex(item => 
+                item.productId === currentModalProduct.id && item.color === selectedColor
+            );
+            
+            if (existingItemIndex !== -1) {
+                // Update quantity of existing item
+                shoppingCart[existingItemIndex].quantity += quantity;
+            } else {
+                // Add new item to cart
+                const cartItem = {
+                    id: Date.now().toString(),
+                    productId: currentModalProduct.id,
+                    name: currentModalProduct.name,
+                    color: selectedColor,
+                    quantity: quantity,
+                    image: modalImages[0] || 'https://via.placeholder.com/60x60?text=Produto'
+                };
+                shoppingCart.push(cartItem);
+            }
+            
+            // Save cart to localStorage
+            localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+            updateCartCount();
+            
+            // Show success message
+            alert(`${currentModalProduct.name} adicionado ao carrinho!`);
+            closeProductDetailModal();
+        }
+
+        function openCartModal() {
+            renderCartItems();
+            document.getElementById('cart-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalItems = document.getElementById('cart-total-items');
+            
+            if (shoppingCart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="empty-cart">Seu carrinho está vazio</div>';
+                cartTotalItems.textContent = '0';
+                return;
+            }
+            
+            cartItemsContainer.innerHTML = '';
+            
+            shoppingCart.forEach(item => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = 'cart-item';
+                
+                let imageSrc = item.image;
+                if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                    const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                    const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                    if (storedImage && storedImage.startsWith('data:')) {
+                        imageSrc = storedImage;
+                    } else if (catalogClient) {
+                        imageSrc = `${catalogClient.baseUrl}/${imageSrc}`;
+                    }
+                }
+                
+                cartItemDiv.innerHTML = `
+                    <img src="${imageSrc}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-color">Cor: ${item.color}</div>
+                        <div class="cart-item-quantity">
+                            <button onclick="updateCartItemQuantity('${item.id}', -1)">-</button>
+                            <input type="number" value="${item.quantity}" min="1" onchange="setCartItemQuantity('${item.id}', this.value)">
+                            <button onclick="updateCartItemQuantity('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeCartItem('${item.id}')">Remover</button>
+                `;
+                
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+            
+            const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+            cartTotalItems.textContent = totalItems;
+        }
+
+        function updateCartItemQuantity(itemId, change) {
+            const itemIndex = shoppingCart.findIndex(item => item.id === itemId);
+            if (itemIndex !== -1) {
+                shoppingCart[itemIndex].quantity += change;
+                if (shoppingCart[itemIndex].quantity <= 0) {
+                    shoppingCart.splice(itemIndex, 1);
+                }
+                localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+                updateCartCount();
+                renderCartItems();
+            }
+        }
+
+        function setCartItemQuantity(itemId, newQuantity) {
+            const quantity = parseInt(newQuantity);
+            if (quantity <= 0) {
+                removeCartItem(itemId);
+                return;
+            }
+            
+            const itemIndex = shoppingCart.findIndex(item => item.id === itemId);
+            if (itemIndex !== -1) {
+                shoppingCart[itemIndex].quantity = quantity;
+                localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+                updateCartCount();
+                renderCartItems();
+            }
+        }
+
+        function removeCartItem(itemId) {
+            shoppingCart = shoppingCart.filter(item => item.id !== itemId);
+            localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function clearCart() {
+            if (confirm('Tem certeza que deseja limpar todo o carrinho?')) {
+                shoppingCart = [];
+                localStorage.setItem('moveisbonafe_cart', JSON.stringify(shoppingCart));
+                updateCartCount();
+                renderCartItems();
+            }
+        }
+
+        function proceedToWhatsApp() {
+            if (shoppingCart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            
+            let message = 'Olá! Gostaria de fazer um pedido:\n\n';
+            
+            shoppingCart.forEach(item => {
+                message += `📦 *${item.name}*\n`;
+                message += `🎨 Cor: ${item.color}\n`;
+                message += `📊 Quantidade: ${item.quantity}\n\n`;
+            });
+            
+            message += `Total de itens: ${shoppingCart.reduce((sum, item) => sum + item.quantity, 0)}\n\n`;
+            message += 'Poderia me enviar mais informações sobre preços e disponibilidade?';
+            
+            const whatsappNumber = '5511999999999'; // Replace with actual WhatsApp number
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
         // Close modal with Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeProductDetailModal();
+                closeCartModal();
             }
+        });
+
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
         });
     </script>
 </body>

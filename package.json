@@ -1,1 +1,0 @@
-{"name":"moveisbonafe","version":"1.0.0","main":"server.js","scripts":{"dev":"node server.js","start":"node server.js"},"dependencies":{"express":"^5.1.0","multer":"^2.0.1","serve":"^14.2.4","xlsx":"^0.18.5"}}

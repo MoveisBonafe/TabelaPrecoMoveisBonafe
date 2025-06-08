@@ -1316,28 +1316,9 @@
                 if (images.length > 0) {
                     let imageSrc = images[0];
                     
-                    // Check if it's already a base64 data URL
-                    if (imageSrc.startsWith('data:')) {
-                        return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
-                    }
-                    
-                    // Check if it's a localStorage reference
-                    if (!imageSrc.startsWith('http')) {
-                        const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                        const storedImage = localStorage.getItem(`image_${cleanPath}`);
-                        if (storedImage && storedImage.startsWith('data:')) {
-                            return `<img src="${storedImage}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
-                        }
-                        
-                        // Try with GitHub path
-                        if (imageSrc.startsWith('data/images/')) {
-                            imageSrc = `${this.baseUrl}/${imageSrc}`;
-                        } else {
-                            imageSrc = `${this.baseUrl}/data/images/${cleanPath}`;
-                        }
-                    }
-                    
-                    return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
+                    // Always use local server paths for all images
+                    const imagePath = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
+                    return `<img src="${imagePath}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
                 } else {
                     // Fallback para ícone da categoria
                     return this.getProductIcon(product.category);
@@ -2119,7 +2100,7 @@
                 } else if (product.imageFile) {
                     modalImages = [product.imageFile];
                 } else {
-                    modalImages = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTgwSDIwMFYyMjBIMjAwVjE4MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHRleHQgeD0iMjAwIiB5PSIyMDAiIGZpbGw9IiM2QjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+U2VtIEltYWdlbTwvdGV4dD4KPC9zdmc+'];
+                    modalImages = ['/placeholder-image.svg']; // Use server-based placeholder
                 }
 
                 // Filter out empty or invalid images
@@ -2127,7 +2108,7 @@
                 
                 // If no valid images, use local fallback
                 if (modalImages.length === 0) {
-                    modalImages = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzE5MS4xNjMgMTUwIDE4NCAxNTcuMTYzIDE4NCAxNjZWMjM0QzE4NCAyNDIuODM3IDE5MS4xNjMgMjUwIDIwMCAyNTBIMjY4QzI3Ni44MzcgMjUwIDI4NCAyNDIuODM3IDI4NCAyMzRWMTY2QzI4NCAxNTcuMTYzIDI3Ni44MzcgMTUwIDI2OCAxNTBIMjAwWk0yMDAgMTY2SDI2OFYyMzRIMjAwVjE2NloiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDEyQzE2LjY4NjMgMTIgMTQgMTQuNjg2MyAxNCAyMFYyOEMxNCAzMS4zMTM3IDE2LjY4NjMgMzQgMjAgMzRIMjhDMzEuMzEzNyAzNCAzNCAzMS4zMTM3IDM0IDI4VjIwQzM0IDE0LjY4NjMgMzEuMzEzNyAxMiAyOCAxMkgyMFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggNEM2Ljg5NTQzIDQgNiA0Ljg5NTQzIDYgNlYxMEM2IDExLjEwNDYgNi44OTU0MyAxMiA4IDEySDEwQzExLjEwNDYgMTIgMTIgMTEuMTA0NiAxMiAxMFY2QzEyIDQuODk1NDMgMTEuMTA0NiA0IDEwIDRIOFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2Zz4KPHN2Zz4KPHN2Zz4KPC9zdmc+'];
+                    modalImages = ['/placeholder-image.svg']; // Use server-based placeholder
                 }
 
                 console.log('Modal images setup:', modalImages);
@@ -2142,7 +2123,7 @@
                 updateImageNavigation();
             } catch (error) {
                 console.error('Error setting up modal images:', error);
-                modalImages = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTgwSDIwMFYyMjBIMjAwVjE4MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHRleHQgeD0iMjAwIiB5PSIyMDAiIGZpbGw9IiM2QjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+RXJybyBJbWFnZW08L3RleHQ+Cjwvc3ZnPg=='];
+                modalImages = ['/placeholder-image.svg']; // Use server-based placeholder
                 updateModalMainImage(0);
                 createModalThumbnails();
                 updateImageNavigation();

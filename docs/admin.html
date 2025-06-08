@@ -1312,15 +1312,10 @@
                     if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
-                        // Check if it's already a data URL
-                        if (imageSrc.startsWith('data:')) {
-                            categoryImageCell = `<img src="${imageSrc}" alt="${category.name}" class="category-thumbnail">`;
-                        } else {
-                            // Always use local paths for development
-                            const localImageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
-                            categoryImageCell = `<img src="${localImageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                <div class="category-image-placeholder" style="display: none;">📦</div>`;
-                        }
+                        // Always use local server paths for all images
+                        const localImageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
+                        categoryImageCell = `<img src="${localImageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="category-image-placeholder" style="display: none;">📦</div>`;
                     }
                     
                     row.innerHTML = `

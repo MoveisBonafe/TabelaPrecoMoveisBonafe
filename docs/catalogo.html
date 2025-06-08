@@ -1112,16 +1112,9 @@
             updateModalImage(imageFile) {
                 const modalImage = document.getElementById('modal-product-image');
                 
-                // Check if it's a localStorage reference
-                if (!imageFile.startsWith('data:') && !imageFile.startsWith('http')) {
-                    const storedImage = localStorage.getItem(`image_${imageFile}`);
-                    if (storedImage) {
-                        modalImage.src = storedImage;
-                        return;
-                    }
-                }
-                
-                modalImage.src = imageFile;
+                // Always use local server paths for all images
+                const imagePath = imageFile.startsWith('/') ? imageFile : `/${imageFile}`;
+                modalImage.src = imagePath;
             }
 
             setupEventListeners() {
@@ -1205,20 +1198,12 @@
                     let categoryIcon;
                     
                     // First check for base64 icon data directly in category
-                    if (category.icon && category.icon.startsWith('data:')) {
-                        categoryIcon = `<img src="${category.icon}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
-                    } else if (category.imageFile) {
+                    if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
-                        // Handle different image path formats
-                        if (imageSrc.startsWith('data:')) {
-                            // Already a data URL, use as is
-                            categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
-                        } else {
-                            // Always use local paths for development
-                            const imageUrl = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
-                            categoryIcon = `<img src="${imageUrl}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
-                        }
+                        // Always use local server paths for all images
+                        const imageUrl = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
+                        categoryIcon = `<img src="${imageUrl}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
                     }

@@ -2442,12 +2442,14 @@ O token será salvo localmente no navegador.`);
                     const fileName = `product_${Date.now()}.${file.name.split('.').pop()}`;
                     localStorage.setItem(`image_${fileName}`, base64);
                     
-                    // Update form with image reference
+                    // Update form with multiple image references
                     const form = document.getElementById('product-form');
-                    form.dataset.imageFile = fileName;
+                    let existingImages = form.dataset.images ? JSON.parse(form.dataset.images) : [];
+                    existingImages.push(fileName);
+                    form.dataset.images = JSON.stringify(existingImages);
                     
-                    // Show preview
-                    showImagePreview(base64, 'product-image');
+                    // Show preview in gallery
+                    addImageToGallery(base64, fileName, 'product-image-gallery');
                 } else if (type === 'category') {
                     const fileName = `category_${Date.now()}.${file.name.split('.').pop()}`;
                     localStorage.setItem(`image_${fileName}`, base64);
@@ -2461,6 +2463,61 @@ O token será salvo localmente no navegador.`);
                 console.log(`Imagem ${fileName} salva localmente`);
             };
             reader.readAsDataURL(file);
+        }
+
+        function addImageToGallery(base64, fileName, galleryId) {
+            let gallery = document.getElementById(galleryId);
+            if (!gallery) {
+                // Create gallery if it doesn't exist
+                const input = document.getElementById('product-image');
+                gallery = document.createElement('div');
+                gallery.id = galleryId;
+                gallery.className = 'image-gallery';
+                gallery.style.cssText = `
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    margin-top: 12px;
+                    padding: 12px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 8px;
+                    background: #f8f9fa;
+                `;
+                input.parentNode.insertBefore(gallery, input.nextSibling);
+            }
+            
+            const imageItem = document.createElement('div');
+            imageItem.className = 'gallery-item';
+            imageItem.style.cssText = `
+                position: relative;
+                width: 80px;
+                height: 80px;
+                border-radius: 6px;
+                overflow: hidden;
+                border: 2px solid #ddd;
+            `;
+            
+            imageItem.innerHTML = `
+                <img src="${base64}" style="width: 100%; height: 100%; object-fit: cover;">
+                <button onclick="removeImageFromGallery('${fileName}', this)" 
+                        style="position: absolute; top: 2px; right: 2px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">×</button>
+            `;
+            
+            gallery.appendChild(imageItem);
+        }
+
+        function removeImageFromGallery(fileName, button) {
+            // Remove from localStorage
+            localStorage.removeItem(`image_${fileName}`);
+            
+            // Remove from form data
+            const form = document.getElementById('product-form');
+            let existingImages = form.dataset.images ? JSON.parse(form.dataset.images) : [];
+            existingImages = existingImages.filter(img => img !== fileName);
+            form.dataset.images = JSON.stringify(existingImages);
+            
+            // Remove from DOM
+            button.parentElement.remove();
         }
 
         function showImagePreview(base64, inputId) {
@@ -2919,48 +2976,27 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Handle images - preserve existing + add new ones
+            // Handle multiple images using new system
             const form = document.getElementById('product-form');
             
-            // Start with existing images if editing
-            if (isEdit) {
+            // Get images from the new gallery system
+            if (form.dataset.images) {
+                product.images = JSON.parse(form.dataset.images);
+            } else if (isEdit) {
+                // Preserve existing images for edited products
                 const existingProduct = adminClient.data.products[index];
                 product.images = existingProduct.images || (existingProduct.imageFile ? [existingProduct.imageFile] : []);
-                product.imageFile = existingProduct.imageFile;
             } else {
                 product.images = [];
             }
             
-            // Handle form image data (both existing and new)
-            if (form.dataset.imageFiles && form.dataset.imageData) {
-                const fileNames = JSON.parse(form.dataset.imageFiles);
-                const imageDataArray = JSON.parse(form.dataset.imageData);
-                
-                // Reset images array and rebuild from form data
-                product.images = [];
-                
-                fileNames.forEach((fileName, index) => {
-                    const imageData = imageDataArray[index];
-                    
-                    if (fileName.startsWith('data/images/') || imageData.startsWith('data:')) {
-                        // Existing image or base64 data
-                        if (fileName.startsWith('data/images/')) {
-                            product.images.push(fileName);
-                        } else {
-                            product.images.push(imageData);
-                        }
-                    } else {
-                        // New uploaded file
-                        const imagePath = `data/images/${fileName}`;
-                        product.images.push(imagePath);
-                        uploadImageToGitHub(imageData, fileName);
-                    }
-                });
-                
-                // Set primary image
-                if (product.images.length > 0) {
-                    product.imageFile = product.images[0];
-                }
+            // Maintain backward compatibility with single imageFile
+            if (product.images.length > 0) {
+                product.imageFile = product.images[0]; // First image as primary
+            } else if (form.dataset.imageFile) {
+                // Fallback to old single image system
+                product.imageFile = form.dataset.imageFile;
+                product.images = [form.dataset.imageFile];
             }
             
             // Save product data immediately

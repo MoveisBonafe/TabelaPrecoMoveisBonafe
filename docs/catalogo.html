@@ -2324,6 +2324,7 @@
                     if (product.colorVariations && product.colorVariations.length > 0) {
                         console.log('Product has color variations:', product.colorVariations);
                         console.log('Available colors:', colors.map(c => c.name));
+                        console.log('Full color objects:', colors);
                         
                         product.colorVariations.forEach((colorName, index) => {
                             const colorData = colors.find(c => c.name === colorName);

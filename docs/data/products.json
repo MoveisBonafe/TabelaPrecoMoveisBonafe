@@ -17,8 +17,12 @@
     ],
     "active": true,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "updatedAt": "2025-06-08T21:46:11.345Z",
-    "images": []
+    "updatedAt": "2025-06-08T22:27:57.287Z",
+    "images": [
+      "data/images/product_1749421675793_0.png"
+    ],
+    "imageData": {},
+    "imageFile": "data/images/product_1749421675793_0.png"
   },
   {
     "id": 1749324636911,

@@ -445,8 +445,11 @@
             <span class="admin-label">Administrador</span>
         </div>
         <div class="header-right">
-            <button id="github-token-btn" class="btn" onclick="configureGitHubToken()" style="margin-right: 15px; padding: 8px 16px; font-size: 14px; font-weight: bold; background: #ffc107; color: #212529; border: 2px solid #fff; border-radius: 6px;">
+            <button id="github-token-btn" class="btn" onclick="configureGitHubToken()" style="margin-right: 10px; padding: 8px 16px; font-size: 14px; font-weight: bold; background: #ffc107; color: #212529; border: 2px solid #fff; border-radius: 6px;">
                 🔑 Configurar GitHub Token
+            </button>
+            <button class="btn" onclick="testGitHubConnection()" style="margin-right: 15px; padding: 8px 16px; font-size: 14px; background: #17a2b8; color: white; border: 2px solid #fff; border-radius: 6px;">
+                🔍 Testar GitHub
             </button>
             <button class="logout-btn" onclick="logout()">Sair</button>
         </div>
@@ -3025,6 +3028,28 @@ O token será salvo localmente no navegador.`);
         }
 
         // Configure GitHub Token with status update
+        async function validateGitHubToken(token) {
+            try {
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Token inválido: ${response.status} ${response.statusText}`);
+                }
+                
+                const userData = await response.json();
+                console.log('Token válido para usuário:', userData.login);
+                return userData;
+            } catch (error) {
+                console.error('Erro na validação do token:', error);
+                throw error;
+            }
+        }
+
         async function configureGitHubToken() {
             const currentToken = localStorage.getItem('github_token');
             const message = currentToken ? 
@@ -3034,19 +3059,73 @@ O token será salvo localmente no navegador.`);
             const token = prompt(message);
             
             if (token && token.trim()) {
-                localStorage.setItem('github_token', token.trim());
-                
-                // Detect repository information immediately
-                await adminClient.detectRepositoryInfo();
-                
-                updateGitHubTokenStatus();
-                alert('Token GitHub configurado com sucesso!\nAgora suas alterações serão salvas no GitHub.');
-                addSystemLog('Token GitHub configurado');
+                try {
+                    console.log('Validando token GitHub...');
+                    const userData = await validateGitHubToken(token.trim());
+                    
+                    localStorage.setItem('github_token', token.trim());
+                    
+                    // Detect repository information immediately
+                    await adminClient.detectRepositoryInfo();
+                    
+                    updateGitHubTokenStatus();
+                    alert(`Token GitHub configurado com sucesso para ${userData.login}!\nAgora suas alterações serão salvas no GitHub.`);
+                    addSystemLog(`Token GitHub configurado para ${userData.login}`);
+                } catch (error) {
+                    alert(`Erro na configuração do token: ${error.message}\n\nVerifique se:\n1. O token está correto\n2. O escopo "repo" está selecionado`);
+                    addSystemLog(`Erro na configuração do token: ${error.message}`);
+                }
             } else if (token === '') {
                 localStorage.removeItem('github_token');
                 updateGitHubTokenStatus();
                 alert('Token GitHub removido. Alterações serão salvas apenas localmente.');
                 addSystemLog('Token GitHub removido');
+            }
+        }
+
+        async function testGitHubConnection() {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                alert('Configure o token GitHub primeiro');
+                return;
+            }
+
+            try {
+                console.log('🔍 Testando conexão GitHub...');
+                addSystemLog('Testando conexão GitHub...');
+                
+                const userData = await validateGitHubToken(token);
+                
+                // Test repository access
+                if (!adminClient.repoOwner || !adminClient.repoName) {
+                    await adminClient.detectRepositoryInfo();
+                }
+                
+                const repoUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}`;
+                const repoResponse = await fetch(repoUrl, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!repoResponse.ok) {
+                    throw new Error(`Acesso ao repositório negado: ${repoResponse.status}`);
+                }
+                
+                const repoData = await repoResponse.json();
+                
+                alert(`Conexão GitHub OK!
+Usuário: ${userData.login}
+Repositório: ${repoData.full_name}
+Permissões: ${repoData.permissions?.push ? 'Escrita' : 'Leitura'}`);
+                
+                addSystemLog(`Conexão GitHub verificada: ${userData.login}/${repoData.name}`);
+                
+            } catch (error) {
+                console.error('Erro no teste:', error);
+                alert(`Erro na conexão: ${error.message}`);
+                addSystemLog(`Erro no teste GitHub: ${error.message}`);
             }
         }
 
@@ -3103,23 +3182,32 @@ O token será salvo localmente no navegador.`);
             }
             
             // Handle new image uploads if present
+            console.log('🔍 Verificando se há arquivos para upload...');
+            console.log('form.uploadFiles:', form.uploadFiles);
+            console.log('form.uploadFileNames:', form.uploadFileNames);
+            
             if (form.uploadFiles && form.uploadFileNames) {
                 const uploadFiles = form.uploadFiles;
                 const uploadFileNames = form.uploadFileNames;
+                
+                console.log(`📁 Encontrados ${uploadFiles.length} arquivos para upload:`, uploadFileNames);
                 
                 // Add new images to the product
                 const newImagePaths = uploadFileNames.map(name => `data/images/${name}`);
                 product.images = [...product.images, ...newImagePaths];
                 
+                console.log(`🎯 Iniciando upload de ${uploadFiles.length} imagens para GitHub...`);
+                
                 // Upload all images to GitHub with proper await
                 const uploadPromises = uploadFiles.map(async (file, index) => {
                     try {
                         const fileName = uploadFileNames[index];
+                        console.log(`📸 Processando imagem ${index + 1}/${uploadFiles.length}: ${fileName}`);
                         const githubUrl = await uploadImageToGitHub(file, fileName);
                         addSystemLog(`Imagem ${fileName} enviada para GitHub`);
                         return githubUrl;
                     } catch (error) {
-                        console.error('Erro no upload:', error);
+                        console.error(`❌ Erro no upload de ${uploadFileNames[index]}:`, error);
                         addSystemLog(`Erro no upload de ${uploadFileNames[index]}: ${error.message}`);
                         throw error;
                     }
@@ -3127,9 +3215,11 @@ O token será salvo localmente no navegador.`);
                 
                 // Wait for all uploads to complete
                 try {
+                    console.log('⏳ Aguardando conclusão de todos os uploads...');
                     await Promise.all(uploadPromises);
+                    console.log('✅ Todos os uploads concluídos');
                 } catch (error) {
-                    console.error('Erro em alguns uploads:', error);
+                    console.error('❌ Erro em alguns uploads:', error);
                 }
                 
                 addSystemLog(`Produto salvo, enviando ${uploadFiles.length} imagens...`);
@@ -3185,12 +3275,13 @@ O token será salvo localmente no navegador.`);
             // Handle new image upload if present
             if (form.uploadFile && form.uploadFileName) {
                 try {
-                    // Upload image to GitHub with proper await
+                    console.log(`🎯 Iniciando upload da imagem da categoria: ${form.uploadFileName}`);
                     category.imageFile = `data/images/${form.uploadFileName}`;
                     const githubUrl = await uploadImageToGitHub(form.uploadFile, form.uploadFileName);
+                    console.log('✅ Upload da categoria concluído');
                     addSystemLog(`Imagem da categoria ${form.uploadFileName} enviada para GitHub`);
                 } catch (error) {
-                    console.error('Erro no upload da imagem:', error);
+                    console.error('❌ Erro no upload da imagem da categoria:', error);
                     addSystemLog(`Erro no upload da imagem: ${error.message}`);
                 }
             }
@@ -3468,32 +3559,50 @@ O token será salvo localmente no navegador.`);
 
         // Upload image file to GitHub repository
         async function uploadImageToGitHub(file, fileName) {
+            console.log(`🚀 Iniciando upload de ${fileName} para GitHub...`);
+            
             const token = localStorage.getItem('github_token');
             if (!token) {
                 throw new Error('GitHub token não configurado');
             }
 
+            // Ensure repository info is available
+            if (!adminClient.repoOwner || !adminClient.repoName) {
+                console.log('📡 Detectando informações do repositório...');
+                await adminClient.detectRepositoryInfo();
+                
+                if (!adminClient.repoOwner || !adminClient.repoName) {
+                    throw new Error('Não foi possível detectar informações do repositório');
+                }
+            }
+
+            console.log(`📂 Repositório: ${adminClient.repoOwner}/${adminClient.repoName}`);
+
             // Convert file to base64 for GitHub API
-            const base64Content = await new Promise((resolve) => {
+            const base64Content = await new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => {
-                    const base64 = reader.result.split(',')[1];
-                    resolve(base64);
+                    try {
+                        const base64 = reader.result.split(',')[1];
+                        console.log(`📄 Arquivo convertido para base64 (${base64.length} chars)`);
+                        resolve(base64);
+                    } catch (error) {
+                        reject(error);
+                    }
                 };
+                reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
 
             const filePath = `docs/data/images/${fileName}`;
-            // Get repository info from GitHub API if not set
-            if (!adminClient.repoOwner || !adminClient.repoName) {
-                await adminClient.detectRepositoryInfo();
-            }
-            
             const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
+            
+            console.log(`🌐 API URL: ${apiUrl}`);
 
             // Check if file exists first
             let sha = null;
             try {
+                console.log('🔍 Verificando se arquivo já existe...');
                 const checkResponse = await fetch(apiUrl, {
                     headers: {
                         'Authorization': `token ${token}`,
@@ -3503,9 +3612,12 @@ O token será salvo localmente no navegador.`);
                 if (checkResponse.ok) {
                     const existingFile = await checkResponse.json();
                     sha = existingFile.sha;
+                    console.log(`♻️ Arquivo existe, SHA: ${sha}`);
+                } else {
+                    console.log('📝 Arquivo não existe, será criado');
                 }
             } catch (error) {
-                // File doesn't exist, that's OK
+                console.log('📝 Arquivo não existe (erro na verificação), será criado');
             }
 
             // Upload or update file
@@ -3514,6 +3626,8 @@ O token será salvo localmente no navegador.`);
                 content: base64Content,
                 ...(sha && { sha })
             };
+
+            console.log(`📤 Enviando ${sha ? 'atualização' : 'novo arquivo'} para GitHub...`);
 
             const response = await fetch(apiUrl, {
                 method: 'PUT',
@@ -3532,14 +3646,21 @@ O token será salvo localmente no navegador.`);
                     const errorData = JSON.parse(errorText);
                     errorMessage = errorData.message || errorMessage;
                 } catch (e) {
-                    // If not JSON, use the text response
                     errorMessage = errorText || errorMessage;
                 }
-                console.error('GitHub API Error:', errorMessage);
+                console.error('❌ GitHub API Error:', errorMessage);
+                console.error('📋 Response details:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries())
+                });
                 throw new Error(`Erro no upload: ${errorMessage}`);
             }
 
             const result = await response.json();
+            console.log(`✅ Upload concluído: ${fileName}`);
+            console.log(`🔗 URL do arquivo: ${result.content.download_url}`);
+            
             return result.content.download_url;
         }
 

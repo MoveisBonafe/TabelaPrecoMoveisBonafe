@@ -1135,6 +1135,12 @@
                     return;
                 }
 
+                // Initialize repository information if GitHub token exists
+                const token = localStorage.getItem('github_token');
+                if (token && (!this.repoOwner || !this.repoName)) {
+                    await this.detectRepositoryInfo();
+                }
+
                 await this.loadAllData();
                 this.renderProducts();
                 this.renderCategories();
@@ -1625,6 +1631,35 @@
                 // Fallback para desenvolvimento local/Replit
                 console.log('🔗 Usando repositório padrão para desenvolvimento');
                 return 'moveisbonafe/TabelaPrecoMoveisBonafe';
+            }
+
+            async detectRepositoryInfo() {
+                try {
+                    const token = localStorage.getItem('github_token');
+                    if (!token) return;
+
+                    // Try to get repository info from user profile
+                    const userResponse = await fetch('https://api.github.com/user', {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+
+                    if (userResponse.ok) {
+                        const userData = await userResponse.json();
+                        this.repoOwner = userData.login;
+                        this.repoName = 'TabelaPrecoMoveisBonafe'; // Default repo name
+                        
+                        // Store in localStorage for persistence
+                        localStorage.setItem('github_repo_owner', this.repoOwner);
+                        localStorage.setItem('github_repo_name', this.repoName);
+                        
+                        console.log(`🔗 Detectado repositório: ${this.repoOwner}/${this.repoName}`);
+                    }
+                } catch (error) {
+                    console.error('Erro ao detectar repositório:', error);
+                }
             }
 
             base64EncodeUTF8(str) {

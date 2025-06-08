@@ -1613,6 +1613,15 @@
                     return `${username}/${repoName}`;
                 }
                 
+                // For development/Replit environment, check for stored values first
+                const storedOwner = localStorage.getItem('github_repo_owner');
+                const storedName = localStorage.getItem('github_repo_name');
+                
+                if (storedOwner && storedName) {
+                    console.log(`🔗 Usando repositório armazenado: ${storedOwner}/${storedName}`);
+                    return `${storedOwner}/${storedName}`;
+                }
+                
                 // Fallback para desenvolvimento local/Replit
                 console.log('🔗 Usando repositório padrão para desenvolvimento');
                 return 'moveisbonafe/TabelaPrecoMoveisBonafe';

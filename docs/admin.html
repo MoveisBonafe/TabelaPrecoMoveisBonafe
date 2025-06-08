@@ -1261,12 +1261,19 @@
                         
                         // Handle different image path formats
                         if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                            const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                            const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            // Try to get from localStorage first
+                            const storedImage = localStorage.getItem(`image_${imageSrc}`);
                             if (storedImage && storedImage.startsWith('data:')) {
                                 imageSrc = storedImage;
                             } else {
-                                imageSrc = `${this.baseUrl}/${imageSrc}`;
+                                // Try without prefix
+                                const cleanPath = imageSrc.replace(/^data\/images\//, '').replace(/^images\//, '');
+                                const storedImageClean = localStorage.getItem(`image_${cleanPath}`);
+                                if (storedImageClean && storedImageClean.startsWith('data:')) {
+                                    imageSrc = storedImageClean;
+                                } else {
+                                    imageSrc = `${this.baseUrl}/${imageSrc}`;
+                                }
                             }
                         }
                         

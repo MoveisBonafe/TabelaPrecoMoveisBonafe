@@ -1203,23 +1203,33 @@
                     
                     // Check if category has an image
                     let categoryIcon;
-                    if (category.imageFile) {
+                    
+                    // First check for base64 icon data directly in category
+                    if (category.icon && category.icon.startsWith('data:')) {
+                        categoryIcon = `<img src="${category.icon}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
+                    } else if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
                         // Handle different image path formats
-                        // Check localStorage first for valid image data
-                        const cleanPath = imageSrc.replace(/^data\/images\//, '');
-                        const storedImage = localStorage.getItem(`image_${cleanPath}`);
-                        
                         if (imageSrc.startsWith('data:')) {
                             // Already a data URL, use as is
                             categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
-                        } else if (storedImage && storedImage.startsWith('data:')) {
-                            // Use stored image if available
-                            categoryIcon = `<img src="${storedImage}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
                         } else {
-                            // No valid image found, use icon fallback
-                            categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
+                            // Try to get from localStorage with various possible keys
+                            let storedImage = localStorage.getItem(`image_${imageSrc}`);
+                            
+                            if (!storedImage) {
+                                // Try without any path prefixes
+                                const cleanPath = imageSrc.replace(/^(data\/images\/|images\/|data\/)/, '');
+                                storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            }
+                            
+                            if (storedImage && storedImage.startsWith('data:')) {
+                                categoryIcon = `<img src="${storedImage}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
+                            } else {
+                                // Try as direct URL path
+                                categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
+                            }
                         }
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;

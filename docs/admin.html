@@ -1261,8 +1261,13 @@
                         
                         // Handle different image path formats
                         if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                            // Use direct file path for uploaded images
-                            imageSrc = `/${imageSrc}`;
+                            // For local development, use direct file path
+                            if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit')) {
+                                imageSrc = `/${imageSrc}`;
+                            } else {
+                                // For GitHub Pages, construct proper URL
+                                imageSrc = `${this.baseUrl}/${imageSrc}`;
+                            }
                         }
                         
                         const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';
@@ -2487,7 +2492,7 @@ O token será salvo localmente no navegador.`);
             }
         }
 
-        function addImageToGallery(base64, fileName, galleryId) {
+        function addImageToGallery(imageUrl, fileName, galleryId) {
             let gallery = document.getElementById(galleryId);
             if (!gallery) {
                 // Create gallery if it doesn't exist
@@ -2534,7 +2539,7 @@ O token será salvo localmente no navegador.`);
             `;
             
             imageItem.innerHTML = `
-                <img src="${base64}" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">
                 <button onclick="removeImageFromGallery('${fileName}', this)" 
                         style="position: absolute; top: 2px; right: 2px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">×</button>
             `;
@@ -2556,7 +2561,7 @@ O token será salvo localmente no navegador.`);
             button.parentElement.remove();
         }
 
-        function showImagePreview(base64, inputId) {
+        function showImagePreview(imageUrl, inputId) {
             const input = document.getElementById(inputId);
             let preview = input.parentNode.querySelector('.image-preview');
             
@@ -2578,7 +2583,7 @@ O token será salvo localmente no navegador.`);
                 input.parentNode.insertBefore(preview, input.nextSibling);
             }
             
-            preview.innerHTML = `<img src="${base64}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">`;
+            preview.innerHTML = `<img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">`;
         }
 
         // Monitor tab real-time updates

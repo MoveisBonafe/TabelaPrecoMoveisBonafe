@@ -2797,11 +2797,7 @@ O token será salvo localmente no navegador.`);
             colorItems.forEach(item => {
                 const select = item.querySelector('select');
                 if (select && select.value) {
-                    const selectedOption = select.options[select.selectedIndex];
-                    colorVariations.push({
-                        name: select.value,
-                        color: selectedOption.dataset.code || '#ffffff'
-                    });
+                    colorVariations.push(select.value);
                 }
             });
 
@@ -2821,24 +2817,42 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Preserve existing image if editing
-            if (isEdit && adminClient.data.products[index].imageFile) {
-                product.imageFile = adminClient.data.products[index].imageFile;
+            // Handle images - preserve existing + add new ones
+            const form = document.getElementById('product-form');
+            
+            // Start with existing images if editing
+            if (isEdit) {
+                const existingProduct = adminClient.data.products[index];
+                product.images = existingProduct.images || (existingProduct.imageFile ? [existingProduct.imageFile] : []);
+                product.imageFile = existingProduct.imageFile;
+            } else {
+                product.images = [];
             }
             
-            // Handle multiple image uploads if present
-            const form = document.getElementById('product-form');
+            // Add new uploaded images if present
             if (form.dataset.imageFiles && form.dataset.imageData) {
                 const fileNames = JSON.parse(form.dataset.imageFiles);
                 const imageDataArray = JSON.parse(form.dataset.imageData);
                 
-                product.images = fileNames.map(fileName => `data/images/${fileName}`);
-                product.imageFile = product.images[0]; // Keep compatibility with single image reference
+                // Check if these are new images or existing ones being preserved
+                const newImages = fileNames.filter(fileName => !fileName.startsWith('data:'));
+                const newImageData = imageDataArray.filter(data => !data.includes('data/images/'));
                 
-                // Upload all images to GitHub asynchronously
-                fileNames.forEach((fileName, index) => {
-                    uploadImageToGitHub(imageDataArray[index], fileName);
-                });
+                // Add new images to the product
+                if (newImages.length > 0) {
+                    const newImagePaths = newImages.map(fileName => `data/images/${fileName}`);
+                    product.images = [...(product.images || []), ...newImagePaths];
+                    
+                    // Upload new images to GitHub asynchronously
+                    newImages.forEach((fileName, idx) => {
+                        uploadImageToGitHub(newImageData[idx], fileName);
+                    });
+                }
+                
+                // Set primary image
+                if (product.images.length > 0) {
+                    product.imageFile = product.images[0];
+                }
             }
             
             // Save product data immediately

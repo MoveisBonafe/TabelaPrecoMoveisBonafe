@@ -1937,6 +1937,14 @@
                 modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
             }
 
+            // Filter out empty or invalid images
+            modalImages = modalImages.filter(img => img && img.trim() !== '');
+            
+            // If no valid images, use placeholder
+            if (modalImages.length === 0) {
+                modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
+            }
+
             // Set main image
             updateModalMainImage(0);
             
@@ -1952,22 +1960,42 @@
             const mainImage = document.getElementById('modal-main-image');
             let imageSrc = modalImages[index];
             
-            // Handle different image path formats
-            if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                const storedImage = localStorage.getItem(`image_${imageSrc}`);
-                if (storedImage) {
-                    imageSrc = storedImage;
-                } else if (catalogClient) {
-                    imageSrc = `${catalogClient.baseUrl}/data/images/${imageSrc}`;
+            try {
+                // Handle different image path formats
+                if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                    // Clean up the image path
+                    const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                    
+                    // Check localStorage first
+                    const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                    if (storedImage && storedImage.startsWith('data:')) {
+                        imageSrc = storedImage;
+                    } else if (catalogClient) {
+                        // Build proper GitHub URL
+                        if (imageSrc.startsWith('data/images/')) {
+                            imageSrc = `${catalogClient.baseUrl}/${imageSrc}`;
+                        } else {
+                            imageSrc = `${catalogClient.baseUrl}/data/images/${cleanPath}`;
+                        }
+                    }
                 }
+                
+                // Add error handling for image loading
+                mainImage.onerror = function() {
+                    this.src = 'https://via.placeholder.com/400x400?text=Imagem+Não+Encontrada';
+                    console.warn('Failed to load image:', imageSrc);
+                };
+                
+                mainImage.src = imageSrc;
+                
+                // Update thumbnail selection
+                document.querySelectorAll('.thumbnail-item').forEach((thumb, i) => {
+                    thumb.classList.toggle('active', i === index);
+                });
+            } catch (error) {
+                console.error('Error updating modal image:', error);
+                mainImage.src = 'https://via.placeholder.com/400x400?text=Erro+na+Imagem';
             }
-            
-            mainImage.src = imageSrc;
-            
-            // Update thumbnail selection
-            document.querySelectorAll('.thumbnail-item').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
         }
 
         function createModalThumbnails() {
@@ -1984,20 +2012,41 @@
             modalImages.forEach((imagePath, index) => {
                 let imageSrc = imagePath;
                 
-                if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                    const storedImage = localStorage.getItem(`image_${imageSrc}`);
-                    if (storedImage) {
-                        imageSrc = storedImage;
-                    } else if (catalogClient) {
-                        imageSrc = `${catalogClient.baseUrl}/data/images/${imageSrc}`;
+                try {
+                    if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                        // Clean up the image path
+                        const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                        
+                        // Check localStorage first
+                        const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                        if (storedImage && storedImage.startsWith('data:')) {
+                            imageSrc = storedImage;
+                        } else if (catalogClient) {
+                            // Build proper GitHub URL
+                            if (imagePath.startsWith('data/images/')) {
+                                imageSrc = `${catalogClient.baseUrl}/${imagePath}`;
+                            } else {
+                                imageSrc = `${catalogClient.baseUrl}/data/images/${cleanPath}`;
+                            }
+                        }
                     }
+                    
+                    const thumbDiv = document.createElement('div');
+                    thumbDiv.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
+                    thumbDiv.onclick = () => updateModalMainImage(index);
+                    
+                    const img = document.createElement('img');
+                    img.src = imageSrc;
+                    img.alt = `Produto ${index + 1}`;
+                    img.onerror = function() {
+                        this.src = 'https://via.placeholder.com/60x60?text=Erro';
+                    };
+                    
+                    thumbDiv.appendChild(img);
+                    container.appendChild(thumbDiv);
+                } catch (error) {
+                    console.error('Error creating thumbnail:', error);
                 }
-                
-                const thumbDiv = document.createElement('div');
-                thumbDiv.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
-                thumbDiv.onclick = () => updateModalMainImage(index);
-                thumbDiv.innerHTML = `<img src="${imageSrc}" alt="Produto ${index + 1}">`;
-                container.appendChild(thumbDiv);
             });
         }
 

@@ -1686,10 +1686,15 @@ O token será salvo localmente no navegador.`);
                 document.getElementById('category-name').value = category.name || '';
                 document.getElementById('category-description').value = category.description || '';
                 document.getElementById('category-color').value = category.color || '#4a90e2';
+                
+                // Load existing category image
+                loadExistingCategoryImage(category);
+                
                 modal.dataset.editIndex = categoryIndex;
             } else {
                 title.textContent = 'Adicionar Categoria';
                 document.getElementById('category-form').reset();
+                clearCategoryImagePreviews();
                 delete modal.dataset.editIndex;
             }
             
@@ -2829,25 +2834,31 @@ O token será salvo localmente no navegador.`);
                 product.images = [];
             }
             
-            // Add new uploaded images if present
+            // Handle form image data (both existing and new)
             if (form.dataset.imageFiles && form.dataset.imageData) {
                 const fileNames = JSON.parse(form.dataset.imageFiles);
                 const imageDataArray = JSON.parse(form.dataset.imageData);
                 
-                // Check if these are new images or existing ones being preserved
-                const newImages = fileNames.filter(fileName => !fileName.startsWith('data:'));
-                const newImageData = imageDataArray.filter(data => !data.includes('data/images/'));
+                // Reset images array and rebuild from form data
+                product.images = [];
                 
-                // Add new images to the product
-                if (newImages.length > 0) {
-                    const newImagePaths = newImages.map(fileName => `data/images/${fileName}`);
-                    product.images = [...(product.images || []), ...newImagePaths];
+                fileNames.forEach((fileName, index) => {
+                    const imageData = imageDataArray[index];
                     
-                    // Upload new images to GitHub asynchronously
-                    newImages.forEach((fileName, idx) => {
-                        uploadImageToGitHub(newImageData[idx], fileName);
-                    });
-                }
+                    if (fileName.startsWith('data/images/') || imageData.startsWith('data:')) {
+                        // Existing image or base64 data
+                        if (fileName.startsWith('data/images/')) {
+                            product.images.push(fileName);
+                        } else {
+                            product.images.push(imageData);
+                        }
+                    } else {
+                        // New uploaded file
+                        const imagePath = `data/images/${fileName}`;
+                        product.images.push(imagePath);
+                        uploadImageToGitHub(imageData, fileName);
+                    }
+                });
                 
                 // Set primary image
                 if (product.images.length > 0) {
@@ -2888,17 +2899,28 @@ O token será salvo localmente no navegador.`);
                 updatedAt: new Date().toISOString()
             };
             
-            // Preserve existing image if editing
+            // Handle category image - preserve existing + add new one
+            const form = document.getElementById('category-form');
+            
+            // Start with existing image if editing
             if (isEdit && adminClient.data.categories[index].imageFile) {
                 category.imageFile = adminClient.data.categories[index].imageFile;
             }
             
             // Handle new image upload if present
-            const form = document.getElementById('category-form');
             if (form.dataset.imageFile && form.dataset.imageData) {
-                category.imageFile = `data/images/${form.dataset.imageFile}`;
-                // Upload image to GitHub asynchronously
-                uploadImageToGitHub(form.dataset.imageData, form.dataset.imageFile);
+                const imageData = form.dataset.imageData;
+                const imageFile = form.dataset.imageFile;
+                
+                if (imageData.startsWith('data:')) {
+                    // New uploaded image
+                    const fileName = `category_${Date.now()}.png`;
+                    category.imageFile = `data/images/${fileName}`;
+                    uploadImageToGitHub(imageData, fileName);
+                } else {
+                    // Existing image being preserved
+                    category.imageFile = imageFile;
+                }
             }
             
             // Save category data immediately
@@ -3315,7 +3337,78 @@ O token será salvo localmente no navegador.`);
             // Remove the preview element
             button.parentElement.remove();
             
+            // Update indices for remaining images
+            const previewContainer = document.getElementById('image-preview-container');
+            const remainingPreviews = previewContainer.children;
+            Array.from(remainingPreviews).forEach((preview, newIndex) => {
+                const removeBtn = preview.querySelector('button');
+                if (removeBtn) {
+                    removeBtn.onclick = () => removeExistingImage(removeBtn, newIndex);
+                }
+            });
+            
             addSystemLog('Imagem removida do produto');
+        }
+
+        // Load existing category image
+        function loadExistingCategoryImage(category) {
+            const previewContainer = document.getElementById('category-image-preview');
+            if (!previewContainer) return;
+            
+            previewContainer.innerHTML = '';
+            
+            if (category.imageFile) {
+                let imageSrc = category.imageFile;
+                
+                // Handle different image path formats
+                if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                    const storedImage = localStorage.getItem(`image_${imageSrc}`);
+                    if (storedImage) {
+                        imageSrc = storedImage;
+                    } else if (adminClient) {
+                        imageSrc = `${adminClient.baseUrl}/${imageSrc}`;
+                    }
+                }
+                
+                // Create preview element
+                const previewDiv = document.createElement('div');
+                previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
+                previewDiv.innerHTML = `
+                    <img src="${imageSrc}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                    <button type="button" onclick="removeCategoryImage()" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
+                `;
+                previewContainer.appendChild(previewDiv);
+                
+                // Set form data
+                const form = document.getElementById('category-form');
+                form.dataset.imageFile = category.imageFile;
+                form.dataset.imageData = imageSrc;
+            }
+        }
+
+        // Clear category image previews
+        function clearCategoryImagePreviews() {
+            const previewContainer = document.getElementById('category-image-preview');
+            if (previewContainer) previewContainer.innerHTML = '';
+            
+            const form = document.getElementById('category-form');
+            delete form.dataset.imageFile;
+            delete form.dataset.imageData;
+        }
+
+        // Remove category image
+        function removeCategoryImage() {
+            const previewContainer = document.getElementById('category-image-preview');
+            if (previewContainer) previewContainer.innerHTML = '';
+            
+            const form = document.getElementById('category-form');
+            delete form.dataset.imageFile;
+            delete form.dataset.imageData;
+            
+            const input = document.getElementById('category-image');
+            if (input) input.value = '';
+            
+            addSystemLog('Imagem removida da categoria');
         }
 
         // Initialize application

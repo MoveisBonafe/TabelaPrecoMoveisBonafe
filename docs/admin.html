@@ -3223,6 +3223,15 @@ Permissões: ${repoData.permissions?.push ? 'Escrita' : 'Leitura'}`);
                 }
                 
                 addSystemLog(`Produto salvo, enviando ${uploadFiles.length} imagens...`);
+            } else {
+                console.log('ℹ️ Nenhum arquivo para upload encontrado');
+                
+                // Check if GitHub token is configured
+                const token = localStorage.getItem('github_token');
+                if (!token) {
+                    console.log('⚠️ GitHub token não configurado - imagens não serão enviadas para GitHub');
+                    addSystemLog('⚠️ Configure GitHub token para salvar imagens no repositório');
+                }
             }
             
             // Maintain backward compatibility with single imageFile

@@ -1216,22 +1216,33 @@
                     
                     // Generate product image display
                     let imageCell = '<div class="product-image-cell">📦</div>';
-                    if (product.imageFile) {
-                        let imageSrc = product.imageFile;
+                    
+                    // Handle multiple images - prioritize first image from images array
+                    const images = product.images || (product.imageFile ? [product.imageFile] : []);
+                    if (images.length > 0) {
+                        let imageSrc = images[0];
                         
-                        // Check if it's a local storage reference
+                        // Handle different image path formats
                         if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                            const storedImage = localStorage.getItem(`image_${imageSrc}`);
-                            if (storedImage) {
+                            const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                            const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            if (storedImage && storedImage.startsWith('data:')) {
                                 imageSrc = storedImage;
+                            } else {
+                                imageSrc = `${this.baseUrl}/${imageSrc}`;
                             }
                         }
+                        
+                        const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';
                         
                         imageCell = `
                             <div class="product-image-cell">
                                 <img src="${imageSrc}" 
                                      alt="${product.name}" 
-                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+                                     class="product-thumbnail"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="image-fallback" style="display: none;">📦</div>
+                                ${imageCount}
                             </div>
                         `;
                     }

@@ -373,6 +373,27 @@
             background: #545b62;
         }
         
+        .category-thumbnail {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        
+        .category-image-placeholder {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #999;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -1276,8 +1297,38 @@
                     const productCount = this.data.products.filter(p => p.category === category.name).length;
                     const row = table.insertRow();
                     
+                    // Handle category image display
+                    let categoryImageCell = '<div class="category-image-placeholder">📦</div>';
+                    if (category.imageFile) {
+                        let imageSrc = category.imageFile;
+                        
+                        // Check if it's already a data URL
+                        if (imageSrc.startsWith('data:')) {
+                            categoryImageCell = `<img src="${imageSrc}" alt="${category.name}" class="category-thumbnail">`;
+                        } else {
+                            // Check localStorage for the image
+                            const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                            const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            if (storedImage && storedImage.startsWith('data:')) {
+                                categoryImageCell = `<img src="${storedImage}" alt="${category.name}" class="category-thumbnail">`;
+                            } else if (this.baseUrl) {
+                                // Build GitHub URL
+                                const githubImageSrc = imageSrc.startsWith('data/images/') ? 
+                                    `${this.baseUrl}/${imageSrc}` : 
+                                    `${this.baseUrl}/data/images/${cleanPath}`;
+                                categoryImageCell = `<img src="${githubImageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                                    <div class="category-image-placeholder" style="display: none;">📦</div>`;
+                            }
+                        }
+                    }
+                    
                     row.innerHTML = `
-                        <td><strong>${category.name || 'Sem nome'}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                ${categoryImageCell}
+                                <strong>${category.name || 'Sem nome'}</strong>
+                            </div>
+                        </td>
                         <td>${category.description || 'Sem descrição'}</td>
                         <td><span style="background: ${category.color || '#ccc'}; padding: 4px 8px; border-radius: 4px; color: white;">${category.color || 'N/A'}</span></td>
                         <td>${productCount} produtos</td>

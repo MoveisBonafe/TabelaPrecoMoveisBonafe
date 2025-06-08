@@ -1195,17 +1195,31 @@
                         let imageSrc = category.imageFile;
                         
                         // Handle different image path formats
-                        if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                        if (imageSrc.startsWith('data:')) {
+                            // Already a data URL, use as is
+                            categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                           <div class="category-icon" style="display: none;">${icons[category.name] || '📦'}</div>`;
+                        } else if (!imageSrc.startsWith('http')) {
+                            // Check localStorage first
                             const cleanPath = imageSrc.replace(/^data\/images\//, '');
                             const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            
                             if (storedImage && storedImage.startsWith('data:')) {
-                                imageSrc = storedImage;
+                                categoryIcon = `<img src="${storedImage}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                               <div class="category-icon" style="display: none;">${icons[category.name] || '📦'}</div>`;
                             } else {
-                                imageSrc = `${this.baseUrl}/${imageSrc}`;
+                                // Try GitHub URL as fallback
+                                const githubImageSrc = imageSrc.startsWith('data/images/') ? 
+                                    `${this.baseUrl}/${imageSrc}` : 
+                                    `${this.baseUrl}/data/images/${cleanPath}`;
+                                categoryIcon = `<img src="${githubImageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                               <div class="category-icon" style="display: none;">${icons[category.name] || '📦'}</div>`;
                             }
+                        } else {
+                            // External URL
+                            categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                           <div class="category-icon" style="display: none;">${icons[category.name] || '📦'}</div>`;
                         }
-                        
-                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
                     }

@@ -42,6 +42,7 @@
     "images": []
   },
   {
+    "id": 1749324636912,
     "name": "Cadeira Alta",
     "category": "Cadeiras",
     "priceAVista": 0,
@@ -50,12 +51,16 @@
     "comprimento": 45,
     "peso": 5.5,
     "description": "",
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
-    "id": 1749324636912,
     "createdAt": "2025-06-07T19:30:36.909Z",
-    "basePrice": 0,
-    "finalPrice": 0,
-    "updatedAt": "2025-06-07T20:13:51.801Z"
+    "updatedAt": "2025-06-08T21:48:24.495Z",
+    "images": []
   },
   {
     "name": "Cadeira Alta Estofada",

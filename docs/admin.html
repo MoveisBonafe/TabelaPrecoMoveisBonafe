@@ -3395,9 +3395,11 @@ O token será salvo localmente no navegador.`);
             if (category.imageFile) {
                 let imageSrc = category.imageFile;
                 
-                // Always use local server paths for all images
+                // Use GitHub Pages URLs for all images
                 if (!imageSrc.startsWith('http')) {
-                    imageSrc = imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`;
+                    imageSrc = imageSrc.startsWith('data/images/') ? 
+                        `${adminClient.baseUrl}/${imageSrc}` : 
+                        `${adminClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                 }
                 
                 // Create preview element

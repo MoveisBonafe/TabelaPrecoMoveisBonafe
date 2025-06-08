@@ -1658,10 +1658,18 @@ O token será salvo localmente no navegador.`);
                 document.getElementById('product-peso').value = product.peso || 0;
                 document.getElementById('product-description').value = product.description || '';
                 
+                // Load existing images
+                loadExistingImages(product);
+                
+                // Load existing colors
+                loadExistingColors(product);
+                
                 modal.dataset.editIndex = productIndex;
             } else {
                 title.textContent = 'Adicionar Produto';
                 document.getElementById('product-form').reset();
+                clearImagePreviews();
+                clearColorVariations();
                 delete modal.dataset.editIndex;
             }
             
@@ -3170,6 +3178,130 @@ O token será salvo localmente no navegador.`);
 
         function removeColorVariation(colorId) {
             document.getElementById(`color-${colorId}`).remove();
+        }
+
+        // Load existing images when editing product
+        function loadExistingImages(product) {
+            const previewContainer = document.getElementById('image-preview-container');
+            previewContainer.innerHTML = '';
+            
+            const images = product.images || (product.imageFile ? [product.imageFile] : []);
+            if (images.length === 0) return;
+            
+            const fileNames = [];
+            const imageDataArray = [];
+            
+            images.forEach((imagePath, index) => {
+                let imageSrc = imagePath;
+                
+                // Handle different image path formats
+                if (imagePath.startsWith('data/images/')) {
+                    // GitHub path format
+                    imageSrc = `${adminClient.baseUrl}/${imagePath}`;
+                } else if (imagePath.startsWith('data:')) {
+                    // Base64 data URL
+                    imageSrc = imagePath;
+                } else {
+                    // Try localStorage
+                    const storedImage = localStorage.getItem(`image_${imagePath}`);
+                    if (storedImage) {
+                        imageSrc = storedImage;
+                    } else {
+                        imageSrc = `${adminClient.baseUrl}/data/images/${imagePath}`;
+                    }
+                }
+                
+                // Create preview element
+                const previewDiv = document.createElement('div');
+                previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
+                previewDiv.innerHTML = `
+                    <img src="${imageSrc}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                    <button type="button" onclick="removeExistingImage(this, ${index})" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
+                `;
+                previewContainer.appendChild(previewDiv);
+                
+                // Extract filename from path
+                const fileName = imagePath.split('/').pop();
+                fileNames.push(fileName);
+                imageDataArray.push(imageSrc);
+            });
+            
+            // Set form data
+            const form = document.getElementById('product-form');
+            form.dataset.imageFiles = JSON.stringify(fileNames);
+            form.dataset.imageData = JSON.stringify(imageDataArray);
+        }
+
+        // Load existing colors when editing product
+        function loadExistingColors(product) {
+            const colorList = document.getElementById('color-list');
+            colorList.innerHTML = '';
+            
+            const colorVariations = product.colorVariations || [];
+            if (colorVariations.length === 0) return;
+            
+            colorVariations.forEach(colorName => {
+                const colorId = Date.now() + Math.random();
+                const colorItem = document.createElement('div');
+                colorItem.id = `color-${colorId}`;
+                colorItem.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 8px; background: white; border: 1px solid #ddd; border-radius: 4px;';
+                
+                // Find color data
+                const colorData = adminClient.data.colors.find(c => c.name === colorName);
+                const colorCode = colorData ? colorData.code : '#000000';
+                
+                // Build color options
+                let colorOptions = '<option value="">Selecione uma cor</option>';
+                adminClient.data.colors.forEach(color => {
+                    const selected = color.name === colorName ? 'selected' : '';
+                    colorOptions += `<option value="${color.name}" data-code="${color.code}" ${selected}>${color.name}</option>`;
+                });
+                
+                colorItem.innerHTML = `
+                    <select onchange="updateColorPreview(this, ${colorId})" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                        ${colorOptions}
+                    </select>
+                    <div id="color-preview-${colorId}" style="width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 4px; background: ${colorCode};"></div>
+                    <button type="button" onclick="removeColorVariation(${colorId})" style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Remover</button>
+                `;
+                colorList.appendChild(colorItem);
+            });
+        }
+
+        // Clear image previews
+        function clearImagePreviews() {
+            const previewContainer = document.getElementById('image-preview-container');
+            if (previewContainer) previewContainer.innerHTML = '';
+            
+            const form = document.getElementById('product-form');
+            delete form.dataset.imageFiles;
+            delete form.dataset.imageData;
+        }
+
+        // Clear color variations
+        function clearColorVariations() {
+            const colorList = document.getElementById('color-list');
+            if (colorList) colorList.innerHTML = '';
+        }
+
+        // Remove existing image
+        function removeExistingImage(button, imageIndex) {
+            const form = document.getElementById('product-form');
+            let fileNames = JSON.parse(form.dataset.imageFiles || '[]');
+            let imageData = JSON.parse(form.dataset.imageData || '[]');
+            
+            // Remove the image at the specified index
+            fileNames.splice(imageIndex, 1);
+            imageData.splice(imageIndex, 1);
+            
+            // Update form data
+            form.dataset.imageFiles = JSON.stringify(fileNames);
+            form.dataset.imageData = JSON.stringify(imageData);
+            
+            // Remove the preview element
+            button.parentElement.remove();
+            
+            addSystemLog('Imagem removida do produto');
         }
 
         // Initialize application

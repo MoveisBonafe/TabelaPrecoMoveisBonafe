@@ -1661,7 +1661,8 @@
         .main-image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center;
         }
 
         .image-nav-btn {
@@ -2128,7 +2129,7 @@
                 } else if (product.imageFile) {
                     modalImages = [product.imageFile];
                 } else {
-                    modalImages = ['https://via.placeholder.com/400x400?text=Sem+Imagem'];
+                    modalImages = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTgwSDIwMFYyMjBIMjAwVjE4MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHRleHQgeD0iMjAwIiB5PSIyMDAiIGZpbGw9IiM2QjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+U2VtIEltYWdlbTwvdGV4dD4KPC9zdmc+'];
                 }
 
                 // Filter out empty or invalid images
@@ -2151,7 +2152,7 @@
                 updateImageNavigation();
             } catch (error) {
                 console.error('Error setting up modal images:', error);
-                modalImages = ['https://via.placeholder.com/400x400?text=Erro+Imagem'];
+                modalImages = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjlGQUZCIi8+CjxwYXRoIGQ9Ik0yMDAgMTgwSDIwMFYyMjBIMjAwVjE4MFoiIGZpbGw9IiNEMUQ1REIiLz4KPHRleHQgeD0iMjAwIiB5PSIyMDAiIGZpbGw9IiM2QjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+RXJybyBJbWFnZW08L3RleHQ+Cjwvc3ZnPg=='];
                 updateModalMainImage(0);
                 createModalThumbnails();
                 updateImageNavigation();
@@ -2286,22 +2287,35 @@
                 const colorOptions = document.getElementById('modal-color-options');
                 const selectedColorText = document.getElementById('modal-selected-color');
                 
-                // Get all available colors from localStorage or catalogClient
-                let colors = catalogClient.colors || JSON.parse(localStorage.getItem('moveisbonafe_colors') || '[]');
+                // Get all available colors from multiple sources
+                let colors = [];
                 
-                // If no colors found, try to load from catalogClient data
-                if (colors.length === 0 && catalogClient && catalogClient.data && catalogClient.data.colors) {
-                    colors = catalogClient.data.colors;
+                // Try catalogClient.colors first
+                if (catalogClient && catalogClient.colors && catalogClient.colors.length > 0) {
+                    colors = catalogClient.colors;
+                }
+                // Try localStorage as fallback
+                else {
+                    const storedColors = localStorage.getItem('moveisbonafe_colors');
+                    if (storedColors) {
+                        try {
+                            colors = JSON.parse(storedColors);
+                        } catch (e) {
+                            colors = [];
+                        }
+                    }
                 }
                 
                 console.log('Available colors for modal:', colors);
                 
                 if (colors.length > 0) {
+                    console.log('Setting up color section with', colors.length, 'colors');
                     colorSection.style.display = 'block';
                     colorOptions.innerHTML = '';
                     
                     // If product has specific color variations, use those
                     if (product.colorVariations && product.colorVariations.length > 0) {
+                        console.log('Product has color variations:', product.colorVariations);
                         product.colorVariations.forEach((colorName, index) => {
                             const colorData = colors.find(c => c.name === colorName);
                             if (colorData) {
@@ -2323,7 +2337,9 @@
                         }
                     } else {
                         // Show all available colors if product doesn't have specific variations
+                        console.log('Product has no color variations, showing all available colors');
                         colors.forEach((colorData, index) => {
+                            console.log('Adding color option:', colorData.name, colorData.code);
                             const colorDiv = document.createElement('div');
                             colorDiv.className = `modal-color-option ${index === 0 ? 'selected' : ''}`;
                             colorDiv.style.backgroundColor = colorData.code;
@@ -2336,6 +2352,8 @@
                         if (colors[0]) {
                             selectedColorText.textContent = `Cor selecionada: ${colors[0].name}`;
                         }
+                        
+                        console.log('Color options added to container:', colorOptions.children.length);
                     }
                 } else {
                     colorSection.style.display = 'none';

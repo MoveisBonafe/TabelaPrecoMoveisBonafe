@@ -75,6 +75,23 @@
         .logout-btn:hover {
             background: #dc2626;
         }
+
+        .cart-btn {
+            padding: 8px 16px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin-right: 12px;
+        }
+
+        .cart-btn:hover {
+            background: #047857;
+        }
         
         .container {
             max-width: 1200px;
@@ -704,6 +721,9 @@
         <div class="header-content">
             <div class="logo">Móveis Bonafé</div>
             <div class="user-info">
+                <button class="cart-btn" onclick="openCartModal()">
+                    🛒 Carrinho (<span id="cart-count">0</span>)
+                </button>
                 <span class="user-badge" id="user-info">Carregando...</span>
                 <button class="logout-btn" onclick="logout()">Sair</button>
             </div>
@@ -1224,8 +1244,30 @@
                     const card = document.createElement('div');
                     card.className = 'category-card';
                     card.onclick = () => this.filterByCategory(category.name);
+                    
+                    // Check if category has an image
+                    let categoryIcon;
+                    if (category.imageFile) {
+                        let imageSrc = category.imageFile;
+                        
+                        // Handle different image path formats
+                        if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                            const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                            const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            if (storedImage && storedImage.startsWith('data:')) {
+                                imageSrc = storedImage;
+                            } else {
+                                imageSrc = `${this.baseUrl}/${imageSrc}`;
+                            }
+                        }
+                        
+                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">`;
+                    } else {
+                        categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
+                    }
+                    
                     card.innerHTML = `
-                        <div class="category-icon">${icons[category.name] || '📦'}</div>
+                        ${categoryIcon}
                         <div class="category-name">${category.name}</div>
                         <div class="category-count">${productCount} produtos</div>
                     `;
@@ -1526,17 +1568,44 @@
                             </div>
                         </div>
                         
-                        <div class="product-pricing">
-                            <h3>Opções de Preço</h3>
-                            <div class="price-options-modal" id="modal-price-options">
-                                <!-- Price options will be populated here -->
+                        <div class="product-dimensions" id="modal-dimensions-section">
+                            <h3>Dimensões</h3>
+                            <div class="dimensions-info" id="modal-dimensions">
+                                <!-- Dimensions will be populated here -->
                             </div>
                         </div>
                         
                         <div class="product-actions">
-                            <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                            <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
                             <button class="whatsapp-btn" onclick="contactWhatsApp()">Comprar via WhatsApp</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="product-modal">
+        <div class="product-modal-content">
+            <div class="product-modal-header">
+                <h2>Carrinho de Compras</h2>
+                <button class="modal-close-btn" onclick="closeCartModal()">&times;</button>
+            </div>
+            
+            <div class="cart-modal-body">
+                <div id="cart-items" class="cart-items">
+                    <!-- Cart items will be populated here -->
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        <h3>Total de Itens: <span id="cart-total-items">0</span></h3>
+                    </div>
+                    
+                    <div class="cart-actions">
+                        <button class="clear-cart-btn" onclick="clearCart()">Limpar Carrinho</button>
+                        <button class="checkout-btn" onclick="proceedToWhatsApp()">Finalizar via WhatsApp</button>
                     </div>
                 </div>
             </div>
@@ -1843,6 +1912,151 @@
             background: #22c55e;
         }
 
+        /* Cart Modal Styles */
+        .cart-modal-body {
+            padding: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .cart-items {
+            margin-bottom: 24px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: #f9fafb;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-color {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item-quantity button {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .cart-item-quantity input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 4px;
+        }
+
+        .cart-item-remove {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .cart-item-remove:hover {
+            background: #dc2626;
+        }
+
+        .cart-summary {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 24px;
+        }
+
+        .cart-total {
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .clear-cart-btn, .checkout-btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-cart-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .clear-cart-btn:hover {
+            background: #dc2626;
+        }
+
+        .checkout-btn {
+            background: #25d366;
+            color: white;
+        }
+
+        .checkout-btn:hover {
+            background: #22c55e;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        .dimensions-info {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .dimension-item {
+            background: #f3f4f6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .product-modal {
@@ -1879,6 +2093,16 @@
 
             .next-btn {
                 right: 8px;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
             }
         }
     </style>

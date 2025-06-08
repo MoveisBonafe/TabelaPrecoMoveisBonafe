@@ -209,6 +209,13 @@
             justify-content: center;
             color: #999;
             font-size: 24px;
+            overflow: hidden;
+        }
+        
+        .product-image-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .action-buttons-cell {
@@ -2472,12 +2479,6 @@ O token será salvo localmente no navegador.`);
             let gallery = document.getElementById(galleryId);
             if (!gallery) {
                 // Create gallery if it doesn't exist
-                const input = document.getElementById('product-image') || document.getElementById('edit-product-image');
-                if (!input) {
-                    console.error('Could not find image input element');
-                    return;
-                }
-                
                 gallery = document.createElement('div');
                 gallery.id = galleryId;
                 gallery.className = 'image-gallery';
@@ -2492,14 +2493,20 @@ O token será salvo localmente no navegador.`);
                     background: #f8f9fa;
                 `;
                 
-                if (input.parentNode) {
+                // Try to find a suitable container for the gallery
+                const input = document.getElementById('product-image') || document.getElementById('edit-product-image');
+                const modalContent = document.querySelector('.modal-content');
+                const productForm = document.getElementById('product-form');
+                
+                if (input && input.parentNode) {
                     input.parentNode.insertBefore(gallery, input.nextSibling);
+                } else if (modalContent) {
+                    modalContent.appendChild(gallery);
+                } else if (productForm) {
+                    productForm.appendChild(gallery);
                 } else {
-                    // Fallback: append to modal content if parent not found
-                    const modalContent = document.querySelector('.modal-content');
-                    if (modalContent) {
-                        modalContent.appendChild(gallery);
-                    }
+                    // Last resort: append to body
+                    document.body.appendChild(gallery);
                 }
             }
             
@@ -3585,7 +3592,7 @@ O token será salvo localmente no navegador.`);
         .product-thumbnail {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 6px;
         }
 

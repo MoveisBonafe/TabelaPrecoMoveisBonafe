@@ -1247,18 +1247,26 @@
                     
                     // Handle multiple images - prioritize first image from images array
                     const images = product.images || (product.imageFile ? [product.imageFile] : []);
+                    console.log('Product images for', product.name, ':', images);
                     if (images.length > 0) {
                         let imageSrc = images[0];
+                        console.log('Original image source:', imageSrc);
                         
                         // Handle different image path formats
                         if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
                             const cleanPath = imageSrc.replace(/^data\/images\//, '');
+                            console.log('Looking for stored image:', `image_${cleanPath}`);
                             const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                            console.log('Found stored image:', storedImage ? 'Yes' : 'No');
                             if (storedImage && storedImage.startsWith('data:')) {
                                 imageSrc = storedImage;
+                                console.log('Using stored image');
                             } else {
                                 imageSrc = `${this.baseUrl}/${imageSrc}`;
+                                console.log('Using fallback URL:', imageSrc);
                             }
+                        } else {
+                            console.log('Using direct image source');
                         }
                         
                         const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';

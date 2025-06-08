@@ -1,37 +1,22 @@
 [
-    {
-        "id": 1,
-        "name": "Branco",
-        "code": "#ffffff"
-    },
-    {
-        "id": 2,
-        "name": "Preto",
-        "code": "#000000"
-    },
-    {
-        "id": 3,
-        "name": "Marrom",
-        "code": "#8b4513"
-    },
-    {
-        "id": 4,
-        "name": "Bege",
-        "code": "#f5f5dc"
-    },
-    {
-        "id": 5,
-        "name": "Cinza",
-        "code": "#808080"
-    },
-    {
-        "id": 6,
-        "name": "Cerejeira",
-        "code": "#8B4513"
-    },
-    {
-        "id": 7,
-        "name": "Imbuia",
-        "code": "#A0522D"
-    }
+  {
+    "id": 1749326090595,
+    "name": "Cerejeira",
+    "code": "#ffc852"
+  },
+  {
+    "id": 1749326110799,
+    "name": "Mogno",
+    "code": "#9a1919"
+  },
+  {
+    "id": 1749326126357,
+    "name": "Tabaco",
+    "code": "#000000"
+  },
+  {
+    "id": 1749326136769,
+    "name": "Imbuia",
+    "code": "#8c5b17"
+  }
 ]

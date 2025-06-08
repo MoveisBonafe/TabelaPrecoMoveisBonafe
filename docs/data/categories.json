@@ -6,8 +6,8 @@
     "color": "#f59e0b",
     "active": true,
     "createdAt": "2025-01-07T20:47:00.000Z",
-    "updatedAt": "2025-06-07T20:45:06.325Z",
-    "imageFile": "data/images/category_1749329105752.jpg"
+    "updatedAt": "2025-06-08T18:15:27.749Z",
+    "imageFile": "data/images/category_1749406525739.png"
   },
   {
     "id": "2",
@@ -23,11 +23,11 @@
     "id": "4",
     "name": "Banquetas",
     "description": "Itens decorativos",
-    "icon": "data:image/x-icon;base64,AAABAAEApQAAAAEAIAAorAIAFgAAACgAAAClAAAAAAIAAAEAIAAAAAAAAJQCAAAAAAAAAAAAAAAAAAAAAAB0mLsEZprMBVGXtwVTpMIGVqq2Bl6p0gZOjr4HJW6TBytxlQc+ep8IQnylCEGAnwhCg6UIQoWlCEOGqwg+fKgJTX+bB0FjYQFCZ2cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgI+/AJOJvgBunb0FbKfFCHSnxQh6uNkIcbbZB2622gdwuNwHZqXKB0qGogdIe5MHSJGUB0mClAdJiqYHSYKgB0nukgdHbZIHNWuNB",
     "color": "#f97316",
     "active": true,
-    "productCount": 2,
-    "createdAt": "2025-01-07T20:47:00.000Z"
+    "createdAt": "2025-01-07T20:47:00.000Z",
+    "updatedAt": "2025-06-08T20:50:13.871Z",
+    "imageFile": "data/images/category_1749415813871.png"
   },
   {
     "id": "13",

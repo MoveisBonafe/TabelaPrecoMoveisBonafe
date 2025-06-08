@@ -1712,9 +1712,12 @@ O token será salvo localmente no navegador.`);
                 const form = document.getElementById('product-form');
                 form.reset();
                 delete form.dataset.imageFile;
+                delete form.dataset.images;
                 delete modal.dataset.editIndex;
                 const preview = document.getElementById('product-image-preview');
                 if (preview) preview.innerHTML = '';
+                const gallery = document.getElementById('product-image-gallery');
+                if (gallery) gallery.innerHTML = '';
             } else if (modalId === 'category-modal') {
                 const form = document.getElementById('category-form');
                 form.reset();
@@ -3351,54 +3354,38 @@ O token será salvo localmente no navegador.`);
 
         // Load existing images when editing product
         function loadExistingImages(product) {
-            const previewContainer = document.getElementById('image-preview-container');
-            previewContainer.innerHTML = '';
-            
+            const form = document.getElementById('product-form');
             const images = product.images || (product.imageFile ? [product.imageFile] : []);
+            
             if (images.length === 0) return;
             
-            const fileNames = [];
-            const imageDataArray = [];
+            // Set form dataset with existing images
+            form.dataset.images = JSON.stringify(images);
             
-            images.forEach((imagePath, index) => {
+            images.forEach((imagePath) => {
                 let imageSrc = imagePath;
                 
                 // Handle different image path formats
-                if (imagePath.startsWith('data/images/')) {
-                    // GitHub path format
-                    imageSrc = `${adminClient.baseUrl}/${imagePath}`;
-                } else if (imagePath.startsWith('data:')) {
+                if (imagePath.startsWith('data:')) {
                     // Base64 data URL
                     imageSrc = imagePath;
                 } else {
-                    // Try localStorage
-                    const storedImage = localStorage.getItem(`image_${imagePath}`);
-                    if (storedImage) {
+                    // Try localStorage first
+                    const cleanPath = imagePath.replace(/^data\/images\//, '');
+                    const storedImage = localStorage.getItem(`image_${cleanPath}`);
+                    if (storedImage && storedImage.startsWith('data:')) {
                         imageSrc = storedImage;
                     } else {
-                        imageSrc = `${adminClient.baseUrl}/data/images/${imagePath}`;
+                        // Fallback to GitHub URL (may not load but will show in gallery)
+                        imageSrc = imagePath.startsWith('data/images/') ? 
+                            `${adminClient.baseUrl}/${imagePath}` : 
+                            `${adminClient.baseUrl}/data/images/${cleanPath}`;
                     }
                 }
                 
-                // Create preview element
-                const previewDiv = document.createElement('div');
-                previewDiv.style.cssText = 'position: relative; display: inline-block; margin: 4px;';
-                previewDiv.innerHTML = `
-                    <img src="${imageSrc}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
-                    <button type="button" onclick="removeExistingImage(this, ${index})" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;">×</button>
-                `;
-                previewContainer.appendChild(previewDiv);
-                
-                // Extract filename from path
-                const fileName = imagePath.split('/').pop();
-                fileNames.push(fileName);
-                imageDataArray.push(imageSrc);
+                // Add to gallery using existing function
+                addImageToGallery(imageSrc, imagePath, 'product-image-gallery');
             });
-            
-            // Set form data
-            const form = document.getElementById('product-form');
-            form.dataset.imageFiles = JSON.stringify(fileNames);
-            form.dataset.imageData = JSON.stringify(imageDataArray);
         }
 
         // Load existing colors when editing product

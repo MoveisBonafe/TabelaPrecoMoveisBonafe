@@ -1600,12 +1600,17 @@
 
 O token será salvo localmente no navegador.`);
 
-                if (token) {
-                    localStorage.setItem('github_token', token);
+                if (token && token.trim()) {
+                    localStorage.setItem('github_token', token.trim());
                     alert('Token GitHub salvo com sucesso!');
+                    console.log('🔑 GitHub token updated');
                 } else {
                     alert('Token necessário para salvar alterações.');
                 }
+            }
+            
+            configureGitHubToken() {
+                this.requestGitHubToken();
             }
 
             saveData(type, data) {

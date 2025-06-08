@@ -1203,11 +1203,20 @@
                     if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
-                        // Use GitHub Pages URLs for all images
-                        const imageUrl = imageSrc.startsWith('data/images/') ? 
-                            `${this.baseUrl}/${imageSrc}` : 
-                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                        categoryIcon = `<img src="${imageUrl}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
+                        // Check if image is stored as base64 in localStorage first
+                        const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                        if (category.imageData) {
+                            imageSrc = category.imageData;
+                        } else if (imageStorage[imageSrc]) {
+                            imageSrc = imageStorage[imageSrc];
+                        } else {
+                            // Fallback to GitHub Pages URLs for existing images
+                            imageSrc = imageSrc.startsWith('data/images/') ? 
+                                `${this.baseUrl}/${imageSrc}` : 
+                                `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                        }
+                        
+                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.parentNode.innerHTML='<div class=\\"category-icon\\">${icons[category.name] || '📦'}</div>';">`;
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
                     }
@@ -1320,11 +1329,20 @@
                 if (images.length > 0) {
                     let imageSrc = images[0];
                     
-                    // Use GitHub Pages URLs for all images
-                    const imagePath = imageSrc.startsWith('data/images/') ? 
-                        `${this.baseUrl}/${imageSrc}` : 
-                        `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                    return `<img src="${imagePath}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
+                    // Check if image is stored as base64 in localStorage first
+                    const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                    if (product.imageData && product.imageData[imageSrc]) {
+                        imageSrc = product.imageData[imageSrc];
+                    } else if (imageStorage[imageSrc]) {
+                        imageSrc = imageStorage[imageSrc];
+                    } else {
+                        // Fallback to GitHub Pages URLs for existing images
+                        imageSrc = imageSrc.startsWith('data/images/') ? 
+                            `${this.baseUrl}/${imageSrc}` : 
+                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                    }
+                    
+                    return `<img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.3s;" onload="this.style.opacity='1';" onerror="this.style.display='none'; this.parentElement.innerHTML='${this.getProductIcon(product.category)}';">`;
                 } else {
                     // Fallback para ícone da categoria
                     return this.getProductIcon(product.category);

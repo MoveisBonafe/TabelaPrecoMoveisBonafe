@@ -1259,10 +1259,18 @@
                     if (images.length > 0) {
                         let imageSrc = images[0];
                         
-                        // Use GitHub Pages URLs for all images
-                        imageSrc = imageSrc.startsWith('data/images/') ? 
-                            `${this.baseUrl}/${imageSrc}` : 
-                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                        // Check if image is stored as base64 in localStorage first
+                        const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                        if (product.imageData && product.imageData[imageSrc]) {
+                            imageSrc = product.imageData[imageSrc];
+                        } else if (imageStorage[imageSrc]) {
+                            imageSrc = imageStorage[imageSrc];
+                        } else {
+                            // Fallback to GitHub Pages URLs for existing images
+                            imageSrc = imageSrc.startsWith('data/images/') ? 
+                                `${this.baseUrl}/${imageSrc}` : 
+                                `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                        }
                         
                         const imageCount = images.length > 1 ? `<span class="image-count">+${images.length - 1}</span>` : '';
                         
@@ -1311,11 +1319,20 @@
                     if (category.imageFile) {
                         let imageSrc = category.imageFile;
                         
-                        // Use GitHub Pages URLs for all images
-                        const githubImageSrc = imageSrc.startsWith('data/images/') ? 
-                            `${this.baseUrl}/${imageSrc}` : 
-                            `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                        categoryImageCell = `<img src="${githubImageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        // Check if image is stored as base64 in localStorage first
+                        const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                        if (category.imageData) {
+                            imageSrc = category.imageData;
+                        } else if (imageStorage[imageSrc]) {
+                            imageSrc = imageStorage[imageSrc];
+                        } else {
+                            // Fallback to GitHub Pages URLs for existing images
+                            imageSrc = imageSrc.startsWith('data/images/') ? 
+                                `${this.baseUrl}/${imageSrc}` : 
+                                `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                        }
+                        
+                        categoryImageCell = `<img src="${imageSrc}" alt="${category.name}" class="category-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                             <div class="category-image-placeholder" style="display: none;">📦</div>`;
                     }
                     
@@ -2997,24 +3014,38 @@ O token será salvo localmente no navegador.`);
             // Handle multiple images using new system
             const form = document.getElementById('product-form');
             
-            // Get images from the new gallery system
-            if (form.dataset.images) {
-                product.images = JSON.parse(form.dataset.images);
-            } else if (isEdit) {
-                // Preserve existing images for edited products
+            // Start with existing images if editing
+            if (isEdit) {
                 const existingProduct = adminClient.data.products[index];
                 product.images = existingProduct.images || (existingProduct.imageFile ? [existingProduct.imageFile] : []);
+                product.imageData = existingProduct.imageData || {};
             } else {
                 product.images = [];
+                product.imageData = {};
+            }
+            
+            // Handle new image uploads if present
+            if (form.dataset.imageFiles && form.dataset.imageData) {
+                const newImageFiles = JSON.parse(form.dataset.imageFiles);
+                const newImageData = JSON.parse(form.dataset.imageData);
+                
+                // Add new images to the product
+                product.images = [...product.images, ...newImageFiles];
+                
+                // Store base64 data for each new image
+                const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                newImageFiles.forEach((fileName, index) => {
+                    product.imageData[fileName] = newImageData[index];
+                    imageStorage[fileName] = newImageData[index];
+                });
+                localStorage.setItem('moveisbonafe_images', JSON.stringify(imageStorage));
+                
+                addSystemLog(`${newImageFiles.length} imagens do produto salvas`);
             }
             
             // Maintain backward compatibility with single imageFile
             if (product.images.length > 0) {
                 product.imageFile = product.images[0]; // First image as primary
-            } else if (form.dataset.imageFile) {
-                // Fallback to old single image system
-                product.imageFile = form.dataset.imageFile;
-                product.images = [form.dataset.imageFile];
             }
             
             // Save product data immediately
@@ -3056,11 +3087,20 @@ O token será salvo localmente no navegador.`);
             // Start with existing image if editing
             if (isEdit && adminClient.data.categories[index].imageFile) {
                 category.imageFile = adminClient.data.categories[index].imageFile;
+                category.imageData = adminClient.data.categories[index].imageData;
             }
             
             // Handle new image upload if present
-            if (form.dataset.imageFile) {
+            if (form.dataset.imageFile && form.dataset.imageData) {
                 category.imageFile = form.dataset.imageFile;
+                category.imageData = form.dataset.imageData;
+                
+                // Also save to images storage for GitHub Pages
+                const imageStorage = JSON.parse(localStorage.getItem('moveisbonafe_images') || '{}');
+                imageStorage[form.dataset.imageFile] = form.dataset.imageData;
+                localStorage.setItem('moveisbonafe_images', JSON.stringify(imageStorage));
+                
+                addSystemLog(`Imagem da categoria ${form.dataset.imageFile} salva`);
             }
             
             // Save category data immediately
@@ -3291,6 +3331,47 @@ O token será salvo localmente no navegador.`);
                 };
                 reader.readAsDataURL(file);
             });
+        }
+
+        function showImagePreview(base64Data, type) {
+            const previewContainer = document.getElementById(`${type}-image-preview`);
+            if (!previewContainer) {
+                // Create preview container if it doesn't exist
+                const form = document.getElementById(`${type}-form`);
+                const imageInput = form.querySelector('input[type="file"]');
+                if (imageInput) {
+                    const container = document.createElement('div');
+                    container.id = `${type}-image-preview`;
+                    container.style.cssText = 'margin-top: 10px; text-align: center;';
+                    imageInput.parentNode.insertBefore(container, imageInput.nextSibling);
+                }
+            }
+            
+            if (previewContainer) {
+                previewContainer.innerHTML = `
+                    <div style="position: relative; display: inline-block;">
+                        <img src="${base64Data}" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid #ddd;">
+                        <button type="button" onclick="clearImagePreview('${type}')" style="position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: #dc3545; color: white; border: none; cursor: pointer; font-size: 14px;">×</button>
+                    </div>
+                `;
+            }
+        }
+        
+        function clearImagePreview(type) {
+            const previewContainer = document.getElementById(`${type}-image-preview`);
+            if (previewContainer) {
+                previewContainer.innerHTML = '';
+            }
+            
+            const form = document.getElementById(`${type}-form`);
+            delete form.dataset.imageFile;
+            delete form.dataset.imageData;
+            
+            // Clear file input
+            const fileInput = form.querySelector('input[type="file"]');
+            if (fileInput) {
+                fileInput.value = '';
+            }
         }
 
         function removeImagePreview(button) {

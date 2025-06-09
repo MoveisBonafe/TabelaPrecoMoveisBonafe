@@ -2979,7 +2979,33 @@
                     const mainImage = document.getElementById('modal-main-image');
                     let imageSrc = imageToShow;
                     
-                    // Format image URL
+                    // Check for immediate base64 fallback for recently uploaded images
+                    if (imageSrc && !imageSrc.startsWith('data:')) {
+                        const filename = imageSrc.split('/').pop();
+                        let base64Data = localStorage.getItem(`image_base64_${filename}`);
+                        
+                        // Check memory cache if localStorage doesn't have it
+                        if (!base64Data && window.parent && window.parent.imageMemoryCache) {
+                            base64Data = window.parent.imageMemoryCache[filename];
+                        }
+                        
+                        if (!base64Data && window.imageMemoryCache) {
+                            base64Data = window.imageMemoryCache[filename];
+                        }
+                        
+                        // Check if this is a recently uploaded image (within 10 minutes)
+                        const uploadTime = localStorage.getItem(`image_upload_time_${filename}`);
+                        const isRecentUpload = uploadTime && (Date.now() - parseInt(uploadTime)) < 600000; // 10 minutes
+                        
+                        if (base64Data && isRecentUpload) {
+                            // Use base64 immediately for recent uploads due to GitHub Pages CDN delay
+                            console.log('Using base64 for recent upload in modal:', filename);
+                            mainImage.src = base64Data;
+                            return;
+                        }
+                    }
+                    
+                    // Format GitHub Pages URL for non-recent images
                     if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
                         imageSrc = imageSrc.startsWith('data/images/') ? 
                             `${catalogClient.baseUrl}/${imageSrc}` : 
@@ -3169,11 +3195,34 @@
                 cartItemDiv.className = 'cart-item';
                 
                 let imageSrc = item.image;
-                if (imageSrc && !imageSrc.startsWith('http')) {
-                    // Use GitHub Pages URLs for all images
-                    imageSrc = imageSrc.startsWith('data/images/') ? 
-                        `${catalogClient.baseUrl}/${imageSrc}` : 
-                        `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                
+                // Check for immediate base64 fallback for recently uploaded images
+                if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                    const filename = imageSrc.split('/').pop();
+                    let base64Data = localStorage.getItem(`image_base64_${filename}`);
+                    
+                    // Check memory cache if localStorage doesn't have it
+                    if (!base64Data && window.parent && window.parent.imageMemoryCache) {
+                        base64Data = window.parent.imageMemoryCache[filename];
+                    }
+                    
+                    if (!base64Data && window.imageMemoryCache) {
+                        base64Data = window.imageMemoryCache[filename];
+                    }
+                    
+                    // Check if this is a recently uploaded image (within 10 minutes)
+                    const uploadTime = localStorage.getItem(`image_upload_time_${filename}`);
+                    const isRecentUpload = uploadTime && (Date.now() - parseInt(uploadTime)) < 600000; // 10 minutes
+                    
+                    if (base64Data && isRecentUpload) {
+                        // Use base64 immediately for recent uploads due to GitHub Pages CDN delay
+                        imageSrc = base64Data;
+                    } else if (imageSrc && !imageSrc.startsWith('http')) {
+                        // Use GitHub Pages URLs for non-recent images
+                        imageSrc = imageSrc.startsWith('data/images/') ? 
+                            `${catalogClient.baseUrl}/${imageSrc}` : 
+                            `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                    }
                 }
                 
                 cartItemDiv.innerHTML = `

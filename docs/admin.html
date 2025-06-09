@@ -1501,6 +1501,8 @@
                         // Try localStorage as secondary storage
                         try {
                             localStorage.setItem(`image_base64_${filename}`, base64Data);
+                            // Store upload timestamp for immediate fallback
+                            localStorage.setItem(`image_upload_time_${filename}`, Date.now().toString());
                         } catch (quotaError) {
                             console.warn('localStorage quota exceeded, using memory cache only');
                             // Emergency cleanup to free space
@@ -1607,25 +1609,44 @@
                         // Base64 image
                         imageHtml = `<div class="card-image"><img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)"></div>`;
                     } else {
-                        // File path - ensure proper URL construction
-                        if (!imageSrc.startsWith('http')) {
-                            // Debug logging for image paths
-                            console.log('Original product image path:', imageSrc);
-                            console.log('Base URL:', adminClient.baseUrl);
-                            
-                            // Handle different path formats
-                            if (imageSrc.startsWith('data/images/')) {
-                                imageSrc = `${adminClient.baseUrl}/${imageSrc}`;
-                            } else if (imageSrc.startsWith('images/')) {
-                                imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
-                            } else {
-                                // Assume it's just the filename
-                                imageSrc = `${adminClient.baseUrl}/data/images/${imageSrc}`;
-                            }
-                            
-                            console.log('Final product image URL:', imageSrc);
+                        // File path - check for immediate base64 fallback first
+                        const filename = imageSrc.split('/').pop();
+                        let base64Data = localStorage.getItem(`image_base64_${filename}`);
+                        
+                        // Check memory cache if localStorage doesn't have it
+                        if (!base64Data && window.imageMemoryCache) {
+                            base64Data = window.imageMemoryCache[filename];
                         }
-                        imageHtml = `<div class="card-image"><img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)"></div>`;
+                        
+                        // Check if this is a recently uploaded image (within 10 minutes)
+                        const uploadTime = localStorage.getItem(`image_upload_time_${filename}`);
+                        const isRecentUpload = uploadTime && (Date.now() - parseInt(uploadTime)) < 600000; // 10 minutes
+                        
+                        if (base64Data && isRecentUpload) {
+                            // Use base64 immediately for recent uploads due to GitHub Pages CDN delay
+                            console.log('Using base64 for recent upload:', filename);
+                            imageHtml = `<div class="card-image"><img src="${base64Data}" alt="${product.name}"></div>`;
+                        } else {
+                            // Use GitHub Pages URL with fallback
+                            if (!imageSrc.startsWith('http')) {
+                                // Debug logging for image paths
+                                console.log('Original product image path:', imageSrc);
+                                console.log('Base URL:', adminClient.baseUrl);
+                                
+                                // Handle different path formats
+                                if (imageSrc.startsWith('data/images/')) {
+                                    imageSrc = `${adminClient.baseUrl}/${imageSrc}`;
+                                } else if (imageSrc.startsWith('images/')) {
+                                    imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                                } else {
+                                    // Assume it's just the filename
+                                    imageSrc = `${adminClient.baseUrl}/data/images/${imageSrc}`;
+                                }
+                                
+                                console.log('Final product image URL:', imageSrc);
+                            }
+                            imageHtml = `<div class="card-image"><img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)"></div>`;
+                        }
                     }
                 }
 
@@ -2294,7 +2315,7 @@
             if (retryCount < maxRetries) {
                 img.dataset.retryCount = (retryCount + 1).toString();
                 
-                // Try to use base64 fallback if available
+                // Try to use base64 fallback immediately for newly uploaded images
                 const imageName = img.src.split('/').pop().split('?')[0];
                 let base64Data = localStorage.getItem(`image_base64_${imageName}`);
                 
@@ -2303,7 +2324,8 @@
                     base64Data = window.imageMemoryCache[imageName];
                 }
                 
-                if (base64Data && retryCount >= 2) {
+                // Use base64 immediately if available (GitHub Pages CDN delay)
+                if (base64Data) {
                     console.log(`🔄 Usando fallback base64 para: ${imageName}`);
                     img.src = base64Data;
                     return;

@@ -1893,8 +1893,7 @@
             // Add selection to clicked element
             element.classList.add('selected');
             
-            // Update selected color text
-            document.getElementById('modal-selected-color').textContent = `Cor selecionada: ${colorName}`;
+            // Color selection updated - no text display needed
             
             // Change image based on color
             changeImageForColor(colorName);
@@ -2093,7 +2092,11 @@
             const product = currentModalProduct;
             let imageUrl = '';
             
-            if (modalImages && modalImages.length > 0) {
+            // Get the currently displayed image from the modal
+            const currentModalImage = document.getElementById('modal-main-image');
+            if (currentModalImage && currentModalImage.src) {
+                imageUrl = currentModalImage.src;
+            } else if (modalImages && modalImages.length > 0) {
                 // Find image matching the selected color from modal images
                 const colorImage = modalImages.find(img => 
                     img.toLowerCase().includes(selectedColor.toLowerCase()) ||
@@ -2334,7 +2337,10 @@
             const cartItemsContainer = document.getElementById('cart-items');
             const cartTotalItems = document.getElementById('cart-total-items');
             
-            if (cart.length === 0) {
+            console.log('🛒 Renderizando carrinho:', cart);
+            console.log('🛒 Total de itens no carrinho:', cart.length);
+            
+            if (!cart || cart.length === 0) {
                 cartItemsContainer.innerHTML = `
                     <div class="empty-cart">
                         <h3>Seu carrinho está vazio</h3>
@@ -2420,10 +2426,17 @@
             
             <div class="product-modal-body">
                 <div class="product-modal-layout">
-                    <!-- Left side - Images -->
+                    <!-- Left side - Images and Colors -->
                     <div class="product-images-section">
                         <div class="main-image-container">
                             <img id="modal-main-image" src="" alt="Produto">
+                        </div>
+                        
+                        <!-- Color options centered below image -->
+                        <div class="product-colors-centered" id="modal-color-section">
+                            <div class="color-options" id="modal-color-options">
+                                <!-- Color options will be populated here -->
+                            </div>
                         </div>
                     </div>
                     
@@ -2447,14 +2460,6 @@
                             <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Color options centered below image -->
-                <div class="product-colors-centered" id="modal-color-section">
-                    <div class="color-options" id="modal-color-options">
-                        <!-- Color options will be populated here -->
-                    </div>
-                    <p class="selected-color" id="modal-selected-color">Cor selecionada: --</p>
                 </div>
                 </div>
             </div>
@@ -3448,22 +3453,66 @@
 
         /* Centered color options below image */
         .product-colors-centered {
-            padding: 20px;
+            padding: 15px 20px;
             text-align: center;
+            background: #fafafa;
+            border-radius: 12px;
+            margin: 16px 0;
         }
 
         .product-colors-centered .color-options {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
-            margin-bottom: 12px;
         }
 
-        .product-colors-centered .selected-color {
+        .product-colors-centered .color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 8px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .product-colors-centered .color-option:hover {
+            border-color: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .product-colors-centered .color-option.selected {
+            border-color: #d97706;
+            background: rgba(217, 119, 6, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+        }
+
+        .product-colors-centered .color-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .product-colors-centered .color-option.selected .color-circle {
+            border-color: #d97706;
+            box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.3);
+        }
+
+        .product-colors-centered .color-name {
+            font-size: 0.75rem;
             color: #6b7280;
-            font-size: 0.9rem;
-            margin: 0;
+            font-weight: 500;
+            text-align: center;
+            max-width: 50px;
+            line-height: 1.2;
         }
 
         /* Center quantity controls */

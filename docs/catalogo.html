@@ -2491,18 +2491,28 @@
         }
 
         function swipeToNextColor() {
-            if (!currentModalProduct || !availableColors.length) return;
+            if (!currentModalProduct || !availableColors.length) {
+                console.log('Cannot swipe: no product or colors available');
+                return;
+            }
             
+            console.log('Swipe next - current index:', currentColorIndex, 'total colors:', availableColors.length);
             currentColorIndex = (currentColorIndex + 1) % availableColors.length;
             const nextColor = availableColors[currentColorIndex];
+            console.log('Switching to next color:', nextColor.name);
             selectColorBySwipe(nextColor);
         }
 
         function swipeToPreviousColor() {
-            if (!currentModalProduct || !availableColors.length) return;
+            if (!currentModalProduct || !availableColors.length) {
+                console.log('Cannot swipe: no product or colors available');
+                return;
+            }
             
+            console.log('Swipe previous - current index:', currentColorIndex, 'total colors:', availableColors.length);
             currentColorIndex = currentColorIndex <= 0 ? availableColors.length - 1 : currentColorIndex - 1;
             const prevColor = availableColors[currentColorIndex];
+            console.log('Switching to previous color:', prevColor.name);
             selectColorBySwipe(prevColor);
         }
 
@@ -4109,14 +4119,23 @@
                 dimensions = product.dimensions;
                 console.log('Using product.dimensions:', dimensions);
             }
-            // Try individual dimension properties
+            // Try individual dimension properties (Portuguese names from admin form)
+            else if (product.altura || product.largura || product.comprimento || product.peso) {
+                dimensions = {};
+                if (product.altura) dimensions.altura = product.altura;
+                if (product.largura) dimensions.largura = product.largura;
+                if (product.comprimento) dimensions.comprimento = product.comprimento;
+                if (product.peso) dimensions.peso = product.peso;
+                console.log('Built dimensions from Portuguese properties:', dimensions);
+            }
+            // Try English dimension properties as fallback
             else if (product.width || product.height || product.depth || product.weight) {
                 dimensions = {};
                 if (product.width) dimensions.width = product.width;
                 if (product.height) dimensions.height = product.height;
                 if (product.depth) dimensions.depth = product.depth;
                 if (product.weight) dimensions.weight = product.weight;
-                console.log('Built dimensions from individual properties:', dimensions);
+                console.log('Built dimensions from English properties:', dimensions);
             }
             // Try dimensionsText property (if saved as text)
             else if (product.dimensionsText) {
@@ -4175,6 +4194,10 @@
                         case 'depth': label = 'Profundidade'; break;
                         case 'weight': label = 'Peso'; break;
                         case 'length': label = 'Comprimento'; break;
+                        case 'altura': label = 'Altura'; break;
+                        case 'largura': label = 'Largura'; break;
+                        case 'comprimento': label = 'Comprimento'; break;
+                        case 'peso': label = 'Peso'; break;
                     }
                     
                     dimensionDiv.textContent = `${label}: ${value}`;

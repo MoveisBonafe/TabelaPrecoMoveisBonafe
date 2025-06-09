@@ -220,9 +220,25 @@
         }
 
         .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 200px !important;
+            object-fit: cover !important;
+            display: block !important;
+        }
+        
+        /* Comprehensive admin panel image sizing */
+        .data-card img,
+        .product-card img,
+        .category-card img {
+            width: 100% !important;
+            height: 200px !important;
+            max-width: 100% !important;
+            max-height: 200px !important;
+            object-fit: cover !important;
+            display: block !important;
+            border-radius: 8px;
         }
 
         .card-placeholder {

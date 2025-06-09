@@ -2816,7 +2816,7 @@
                 </div>
 
                 <!-- Step 1: Cart Items Section -->
-                <div class="cart-items-section" id="cart-step-1">
+                <div class="cart-items-section" id="cart-step-1" style="padding: 20px; max-width: 500px; margin: 0 auto;">
                     <div class="cart-items">
                         <div class="cart-items-header">
                             <h3 class="cart-items-title">Resumo (<span id="cart-total-items">0</span>)</h3>
@@ -4162,6 +4162,11 @@
 
         /* Mobile override for inline styles */
         @media screen and (max-width: 768px) {
+            #cart-step-1.cart-items-section {
+                padding: 20px !important;
+                max-width: none !important;
+            }
+
             #cart-step-2.delivery-section {
                 padding: 20px !important;
                 max-width: none !important;
@@ -4258,6 +4263,12 @@
                 border-radius: 20px !important;
                 font-size: 14px !important;
             }
+
+            /* Mobile image sizing for step 3 */
+            #cart-step-3 .order-item-image {
+                width: 40px !important;
+                height: 40px !important;
+            }
         }
 
         /* Desktop Layout for Payment Step */
@@ -4318,11 +4329,12 @@
         }
 
         .order-item-image {
-            width: 80px;
-            height: 80px;
+            width: 48px;
+            height: 48px;
             border-radius: 8px;
-            object-fit: cover;
+            object-fit: contain;
             background: #f9fafb;
+            flex-shrink: 0;
         }
 
         .order-item-info {

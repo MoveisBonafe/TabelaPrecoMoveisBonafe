@@ -2335,21 +2335,10 @@
                 const product = catalogClient.products.find(p => p.name === item.name);
                 let itemPrice = 0;
                 
-                if (product) {
-                    // Map price table names to product properties
-                    const priceMapping = {
-                        'a vista': 'priceAVista',
-                        '30': 'price30',
-                        '30/60': 'price30_60',
-                        '30/60/90': 'price30_60_90',
-                        '30/60/90/120': 'price30_60_90_120'
-                    };
-                    
-                    const priceProperty = priceMapping[priceTable];
-                    if (priceProperty && product[priceProperty]) {
-                        itemPrice = product[priceProperty];
-                        total += itemPrice * item.quantity;
-                    }
+                if (product && product.priceAVista) {
+                    // Calculate price based on table rules
+                    itemPrice = calculatePriceForTable(product.priceAVista, priceTable);
+                    total += itemPrice * item.quantity;
                 }
                 
                 // Update individual item price display
@@ -2393,21 +2382,10 @@
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.name === item.name);
                 let price = 0;
-                if (product) {
-                    // Map price table names to product properties
-                    const priceMapping = {
-                        'a vista': 'priceAVista',
-                        '30': 'price30',
-                        '30/60': 'price30_60',
-                        '30/60/90': 'price30_60_90',
-                        '30/60/90/120': 'price30_60_90_120'
-                    };
-                    
-                    const priceProperty = priceMapping[priceTable];
-                    if (priceProperty && product[priceProperty]) {
-                        price = product[priceProperty];
-                        total += price * item.quantity;
-                    }
+                if (product && product.priceAVista) {
+                    // Calculate price based on table rules
+                    price = calculatePriceForTable(product.priceAVista, priceTable);
+                    total += price * item.quantity;
                 }
                 message += `• ${item.name}\n`;
                 message += `  Cor: ${item.color}\n`;
@@ -2429,6 +2407,31 @@
             // Clear cart and close modal
             clearCart();
             closeCheckoutModal();
+        }
+
+        function calculatePriceForTable(basePrice, priceTable) {
+            // Define price table rules (percentage increase over base price)
+            const priceTableRules = {
+                'a vista': 0,      // No increase
+                '30': 2,           // 2% increase
+                '30/60': 4,        // 4% increase
+                '30/60/90': 6,     // 6% increase
+                '30/60/90/120': 8  // 8% increase
+            };
+            
+            // Calculate price with table rule
+            const increasePercent = priceTableRules[priceTable] || 0;
+            let finalPrice = basePrice * (1 + increasePercent / 100);
+            
+            // Apply active promotion discount (5%)
+            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
+                const activePromotion = catalogClient.promotions.find(promo => promo.active);
+                if (activePromotion && activePromotion.discount) {
+                    finalPrice = finalPrice * (1 - activePromotion.discount / 100);
+                }
+            }
+            
+            return finalPrice;
         }
 
         function getPaymentMethodName(method) {

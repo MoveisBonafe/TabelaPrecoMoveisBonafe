@@ -2835,50 +2835,58 @@
 
                 <!-- Step 2: Delivery Section -->
                 <div class="delivery-section" id="cart-step-2" style="display: none;">
-                    <!-- Customer Data -->
-                    <div class="customer-data-section">
-                        <h3>Dados do Cliente</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="customer-name">Nome Completo *</label>
-                                <input type="text" id="customer-name" required>
+                    <div class="delivery-form-desktop">
+                        <div class="delivery-left">
+                            <!-- Customer Data -->
+                            <div class="customer-data-section">
+                                <h3>Dados do Cliente</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="customer-name">Nome Completo *</label>
+                                        <input type="text" id="customer-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customer-phone">Telefone *</label>
+                                        <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customer-address">Endereço *</label>
+                                        <input type="text" id="customer-address" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customer-cep">CEP *</label>
+                                        <input type="text" id="customer-cep" required placeholder="00000-000">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="customer-phone">Telefone *</label>
-                                <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999">
-                            </div>
-                            <div class="form-group">
-                                <label for="customer-address">Endereço *</label>
-                                <input type="text" id="customer-address" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customer-cep">CEP *</label>
-                                <input type="text" id="customer-cep" required placeholder="00000-000">
+                        </div>
+                        
+                        <div class="delivery-right">
+                            <!-- Delivery Options -->
+                            <div class="delivery-options-section">
+                                <h3>Opções de Entrega</h3>
+                                <div class="delivery-choice">
+                                    <label class="delivery-option">
+                                        <input type="radio" name="delivery-type" value="pickup" id="pickup" checked>
+                                        <div class="delivery-info">
+                                            <div class="delivery-title">Retirada no Local</div>
+                                            <div class="delivery-desc">Retire na loja - Gratuito</div>
+                                        </div>
+                                        <div class="delivery-price">Grátis</div>
+                                    </label>
+                                    <label class="delivery-option">
+                                        <input type="radio" name="delivery-type" value="delivery">
+                                        <div class="delivery-info">
+                                            <div class="delivery-title">Entrega</div>
+                                            <div class="delivery-desc">Entrega no endereço</div>
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Delivery Options -->
-                    <div class="delivery-options">
-                        <h3>Opções de Entrega</h3>
-                        <div class="delivery-choice">
-                            <label class="delivery-option">
-                                <input type="radio" name="delivery-type" value="pickup" checked>
-                                <div class="delivery-info">
-                                    <div class="delivery-title">Retirada no Local</div>
-                                    <div class="delivery-desc">Retire na loja - Gratuito</div>
-                                </div>
-                                <div class="delivery-price">Grátis</div>
-                            </label>
-                            <label class="delivery-option">
-                                <input type="radio" name="delivery-type" value="delivery">
-                                <div class="delivery-info">
-                                    <div class="delivery-title">Entrega</div>
-                                    <div class="delivery-desc">Entrega no endereço</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+
 
                     <!-- Delivery Actions -->
                     <div class="cart-actions-new">

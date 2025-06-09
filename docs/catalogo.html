@@ -5103,6 +5103,7 @@
             // Reset to first step when opening cart
             document.getElementById('cart-step-1').style.display = 'block';
             document.getElementById('cart-step-2').style.display = 'none';
+            document.getElementById('cart-step-3').style.display = 'none';
             updateCartSteps(1);
             
             // Update modal title
@@ -5111,6 +5112,133 @@
             renderCartItems();
             document.getElementById('cart-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        // Payment calculation functions
+        function updatePaymentSummary() {
+            const orderSummaryDiv = document.getElementById('order-summary');
+            const totalSectionDiv = document.getElementById('total-section');
+            const priceTable = document.getElementById('price-table').value;
+            
+            if (!orderSummaryDiv || !totalSectionDiv) return;
+            
+            // Build order summary
+            let summaryHTML = '';
+            let subtotal = 0;
+            
+            shoppingCart.forEach(item => {
+                const product = catalogClient.products.find(p => p.id === item.productId);
+                if (product) {
+                    const basePrice = product.priceAVista || 0;
+                    const itemTotal = basePrice * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    summaryHTML += `
+                        <div class="order-item">
+                            <div class="order-item-info">
+                                <div class="order-item-name">${item.name}</div>
+                                <div class="order-item-details">Cor: ${item.color} | Qtd: ${item.quantity}</div>
+                            </div>
+                            <div class="order-item-price">R$ ${(basePrice * item.quantity).toFixed(2).replace('.', ',')}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            orderSummaryDiv.innerHTML = summaryHTML;
+            
+            // Calculate totals with table markup and discounts
+            let total = subtotal;
+            let totalHTML = '';
+            
+            // Add subtotal
+            totalHTML += `
+                <div class="total-line">
+                    <span>Subtotal:</span>
+                    <span>R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
+            
+            // Apply price table markup if selected
+            if (priceTable) {
+                let markup = 0;
+                switch(priceTable) {
+                    case '30': markup = 0.02; break;
+                    case '30/60': markup = 0.04; break;
+                    case '30/60/90': markup = 0.06; break;
+                    case '30/60/90/120': markup = 0.08; break;
+                }
+                
+                const markupAmount = subtotal * markup;
+                total += markupAmount;
+                
+                totalHTML += `
+                    <div class="total-line">
+                        <span>Acréscimo Tabela (${(markup * 100).toFixed(0)}%):</span>
+                        <span>R$ ${markupAmount.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                `;
+            }
+            
+            // Check for pickup discount (5% off)
+            const isPickup = document.getElementById('pickup') && document.getElementById('pickup').checked;
+            if (isPickup) {
+                const pickupDiscount = total * 0.05;
+                total -= pickupDiscount;
+                
+                totalHTML += `
+                    <div class="total-line discount-line">
+                        <span>Desconto Retirada no Local (5%):</span>
+                        <span>-R$ ${pickupDiscount.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                `;
+            }
+            
+            // Check for active promotions
+            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
+                const activePromotion = catalogClient.promotions.find(p => p.active);
+                if (activePromotion && activePromotion.discount) {
+                    const promotionDiscount = total * (activePromotion.discount / 100);
+                    total -= promotionDiscount;
+                    
+                    totalHTML += `
+                        <div class="total-line discount-line">
+                            <span>Desconto Promoção (${activePromotion.discount}%):</span>
+                            <span>-R$ ${promotionDiscount.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Final total
+            totalHTML += `
+                <div class="total-line final">
+                    <span>Total:</span>
+                    <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
+            
+            totalSectionDiv.innerHTML = totalHTML;
+        }
+
+        function finalizeOrder() {
+            const paymentMethod = document.getElementById('payment-method').value;
+            const priceTable = document.getElementById('price-table').value;
+            const customerName = document.getElementById('customer-name').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            
+            if (!paymentMethod || !priceTable || !customerName || !customerPhone) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Here you would normally send the order to your backend
+            // For now, we'll just show a success message
+            alert('Pedido finalizado com sucesso! Entraremos em contato em breve.');
+            
+            // Clear cart and close modal
+            clearCart();
+            closeCartModal();
         }
 
         function renderCartItems() {

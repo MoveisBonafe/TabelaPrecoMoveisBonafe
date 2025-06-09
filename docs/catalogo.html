@@ -4343,31 +4343,67 @@
             font-weight: 600;
         }
 
-        /* Responsive checkout layout */
-        @media (max-width: 768px) {
-            .delivery-form-desktop,
-            .payment-form-desktop {
-                grid-template-columns: 1fr;
-                gap: 20px;
+        /* Default mobile styles */
+        .delivery-section {
+            padding: 24px 20px;
+        }
+
+        .customer-data-section,
+        .delivery-options-section {
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .cart-actions-new {
+            padding: 20px 24px;
+            gap: 12px;
+        }
+
+        /* Desktop overrides */
+        @media (min-width: 769px) {
+            .delivery-section {
+                padding: 32px 40px !important;
             }
 
-            .delivery-section {
-                padding: 24px 20px;
+            .delivery-form-desktop {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 40px !important;
+                margin-bottom: 32px;
             }
 
             .customer-data-section,
             .delivery-options-section {
-                padding: 24px;
-            }
-
-            .cart-actions-new {
-                padding: 20px 24px;
-                gap: 12px;
+                background: #f8f9fa !important;
+                padding: 32px !important;
+                border-radius: 16px !important;
+                margin-bottom: 0 !important;
             }
 
             .form-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 20px !important;
+            }
+
+            .cart-actions-new {
+                padding: 32px 40px !important;
+                gap: 16px !important;
+            }
+        }
+
+        /* Mobile specific overrides */
+        @media (max-width: 768px) {
+            .delivery-form-desktop,
+            .payment-form-desktop {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
             }
         }
 

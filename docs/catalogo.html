@@ -2774,46 +2774,7 @@
             }
         }
 
-        function createModalThumbnails() {
-            const container = document.getElementById('modal-thumbnails');
-            container.innerHTML = '';
-            
-            if (modalImages.length <= 1) {
-                container.style.display = 'none';
-                return;
-            }
-            
-            container.style.display = 'flex';
-            
-            modalImages.forEach((imagePath, index) => {
-                let imageSrc = imagePath;
-                
-                try {
-                    // Use GitHub Pages URLs for all images
-                    if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
-                        imageSrc = imageSrc.startsWith('data/images/') ? 
-                            `${catalogClient.baseUrl}/${imageSrc}` : 
-                            `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                    }
-                    
-                    const thumbDiv = document.createElement('div');
-                    thumbDiv.className = `thumbnail-item ${index === 0 ? 'active' : ''}`;
-                    thumbDiv.onclick = () => updateModalMainImage(index);
-                    
-                    const img = document.createElement('img');
-                    img.src = imageSrc;
-                    img.alt = `Produto ${index + 1}`;
-                    img.onerror = function() {
-                        this.style.display = 'none';
-                    };
-                    
-                    thumbDiv.appendChild(img);
-                    container.appendChild(thumbDiv);
-                } catch (error) {
-                    console.error('Error creating thumbnail:', error);
-                }
-            });
-        }
+
 
         function updateImageNavigation() {
             const prevBtn = document.getElementById('prev-image-btn');

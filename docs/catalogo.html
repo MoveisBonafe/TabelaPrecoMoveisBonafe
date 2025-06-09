@@ -2944,10 +2944,21 @@
                             `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                     }
                     
-                    // Set up error handling for base64 fallback
+                    // Set up error handling for base64 fallback with memory cache support
                     mainImage.onerror = function() {
                         const imageName = this.src.split('/').pop().split('?')[0];
-                        const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                        let base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                        
+                        // Check memory cache if localStorage doesn't have it
+                        if (!base64Data && window.parent && window.parent.imageMemoryCache) {
+                            base64Data = window.parent.imageMemoryCache[imageName];
+                        }
+                        
+                        // Check own window memory cache
+                        if (!base64Data && window.imageMemoryCache) {
+                            base64Data = window.imageMemoryCache[imageName];
+                        }
+                        
                         if (base64Data) {
                             this.src = base64Data;
                         }

@@ -1246,16 +1246,52 @@
         let selectedColors = [];
         let categoryImage = null;
 
-        // Clean old image cache to free localStorage space
+        // Aggressive cache management to prevent quota issues
         function cleanOldImageCache() {
-            const keys = Object.keys(localStorage);
-            const imageKeys = keys.filter(key => key.startsWith('image_base64_'));
-            
-            // Keep only the 10 most recent images
-            if (imageKeys.length > 10) {
-                const keysToRemove = imageKeys.slice(0, imageKeys.length - 10);
-                keysToRemove.forEach(key => localStorage.removeItem(key));
-                addSystemLog(`🧹 Limpeza de cache: removidas ${keysToRemove.length} imagens antigas`);
+            try {
+                // Emergency cleanup if quota is near limit
+                const testKey = 'quota_test_' + Date.now();
+                try {
+                    localStorage.setItem(testKey, 'test');
+                    localStorage.removeItem(testKey);
+                } catch (quotaError) {
+                    // Emergency cleanup - remove all image cache
+                    Object.keys(localStorage).forEach(key => {
+                        if (key.startsWith('image_base64_')) {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                    addSystemLog('🚨 Cache de emergência: localStorage limpo por quota');
+                    return;
+                }
+                
+                const keys = Object.keys(localStorage);
+                const imageKeys = keys.filter(key => key.startsWith('image_base64_'));
+                
+                // Keep only the 3 most recent images to prevent quota issues
+                if (imageKeys.length > 3) {
+                    const sortedKeys = imageKeys.sort((a, b) => {
+                        const timeA = parseInt(a.match(/\d+/)?.[0] || '0');
+                        const timeB = parseInt(b.match(/\d+/)?.[0] || '0');
+                        return timeB - timeA;
+                    });
+                    
+                    // Remove old entries
+                    for (let i = 3; i < sortedKeys.length; i++) {
+                        localStorage.removeItem(sortedKeys[i]);
+                    }
+                    addSystemLog(`🧹 Cache limpo: mantidas ${Math.min(3, imageKeys.length)} imagens recentes`);
+                }
+            } catch (error) {
+                console.warn('Erro na limpeza de cache:', error);
+                // Fallback - clear all image cache
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('image_base64_')) {
+                        try {
+                            localStorage.removeItem(key);
+                        } catch (e) {}
+                    }
+                });
             }
         }
 
@@ -1436,15 +1472,29 @@
                         
                         // Store base64 for immediate display while GitHub Pages updates
                         const base64Data = e.target.result;
+                        
+                        // Clean cache first to prevent quota issues
+                        cleanOldImageCache();
+                        
+                        // Initialize memory cache if not exists
+                        if (!window.imageMemoryCache) window.imageMemoryCache = {};
+                        
+                        // Always store in memory cache first (more reliable)
+                        window.imageMemoryCache[filename] = base64Data;
+                        
+                        // Try localStorage as secondary storage
                         try {
-                            // Clean old image data to free space
-                            cleanOldImageCache();
                             localStorage.setItem(`image_base64_${filename}`, base64Data);
                         } catch (quotaError) {
                             console.warn('localStorage quota exceeded, using memory cache only');
-                            // Use in-memory cache as fallback
-                            if (!window.imageMemoryCache) window.imageMemoryCache = {};
-                            window.imageMemoryCache[filename] = base64Data;
+                            // Emergency cleanup to free space
+                            Object.keys(localStorage).forEach(key => {
+                                if (key.startsWith('image_base64_') || key.startsWith('cache_')) {
+                                    try {
+                                        localStorage.removeItem(key);
+                                    } catch (e) {}
+                                }
+                            });
                         }
                         
                         addSystemLog(`📸 Imagem uploaded: ${filename}`);

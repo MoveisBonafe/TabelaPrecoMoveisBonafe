@@ -2249,12 +2249,12 @@
             const summaryContainer = document.getElementById('checkout-order-summary');
             summaryContainer.innerHTML = '';
 
-            cart.forEach(item => {
+            shoppingCart.forEach(item => {
                 const orderItem = document.createElement('div');
                 orderItem.className = 'order-item';
                 
                 // Get the correct image for the selected color
-                const product = catalog.products.find(p => p.name === item.name);
+                const product = catalogClient.products.find(p => p.name === item.name);
                 let imageUrl = '';
                 
                 if (product && product.images && product.images.length > 0) {
@@ -2290,8 +2290,8 @@
 
             // Calculate total based on selected price table
             let total = 0;
-            cart.forEach(item => {
-                const product = catalog.products.find(p => p.name === item.name);
+            shoppingCart.forEach(item => {
+                const product = catalogClient.products.find(p => p.name === item.name);
                 if (product && product.prices && product.prices[priceTable]) {
                     total += product.prices[priceTable] * item.quantity;
                 }
@@ -2324,7 +2324,7 @@
 
             message += `📋 *Produtos:*\n`;
             let total = 0;
-            cart.forEach(item => {
+            shoppingCart.forEach(item => {
                 const product = catalog.products.find(p => p.name === item.name);
                 let price = 0;
                 if (product && product.prices && product.prices[priceTable]) {
@@ -4199,21 +4199,28 @@
                     dimensionDiv.className = 'dimension-item';
                     
                     let label = key;
+                    let unit = '';
                     switch(key.toLowerCase()) {
-                        case 'width': label = 'Largura'; break;
-                        case 'height': label = 'Altura'; break;
-                        case 'depth': label = 'Profundidade'; break;
-                        case 'weight': label = 'Peso'; break;
-                        case 'length': label = 'Comprimento'; break;
-                        case 'altura': label = 'Altura'; break;
-                        case 'largura': label = 'Largura'; break;
-                        case 'comprimento': label = 'Comprimento'; break;
-                        case 'peso': label = 'Peso'; break;
+                        case 'width': label = 'Largura'; unit = 'cm'; break;
+                        case 'height': label = 'Altura'; unit = 'cm'; break;
+                        case 'depth': label = 'Profundidade'; unit = 'cm'; break;
+                        case 'weight': label = 'Peso'; unit = 'kg'; break;
+                        case 'length': label = 'Comprimento'; unit = 'cm'; break;
+                        case 'altura': label = 'Altura'; unit = 'cm'; break;
+                        case 'largura': label = 'Largura'; unit = 'cm'; break;
+                        case 'comprimento': label = 'Comprimento'; unit = 'cm'; break;
+                        case 'peso': label = 'Peso'; unit = 'kg'; break;
                     }
                     
-                    dimensionDiv.textContent = `${label}: ${value}`;
+                    // Add unit to the value if it doesn't already have one
+                    let displayValue = value.toString();
+                    if (unit && !displayValue.includes(unit) && !displayValue.includes('cm') && !displayValue.includes('kg')) {
+                        displayValue = `${value}${unit}`;
+                    }
+                    
+                    dimensionDiv.textContent = `${label}: ${displayValue}`;
                     dimensionsContainer.appendChild(dimensionDiv);
-                    console.log('Added dimension:', label, value);
+                    console.log('Added dimension:', label, displayValue);
                 }
             });
         }

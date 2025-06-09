@@ -134,6 +134,30 @@
                 font-size: 1.2rem;
             }
             
+            /* Adjust category images for mobile */
+            .category-icon {
+                width: 72px;
+                height: 72px;
+            }
+            
+            .category-icon img,
+            .category-grid img,
+            .category-icon-img,
+            .category-item img,
+            .categories-section img {
+                width: 64px !important;
+                height: 64px !important;
+                max-width: 64px !important;
+                max-height: 64px !important;
+                min-width: 64px !important;
+                min-height: 64px !important;
+            }
+            
+            .category-card {
+                min-height: 140px;
+                padding: 20px 12px;
+            }
+            
             .products-section {
                 padding: 16px;
             }
@@ -238,12 +262,17 @@
         
         .category-card {
             text-align: center;
-            padding: 20px 16px;
+            padding: 24px 16px;
             border: 2px solid #f3f4f6;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
             background: #fafafa;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         .category-card:hover {
@@ -258,8 +287,8 @@
         }
         
         .category-icon {
-            width: 48px;
-            height: 48px;
+            width: 96px;
+            height: 96px;
             margin: 0 auto 12px;
             background: #f3f4f6;
             border-radius: 8px;
@@ -271,12 +300,12 @@
         }
         
         .category-icon img {
-            width: 40px !important;
-            height: 40px !important;
-            max-width: 40px !important;
-            max-height: 40px !important;
-            min-width: 40px !important;
-            min-height: 40px !important;
+            width: 88px !important;
+            height: 88px !important;
+            max-width: 88px !important;
+            max-height: 88px !important;
+            min-width: 88px !important;
+            min-height: 88px !important;
             object-fit: cover !important;
             border-radius: 4px;
             display: block !important;
@@ -287,12 +316,12 @@
         .category-icon-img,
         .category-item img,
         .categories-section img {
-            width: 40px !important;
-            height: 40px !important;
-            max-width: 40px !important;
-            max-height: 40px !important;
-            min-width: 40px !important;
-            min-height: 40px !important;
+            width: 88px !important;
+            height: 88px !important;
+            max-width: 88px !important;
+            max-height: 88px !important;
+            min-width: 88px !important;
+            min-height: 88px !important;
             object-fit: cover !important;
             border-radius: 4px;
             display: block !important;

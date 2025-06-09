@@ -202,6 +202,39 @@
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
         }
+
+        /* Restaurant categories - horizontal layout */
+        .categories-grid.restaurant-categories {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .category-card.restaurant-style {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .category-card.restaurant-style .category-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 8px;
+            font-size: 1.5rem;
+        }
+
+        .category-card.restaurant-style .category-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .category-card.restaurant-style .product-count {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
         
         .category-card {
             text-align: center;
@@ -1239,12 +1272,19 @@
                 grid.innerHTML = '';
                 filter.innerHTML = '<option value="">Todas as categorias</option>';
 
+                // Apply restaurant styling if user is restaurant
+                if (this.userType === 'restaurante') {
+                    grid.classList.add('restaurant-categories');
+                } else {
+                    grid.classList.remove('restaurant-categories');
+                }
+
                 this.categories.forEach(category => {
                     const productCount = this.products.filter(p => p.category === category.name).length;
                     
                     // Category card
                     const card = document.createElement('div');
-                    card.className = 'category-card';
+                    card.className = this.userType === 'restaurante' ? 'category-card restaurant-style' : 'category-card';
                     card.onclick = () => this.filterByCategory(category.name);
                     
                     // Check if category has an image
@@ -1265,11 +1305,19 @@
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
                     }
                     
-                    card.innerHTML = `
-                        ${categoryIcon}
-                        <div class="category-name">${category.name}</div>
-                        <div class="category-count">${productCount} produtos</div>
-                    `;
+                    if (this.userType === 'restaurante') {
+                        card.innerHTML = `
+                            ${categoryIcon}
+                            <div class="category-name">${category.name}</div>
+                            <div class="product-count">${productCount} produtos</div>
+                        `;
+                    } else {
+                        card.innerHTML = `
+                            ${categoryIcon}
+                            <div class="category-name">${category.name}</div>
+                            <div class="category-count">${productCount} produtos</div>
+                        `;
+                    }
                     grid.appendChild(card);
 
                     // Filter option

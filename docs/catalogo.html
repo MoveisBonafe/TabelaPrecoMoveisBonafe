@@ -2920,6 +2920,7 @@
                                     <select id="price-table" required onchange="updatePaymentSummary()">
                                         <option value="">Selecione a tabela de preços</option>
                                         <option value="avista">À Vista</option>
+                                        <option value="30">30</option>
                                         <option value="30/60">30/60</option>
                                         <option value="30/60/90">30/60/90</option>
                                         <option value="30/60/90/120">30/60/90/120</option>
@@ -4295,6 +4296,20 @@
                 gap: 20px;
             }
 
+            .delivery-section {
+                padding: 24px 20px;
+            }
+
+            .customer-data-section,
+            .delivery-options-section {
+                padding: 24px;
+            }
+
+            .cart-actions-new {
+                padding: 20px 24px;
+                gap: 12px;
+            }
+
             .form-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
@@ -5194,35 +5209,30 @@
             let total = subtotal;
             let totalHTML = '';
             
-            // Add subtotal
+            // Apply price table markup if selected (À Vista has no markup)
+            if (priceTable && priceTable !== 'avista') {
+                let markup = 0;
+                switch(priceTable) {
+                    case '30': markup = 0.02; break;
+                    case '30/60': markup = 0.04; break;
+                    case '30/60/90': markup = 0.06; break;
+                    case '30/60/90/120': markup = 0.08; break;
+                }
+                
+                if (markup > 0) {
+                    const markupAmount = subtotal * markup;
+                    subtotal += markupAmount; // Include markup in subtotal
+                    total = subtotal; // Update total
+                }
+            }
+
+            // Add subtotal (already includes markup if applicable)
             totalHTML += `
                 <div class="total-line">
                     <span>Subtotal:</span>
                     <span>R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
                 </div>
             `;
-            
-            // Apply price table markup if selected (À Vista has no markup)
-            if (priceTable && priceTable !== 'avista') {
-                let markup = 0;
-                switch(priceTable) {
-                    case '30/60': markup = 0.02; break;
-                    case '30/60/90': markup = 0.04; break;
-                    case '30/60/90/120': markup = 0.06; break;
-                }
-                
-                if (markup > 0) {
-                    const markupAmount = subtotal * markup;
-                    total += markupAmount;
-                    
-                    totalHTML += `
-                        <div class="total-line">
-                            <span>Acréscimo Tabela (${(markup * 100).toFixed(0)}%):</span>
-                            <span>R$ ${markupAmount.toFixed(2).replace('.', ',')}</span>
-                        </div>
-                    `;
-                }
-            }
             
             // Check for pickup discount (5% off)
             const isPickup = document.getElementById('pickup') && document.getElementById('pickup').checked;

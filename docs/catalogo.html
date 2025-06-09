@@ -3843,6 +3843,8 @@
         function openProductDetailModal(product) {
             try {
                 console.log('Opening modal for product:', product.name);
+                console.log('Complete product data:', product);
+                console.log('Product keys:', Object.keys(product));
                 currentModalProduct = product;
                 modalImages = [];
                 currentModalImageIndex = 0;
@@ -3860,7 +3862,11 @@
                 // Setup colors
                 setupModalColors(product);
                 
-
+                // Setup dimensions
+                setupModalDimensions(product);
+                
+                // Initialize expandable sections
+                initializeExpandableSections();
                 
                 // Reset quantity
                 document.getElementById('modal-quantity').value = '1';
@@ -3871,6 +3877,11 @@
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     console.log('Modal opened successfully');
+                    
+                    // Setup swipe events after modal is fully rendered
+                    setTimeout(() => {
+                        setupSwipeForColors();
+                    }, 300);
                 } else {
                     console.error('Modal element not found');
                 }

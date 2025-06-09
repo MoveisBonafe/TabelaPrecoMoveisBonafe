@@ -2912,10 +2912,10 @@
                                 <div class="price-table-selection">
                                     <select id="price-table" required onchange="updatePaymentSummary()">
                                         <option value="">Selecione a tabela de preços</option>
-                                        <option value="30">À Vista (+2%)</option>
-                                        <option value="30/60">30/60 (+4%)</option>
-                                        <option value="30/60/90">30/60/90 (+6%)</option>
-                                        <option value="30/60/90/120">30/60/90/120 (+8%)</option>
+                                        <option value="avista">À Vista</option>
+                                        <option value="30/60">30/60</option>
+                                        <option value="30/60/90">30/60/90</option>
+                                        <option value="30/60/90/120">30/60/90/120</option>
                                     </select>
                                 </div>
                             </div>
@@ -4029,12 +4029,14 @@
 
         .form-group input,
         .form-group select {
+            width: 100%;
             padding: 14px 16px;
             border: 1px solid #e5e7eb;
             border-radius: 12px;
             font-size: 1rem;
             transition: all 0.2s;
             background: #fafafa;
+            box-sizing: border-box;
         }
 
         .form-group input:focus,
@@ -4310,14 +4312,14 @@
         }
 
         .btn-secondary {
-            background: #f9fafb;
+            background: white;
             color: #374151;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #d1d5db;
         }
 
         .btn-secondary:hover {
-            background: #f3f4f6;
-            border-color: #d1d5db;
+            background: #f9fafb;
+            border-color: #9ca3af;
         }
 
         @media (max-width: 768px) {
@@ -5133,13 +5135,33 @@
                     const itemTotal = basePrice * item.quantity;
                     subtotal += itemTotal;
                     
+                    let imageSrc = item.image;
+                    
+                    // Check for immediate base64 fallback for recently uploaded images
+                    if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
+                        const filename = imageSrc.split('/').pop();
+                        let base64Data = localStorage.getItem(`image_base64_${filename}`);
+                        
+                        if (!base64Data && window.imageMemoryCache) {
+                            base64Data = window.imageMemoryCache[filename];
+                        }
+                        
+                        if (base64Data) {
+                            imageSrc = base64Data;
+                        } else if (imageSrc && !imageSrc.startsWith('http')) {
+                            imageSrc = imageSrc.startsWith('data/images/') ? 
+                                `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}` : 
+                                `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                        }
+                    }
+                    
                     summaryHTML += `
                         <div class="order-item">
+                            <img src="${imageSrc}" alt="${item.name}" class="order-item-image" onerror="handleImageError(this)">
                             <div class="order-item-info">
                                 <div class="order-item-name">${item.name}</div>
                                 <div class="order-item-details">Cor: ${item.color} | Qtd: ${item.quantity}</div>
                             </div>
-                            <div class="order-item-price">R$ ${(basePrice * item.quantity).toFixed(2).replace('.', ',')}</div>
                         </div>
                     `;
                 }
@@ -5159,25 +5181,26 @@
                 </div>
             `;
             
-            // Apply price table markup if selected
-            if (priceTable) {
+            // Apply price table markup if selected (À Vista has no markup)
+            if (priceTable && priceTable !== 'avista') {
                 let markup = 0;
                 switch(priceTable) {
-                    case '30': markup = 0.02; break;
-                    case '30/60': markup = 0.04; break;
-                    case '30/60/90': markup = 0.06; break;
-                    case '30/60/90/120': markup = 0.08; break;
+                    case '30/60': markup = 0.02; break;
+                    case '30/60/90': markup = 0.04; break;
+                    case '30/60/90/120': markup = 0.06; break;
                 }
                 
-                const markupAmount = subtotal * markup;
-                total += markupAmount;
-                
-                totalHTML += `
-                    <div class="total-line">
-                        <span>Acréscimo Tabela (${(markup * 100).toFixed(0)}%):</span>
-                        <span>R$ ${markupAmount.toFixed(2).replace('.', ',')}</span>
-                    </div>
-                `;
+                if (markup > 0) {
+                    const markupAmount = subtotal * markup;
+                    total += markupAmount;
+                    
+                    totalHTML += `
+                        <div class="total-line">
+                            <span>Acréscimo Tabela (${(markup * 100).toFixed(0)}%):</span>
+                            <span>R$ ${markupAmount.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    `;
+                }
             }
             
             // Check for pickup discount (5% off)

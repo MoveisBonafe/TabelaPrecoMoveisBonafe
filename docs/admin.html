@@ -1488,10 +1488,21 @@
 
                 let imageHtml = `<div class="card-placeholder">📦<span>Sem imagem</span></div>`;
                 if (product.images && product.images.length > 0) {
-                    const imageSrc = product.images[0].startsWith('data:') ? 
-                        product.images[0] : 
-                        `${adminClient.baseUrl}/${product.images[0]}`;
-                    imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="this.parentNode.innerHTML='<div class=&quot;card-placeholder&quot;>📦<span>Erro ao carregar</span></div>'">`;
+                    let imageSrc = product.images[0];
+                    
+                    // Handle different image path formats
+                    if (imageSrc.startsWith('data:')) {
+                        // Base64 image
+                        imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)">`;
+                    } else {
+                        // File path - ensure proper URL construction
+                        if (!imageSrc.startsWith('http')) {
+                            // Remove leading slash or data/ prefix if present
+                            imageSrc = imageSrc.replace(/^(\/|data\/)?/, '');
+                            imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                        }
+                        imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)">`;
+                    }
                 }
 
                 let colorsHtml = '';
@@ -1550,10 +1561,21 @@
 
                 let imageHtml = `<div class="card-placeholder">📁<span>Sem imagem</span></div>`;
                 if (category.imageFile) {
-                    const imageSrc = category.imageFile.startsWith('data:') ? 
-                        category.imageFile : 
-                        `${adminClient.baseUrl}/${category.imageFile}`;
-                    imageHtml = `<img src="${imageSrc}" alt="${category.name}" onerror="handleImageError(this)">`;
+                    let imageSrc = category.imageFile;
+                    
+                    // Handle different image path formats
+                    if (imageSrc.startsWith('data:')) {
+                        // Base64 image
+                        imageHtml = `<img src="${imageSrc}" alt="${category.name}" onerror="handleImageError(this)">`;
+                    } else {
+                        // File path - ensure proper URL construction
+                        if (!imageSrc.startsWith('http')) {
+                            // Remove leading slash or data/ prefix if present
+                            imageSrc = imageSrc.replace(/^(\/|data\/)?/, '');
+                            imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                        }
+                        imageHtml = `<img src="${imageSrc}" alt="${category.name}" onerror="handleImageError(this)">`;
+                    }
                 }
 
                 const productCount = adminClient.products.filter(p => p.category === category.name).length;
@@ -1792,8 +1814,8 @@
             document.getElementById('products-with-images').textContent = adminClient.products.filter(p => p.images && p.images.length > 0).length;
             
             const avgPrice = adminClient.products.length > 0 ? 
-                adminClient.products.reduce((sum, p) => sum + (p.priceAVista || 0), 0) / adminClient.products.length : 0;
-            document.getElementById('avg-price').textContent = `R$ ${avgPrice.toFixed(2)}`;
+                adminClient.products.reduce((sum, p) => sum + (parseFloat(p.priceAVista) || 0), 0) / adminClient.products.length : 0;
+            document.getElementById('avg-price').textContent = `R$ ${(avgPrice || 0).toFixed(2)}`;
 
             document.getElementById('monitor-products').textContent = adminClient.products.filter(p => p.active !== false).length;
             document.getElementById('monitor-categories').textContent = adminClient.categories.length;
@@ -1898,10 +1920,15 @@
                 const preview = document.createElement('div');
                 preview.className = 'image-preview';
                 
-                const src = imagePath.startsWith('data:') ? imagePath : `${adminClient.baseUrl}/${imagePath}`;
+                let src = imagePath;
+                if (!src.startsWith('data:') && !src.startsWith('http')) {
+                    // Remove leading slash or data/ prefix if present
+                    src = src.replace(/^(\/|data\/)?/, '');
+                    src = `${adminClient.baseUrl}/data/${src}`;
+                }
                 
                 preview.innerHTML = `
-                    <img src="${src}" alt="Preview ${index + 1}">
+                    <img src="${src}" alt="Preview ${index + 1}" onerror="handleImageError(this)">
                     <button class="image-remove" onclick="removeImage(${index})">&times;</button>
                 `;
                 gallery.appendChild(preview);
@@ -2082,7 +2109,12 @@
             const preview = document.getElementById('category-image-preview');
             
             if (categoryImage) {
-                const src = categoryImage.startsWith('data:') ? categoryImage : `${adminClient.baseUrl}/${categoryImage}`;
+                let src = categoryImage;
+                if (!src.startsWith('data:') && !src.startsWith('http')) {
+                    // Remove leading slash or data/ prefix if present
+                    src = src.replace(/^(\/|data\/)?/, '');
+                    src = `${adminClient.baseUrl}/data/${src}`;
+                }
                 
                 preview.innerHTML = `
                     <div class="image-preview" style="width: 120px; height: 120px;">
@@ -2108,22 +2140,32 @@
             
             if (retryCount < maxRetries) {
                 img.dataset.retryCount = (retryCount + 1).toString();
-                addSystemLog(`⏳ Tentativa ${retryCount + 1}/${maxRetries} de carregar imagem...`);
+                console.log(`Tentativa ${retryCount + 1}/${maxRetries} de carregar imagem: ${img.src}`);
                 
                 setTimeout(() => {
-                    const originalSrc = img.src;
-                    img.src = '';
-                    img.src = originalSrc + '?t=' + Date.now(); // Cache busting
+                    const originalSrc = img.src.split('?')[0]; // Remove cache busting params
+                    img.src = originalSrc + '?v=' + Date.now(); // Cache busting
                 }, retryDelay);
             } else {
-                addSystemLog(`❌ Imagem não carregou após ${maxRetries} tentativas`);
-                img.style.display = 'none';
+                console.log(`Imagem não carregou após ${maxRetries} tentativas: ${img.src}`);
+                // Create placeholder
                 const placeholder = document.createElement('div');
                 placeholder.className = 'card-placeholder';
-                placeholder.innerHTML = '📁<span>Imagem carregando...</span>';
-                placeholder.style.width = '100%';
-                placeholder.style.height = '100%';
-                img.parentNode.appendChild(placeholder);
+                placeholder.innerHTML = '📁<span>Erro ao carregar</span>';
+                placeholder.style.width = img.style.width || '100%';
+                placeholder.style.height = img.style.height || '100%';
+                placeholder.style.display = 'flex';
+                placeholder.style.alignItems = 'center';
+                placeholder.style.justifyContent = 'center';
+                placeholder.style.flexDirection = 'column';
+                placeholder.style.background = '#f7fafc';
+                placeholder.style.color = '#a0aec0';
+                placeholder.style.fontSize = '14px';
+                
+                img.style.display = 'none';
+                if (img.parentNode) {
+                    img.parentNode.insertBefore(placeholder, img);
+                }
             }
         }
 
@@ -2885,8 +2927,8 @@
                 addSystemLog('🚪 Usuário saindo do sistema...');
                 // Clear any sensitive data
                 localStorage.removeItem('github_token');
-                // Redirect to login
-                window.location.href = '/login';
+                // Redirect to login using the correct GitHub Pages URL
+                window.location.href = `${adminClient.baseUrl}/login.html`;
             }
         }
 

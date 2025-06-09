@@ -3623,7 +3623,7 @@
             align-items: center;
             gap: 0;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
         }
 
@@ -3683,12 +3683,13 @@
         .delivery-option {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px;
+            gap: 16px;
+            padding: 20px;
             border: 2px solid #e5e7eb;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.2s;
+            background: #fafafa;
         }
 
         .delivery-option:hover {
@@ -4117,31 +4118,34 @@
         }
 
         .btn-primary, .btn-secondary {
-            padding: 12px 24px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .btn-primary {
-            background: #28a745;
+            background: #374151;
             color: white;
         }
 
         .btn-primary:hover {
-            background: #218838;
+            background: #1f2937;
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: #6c757d;
-            color: white;
+            background: #f9fafb;
+            color: #374151;
+            border: 1px solid #e5e7eb;
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+            background: #f3f4f6;
+            border-color: #d1d5db;
         }
 
         @media (max-width: 768px) {
@@ -4247,6 +4251,22 @@
 
         .main-image-container img {
             transition: transform 0.3s ease;
+        }
+
+        /* Fix any unclosed CSS blocks */
+        .checkout-step-content {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-step-content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 0 0 20px 0;
         }
     </style>
 
@@ -5216,5 +5236,5 @@
         setInterval(initImageSync, 30000); // Check for images every 30 seconds
         setInterval(checkForDataUpdates, 10000); // Check for data updates every 10 seconds
         </script>
-</body>
+    </body>
 </html>

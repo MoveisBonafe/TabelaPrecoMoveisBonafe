@@ -2364,6 +2364,142 @@
 
 
 
+        // Toggle expandable sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(`${sectionId}-content`);
+            const icon = document.getElementById(`${sectionId}-icon`);
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                icon.classList.add('expanded');
+            } else {
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                icon.classList.remove('expanded');
+            }
+        }
+
+        // Enhanced swipe functionality for color and image changes
+        let currentColorIndex = 0;
+        let availableColors = [];
+        let swipeStartX = 0;
+        let swipeStartY = 0;
+        let isSwipeEnabled = false;
+
+        function setupSwipeForColors() {
+            const swipeContainer = document.getElementById('swipe-container');
+            if (!swipeContainer) return;
+
+            // Touch events
+            swipeContainer.addEventListener('touchstart', handleSwipeStart, { passive: false });
+            swipeContainer.addEventListener('touchmove', handleSwipeMove, { passive: false });
+            swipeContainer.addEventListener('touchend', handleSwipeEnd, { passive: false });
+
+            // Mouse events for desktop
+            swipeContainer.addEventListener('mousedown', handleSwipeStart);
+            swipeContainer.addEventListener('mousemove', handleSwipeMove);
+            swipeContainer.addEventListener('mouseup', handleSwipeEnd);
+            swipeContainer.addEventListener('mouseleave', handleSwipeEnd);
+        }
+
+        function handleSwipeStart(e) {
+            e.preventDefault();
+            const touch = e.touches ? e.touches[0] : e;
+            swipeStartX = touch.clientX;
+            swipeStartY = touch.clientY;
+            isSwipeEnabled = true;
+        }
+
+        function handleSwipeMove(e) {
+            if (!isSwipeEnabled) return;
+            e.preventDefault();
+        }
+
+        function handleSwipeEnd(e) {
+            if (!isSwipeEnabled) return;
+            
+            const touch = e.changedTouches ? e.changedTouches[0] : e;
+            const swipeEndX = touch.clientX;
+            const swipeEndY = touch.clientY;
+            
+            const deltaX = swipeEndX - swipeStartX;
+            const deltaY = swipeEndY - swipeStartY;
+            
+            // Check if it's a horizontal swipe (not vertical scroll)
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                if (deltaX > 0) {
+                    // Swipe right - previous color
+                    swipeToPreviousColor();
+                } else {
+                    // Swipe left - next color
+                    swipeToNextColor();
+                }
+            }
+            
+            isSwipeEnabled = false;
+        }
+
+        function swipeToNextColor() {
+            if (!currentModalProduct || !availableColors.length) return;
+            
+            currentColorIndex = (currentColorIndex + 1) % availableColors.length;
+            const nextColor = availableColors[currentColorIndex];
+            selectColorBySwipe(nextColor);
+        }
+
+        function swipeToPreviousColor() {
+            if (!currentModalProduct || !availableColors.length) return;
+            
+            currentColorIndex = currentColorIndex <= 0 ? availableColors.length - 1 : currentColorIndex - 1;
+            const prevColor = availableColors[currentColorIndex];
+            selectColorBySwipe(prevColor);
+        }
+
+        function selectColorBySwipe(colorData) {
+            // Update color selection visually
+            document.querySelectorAll('.modal-color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            const colorOption = document.querySelector(`.modal-color-option[title="${colorData.name}"]`);
+            if (colorOption) {
+                colorOption.classList.add('selected');
+            }
+
+            // Update selected color text
+            const selectedColorText = document.getElementById('modal-selected-color');
+            if (selectedColorText) {
+                selectedColorText.textContent = `Cor selecionada: ${colorData.name}`;
+            }
+
+            // Change image based on color
+            updateImageForColor(colorData);
+        }
+
+        function updateImageForColor(colorData) {
+            if (!currentModalProduct || !modalImages.length) return;
+
+            // Find image matching the selected color
+            const colorIndex = currentModalProduct.colorVariations ? 
+                currentModalProduct.colorVariations.indexOf(colorData.name) : -1;
+            
+            let imageToShow = null;
+            
+            if (colorIndex >= 0 && modalImages[colorIndex]) {
+                imageToShow = modalImages[colorIndex];
+            } else {
+                imageToShow = modalImages[0];
+            }
+            
+            if (imageToShow) {
+                const mainImage = document.getElementById('modal-main-image');
+                if (mainImage) {
+                    mainImage.src = imageToShow;
+                }
+            }
+        }
+
         // Initialize cart count on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
@@ -2384,8 +2520,11 @@
                 <div class="product-modal-layout">
                     <!-- Left side - Images and Colors -->
                     <div class="product-images-section">
-                        <div class="main-image-container">
+                        <div class="main-image-container" id="swipe-container">
                             <img id="modal-main-image" src="" alt="Produto">
+                            <div class="swipe-indicator">
+                                <span class="swipe-hint">← Deslize para trocar cores →</span>
+                            </div>
                         </div>
                         
                         <!-- Color options centered below image -->
@@ -2401,11 +2540,6 @@
                     
                     <!-- Right side - Product details -->
                     <div class="product-details-section">
-                        <div class="product-description">
-                            <h3>Descrição</h3>
-                            <p id="modal-product-description">Descrição do produto</p>
-                        </div>
-                        
                         <div class="product-quantity">
                             <h3>Quantidade</h3>
                             <div class="quantity-controls">
@@ -2417,6 +2551,31 @@
                         
                         <div class="product-actions">
                             <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
+                        </div>
+                        
+                        <!-- Expandable sections -->
+                        <div class="expandable-sections">
+                            <div class="expandable-section">
+                                <div class="section-header" onclick="toggleSection('description')">
+                                    <h3>Descrição</h3>
+                                    <span class="toggle-icon" id="description-icon">▼</span>
+                                </div>
+                                <div class="section-content collapsed" id="description-content">
+                                    <p id="modal-product-description">Descrição do produto</p>
+                                </div>
+                            </div>
+                            
+                            <div class="expandable-section">
+                                <div class="section-header" onclick="toggleSection('dimensions')">
+                                    <h3>Dimensões</h3>
+                                    <span class="toggle-icon" id="dimensions-icon">▼</span>
+                                </div>
+                                <div class="section-content collapsed" id="dimensions-content">
+                                    <div id="modal-dimensions">
+                                        <!-- Dimensions will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2633,6 +2792,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: pan-y;
+        }
+
+        .swipe-indicator {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .swipe-hint {
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
         }
 
         .main-image-container img {
@@ -3154,6 +3338,87 @@
             padding: 8px 12px;
             border-radius: 6px;
             font-size: 0.9rem;
+        }
+
+        /* Expandable Sections */
+        .expandable-sections {
+            margin-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+
+        .expandable-section {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            cursor: pointer;
+            transition: color 0.2s;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            color: #059669;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .toggle-icon {
+            font-size: 14px;
+            color: #6b7280;
+            transition: transform 0.2s;
+        }
+
+        .toggle-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 0 0 16px 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding: 0;
+        }
+
+        .section-content.expanded {
+            max-height: 200px;
+            opacity: 1;
+            padding: 0 0 16px 0;
+        }
+
+        .section-content p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        #modal-dimensions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+        }
+
+        #modal-dimensions .dimension-item {
+            background: #f9fafb;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #374151;
+            text-align: center;
         }
 
         /* Mobile Responsive */

@@ -10,18 +10,16 @@
     "description": "",
     "images": [
       "data/images/product_1749429611624_byckyegge.png",
-      "data/images/product_1749434213236_apn7333rg.png",
-      "data/images/product_1749434218173_2olcphc5c.png",
-      "data/images/product_1749434222744_kdr9k7xrb.png"
+      "data/images/product_1749432216957_xibbxsjd4.png",
+      "data/images/product_1749432225159_u165yznyj.png"
     ],
     "colorVariations": [
-      "Imbuia",
       "Cerejeira",
-      "Tabaco",
-      "Mogno"
+      "Mogno",
+      "Tabaco"
     ],
     "active": true,
-    "updatedAt": "2025-06-09T01:57:23.664Z",
+    "updatedAt": "2025-06-09T01:58:18.946Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
   }

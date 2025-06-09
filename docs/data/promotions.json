@@ -1,11 +1,15 @@
 [
   {
-    "id": "4",
     "title": "Mês de Maio",
     "description": "Desconto válido em todos os móveis até o final do mês.",
-    "color": "#f59e0b",
-    "active": true,
-    "createdAt": "2025-05-25T20:50:06.944Z",
-    "updatedAt": "2025-06-09T03:10:54.472Z"
+    "type": "percentage",
+    "value": 5,
+    "startDate": "2025-06-09T00:00:00.000Z",
+    "endDate": "2025-06-10T00:00:00.000Z",
+    "categories": null,
+    "active": false,
+    "updatedAt": "2025-06-09T03:11:24.390Z",
+    "id": "4",
+    "createdAt": "2025-05-25T20:50:06.944Z"
   }
 ]

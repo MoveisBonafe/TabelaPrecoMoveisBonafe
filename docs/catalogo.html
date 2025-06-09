@@ -2767,14 +2767,46 @@
                     </div>
                 </div>
 
-                <!-- Cart Items Section -->
-                <div class="cart-items-section">
+                <!-- Step 1: Cart Items Section -->
+                <div class="cart-items-section" id="cart-step-1">
                     <div class="cart-items">
                         <div class="cart-items-header">
-                            <h3 class="cart-items-title">RESUMO (<span id="cart-total-items">0</span>)</h3>
+                            <h3 class="cart-items-title">Resumo (<span id="cart-total-items">0</span>)</h3>
                         </div>
                         <div id="cart-items-list">
                             <!-- Cart items will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Cart Actions -->
+                    <div class="cart-actions-new">
+                        <button class="clear-cart-btn" onclick="clearCart()">Limpar Carrinho</button>
+                        <button class="checkout-btn" onclick="goToDeliveryStep()">Ir Para Entrega</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Delivery Section -->
+                <div class="delivery-section" id="cart-step-2" style="display: none;">
+                    <!-- Customer Data -->
+                    <div class="customer-data-section">
+                        <h3>Dados do Cliente</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="customer-name">Nome Completo *</label>
+                                <input type="text" id="customer-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-phone">Telefone *</label>
+                                <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999">
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-address">Endereço *</label>
+                                <input type="text" id="customer-address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-cep">CEP *</label>
+                                <input type="text" id="customer-cep" required placeholder="00000-000">
+                            </div>
                         </div>
                     </div>
 
@@ -2801,10 +2833,10 @@
                         </div>
                     </div>
 
-                    <!-- Cart Actions -->
+                    <!-- Delivery Actions -->
                     <div class="cart-actions-new">
-                        <button class="clear-cart-btn" onclick="clearCart()">Limpar Carrinho</button>
-                        <button class="checkout-btn" onclick="proceedToCheckout()">Prosseguir com a Compra</button>
+                        <button class="clear-cart-btn" onclick="goToCartStep()">Voltar ao Carrinho</button>
+                        <button class="checkout-btn" onclick="proceedToCheckout()">Ir Para Pagamento</button>
                     </div>
                 </div>
             </div>

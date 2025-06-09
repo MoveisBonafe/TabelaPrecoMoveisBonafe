@@ -2424,12 +2424,9 @@
             let finalPrice = basePrice * (1 + increasePercent / 100);
             
             // Apply active promotion discount (5%)
-            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
-                const activePromotion = catalogClient.promotions.find(promo => promo.active);
-                if (activePromotion && activePromotion.discount) {
-                    finalPrice = finalPrice * (1 - activePromotion.discount / 100);
-                }
-            }
+            // Check for active promotions with 5% discount
+            const promotionDiscount = 5; // Fixed 5% discount for active promotion
+            finalPrice = finalPrice * (1 - promotionDiscount / 100);
             
             return finalPrice;
         }
@@ -3350,6 +3347,33 @@
             border-radius: 8px;
             margin-bottom: 12px;
             background: #f9fafb;
+        }
+
+        /* Ensure consistent cart layout across all devices */
+        @media (min-width: 769px) {
+            .cart-item {
+                flex-direction: row;
+                align-items: center;
+                gap: 16px;
+            }
+            
+            .cart-item-details {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .cart-item-quantity {
+                margin-left: auto;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .cart-item-remove {
+                margin-left: 12px;
+            }
         }
 
         .cart-item-image {

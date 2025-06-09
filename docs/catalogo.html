@@ -2093,8 +2093,15 @@
             const product = currentModalProduct;
             let imageUrl = '';
             
-            if (product.images && product.images.length > 0) {
-                // Find image matching the selected color
+            if (modalImages && modalImages.length > 0) {
+                // Find image matching the selected color from modal images
+                const colorImage = modalImages.find(img => 
+                    img.toLowerCase().includes(selectedColor.toLowerCase()) ||
+                    img.includes(selectedColor)
+                );
+                imageUrl = colorImage || modalImages[currentModalImageIndex] || modalImages[0];
+            } else if (product.images && product.images.length > 0) {
+                // Fallback to product images
                 const colorImage = product.images.find(img => 
                     img.toLowerCase().includes(selectedColor.toLowerCase()) ||
                     img.includes(selectedColor)

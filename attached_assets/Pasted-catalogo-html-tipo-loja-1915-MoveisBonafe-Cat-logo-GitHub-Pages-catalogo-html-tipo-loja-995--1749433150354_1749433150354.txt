@@ -1,0 +1,42 @@
+catalogo.html?tipo=loja:1915 🛍️ MoveisBonafe Catálogo - GitHub Pages
+catalogo.html?tipo=loja:995 ✅ Dados carregados: 1 produtos, 1 categorias, 5 tabelas de preços, 0 promoções ativas, 4 cores
+catalogo.html?tipo=loja:2659 Opening modal for product: Banqueta 50 cm
+catalogo.html?tipo=loja:2727 Modal images setup: Array(4)
+catalogo.html?tipo=loja:2738 Error setting up modal images: TypeError: Cannot set properties of null (setting 'innerHTML')
+    at createModalThumbnails (catalogo.html?tipo=loja:2779:33)
+    at setupModalImages (catalogo.html?tipo=loja:2733:17)
+    at openProductDetailModal (catalogo.html?tipo=loja:2672:17)
+    at card.onclick (catalogo.html?tipo=loja:1394:42)
+setupModalImages @ catalogo.html?tipo=loja:2738
+catalogo.html?tipo=loja:2693 Error opening product modal: TypeError: Cannot set properties of null (setting 'innerHTML')
+    at createModalThumbnails (catalogo.html?tipo=loja:2779:33)
+    at setupModalImages (catalogo.html?tipo=loja:2741:17)
+    at openProductDetailModal (catalogo.html?tipo=loja:2672:17)
+    at card.onclick (catalogo.html?tipo=loja:1394:42)
+openProductDetailModal @ catalogo.html?tipo=loja:2693
+placeholder-image.svg:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:2762 Failed to load image: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images//placeholder-image.svg
+mainImage.onerror @ catalogo.html?tipo=loja:2762
+catalogo.html?tipo=loja:2659 Opening modal for product: Banqueta 50 cm
+catalogo.html?tipo=loja:2727 Modal images setup: Array(4)
+catalogo.html?tipo=loja:2738 Error setting up modal images: TypeError: Cannot set properties of null (setting 'innerHTML')
+    at createModalThumbnails (catalogo.html?tipo=loja:2779:33)
+    at setupModalImages (catalogo.html?tipo=loja:2733:17)
+    at openProductDetailModal (catalogo.html?tipo=loja:2672:17)
+    at card.onclick (catalogo.html?tipo=loja:1394:42)
+setupModalImages @ catalogo.html?tipo=loja:2738
+catalogo.html?tipo=loja:2693 Error opening product modal: TypeError: Cannot set properties of null (setting 'innerHTML')
+    at createModalThumbnails (catalogo.html?tipo=loja:2779:33)
+    at setupModalImages (catalogo.html?tipo=loja:2741:17)
+    at openProductDetailModal (catalogo.html?tipo=loja:2672:17)
+    at card.onclick (catalogo.html?tipo=loja:1394:42)
+openProductDetailModal @ catalogo.html?tipo=loja:2693
+placeholder-image.svg:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:2762 Failed to load image: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images//placeholder-image.svg
+mainImage.onerror @ catalogo.html?tipo=loja:2762

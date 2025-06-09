@@ -2359,7 +2359,7 @@
             const address = document.getElementById('customer-address').value.trim();
             const cep = document.getElementById('customer-cep').value.trim();
             const priceTable = document.getElementById('price-table-select').value;
-            const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+            const paymentMethod = document.getElementById('payment-method-select').value;
 
             if (!name || !phone || !address || !cep || !priceTable || !paymentMethod) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
@@ -2410,7 +2410,9 @@
                 'pix': 'PIX',
                 'cartao': 'Cartão de Crédito/Débito',
                 'boleto': 'Boleto Bancário',
-                'dinheiro': 'Dinheiro'
+                'dinheiro': 'Dinheiro',
+                'duplicata': 'Duplicata',
+                'cheque': 'Cheque'
             };
             return methods[method] || method;
         }
@@ -3709,27 +3711,29 @@
             font-size: 1.3rem;
         }
 
-        .payment-methods {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px;
-            background: white;
+        .price-table-selection select,
+        .payment-method-selection select {
+            width: 100%;
+            padding: 12px 16px;
             border: 1px solid #dee2e6;
             border-radius: 6px;
+            background: white;
+            font-size: 1rem;
+            color: #495057;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: border-color 0.2s;
         }
 
-        .payment-option:hover {
+        .price-table-selection select:focus,
+        .payment-method-selection select:focus {
+            outline: none;
             border-color: #007bff;
-            background: #f8f9ff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .price-table-selection select:hover,
+        .payment-method-selection select:hover {
+            border-color: #adb5bd;
         }
 
         .payment-option input[type="radio"] {
@@ -3874,7 +3878,6 @@
 
         .main-image-container img {
             transition: transform 0.3s ease;
-        }
         }
     </style>
 

@@ -269,6 +269,57 @@
             margin-top: 20px;
         }
 
+        /* Restaurant-specific horizontal layout */
+        .products-grid.restaurant-layout {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* Golden price banner for restaurants */
+        .restaurant-price-banner {
+            margin-top: 12px;
+        }
+
+        .golden-banner {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+        }
+
+        .banner-icon {
+            font-size: 1rem;
+        }
+
+        .special-price {
+            background: #fef3e2;
+            border: 1px solid #f59e0b;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .price-label {
+            display: block;
+            font-size: 0.75rem;
+            color: #92400e;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .special-price-value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #92400e;
+        }
+
         /* Responsividade para grade de produtos */
         @media (max-width: 768px) {
             .products-grid {
@@ -1245,6 +1296,13 @@
                 noProducts.style.display = 'none';
                 grid.style.display = 'grid';
                 grid.innerHTML = '';
+
+                // Apply restaurant layout if user is restaurant
+                if (this.userType === 'restaurante') {
+                    grid.classList.add('restaurant-layout');
+                } else {
+                    grid.classList.remove('restaurant-layout');
+                }
 
                 this.filteredProducts.forEach((product, index) => {
                     const card = document.createElement('div');

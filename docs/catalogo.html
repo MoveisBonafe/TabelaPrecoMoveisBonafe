@@ -4233,31 +4233,44 @@
         }
 
         /* Desktop Layout for Payment Step */
-        .payment-section {
-            padding: 24px;
-        }
+        @media (min-width: 769px) {
+            .payment-section {
+                padding: 32px 40px;
+                min-height: 60vh;
+            }
 
-        .payment-form-desktop {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            margin-bottom: 24px;
-        }
+            .payment-form-desktop {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                margin-bottom: 32px;
+            }
 
-        .payment-left,
-        .payment-right {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+            .payment-left,
+            .payment-right {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
 
-        .payment-method-section,
-        .price-table-section,
-        .order-summary-section {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            .payment-method-section,
+            .price-table-section,
+            .order-summary-section {
+                background: #f8f9fa;
+                border-radius: 16px;
+                padding: 32px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                height: fit-content;
+            }
+
+            .payment-method-section h3,
+            .price-table-section h3,
+            .order-summary-section h3 {
+                margin: 0 0 24px 0;
+                font-size: 20px;
+                font-weight: 600;
+                color: #1f2937;
+            }
         }
 
         .order-summary {

@@ -5377,17 +5377,13 @@
                     }
                     
                     summaryHTML += `
-                        <div class="cart-item">
-                            <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" onerror="handleImageError(this)">
-                            <div class="cart-item-details">
-                                <div class="cart-item-header">
-                                    <div class="cart-item-name">${item.name}</div>
-                                </div>
-                                <div class="cart-item-info">
-                                    <span class="cart-item-color">Cor: ${item.color}</span>
-                                    <span class="cart-item-quantity-text">Qtd: ${item.quantity}</span>
-                                </div>
+                        <div class="cart-item" style="display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f3f4f6;">
+                            <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" onerror="handleImageError(this)" style="width: 60px; height: 60px; border-radius: 6px; object-fit: cover; background: #f0f0f0; flex-shrink: 0;">
+                            <div class="cart-item-details" style="flex: 1;">
+                                <div class="cart-item-name" style="font-weight: 500; color: #111827; font-size: 0.95rem; line-height: 1.3; margin-bottom: 4px;">${item.name}</div>
+                                <div class="cart-item-info" style="font-size: 0.85rem; color: #6b7280;">Cor: ${item.color}</div>
                             </div>
+                            <div class="cart-item-quantity" style="font-size: 0.85rem; color: #6b7280; align-self: flex-start; margin-top: 2px;">Qtd: ${item.quantity}</div>
                         </div>
                     `;
                 }
@@ -5432,8 +5428,8 @@
                 
                 totalHTML += `
                     <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
-                        <span style="font-size: 14px; color: #059669;">Desconto Retirada no Local (5%):</span>
-                        <span style="font-size: 14px; font-weight: 500; color: #059669;">-R$ ${pickupDiscount.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-size: 14px; color: #dc2626;">Desconto Retirada no Local (5%):</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #111827;">-R$ ${pickupDiscount.toFixed(2).replace('.', ',')}</span>
                     </div>
                 `;
             }

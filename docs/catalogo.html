@@ -1854,36 +1854,46 @@
         }
 
         function setupModalColors(product) {
-            const colorSection = document.getElementById('modal-color-section');
-            const colorOptions = document.getElementById('modal-color-options');
+            try {
+                const colorSection = document.getElementById('modal-color-section');
+                const colorOptions = document.getElementById('modal-color-options');
 
-            console.log('🎨 Configurando cores do modal:', product.colorVariations);
+                console.log('Configurando cores do modal:', product.colorVariations);
+                console.log('Elementos encontrados - colorSection:', colorSection, 'colorOptions:', colorOptions);
 
-            if (product.colorVariations && product.colorVariations.length > 0) {
-                colorOptions.innerHTML = '';
-                
-                product.colorVariations.forEach((colorName, index) => {
-                    // Find color data from colors array
-                    const colorData = catalogClient.colors.find(c => c.name === colorName);
-                    const colorCode = colorData ? colorData.code : '#cccccc';
+                if (!colorSection || !colorOptions) {
+                    console.error('Elementos de cor não encontrados no DOM');
+                    return;
+                }
+
+                if (product.colorVariations && product.colorVariations.length > 0) {
+                    colorOptions.innerHTML = '';
                     
-                    console.log(`🎨 Adicionando cor: ${colorName} - ${colorCode}`);
+                    product.colorVariations.forEach((colorName, index) => {
+                        // Find color data from colors array
+                        const colorData = catalogClient.colors.find(c => c.name === colorName);
+                        const colorCode = colorData ? colorData.code : '#cccccc';
+                        
+                        console.log(`Adicionando cor: ${colorName} - ${colorCode}`);
+                        
+                        const colorOption = document.createElement('div');
+                        colorOption.className = `color-option ${index === 0 ? 'selected' : ''}`;
+                        colorOption.onclick = () => selectModalColor(colorName, colorOption);
+                        colorOption.innerHTML = `
+                            <div class="color-circle" style="background-color: ${colorCode};"></div>
+                            <span class="color-name">${colorName}</span>
+                        `;
+                        colorOptions.appendChild(colorOption);
+                    });
                     
-                    const colorOption = document.createElement('div');
-                    colorOption.className = `color-option ${index === 0 ? 'selected' : ''}`;
-                    colorOption.onclick = () => selectModalColor(colorName, colorOption);
-                    colorOption.innerHTML = `
-                        <div class="color-circle" style="background-color: ${colorCode};"></div>
-                        <span class="color-name">${colorName}</span>
-                    `;
-                    colorOptions.appendChild(colorOption);
-                });
-                
-                colorSection.style.display = 'block';
-                console.log('🎨 Seção de cores exibida');
-            } else {
-                colorSection.style.display = 'none';
-                console.log('🎨 Produto sem variações de cor');
+                    colorSection.style.display = 'block';
+                    console.log('Seção de cores configurada e exibida');
+                } else {
+                    colorSection.style.display = 'none';
+                    console.log('Produto sem variações de cor');
+                }
+            } catch (error) {
+                console.error('Erro ao configurar cores do modal:', error);
             }
         }
 
@@ -2410,8 +2420,14 @@
             const cartItemsContainer = document.getElementById('cart-items');
             const cartTotalItems = document.getElementById('cart-total-items');
             
-            console.log('🛒 Renderizando carrinho:', cart);
-            console.log('🛒 Total de itens no carrinho:', cart.length);
+            console.log('Renderizando carrinho:', cart);
+            console.log('Total de itens no carrinho:', cart.length);
+            console.log('Container encontrado:', cartItemsContainer);
+            
+            if (!cartItemsContainer) {
+                console.error('Container de itens do carrinho não encontrado');
+                return;
+            }
             
             if (!cart || cart.length === 0) {
                 cartItemsContainer.innerHTML = `
@@ -2420,20 +2436,24 @@
                         <p>Adicione produtos para começar suas compras</p>
                     </div>
                 `;
-                cartTotalItems.textContent = '0';
+                if (cartTotalItems) cartTotalItems.textContent = '0';
                 return;
             }
 
             cartItemsContainer.innerHTML = '';
             let totalItems = 0;
 
+            console.log('Criando elementos do carrinho para', cart.length, 'itens');
+
             cart.forEach((item, index) => {
                 totalItems += item.quantity;
+                
+                console.log(`Criando item ${index + 1}:`, item);
                 
                 const cartItem = document.createElement('div');
                 cartItem.className = 'cart-item';
                 cartItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image" style="width: 60px; height: 60px; object-fit: contain;">
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-color">Cor: ${item.color}</div>
@@ -2447,9 +2467,11 @@
                 `;
                 
                 cartItemsContainer.appendChild(cartItem);
+                console.log('Item adicionado ao container');
             });
 
-            cartTotalItems.textContent = totalItems;
+            if (cartTotalItems) cartTotalItems.textContent = totalItems;
+            console.log('Total de itens renderizados:', totalItems);
         }
 
         function updateCartItemQuantity(index, change) {

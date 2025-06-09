@@ -688,6 +688,9 @@
                     <div class="status-dot status-offline" id="github-status-dot"></div>
                     <span id="github-status-text">GitHub Offline</span>
                 </div>
+                <button class="btn btn-secondary" onclick="logout()" style="margin-left: 16px;">
+                    🚪 Sair
+                </button>
             </div>
         </div>
 
@@ -1817,6 +1820,9 @@
             currentEditingProduct = productId ? adminClient.products.find(p => p.id === productId) : null;
             const title = document.getElementById('product-modal-title');
             
+            // Always populate selects first
+            populateSelects();
+            
             if (currentEditingProduct) {
                 title.textContent = 'Editar Produto';
                 fillProductForm();
@@ -2759,15 +2765,129 @@
             }
         }
 
-        // Placeholder functions for other features
+        // Import/Export functionality
         function exportProducts() {
-            addSystemLog('📥 Função de exportar produtos em desenvolvimento');
-            showNotification('Função em desenvolvimento', 'info');
+            try {
+                addSystemLog('📥 Iniciando exportação de produtos...');
+                
+                const exportData = {
+                    products: adminClient.products,
+                    categories: adminClient.categories,
+                    colors: adminClient.colors,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `moveisbonafe_products_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                addSystemLog(`✅ ${adminClient.products.length} produtos exportados com sucesso`);
+                showNotification('Produtos exportados com sucesso!', 'success');
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro na exportação: ${error.message}`);
+                showNotification('Erro ao exportar produtos.', 'error');
+            }
         }
 
         function importProducts() {
-            addSystemLog('📤 Função de importar produtos em desenvolvimento');
-            showNotification('Função em desenvolvimento', 'info');
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = handleImportFile;
+            input.click();
+        }
+
+        async function handleImportFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            try {
+                addSystemLog('📤 Processando arquivo de importação...');
+                
+                const text = await file.text();
+                const importData = JSON.parse(text);
+                
+                // Validate import data structure
+                if (!importData.products || !Array.isArray(importData.products)) {
+                    throw new Error('Formato de arquivo inválido - produtos não encontrados');
+                }
+                
+                // Confirmation dialog
+                const productCount = importData.products.length;
+                const categoryCount = importData.categories?.length || 0;
+                const colorCount = importData.colors?.length || 0;
+                
+                const confirmed = confirm(
+                    `Importar dados do arquivo?\n\n` +
+                    `• ${productCount} produtos\n` +
+                    `• ${categoryCount} categorias\n` +
+                    `• ${colorCount} cores\n\n` +
+                    `ATENÇÃO: Isso irá substituir todos os dados atuais.`
+                );
+                
+                if (!confirmed) {
+                    addSystemLog('❌ Importação cancelada pelo usuário');
+                    return;
+                }
+                
+                // Import products
+                adminClient.products = importData.products.map(product => ({
+                    ...product,
+                    id: product.id || Date.now() + Math.random(),
+                    updatedAt: new Date().toISOString()
+                }));
+                
+                // Import categories if available
+                if (importData.categories && Array.isArray(importData.categories)) {
+                    adminClient.categories = importData.categories.map(category => ({
+                        ...category,
+                        id: category.id || Date.now() + Math.random(),
+                        updatedAt: new Date().toISOString()
+                    }));
+                }
+                
+                // Import colors if available
+                if (importData.colors && Array.isArray(importData.colors)) {
+                    adminClient.colors = importData.colors;
+                }
+                
+                // Save to GitHub
+                await Promise.all([
+                    saveToGitHub('products.json', adminClient.products),
+                    saveToGitHub('categories.json', adminClient.categories),
+                    saveToGitHub('colors.json', adminClient.colors)
+                ]);
+                
+                addSystemLog(`✅ Importação concluída: ${productCount} produtos, ${categoryCount} categorias, ${colorCount} cores`);
+                showNotification('Dados importados com sucesso!', 'success');
+                
+                // Refresh all displays
+                renderAllData();
+                updateStats();
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro na importação: ${error.message}`);
+                showNotification(`Erro ao importar: ${error.message}`, 'error');
+            }
+        }
+
+        // Logout functionality
+        function logout() {
+            if (confirm('Tem certeza que deseja sair do painel administrativo?')) {
+                addSystemLog('🚪 Usuário saindo do sistema...');
+                // Clear any sensitive data
+                localStorage.removeItem('github_token');
+                // Redirect to login
+                window.location.href = '/login';
+            }
         }
 
         // Initialize on page load

@@ -271,9 +271,11 @@
         }
         
         .category-icon img {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
+            width: 40px !important;
+            height: 40px !important;
+            max-width: 40px !important;
+            max-height: 40px !important;
+            object-fit: cover !important;
             border-radius: 4px;
         }
         
@@ -2482,10 +2484,12 @@
         }
 
         .cart-item-image {
-            width: 60px;
-            height: 60px;
+            width: 60px !important;
+            height: 60px !important;
+            max-width: 60px !important;
+            max-height: 60px !important;
             border-radius: 6px;
-            object-fit: cover;
+            object-fit: cover !important;
         }
 
         .cart-item-details {
@@ -3120,7 +3124,7 @@
                 }
                 
                 cartItemDiv.innerHTML = `
-                    <img src="${imageSrc}" alt="${item.name}" class="cart-item-image">
+                    <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: cover !important; border-radius: 6px;">
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-color">Cor: ${item.color}</div>

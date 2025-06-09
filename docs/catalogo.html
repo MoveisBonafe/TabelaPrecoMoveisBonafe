@@ -1347,7 +1347,7 @@
                     const finalPrice = basePrice * priceMultiplier * multiplier;
                     
                     // Map table names to price keys based on your actual configuration
-                    const tableName = setting.tableName.toLowerCase().trim();
+                    const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
                     if (tableName.includes('vista') || tableName === 'à vista') {
                         prices.vista = finalPrice;
                     } else if (tableName === '30' || tableName === '30d') {
@@ -2488,9 +2488,7 @@
     </style>
 
     <script>
-        let currentModalImageIndex = 0;
-        let currentModalProduct = null;
-        let modalImages = [];
+        // Modal variables are already declared above
 
         function openProductDetailModal(product) {
             try {

@@ -1497,9 +1497,21 @@
                     } else {
                         // File path - ensure proper URL construction
                         if (!imageSrc.startsWith('http')) {
-                            // Remove leading slash or data/ prefix if present
-                            imageSrc = imageSrc.replace(/^(\/|data\/)?/, '');
-                            imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                            // Debug logging for image paths
+                            console.log('Original product image path:', imageSrc);
+                            console.log('Base URL:', adminClient.baseUrl);
+                            
+                            // Handle different path formats
+                            if (imageSrc.startsWith('data/images/')) {
+                                imageSrc = `${adminClient.baseUrl}/${imageSrc}`;
+                            } else if (imageSrc.startsWith('images/')) {
+                                imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                            } else {
+                                // Assume it's just the filename
+                                imageSrc = `${adminClient.baseUrl}/data/images/${imageSrc}`;
+                            }
+                            
+                            console.log('Final product image URL:', imageSrc);
                         }
                         imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)">`;
                     }
@@ -1570,9 +1582,15 @@
                     } else {
                         // File path - ensure proper URL construction
                         if (!imageSrc.startsWith('http')) {
-                            // Remove leading slash or data/ prefix if present
-                            imageSrc = imageSrc.replace(/^(\/|data\/)?/, '');
-                            imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                            // Handle different path formats
+                            if (imageSrc.startsWith('data/images/')) {
+                                imageSrc = `${adminClient.baseUrl}/${imageSrc}`;
+                            } else if (imageSrc.startsWith('images/')) {
+                                imageSrc = `${adminClient.baseUrl}/data/${imageSrc}`;
+                            } else {
+                                // Assume it's just the filename
+                                imageSrc = `${adminClient.baseUrl}/data/images/${imageSrc}`;
+                            }
                         }
                         imageHtml = `<img src="${imageSrc}" alt="${category.name}" onerror="handleImageError(this)">`;
                     }
@@ -1922,9 +1940,15 @@
                 
                 let src = imagePath;
                 if (!src.startsWith('data:') && !src.startsWith('http')) {
-                    // Remove leading slash or data/ prefix if present
-                    src = src.replace(/^(\/|data\/)?/, '');
-                    src = `${adminClient.baseUrl}/data/${src}`;
+                    // Handle different path formats
+                    if (src.startsWith('data/images/')) {
+                        src = `${adminClient.baseUrl}/${src}`;
+                    } else if (src.startsWith('images/')) {
+                        src = `${adminClient.baseUrl}/data/${src}`;
+                    } else {
+                        // Assume it's just the filename
+                        src = `${adminClient.baseUrl}/data/images/${src}`;
+                    }
                 }
                 
                 preview.innerHTML = `
@@ -2111,9 +2135,15 @@
             if (categoryImage) {
                 let src = categoryImage;
                 if (!src.startsWith('data:') && !src.startsWith('http')) {
-                    // Remove leading slash or data/ prefix if present
-                    src = src.replace(/^(\/|data\/)?/, '');
-                    src = `${adminClient.baseUrl}/data/${src}`;
+                    // Handle different path formats
+                    if (src.startsWith('data/images/')) {
+                        src = `${adminClient.baseUrl}/${src}`;
+                    } else if (src.startsWith('images/')) {
+                        src = `${adminClient.baseUrl}/data/${src}`;
+                    } else {
+                        // Assume it's just the filename
+                        src = `${adminClient.baseUrl}/data/images/${src}`;
+                    }
                 }
                 
                 preview.innerHTML = `
@@ -2927,8 +2957,8 @@
                 addSystemLog('🚪 Usuário saindo do sistema...');
                 // Clear any sensitive data
                 localStorage.removeItem('github_token');
-                // Redirect to login using the correct GitHub Pages URL
-                window.location.href = `${adminClient.baseUrl}/login.html`;
+                // Redirect to login using the full GitHub Pages URL
+                window.location.href = 'https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/login.html';
             }
         }
 

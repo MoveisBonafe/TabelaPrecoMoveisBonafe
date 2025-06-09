@@ -4,7 +4,8 @@
     "title": "Mês de Maio",
     "description": "Desconto válido em todos os móveis até o final do mês.",
     "color": "#f59e0b",
-    "active": false,
-    "createdAt": "2025-05-25T20:50:06.944Z"
+    "active": true,
+    "createdAt": "2025-05-25T20:50:06.944Z",
+    "updatedAt": "2025-06-09T03:10:54.472Z"
   }
 ]

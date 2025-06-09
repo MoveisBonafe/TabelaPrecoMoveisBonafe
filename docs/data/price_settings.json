@@ -1,36 +1,40 @@
 [
   {
-    "id": "1",
-    "tableName": "A Vista",
-    "percentage": 0.00,
+    "name": "A Vista",
+    "description": "",
+    "type": "markup",
+    "percentage": 0,
+    "categories": null,
     "active": true,
+    "updatedAt": "2025-06-09T00:23:32.513Z",
+    "id": "1",
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
     "id": "2",
     "tableName": "30",
-    "percentage": 2.00,
+    "percentage": 2,
     "active": true,
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
     "id": "3",
     "tableName": "30/60",
-    "percentage": 4.00,
+    "percentage": 4,
     "active": true,
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
     "id": "4",
     "tableName": "30/60/90",
-    "percentage": 6.00,
+    "percentage": 6,
     "active": true,
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
     "id": "5",
     "tableName": "30/60/90/120",
-    "percentage": 8.00,
+    "percentage": 8,
     "active": true,
     "createdAt": "2025-05-24T13:55:07.645Z"
   }

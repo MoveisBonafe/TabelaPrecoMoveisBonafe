@@ -24,5 +24,31 @@
     "updatedAt": "2025-06-09T02:40:40.837Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
+  },
+  {
+    "name": "Cadeira Alta",
+    "category": "Cadeiras",
+    "priceAVista": 90,
+    "altura": 10,
+    "largura": 10,
+    "comprimento": 10,
+    "peso": 5,
+    "description": "",
+    "images": [
+      "data/images/product_1749438281867_wvpoyafys.png",
+      "data/images/product_1749438290467_4qa6a08p8.png",
+      "data/images/product_1749438296348_sodp296pd.png",
+      "data/images/product_1749438302839_48kx81aam.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-09T03:05:14.987Z",
+    "id": 1749438314987,
+    "createdAt": "2025-06-09T03:05:14.987Z"
   }
 ]

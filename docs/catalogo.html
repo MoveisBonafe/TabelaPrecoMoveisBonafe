@@ -3246,7 +3246,17 @@
             if (retryCount < maxRetries) {
                 // Try base64 fallback if available
                 const imageName = img.src.split('/').pop().split('?')[0];
-                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                // Check memory cache if localStorage doesn't have it
+                if (!base64Data && window.parent && window.parent.imageMemoryCache) {
+                    base64Data = window.parent.imageMemoryCache[imageName];
+                }
+                
+                // Check own window memory cache
+                if (!base64Data && window.imageMemoryCache) {
+                    base64Data = window.imageMemoryCache[imageName];
+                }
                 
                 if (base64Data && retryCount >= 1) {
                     console.log(`Using base64 fallback for: ${imageName}`);
@@ -3289,6 +3299,93 @@
                 });
             }, 1000);
         });
+
+        // Global image synchronization system
+        function initImageSync() {
+            // Initialize memory cache for cross-page image sharing
+            if (!window.imageMemoryCache) {
+                window.imageMemoryCache = {};
+            }
+            
+            // Check for newly uploaded images in localStorage and sync to memory
+            const imageKeys = Object.keys(localStorage).filter(key => key.startsWith('image_base64_'));
+            imageKeys.forEach(key => {
+                const imageName = key.replace('image_base64_', '');
+                const base64Data = localStorage.getItem(key);
+                if (base64Data && !window.imageMemoryCache[imageName]) {
+                    window.imageMemoryCache[imageName] = base64Data;
+                }
+            });
+            
+            // Force refresh of any failed image loads
+            const failedImages = document.querySelectorAll('img[data-retry-count]');
+            failedImages.forEach(img => {
+                const imageName = img.src.split('/').pop().split('?')[0];
+                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                if (!base64Data && window.imageMemoryCache) {
+                    base64Data = window.imageMemoryCache[imageName];
+                }
+                
+                if (base64Data) {
+                    img.src = base64Data;
+                    img.removeAttribute('data-retry-count');
+                }
+            });
+        }
+        
+        // Data synchronization listener for cross-page updates
+        function checkForDataUpdates() {
+            const dataTypes = ['products', 'categories', 'colors', 'priceSettings'];
+            let hasUpdates = false;
+            
+            dataTypes.forEach(dataType => {
+                const lastUpdateKey = `last_${dataType}_update`;
+                const lastUpdate = localStorage.getItem(lastUpdateKey);
+                const lastCheck = localStorage.getItem(`last_${dataType}_check`) || '0';
+                
+                if (lastUpdate && parseInt(lastUpdate) > parseInt(lastCheck)) {
+                    // Find the most recent sync data
+                    const syncKeys = Object.keys(localStorage)
+                        .filter(key => key.startsWith(`sync_${dataType}_`))
+                        .sort((a, b) => {
+                            const timeA = parseInt(a.split('_')[2]);
+                            const timeB = parseInt(b.split('_')[2]);
+                            return timeB - timeA;
+                        });
+                    
+                    if (syncKeys.length > 0) {
+                        try {
+                            const syncData = JSON.parse(localStorage.getItem(syncKeys[0]));
+                            if (syncData && syncData.data) {
+                                catalogClient[dataType] = syncData.data;
+                                hasUpdates = true;
+                                localStorage.setItem(`last_${dataType}_check`, Date.now().toString());
+                                console.log(`📡 Dados atualizados: ${dataType}`);
+                            }
+                        } catch (error) {
+                            console.warn(`Erro ao processar sync de ${dataType}:`, error);
+                        }
+                    }
+                }
+            });
+            
+            if (hasUpdates) {
+                // Refresh the display with updated data
+                if (typeof renderProducts === 'function') {
+                    renderProducts();
+                }
+                if (typeof updateInterfaceBasedOnUser === 'function') {
+                    updateInterfaceBasedOnUser();
+                }
+            }
+        }
+        
+        // Run sync checks
+        initImageSync();
+        checkForDataUpdates();
+        setInterval(initImageSync, 30000); // Check for images every 30 seconds
+        setInterval(checkForDataUpdates, 10000); // Check for data updates every 10 seconds
     </script>
 </body>
 </html>

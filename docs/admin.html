@@ -2132,6 +2132,9 @@
 
                 await saveToGitHub('products.json', adminClient.products);
                 
+                // Broadcast data update to all pages
+                broadcastDataUpdate('products', adminClient.products);
+                
                 // Force immediate UI update with saved data
                 renderProducts();
                 updateStats();
@@ -3102,6 +3105,41 @@
             } catch (error) {
                 addSystemLog(`❌ Erro na importação: ${error.message}`);
                 showNotification(`Erro ao importar: ${error.message}`, 'error');
+            }
+        }
+
+        // Cross-page data synchronization
+        function broadcastDataUpdate(dataType, data) {
+            // Store update timestamp and data
+            const updateKey = `sync_${dataType}_${Date.now()}`;
+            const syncData = {
+                type: dataType,
+                data: data,
+                timestamp: Date.now()
+            };
+            
+            try {
+                localStorage.setItem(updateKey, JSON.stringify(syncData));
+                localStorage.setItem(`last_${dataType}_update`, Date.now().toString());
+                
+                // Clean old sync data (keep only last 3 updates per type)
+                const syncKeys = Object.keys(localStorage).filter(key => key.startsWith(`sync_${dataType}_`));
+                if (syncKeys.length > 3) {
+                    const sortedKeys = syncKeys.sort((a, b) => {
+                        const timeA = parseInt(a.split('_')[2]);
+                        const timeB = parseInt(b.split('_')[2]);
+                        return timeA - timeB;
+                    });
+                    
+                    // Remove oldest entries
+                    for (let i = 0; i < sortedKeys.length - 3; i++) {
+                        localStorage.removeItem(sortedKeys[i]);
+                    }
+                }
+                
+                addSystemLog(`📡 Dados sincronizados: ${dataType}`);
+            } catch (error) {
+                console.warn('Erro ao sincronizar dados:', error);
             }
         }
 

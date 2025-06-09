@@ -4157,37 +4157,67 @@
         }
 
         /* Desktop Layout for Delivery Step */
-        .delivery-section {
-            padding: 32px 40px;
-            min-height: 60vh;
-        }
+        @media (min-width: 769px) {
+            .delivery-section {
+                padding: 32px 40px;
+                min-height: 60vh;
+            }
 
-        .delivery-form-desktop {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 32px;
-        }
+            .delivery-form-desktop {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                margin-bottom: 32px;
+            }
 
-        .delivery-left,
-        .delivery-right {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
+            .delivery-left,
+            .delivery-right {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+            }
 
-        .customer-data-section {
-            background: white;
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
+            .customer-data-section {
+                background: #f8f9fa;
+                border-radius: 16px;
+                padding: 32px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                height: fit-content;
+            }
 
-        .delivery-options-section {
-            background: white;
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            .delivery-options-section {
+                background: #f8f9fa;
+                border-radius: 16px;
+                padding: 32px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                height: fit-content;
+            }
+
+            .customer-data-section h3,
+            .delivery-options-section h3 {
+                margin: 0 0 24px 0;
+                font-size: 20px;
+                font-weight: 600;
+                color: #1f2937;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 0;
+            }
+
+            .delivery-choice {
+                gap: 16px;
+            }
+
+            .delivery-option {
+                padding: 20px;
+                border-radius: 12px;
+            }
         }
 
         /* Desktop Layout for Payment Step */

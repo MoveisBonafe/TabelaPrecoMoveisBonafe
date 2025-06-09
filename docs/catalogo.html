@@ -2884,7 +2884,61 @@
                     <!-- Delivery Actions -->
                     <div class="cart-actions-new">
                         <button class="clear-cart-btn" onclick="goToCartStep()">Voltar ao Carrinho</button>
-                        <button class="checkout-btn" onclick="proceedToCheckout()">Ir Para Pagamento</button>
+                        <button class="checkout-btn" onclick="goToPaymentStep()">Ir Para Pagamento</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment Section -->
+                <div class="payment-section" id="cart-step-3" style="display: none;">
+                    <div class="payment-form-desktop">
+                        <div class="payment-left">
+                            <div class="payment-method-section">
+                                <h3>Método de Pagamento</h3>
+                                <div class="payment-method-selection">
+                                    <select id="payment-method" required>
+                                        <option value="">Selecione o método de pagamento</option>
+                                        <option value="pix">PIX</option>
+                                        <option value="cartao">Cartão de Crédito/Débito</option>
+                                        <option value="boleto">Boleto Bancário</option>
+                                        <option value="dinheiro">Dinheiro</option>
+                                        <option value="duplicata">Duplicata</option>
+                                        <option value="cheque">Cheque</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="price-table-section">
+                                <h3>Tabela de Preços</h3>
+                                <div class="price-table-selection">
+                                    <select id="price-table" required onchange="updatePaymentSummary()">
+                                        <option value="">Selecione a tabela de preços</option>
+                                        <option value="30">À Vista (+2%)</option>
+                                        <option value="30/60">30/60 (+4%)</option>
+                                        <option value="30/60/90">30/60/90 (+6%)</option>
+                                        <option value="30/60/90/120">30/60/90/120 (+8%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-right">
+                            <div class="order-summary-section">
+                                <h3>Resumo do Pedido</h3>
+                                <div class="order-summary" id="order-summary">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                                
+                                <div class="total-section" id="total-section">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Actions -->
+                    <div class="cart-actions-new">
+                        <button class="clear-cart-btn" onclick="goToDeliveryStep()">Voltar à Entrega</button>
+                        <button class="checkout-btn" onclick="finalizeOrder()">Finalizar Pedido</button>
                     </div>
                 </div>
             </div>
@@ -4087,16 +4141,134 @@
             background: white;
         }
 
+        /* Desktop Layout for Delivery Step */
+        .delivery-section {
+            padding: 24px;
+        }
+
+        .delivery-form-desktop {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        .delivery-left,
+        .delivery-right {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .customer-data-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .delivery-options-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Desktop Layout for Payment Step */
+        .payment-section {
+            padding: 24px;
+        }
+
+        .payment-form-desktop {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        .payment-left,
+        .payment-right {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .payment-method-section,
+        .price-table-section,
+        .order-summary-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-summary {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .order-item-details {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .order-item-price {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .total-section {
+            border-top: 2px solid #e5e7eb;
+            padding-top: 16px;
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .total-line.final {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #111827;
+            border-top: 1px solid #d1d5db;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
+        .discount-line {
+            color: #059669;
+            font-weight: 600;
+        }
+
         /* Responsive checkout layout */
         @media (max-width: 768px) {
-            .checkout-sections {
-                display: flex;
-                flex-direction: column;
-                gap: 24px;
-            }
-
-            .checkout-left,
-            .checkout-right {
+            .delivery-form-desktop,
+            .payment-form-desktop {
+                grid-template-columns: 1fr;
                 gap: 20px;
             }
 
@@ -4879,6 +5051,7 @@
             // Hide cart step and show delivery step
             document.getElementById('cart-step-1').style.display = 'none';
             document.getElementById('cart-step-2').style.display = 'block';
+            document.getElementById('cart-step-3').style.display = 'none';
             
             // Update steps visual
             updateCartSteps(2);
@@ -4887,9 +5060,26 @@
             document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Entrega';
         }
 
+        function goToPaymentStep() {
+            // Hide delivery step and show payment step
+            document.getElementById('cart-step-1').style.display = 'none';
+            document.getElementById('cart-step-2').style.display = 'none';
+            document.getElementById('cart-step-3').style.display = 'block';
+            
+            // Update steps visual
+            updateCartSteps(3);
+            
+            // Update modal title
+            document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Pagamento';
+            
+            // Update payment summary
+            updatePaymentSummary();
+        }
+
         function goToCartStep() {
             // Hide delivery step and show cart step
             document.getElementById('cart-step-2').style.display = 'none';
+            document.getElementById('cart-step-3').style.display = 'none';
             document.getElementById('cart-step-1').style.display = 'block';
             
             // Update steps visual
@@ -4983,7 +5173,6 @@
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-color">Cor: ${item.color}</div>
-                            <div class="cart-item-price">R$ ${item.price ? item.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : '0,00'}</div>
                         </div>
                         <div class="cart-item-controls">
                             <div class="cart-item-quantity">

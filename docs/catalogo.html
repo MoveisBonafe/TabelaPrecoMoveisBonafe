@@ -1742,6 +1742,11 @@
             // Show modal
             document.getElementById('product-detail-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Setup swipe events after modal is shown
+            setTimeout(() => {
+                setupSwipeEvents();
+            }, 100);
         }
 
         function setupModalImages(product) {
@@ -1890,6 +1895,146 @@
             
             // Update selected color text
             document.getElementById('modal-selected-color').textContent = `Cor selecionada: ${colorName}`;
+            
+            // Change image based on color
+            changeImageForColor(colorName);
+        }
+
+        function changeImageForColor(colorName) {
+            if (!currentModalProduct || !modalImages.length) return;
+            
+            // Find image matching the color
+            const colorImageIndex = modalImages.findIndex(img => 
+                img.toLowerCase().includes(colorName.toLowerCase()) ||
+                img.includes(colorName)
+            );
+            
+            if (colorImageIndex >= 0) {
+                currentModalImageIndex = colorImageIndex;
+                updateModalMainImage();
+                updateNavigationButtons();
+            }
+        }
+
+        // Swipe functionality for image/color change
+        let startX = 0;
+        let startY = 0;
+        let currentSwipeIndex = 0;
+
+        function setupSwipeEvents() {
+            const imageContainer = document.querySelector('.main-image-container');
+            if (!imageContainer) return;
+
+            imageContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+            imageContainer.addEventListener('touchmove', handleTouchMove, { passive: true });
+            imageContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+            
+            // Mouse events for desktop
+            imageContainer.addEventListener('mousedown', handleMouseStart);
+            imageContainer.addEventListener('mousemove', handleMouseMove);
+            imageContainer.addEventListener('mouseup', handleMouseEnd);
+            imageContainer.addEventListener('mouseleave', handleMouseEnd);
+        }
+
+        function handleTouchStart(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }
+
+        function handleTouchMove(e) {
+            if (!startX || !startY) return;
+            
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            
+            const diffX = startX - currentX;
+            const diffY = startY - currentY;
+            
+            // Only process horizontal swipes
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                e.preventDefault();
+                
+                if (diffX > 0) {
+                    // Swipe left - next color
+                    nextColor();
+                } else {
+                    // Swipe right - previous color
+                    previousColor();
+                }
+                
+                startX = 0;
+                startY = 0;
+            }
+        }
+
+        function handleTouchEnd() {
+            startX = 0;
+            startY = 0;
+        }
+
+        // Mouse events for desktop
+        let mouseStartX = 0;
+        let isMouseDown = false;
+
+        function handleMouseStart(e) {
+            mouseStartX = e.clientX;
+            isMouseDown = true;
+        }
+
+        function handleMouseMove(e) {
+            if (!isMouseDown) return;
+            
+            const diffX = mouseStartX - e.clientX;
+            
+            if (Math.abs(diffX) > 100) {
+                if (diffX > 0) {
+                    nextColor();
+                } else {
+                    previousColor();
+                }
+                isMouseDown = false;
+            }
+        }
+
+        function handleMouseEnd() {
+            isMouseDown = false;
+            mouseStartX = 0;
+        }
+
+        function nextColor() {
+            if (!currentModalProduct || !currentModalProduct.colorVariations) return;
+            
+            const colors = currentModalProduct.colorVariations;
+            const currentColorElement = document.querySelector('#modal-color-options .color-option.selected .color-name');
+            const currentColor = currentColorElement ? currentColorElement.textContent : colors[0];
+            const currentIndex = colors.indexOf(currentColor);
+            const nextIndex = (currentIndex + 1) % colors.length;
+            
+            const nextColorElement = Array.from(document.querySelectorAll('#modal-color-options .color-option')).find(el => 
+                el.querySelector('.color-name').textContent === colors[nextIndex]
+            );
+            
+            if (nextColorElement) {
+                selectModalColor(colors[nextIndex], nextColorElement);
+            }
+        }
+
+        function previousColor() {
+            if (!currentModalProduct || !currentModalProduct.colorVariations) return;
+            
+            const colors = currentModalProduct.colorVariations;
+            const currentColorElement = document.querySelector('#modal-color-options .color-option.selected .color-name');
+            const currentColor = currentColorElement ? currentColorElement.textContent : colors[0];
+            const currentIndex = colors.indexOf(currentColor);
+            const prevIndex = currentIndex <= 0 ? colors.length - 1 : currentIndex - 1;
+            
+            const prevColorElement = Array.from(document.querySelectorAll('#modal-color-options .color-option')).find(el => 
+                el.querySelector('.color-name').textContent === colors[prevIndex]
+            );
+            
+            if (prevColorElement) {
+                selectModalColor(colors[prevIndex], prevColorElement);
+            }
         }
 
         function setupModalDimensions(product) {
@@ -2161,11 +2306,11 @@
         let cart = [];
 
         function updateCartDisplay() {
-            const cartButton = document.querySelector('.cart-btn');
+            const cartCount = document.getElementById('cart-count');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             
-            if (cartButton) {
-                cartButton.textContent = `🛒 Carrinho (${totalItems})`;
+            if (cartCount) {
+                cartCount.textContent = totalItems;
             }
         }
 
@@ -2282,14 +2427,6 @@
                             <p id="modal-product-description">Descrição do produto</p>
                         </div>
                         
-                        <div class="product-colors" id="modal-color-section">
-                            <h3>Cor</h3>
-                            <div class="color-options" id="modal-color-options">
-                                <!-- Color options will be populated here -->
-                            </div>
-                            <p class="selected-color" id="modal-selected-color">Cor selecionada: --</p>
-                        </div>
-                        
                         <div class="product-quantity">
                             <h3>Quantidade</h3>
                             <div class="quantity-controls">
@@ -2299,13 +2436,19 @@
                             </div>
                         </div>
                         
-
-                        
                         <div class="product-actions">
                             <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
-                            <button class="whatsapp-btn" onclick="contactWhatsApp()">Comprar via WhatsApp</button>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Color options centered below image -->
+                <div class="product-colors-centered" id="modal-color-section">
+                    <div class="color-options" id="modal-color-options">
+                        <!-- Color options will be populated here -->
+                    </div>
+                    <p class="selected-color" id="modal-selected-color">Cor selecionada: --</p>
+                </div>
                 </div>
             </div>
         </div>
@@ -3294,6 +3437,53 @@
             .checkout-actions {
                 flex-direction: column;
             }
+        }
+
+        /* Centered color options below image */
+        .product-colors-centered {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-colors-centered .color-options {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .product-colors-centered .selected-color {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Center quantity controls */
+        .product-quantity {
+            text-align: center;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* Swipe enabled image container */
+        .main-image-container {
+            position: relative;
+            touch-action: pan-y;
+            cursor: grab;
+        }
+
+        .main-image-container:active {
+            cursor: grabbing;
+        }
+
+        .main-image-container img {
+            transition: transform 0.3s ease;
         }
         }
     </style>

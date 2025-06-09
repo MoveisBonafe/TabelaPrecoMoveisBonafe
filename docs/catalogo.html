@@ -2133,70 +2133,52 @@
             if (!currentModalProduct) return;
             
             const quantity = parseInt(document.getElementById('modal-quantity').value);
-            const selectedColor = document.querySelector('#modal-color-options .color-option.selected .color-name')?.textContent || 'Padrão';
+            const selectedColorElement = document.querySelector('.modal-color-option.selected');
+            const selectedColor = selectedColorElement ? selectedColorElement.title : 'Cor padrão';
             
             console.log('🛒 Adicionando ao carrinho:', {
                 produto: currentModalProduct.name,
                 quantidade: quantity,
                 cor: selectedColor,
-                carrinhoAntes: cart.length
+                carrinhoAntes: shoppingCart.length
             });
             
-            // Add to cart with correct image for selected color
-            const product = currentModalProduct;
+            // Get image URL
             let imageUrl = '';
-            
-            // Get the currently displayed image from the modal
             const currentModalImage = document.getElementById('modal-main-image');
             if (currentModalImage && currentModalImage.src) {
                 imageUrl = currentModalImage.src;
             } else if (modalImages && modalImages.length > 0) {
-                // Find image matching the selected color from modal images
-                const colorImage = modalImages.find(img => 
-                    img.toLowerCase().includes(selectedColor.toLowerCase()) ||
-                    img.includes(selectedColor)
-                );
-                imageUrl = colorImage || modalImages[currentModalImageIndex] || modalImages[0];
-            } else if (product.images && product.images.length > 0) {
-                // Fallback to product images
-                const colorImage = product.images.find(img => 
-                    img.toLowerCase().includes(selectedColor.toLowerCase()) ||
-                    img.includes(selectedColor)
-                );
-                imageUrl = colorImage || product.images[0];
-                
-                // Ensure full URL
-                if (!imageUrl.startsWith('http')) {
-                    imageUrl = imageUrl.startsWith('data/images/') ? 
-                        `${catalogClient.baseUrl}/${imageUrl}` : 
-                        `${catalogClient.baseUrl}/data/images/${imageUrl.replace(/^data\/images\//, '')}`;
-                }
+                imageUrl = modalImages[0];
             }
             
             // Check if item already exists in cart
-            const existingItemIndex = cart.findIndex(item => 
-                item.name === product.name && item.color === selectedColor
+            const existingItemIndex = shoppingCart.findIndex(item => 
+                item.productId === currentModalProduct.id && item.color === selectedColor
             );
             
-            if (existingItemIndex >= 0) {
-                // Update quantity for existing item
-                cart[existingItemIndex].quantity += quantity;
+            if (existingItemIndex !== -1) {
+                // Update quantity of existing item
+                shoppingCart[existingItemIndex].quantity += quantity;
             } else {
                 // Add new item to cart
-                cart.push({
-                    name: product.name,
-                    quantity: quantity,
+                const cartItem = {
+                    id: Date.now().toString(),
+                    productId: currentModalProduct.id,
+                    name: currentModalProduct.name,
                     color: selectedColor,
-                    image: imageUrl,
-                    product: product
-                });
+                    quantity: quantity,
+                    image: imageUrl || 'https://via.placeholder.com/60x60?text=Produto'
+                };
+                shoppingCart.push(cartItem);
             }
             
-            console.log('🛒 Item adicionado. Carrinho atual:', cart);
-            console.log('🛒 Total de itens após adição:', cart.length);
+            // Save cart to device-specific localStorage
+            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
+            updateCartCount();
             
-            updateCartDisplay();
-            saveCart();
+            console.log('🛒 Item adicionado. Carrinho atual:', shoppingCart);
+            console.log('🛒 Total de itens após adição:', shoppingCart.length);
             
             // Show success notification
             const notification = document.createElement('div');
@@ -2234,7 +2216,7 @@
 
         // Checkout functionality
         function proceedToCheckout() {
-            if (cart.length === 0) {
+            if (shoppingCart.length === 0) {
                 alert('Seu carrinho está vazio!');
                 return;
             }
@@ -2474,43 +2456,9 @@
             console.log('Total de itens renderizados:', totalItems);
         }
 
-        function updateCartItemQuantity(index, change) {
-            if (index >= 0 && index < cart.length) {
-                cart[index].quantity += change;
-                if (cart[index].quantity <= 0) {
-                    cart.splice(index, 1);
-                }
-                renderCartItems();
-                updateCartDisplay();
-                saveCart();
-            }
-        }
 
-        function setCartItemQuantity(index, newQuantity) {
-            const quantity = parseInt(newQuantity);
-            if (index >= 0 && index < cart.length && quantity > 0) {
-                cart[index].quantity = quantity;
-                renderCartItems();
-                updateCartDisplay();
-                saveCart();
-            }
-        }
 
-        function removeCartItem(index) {
-            if (index >= 0 && index < cart.length) {
-                cart.splice(index, 1);
-                renderCartItems();
-                updateCartDisplay();
-                saveCart();
-            }
-        }
 
-        function clearCart() {
-            cart = [];
-            renderCartItems();
-            updateCartDisplay();
-            saveCart();
-        }
 
         console.log('🛍️ MoveisBonafe Catálogo - GitHub Pages');
     </script>
@@ -4077,41 +4025,7 @@
             document.getElementById('cart-count').textContent = totalItems;
         }
 
-        function addToCart() {
-            if (!currentModalProduct) return;
-            
-            const quantity = parseInt(document.getElementById('modal-quantity').value);
-            const selectedColorElement = document.querySelector('.modal-color-option.selected');
-            const selectedColor = selectedColorElement ? selectedColorElement.title : 'Cor padrão';
-            
-            // Check if item already exists in cart
-            const existingItemIndex = shoppingCart.findIndex(item => 
-                item.productId === currentModalProduct.id && item.color === selectedColor
-            );
-            
-            if (existingItemIndex !== -1) {
-                // Update quantity of existing item
-                shoppingCart[existingItemIndex].quantity += quantity;
-            } else {
-                // Add new item to cart
-                const cartItem = {
-                    id: Date.now().toString(),
-                    productId: currentModalProduct.id,
-                    name: currentModalProduct.name,
-                    color: selectedColor,
-                    quantity: quantity,
-                    image: modalImages[0] || 'https://via.placeholder.com/60x60?text=Produto'
-                };
-                shoppingCart.push(cartItem);
-            }
-            
-            // Save cart to device-specific localStorage
-            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
-            updateCartCount();
-            
-            // Show success message
-            alert(`${currentModalProduct.name} adicionado ao carrinho!`);
-        }
+
 
         function openCartModal() {
             renderCartItems();

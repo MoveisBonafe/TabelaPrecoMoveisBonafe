@@ -33,10 +33,14 @@
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
-    "id": "4",
-    "tableName": "30/60/90",
+    "name": "30/60/90",
+    "description": "",
+    "type": "markup",
     "percentage": 6,
+    "categories": null,
     "active": true,
+    "updatedAt": "2025-06-09T00:24:10.640Z",
+    "id": "4",
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {

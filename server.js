@@ -31,9 +31,9 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'docs', 'login.html'));
 });
 
-// Fallback for SPA routing
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'docs', 'index.html'));
+// Handle other static files
+app.use((req, res, next) => {
+    res.status(404).send('File not found');
 });
 
 app.listen(PORT, '0.0.0.0', () => {

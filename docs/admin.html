@@ -1034,6 +1034,194 @@
         </div>
     </div>
 
+    <!-- User Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="user-modal-title">Adicionar Usuário</h3>
+                <button class="modal-close" onclick="closeUserModal()">&times;</button>
+            </div>
+            
+            <form id="user-form" onsubmit="saveUser(event)">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo:</label>
+                    <input type="text" id="user-name" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email:</label>
+                    <input type="email" id="user-email" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Função:</label>
+                        <select id="user-role" class="form-select" required>
+                            <option value="">Selecione uma função</option>
+                            <option value="admin">Administrador</option>
+                            <option value="manager">Gerente</option>
+                            <option value="user">Usuário</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status:</label>
+                        <select id="user-active" class="form-select" required>
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Senha (deixe em branco para manter atual):</label>
+                    <input type="password" id="user-password" class="form-input">
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Usuário
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Price Setting Modal -->
+    <div id="price-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="price-modal-title">Adicionar Tabela de Preço</h3>
+                <button class="modal-close" onclick="closePriceModal()">&times;</button>
+            </div>
+            
+            <form id="price-form" onsubmit="savePriceSetting(event)">
+                <div class="form-group">
+                    <label class="form-label">Nome da Tabela:</label>
+                    <input type="text" id="price-name" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descrição:</label>
+                    <textarea id="price-description" class="form-textarea" rows="2"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Tipo:</label>
+                        <select id="price-type" class="form-select" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="markup">Margem sobre custo</option>
+                            <option value="discount">Desconto sobre preço</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Percentual (%):</label>
+                        <input type="number" id="price-percentage" class="form-input" step="0.01" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Categorias Aplicáveis (deixe vazio para todas):</label>
+                    <div id="price-categories" style="margin-top: 8px;">
+                        <!-- Categories checkboxes will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Status:</label>
+                    <select id="price-active" class="form-select" required>
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Tabela
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closePriceModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Promotion Modal -->
+    <div id="promotion-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="promotion-modal-title">Criar Promoção</h3>
+                <button class="modal-close" onclick="closePromotionModal()">&times;</button>
+            </div>
+            
+            <form id="promotion-form" onsubmit="savePromotion(event)">
+                <div class="form-group">
+                    <label class="form-label">Título da Promoção:</label>
+                    <input type="text" id="promotion-title" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descrição:</label>
+                    <textarea id="promotion-description" class="form-textarea" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Tipo:</label>
+                        <select id="promotion-type" class="form-select" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="percentage">Desconto percentual</option>
+                            <option value="fixed">Desconto fixo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Valor:</label>
+                        <input type="number" id="promotion-value" class="form-input" step="0.01" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Data de Início:</label>
+                        <input type="date" id="promotion-start" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data de Fim:</label>
+                        <input type="date" id="promotion-end" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Categorias Aplicáveis (deixe vazio para todas):</label>
+                    <div id="promotion-categories" style="margin-top: 8px;">
+                        <!-- Categories checkboxes will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Status:</label>
+                    <select id="promotion-active" class="form-select" required>
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Promoção
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closePromotionModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Global application state
         const adminClient = {
@@ -1409,19 +1597,172 @@
             });
         }
 
-        // Render users (placeholder)
+        // Render users
         function renderUsers() {
-            // Implementation for users tab
+            const grid = document.getElementById('usuarios-grid');
+            
+            if (adminClient.users.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👥</div>
+                        <h3>Sistema sem usuários cadastrados</h3>
+                        <p>Configure usuários para acessar o sistema</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            adminClient.users.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                
+                const statusColor = user.active ? '#48bb78' : '#f56565';
+                const statusText = user.active ? 'Ativo' : 'Inativo';
+                const roleIcon = user.role === 'admin' ? '👑' : user.role === 'manager' ? '👨‍💼' : '👤';
+                
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                        <div style="font-size: 32px;">${roleIcon}</div>
+                        <div>
+                            <div class="card-title">${user.name}</div>
+                            <div class="card-info">${user.email}</div>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-info"><strong>Função:</strong> ${user.role}</div>
+                    <div class="card-info"><strong>Último acesso:</strong> ${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString('pt-BR') : 'Nunca'}</div>
+                    <div class="card-info"><strong>Criado em:</strong> ${new Date(user.createdAt).toLocaleDateString('pt-BR')}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editUser('${user.id}')">✏️ Editar</button>
+                        <button class="btn ${user.active ? 'btn-warning' : 'btn-success'}" onclick="toggleUserStatus('${user.id}')">
+                            ${user.active ? '🚫 Desativar' : '✅ Ativar'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteUser('${user.id}')">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
         }
 
-        // Render price settings (placeholder)
+        // Render price settings
         function renderPriceSettings() {
-            // Implementation for price settings tab
+            const grid = document.getElementById('precos-grid');
+            
+            if (adminClient.priceSettings.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💰</div>
+                        <h3>Configurar tabelas de preço</h3>
+                        <p>Defina margens e percentuais para diferentes tipos de cliente</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            adminClient.priceSettings.forEach(setting => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                
+                const statusColor = setting.active ? '#48bb78' : '#f56565';
+                const statusText = setting.active ? 'Ativo' : 'Inativo';
+                
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div class="card-title">${setting.name}</div>
+                        <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                            ${statusText}
+                        </span>
+                    </div>
+                    <div class="card-info"><strong>Tipo:</strong> ${setting.type === 'markup' ? 'Margem sobre custo' : 'Desconto sobre preço'}</div>
+                    <div class="card-info"><strong>Percentual:</strong> ${setting.percentage}%</div>
+                    <div class="card-info"><strong>Descrição:</strong> ${setting.description || 'Sem descrição'}</div>
+                    <div class="card-info"><strong>Aplicável a:</strong> ${setting.categories?.length ? setting.categories.join(', ') : 'Todas as categorias'}</div>
+                    <div class="card-info"><strong>Criado em:</strong> ${new Date(setting.createdAt).toLocaleDateString('pt-BR')}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editPriceSetting('${setting.id}')">✏️ Editar</button>
+                        <button class="btn ${setting.active ? 'btn-warning' : 'btn-success'}" onclick="togglePriceSettingStatus('${setting.id}')">
+                            ${setting.active ? '🚫 Desativar' : '✅ Ativar'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deletePriceSetting('${setting.id}')">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
         }
 
-        // Render promotions (placeholder)
+        // Render promotions
         function renderPromotions() {
-            // Implementation for promotions tab
+            const grid = document.getElementById('promocoes-grid');
+            
+            if (adminClient.promotions.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎯</div>
+                        <h3>Nenhuma promoção ativa</h3>
+                        <p>Crie promoções para destacar ofertas especiais</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            adminClient.promotions.forEach(promotion => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                
+                const now = new Date();
+                const startDate = new Date(promotion.startDate);
+                const endDate = new Date(promotion.endDate);
+                
+                let statusColor = '#f56565';
+                let statusText = 'Inativa';
+                
+                if (promotion.active && now >= startDate && now <= endDate) {
+                    statusColor = '#48bb78';
+                    statusText = 'Ativa';
+                } else if (promotion.active && now < startDate) {
+                    statusColor = '#ed8936';
+                    statusText = 'Programada';
+                } else if (now > endDate) {
+                    statusColor = '#a0aec0';
+                    statusText = 'Expirada';
+                }
+                
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div class="card-title">${promotion.title}</div>
+                        <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                            ${statusText}
+                        </span>
+                    </div>
+                    <div class="card-info" style="margin-bottom: 8px;">${promotion.description}</div>
+                    <div class="card-info"><strong>Tipo:</strong> ${promotion.type === 'percentage' ? 'Desconto percentual' : 'Desconto fixo'}</div>
+                    <div class="card-info"><strong>Valor:</strong> ${promotion.type === 'percentage' ? promotion.value + '%' : 'R$ ' + promotion.value.toFixed(2)}</div>
+                    <div class="card-info"><strong>Período:</strong> ${startDate.toLocaleDateString('pt-BR')} até ${endDate.toLocaleDateString('pt-BR')}</div>
+                    <div class="card-info"><strong>Aplicável a:</strong> ${promotion.categories?.length ? promotion.categories.join(', ') : 'Todas as categorias'}</div>
+                    <div class="card-info"><strong>Criado em:</strong> ${new Date(promotion.createdAt).toLocaleDateString('pt-BR')}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editPromotion('${promotion.id}')">✏️ Editar</button>
+                        <button class="btn ${promotion.active ? 'btn-warning' : 'btn-success'}" onclick="togglePromotionStatus('${promotion.id}')">
+                            ${promotion.active ? '🚫 Desativar' : '✅ Ativar'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deletePromotion('${promotion.id}')">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
         }
 
         // Populate select elements
@@ -1985,6 +2326,439 @@
             showNotification('Dados atualizados com sucesso!', 'success');
         }
 
+        // User management functions
+        let currentEditingUser = null;
+
+        function openUserModal(userId = null) {
+            currentEditingUser = userId ? adminClient.users.find(u => u.id === userId) : null;
+            const title = document.getElementById('user-modal-title');
+            
+            if (currentEditingUser) {
+                title.textContent = 'Editar Usuário';
+                fillUserForm();
+            } else {
+                title.textContent = 'Adicionar Usuário';
+                clearUserForm();
+            }
+            
+            document.getElementById('user-modal').classList.add('active');
+        }
+
+        function closeUserModal() {
+            document.getElementById('user-modal').classList.remove('active');
+            clearUserForm();
+        }
+
+        function fillUserForm() {
+            if (!currentEditingUser) return;
+            
+            document.getElementById('user-name').value = currentEditingUser.name || '';
+            document.getElementById('user-email').value = currentEditingUser.email || '';
+            document.getElementById('user-role').value = currentEditingUser.role || '';
+            document.getElementById('user-active').value = currentEditingUser.active ? 'true' : 'false';
+            document.getElementById('user-password').value = '';
+        }
+
+        function clearUserForm() {
+            document.getElementById('user-form').reset();
+        }
+
+        async function saveUser(event) {
+            event.preventDefault();
+            
+            try {
+                addSystemLog('💾 Salvando usuário...');
+                
+                const userData = {
+                    name: document.getElementById('user-name').value,
+                    email: document.getElementById('user-email').value,
+                    role: document.getElementById('user-role').value,
+                    active: document.getElementById('user-active').value === 'true',
+                    updatedAt: new Date().toISOString()
+                };
+
+                const password = document.getElementById('user-password').value;
+                if (password) {
+                    userData.password = password; // In real app, this should be hashed
+                }
+
+                if (currentEditingUser) {
+                    userData.id = currentEditingUser.id;
+                    userData.createdAt = currentEditingUser.createdAt;
+                    userData.lastLogin = currentEditingUser.lastLogin;
+                    
+                    const index = adminClient.users.findIndex(u => u.id === currentEditingUser.id);
+                    if (index !== -1) {
+                        adminClient.users[index] = userData;
+                    }
+                } else {
+                    userData.id = Date.now().toString();
+                    userData.createdAt = new Date().toISOString();
+                    userData.lastLogin = null;
+                    adminClient.users.push(userData);
+                }
+
+                await saveToGitHub('users.json', adminClient.users);
+                addSystemLog(`✅ Usuário "${userData.name}" salvo com sucesso`);
+                showNotification(`Usuário "${userData.name}" salvo com sucesso!`, 'success');
+                closeUserModal();
+                renderUsers();
+                updateStats();
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao salvar usuário: ${error.message}`);
+                showNotification('Erro ao salvar usuário. Verifique o token GitHub.', 'error');
+            }
+        }
+
+        function editUser(userId) {
+            openUserModal(userId);
+        }
+
+        async function toggleUserStatus(userId) {
+            try {
+                const user = adminClient.users.find(u => u.id === userId);
+                if (user) {
+                    user.active = !user.active;
+                    user.updatedAt = new Date().toISOString();
+                    
+                    await saveToGitHub('users.json', adminClient.users);
+                    addSystemLog(`🔄 Status do usuário "${user.name}" alterado para ${user.active ? 'ativo' : 'inativo'}`);
+                    showNotification(`Usuário ${user.active ? 'ativado' : 'desativado'} com sucesso!`, 'success');
+                    renderUsers();
+                    updateStats();
+                }
+            } catch (error) {
+                addSystemLog(`❌ Erro ao alterar status: ${error.message}`);
+                showNotification('Erro ao alterar status do usuário.', 'error');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+            
+            try {
+                const user = adminClient.users.find(u => u.id === userId);
+                adminClient.users = adminClient.users.filter(u => u.id !== userId);
+                await saveToGitHub('users.json', adminClient.users);
+                addSystemLog(`🗑️ Usuário "${user?.name}" excluído com sucesso`);
+                showNotification('Usuário excluído com sucesso!', 'success');
+                renderUsers();
+                updateStats();
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir usuário: ${error.message}`);
+                showNotification('Erro ao excluir usuário.', 'error');
+            }
+        }
+
+        // Price Settings management functions
+        let currentEditingPriceSetting = null;
+
+        function openPriceModal(settingId = null) {
+            currentEditingPriceSetting = settingId ? adminClient.priceSettings.find(p => p.id === settingId) : null;
+            const title = document.getElementById('price-modal-title');
+            
+            if (currentEditingPriceSetting) {
+                title.textContent = 'Editar Tabela de Preço';
+                fillPriceForm();
+            } else {
+                title.textContent = 'Adicionar Tabela de Preço';
+                clearPriceForm();
+            }
+            
+            populatePriceCategories();
+            document.getElementById('price-modal').classList.add('active');
+        }
+
+        function closePriceModal() {
+            document.getElementById('price-modal').classList.remove('active');
+            clearPriceForm();
+        }
+
+        function populatePriceCategories() {
+            const container = document.getElementById('price-categories');
+            container.innerHTML = '';
+            
+            adminClient.categories.forEach(category => {
+                const label = document.createElement('label');
+                label.style.display = 'flex';
+                label.style.alignItems = 'center';
+                label.style.gap = '8px';
+                label.style.marginBottom = '8px';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = category.name;
+                checkbox.name = 'price-category';
+                
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(category.name));
+                container.appendChild(label);
+            });
+        }
+
+        function fillPriceForm() {
+            if (!currentEditingPriceSetting) return;
+            
+            document.getElementById('price-name').value = currentEditingPriceSetting.name || '';
+            document.getElementById('price-description').value = currentEditingPriceSetting.description || '';
+            document.getElementById('price-type').value = currentEditingPriceSetting.type || '';
+            document.getElementById('price-percentage').value = currentEditingPriceSetting.percentage || '';
+            document.getElementById('price-active').value = currentEditingPriceSetting.active ? 'true' : 'false';
+            
+            // Check relevant categories
+            const categoryCheckboxes = document.querySelectorAll('input[name="price-category"]');
+            categoryCheckboxes.forEach(checkbox => {
+                checkbox.checked = currentEditingPriceSetting.categories?.includes(checkbox.value) || false;
+            });
+        }
+
+        function clearPriceForm() {
+            document.getElementById('price-form').reset();
+        }
+
+        async function savePriceSetting(event) {
+            event.preventDefault();
+            
+            try {
+                addSystemLog('💾 Salvando tabela de preço...');
+                
+                const selectedCategories = Array.from(document.querySelectorAll('input[name="price-category"]:checked'))
+                    .map(cb => cb.value);
+                
+                const settingData = {
+                    name: document.getElementById('price-name').value,
+                    description: document.getElementById('price-description').value,
+                    type: document.getElementById('price-type').value,
+                    percentage: parseFloat(document.getElementById('price-percentage').value),
+                    categories: selectedCategories.length > 0 ? selectedCategories : null,
+                    active: document.getElementById('price-active').value === 'true',
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (currentEditingPriceSetting) {
+                    settingData.id = currentEditingPriceSetting.id;
+                    settingData.createdAt = currentEditingPriceSetting.createdAt;
+                    
+                    const index = adminClient.priceSettings.findIndex(p => p.id === currentEditingPriceSetting.id);
+                    if (index !== -1) {
+                        adminClient.priceSettings[index] = settingData;
+                    }
+                } else {
+                    settingData.id = Date.now().toString();
+                    settingData.createdAt = new Date().toISOString();
+                    adminClient.priceSettings.push(settingData);
+                }
+
+                await saveToGitHub('price_settings.json', adminClient.priceSettings);
+                addSystemLog(`✅ Tabela "${settingData.name}" salva com sucesso`);
+                showNotification(`Tabela "${settingData.name}" salva com sucesso!`, 'success');
+                closePriceModal();
+                renderPriceSettings();
+                updateStats();
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao salvar tabela: ${error.message}`);
+                showNotification('Erro ao salvar tabela. Verifique o token GitHub.', 'error');
+            }
+        }
+
+        function editPriceSetting(settingId) {
+            openPriceModal(settingId);
+        }
+
+        async function togglePriceSettingStatus(settingId) {
+            try {
+                const setting = adminClient.priceSettings.find(p => p.id === settingId);
+                if (setting) {
+                    setting.active = !setting.active;
+                    setting.updatedAt = new Date().toISOString();
+                    
+                    await saveToGitHub('price_settings.json', adminClient.priceSettings);
+                    addSystemLog(`🔄 Status da tabela "${setting.name}" alterado para ${setting.active ? 'ativo' : 'inativo'}`);
+                    showNotification(`Tabela ${setting.active ? 'ativada' : 'desativada'} com sucesso!`, 'success');
+                    renderPriceSettings();
+                    updateStats();
+                }
+            } catch (error) {
+                addSystemLog(`❌ Erro ao alterar status: ${error.message}`);
+                showNotification('Erro ao alterar status da tabela.', 'error');
+            }
+        }
+
+        async function deletePriceSetting(settingId) {
+            if (!confirm('Tem certeza que deseja excluir esta tabela de preço?')) return;
+            
+            try {
+                const setting = adminClient.priceSettings.find(p => p.id === settingId);
+                adminClient.priceSettings = adminClient.priceSettings.filter(p => p.id !== settingId);
+                await saveToGitHub('price_settings.json', adminClient.priceSettings);
+                addSystemLog(`🗑️ Tabela "${setting?.name}" excluída com sucesso`);
+                showNotification('Tabela excluída com sucesso!', 'success');
+                renderPriceSettings();
+                updateStats();
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir tabela: ${error.message}`);
+                showNotification('Erro ao excluir tabela.', 'error');
+            }
+        }
+
+        // Promotion management functions
+        let currentEditingPromotion = null;
+
+        function openPromotionModal(promotionId = null) {
+            currentEditingPromotion = promotionId ? adminClient.promotions.find(p => p.id === promotionId) : null;
+            const title = document.getElementById('promotion-modal-title');
+            
+            if (currentEditingPromotion) {
+                title.textContent = 'Editar Promoção';
+                fillPromotionForm();
+            } else {
+                title.textContent = 'Criar Promoção';
+                clearPromotionForm();
+            }
+            
+            populatePromotionCategories();
+            document.getElementById('promotion-modal').classList.add('active');
+        }
+
+        function closePromotionModal() {
+            document.getElementById('promotion-modal').classList.remove('active');
+            clearPromotionForm();
+        }
+
+        function populatePromotionCategories() {
+            const container = document.getElementById('promotion-categories');
+            container.innerHTML = '';
+            
+            adminClient.categories.forEach(category => {
+                const label = document.createElement('label');
+                label.style.display = 'flex';
+                label.style.alignItems = 'center';
+                label.style.gap = '8px';
+                label.style.marginBottom = '8px';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = category.name;
+                checkbox.name = 'promotion-category';
+                
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(category.name));
+                container.appendChild(label);
+            });
+        }
+
+        function fillPromotionForm() {
+            if (!currentEditingPromotion) return;
+            
+            document.getElementById('promotion-title').value = currentEditingPromotion.title || '';
+            document.getElementById('promotion-description').value = currentEditingPromotion.description || '';
+            document.getElementById('promotion-type').value = currentEditingPromotion.type || '';
+            document.getElementById('promotion-value').value = currentEditingPromotion.value || '';
+            document.getElementById('promotion-start').value = currentEditingPromotion.startDate ? currentEditingPromotion.startDate.split('T')[0] : '';
+            document.getElementById('promotion-end').value = currentEditingPromotion.endDate ? currentEditingPromotion.endDate.split('T')[0] : '';
+            document.getElementById('promotion-active').value = currentEditingPromotion.active ? 'true' : 'false';
+            
+            // Check relevant categories
+            const categoryCheckboxes = document.querySelectorAll('input[name="promotion-category"]');
+            categoryCheckboxes.forEach(checkbox => {
+                checkbox.checked = currentEditingPromotion.categories?.includes(checkbox.value) || false;
+            });
+        }
+
+        function clearPromotionForm() {
+            document.getElementById('promotion-form').reset();
+        }
+
+        async function savePromotion(event) {
+            event.preventDefault();
+            
+            try {
+                addSystemLog('💾 Salvando promoção...');
+                
+                const selectedCategories = Array.from(document.querySelectorAll('input[name="promotion-category"]:checked'))
+                    .map(cb => cb.value);
+                
+                const promotionData = {
+                    title: document.getElementById('promotion-title').value,
+                    description: document.getElementById('promotion-description').value,
+                    type: document.getElementById('promotion-type').value,
+                    value: parseFloat(document.getElementById('promotion-value').value),
+                    startDate: new Date(document.getElementById('promotion-start').value).toISOString(),
+                    endDate: new Date(document.getElementById('promotion-end').value).toISOString(),
+                    categories: selectedCategories.length > 0 ? selectedCategories : null,
+                    active: document.getElementById('promotion-active').value === 'true',
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (currentEditingPromotion) {
+                    promotionData.id = currentEditingPromotion.id;
+                    promotionData.createdAt = currentEditingPromotion.createdAt;
+                    
+                    const index = adminClient.promotions.findIndex(p => p.id === currentEditingPromotion.id);
+                    if (index !== -1) {
+                        adminClient.promotions[index] = promotionData;
+                    }
+                } else {
+                    promotionData.id = Date.now().toString();
+                    promotionData.createdAt = new Date().toISOString();
+                    adminClient.promotions.push(promotionData);
+                }
+
+                await saveToGitHub('promotions.json', adminClient.promotions);
+                addSystemLog(`✅ Promoção "${promotionData.title}" salva com sucesso`);
+                showNotification(`Promoção "${promotionData.title}" salva com sucesso!`, 'success');
+                closePromotionModal();
+                renderPromotions();
+                updateStats();
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao salvar promoção: ${error.message}`);
+                showNotification('Erro ao salvar promoção. Verifique o token GitHub.', 'error');
+            }
+        }
+
+        function editPromotion(promotionId) {
+            openPromotionModal(promotionId);
+        }
+
+        async function togglePromotionStatus(promotionId) {
+            try {
+                const promotion = adminClient.promotions.find(p => p.id === promotionId);
+                if (promotion) {
+                    promotion.active = !promotion.active;
+                    promotion.updatedAt = new Date().toISOString();
+                    
+                    await saveToGitHub('promotions.json', adminClient.promotions);
+                    addSystemLog(`🔄 Status da promoção "${promotion.title}" alterado para ${promotion.active ? 'ativo' : 'inativo'}`);
+                    showNotification(`Promoção ${promotion.active ? 'ativada' : 'desativada'} com sucesso!`, 'success');
+                    renderPromotions();
+                    updateStats();
+                }
+            } catch (error) {
+                addSystemLog(`❌ Erro ao alterar status: ${error.message}`);
+                showNotification('Erro ao alterar status da promoção.', 'error');
+            }
+        }
+
+        async function deletePromotion(promotionId) {
+            if (!confirm('Tem certeza que deseja excluir esta promoção?')) return;
+            
+            try {
+                const promotion = adminClient.promotions.find(p => p.id === promotionId);
+                adminClient.promotions = adminClient.promotions.filter(p => p.id !== promotionId);
+                await saveToGitHub('promotions.json', adminClient.promotions);
+                addSystemLog(`🗑️ Promoção "${promotion?.title}" excluída com sucesso`);
+                showNotification('Promoção excluída com sucesso!', 'success');
+                renderPromotions();
+                updateStats();
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir promoção: ${error.message}`);
+                showNotification('Erro ao excluir promoção.', 'error');
+            }
+        }
+
         // Placeholder functions for other features
         function exportProducts() {
             addSystemLog('📥 Função de exportar produtos em desenvolvimento');
@@ -1993,21 +2767,6 @@
 
         function importProducts() {
             addSystemLog('📤 Função de importar produtos em desenvolvimento');
-            showNotification('Função em desenvolvimento', 'info');
-        }
-
-        function openUserModal() {
-            addSystemLog('👥 Função de gerenciar usuários em desenvolvimento');
-            showNotification('Função em desenvolvimento', 'info');
-        }
-
-        function openPriceModal() {
-            addSystemLog('💰 Função de configurar preços em desenvolvimento');
-            showNotification('Função em desenvolvimento', 'info');
-        }
-
-        function openPromotionModal() {
-            addSystemLog('🎯 Função de criar promoções em desenvolvimento');
             showNotification('Função em desenvolvimento', 'info');
         }
 

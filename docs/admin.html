@@ -1582,14 +1582,14 @@
                 const card = document.createElement('div');
                 card.className = 'data-card';
 
-                let imageHtml = `<div class="card-placeholder">📦<span>Sem imagem</span></div>`;
+                let imageHtml = `<div class="card-image"><div class="card-placeholder">📦<span>Sem imagem</span></div></div>`;
                 if (product.images && product.images.length > 0) {
                     let imageSrc = product.images[0];
                     
                     // Handle different image path formats
                     if (imageSrc.startsWith('data:')) {
                         // Base64 image
-                        imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)">`;
+                        imageHtml = `<div class="card-image"><img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)"></div>`;
                     } else {
                         // File path - ensure proper URL construction
                         if (!imageSrc.startsWith('http')) {
@@ -1609,7 +1609,7 @@
                             
                             console.log('Final product image URL:', imageSrc);
                         }
-                        imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)">`;
+                        imageHtml = `<div class="card-image"><img src="${imageSrc}" alt="${product.name}" onerror="handleImageError(this)"></div>`;
                     }
                 }
 

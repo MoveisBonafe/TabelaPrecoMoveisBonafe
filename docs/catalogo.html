@@ -615,9 +615,10 @@
             color: #d68910;
         }
         
-        /* Horizontal price table for shop users */
-        .price-table-horizontal {
-            display: flex;
+        /* Grid price table layout for shop users (2 per row) */
+        .price-table-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-top: 12px;
             padding: 12px;
@@ -626,25 +627,28 @@
             border: 1px solid #e9ecef;
         }
         
-        .price-column {
-            flex: 1;
+        .price-cell {
             text-align: center;
-            padding: 8px 4px;
+            padding: 12px 8px;
             background: white;
             border-radius: 4px;
             border: 1px solid #dee2e6;
+        }
+        
+        .price-cell.full-width {
+            grid-column: 1 / -1;
         }
         
         .price-header {
             font-size: 0.75rem;
             font-weight: 600;
             color: #6c757d;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             text-transform: uppercase;
         }
         
         .price-value-large {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #2c3e50;
         }
@@ -1423,31 +1427,31 @@
                     `;
                 }
 
-                // Para lojas, mostrar layout de tabela de preços horizontal
+                // Para lojas, mostrar layout de tabela de preços (2 por linha)
                 if (this.userType === 'loja') {
                     return `
                         <div class="product-image">${productImage}</div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-category">${product.category}</div>
-                            <div class="price-table-horizontal">
-                                <div class="price-column">
+                            <div class="price-table-grid">
+                                <div class="price-cell">
                                     <div class="price-header">À Vista</div>
                                     <div class="price-value-large">R$ ${prices.vista.toFixed(2)}</div>
                                 </div>
-                                <div class="price-column">
+                                <div class="price-cell">
                                     <div class="price-header">30</div>
                                     <div class="price-value-large">R$ ${prices.prazo30.toFixed(2)}</div>
                                 </div>
-                                <div class="price-column">
+                                <div class="price-cell">
                                     <div class="price-header">30/60</div>
                                     <div class="price-value-large">R$ ${prices.prazo3060.toFixed(2)}</div>
                                 </div>
-                                <div class="price-column">
+                                <div class="price-cell">
                                     <div class="price-header">30/60/90</div>
                                     <div class="price-value-large">R$ ${prices.prazo306090.toFixed(2)}</div>
                                 </div>
-                                <div class="price-column">
+                                <div class="price-cell full-width">
                                     <div class="price-header">30/60/90/120</div>
                                     <div class="price-value-large">R$ ${prices.prazo30606090120.toFixed(2)}</div>
                                 </div>
@@ -2728,18 +2732,10 @@
 
                 // Set main image
                 updateModalMainImage(0);
-                
-                // Create thumbnails
-                createModalThumbnails();
-                
-                // Show/hide navigation buttons
-                updateImageNavigation();
             } catch (error) {
                 console.error('Error setting up modal images:', error);
                 modalImages = ['/placeholder-image.svg']; // Use server-based placeholder
                 updateModalMainImage(0);
-                createModalThumbnails();
-                updateImageNavigation();
             }
         }
 

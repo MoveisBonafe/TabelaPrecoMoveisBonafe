@@ -9,13 +9,15 @@
     "peso": 2,
     "description": "",
     "images": [
-      "data/images/product_1749429611624_byckyegge.png"
+      "data/images/product_1749429611624_byckyegge.png",
+      "data/images/product_1749432216957_xibbxsjd4.png"
     ],
     "colorVariations": [
-      "Cerejeira"
+      "Cerejeira",
+      "Mogno"
     ],
     "active": true,
-    "updatedAt": "2025-06-09T02:09:06.145Z",
+    "updatedAt": "2025-06-09T02:10:31.390Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
   }

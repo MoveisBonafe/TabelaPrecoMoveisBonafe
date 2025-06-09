@@ -2799,7 +2799,7 @@
             <div class="cart-modal-body">
                 <!-- Cart Header with Steps -->
                 <div class="cart-header">
-                    <div class="cart-steps">
+                    <div class="cart-steps" style="max-width: 500px; margin: 0 auto;">
                         <div class="cart-step active">
                             <div class="cart-step-number">1</div>
                             <span>Carrinho</span>
@@ -4269,6 +4269,20 @@
                 width: 40px !important;
                 height: 40px !important;
             }
+
+            /* Mobile compact styling for step 3 */
+            #cart-step-3 .order-item {
+                gap: 8px !important;
+                padding: 8px 0 !important;
+            }
+
+            #cart-step-3 .order-item-name {
+                font-size: 14px !important;
+            }
+
+            #cart-step-3 .order-item-details {
+                font-size: 12px !important;
+            }
         }
 
         /* Desktop Layout for Payment Step */
@@ -4319,8 +4333,8 @@
         .order-item {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 16px 0;
+            gap: 12px;
+            padding: 12px 0;
             border-bottom: 1px solid #f3f4f6;
         }
 

@@ -615,6 +615,40 @@
             color: #d68910;
         }
         
+        /* Horizontal price table for shop users */
+        .price-table-horizontal {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .price-column {
+            flex: 1;
+            text-align: center;
+            padding: 8px 4px;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .price-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        
+        .price-value-large {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
         .no-products {
             text-align: center;
             padding: 40px;
@@ -1894,12 +1928,7 @@
                     <!-- Left side - Images -->
                     <div class="product-images-section">
                         <div class="main-image-container">
-                            <button class="image-nav-btn prev-btn" onclick="previousModalImage()" id="prev-image-btn">&lsaquo;</button>
                             <img id="modal-main-image" src="" alt="Produto">
-                            <button class="image-nav-btn next-btn" onclick="nextModalImage()" id="next-image-btn">&rsaquo;</button>
-                        </div>
-                        <div class="thumbnail-container" id="modal-thumbnails">
-                            <!-- Thumbnails will be populated here -->
                         </div>
                     </div>
                     
@@ -1927,12 +1956,7 @@
                             </div>
                         </div>
                         
-                        <div class="product-dimensions" id="modal-dimensions-section">
-                            <h3>Dimensões</h3>
-                            <div class="dimensions-info" id="modal-dimensions">
-                                <!-- Dimensions will be populated here -->
-                            </div>
-                        </div>
+
                         
                         <div class="product-actions">
                             <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
@@ -2934,6 +2958,45 @@
             
             // Update selected color text
             document.getElementById('modal-selected-color').textContent = `Cor selecionada: ${colorData.name}`;
+            
+            // Change main image based on color selection
+            if (currentModalProduct && currentModalProduct.images) {
+                const colorIndex = currentModalProduct.colorVariations ? 
+                    currentModalProduct.colorVariations.indexOf(colorData.name) : -1;
+                
+                let imageToShow = null;
+                
+                // If color has a specific image mapped, use it
+                if (colorIndex >= 0 && currentModalProduct.images[colorIndex]) {
+                    imageToShow = currentModalProduct.images[colorIndex];
+                } else {
+                    // Fallback to first image
+                    imageToShow = currentModalProduct.images[0];
+                }
+                
+                if (imageToShow) {
+                    const mainImage = document.getElementById('modal-main-image');
+                    let imageSrc = imageToShow;
+                    
+                    // Format image URL
+                    if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('data:')) {
+                        imageSrc = imageSrc.startsWith('data/images/') ? 
+                            `${catalogClient.baseUrl}/${imageSrc}` : 
+                            `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
+                    }
+                    
+                    // Set up error handling for base64 fallback
+                    mainImage.onerror = function() {
+                        const imageName = this.src.split('/').pop().split('?')[0];
+                        const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                        if (base64Data) {
+                            this.src = base64Data;
+                        }
+                    };
+                    
+                    mainImage.src = imageSrc;
+                }
+            }
         }
 
         function setupModalPricing(product) {

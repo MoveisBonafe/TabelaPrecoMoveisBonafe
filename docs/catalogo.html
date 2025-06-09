@@ -2792,7 +2792,7 @@
     <div id="cart-modal" class="product-modal">
         <div class="product-modal-content">
             <div class="product-modal-header">
-                <h2>Carrinho de Compras</h2>
+                <h2 style="text-align: center;">Carrinho de Compras</h2>
                 <button class="modal-close-btn" onclick="closeCartModal()">&times;</button>
             </div>
             
@@ -4173,7 +4173,8 @@
         @media screen and (max-width: 768px) {
             #cart-step-1.cart-items-section {
                 padding: 20px !important;
-                max-width: none !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
             }
 
             #cart-step-2.delivery-section {
@@ -5412,9 +5413,9 @@
 
             // Add subtotal (already includes markup if applicable)
             totalHTML += `
-                <div class="total-line">
-                    <span>Subtotal:</span>
-                    <span>R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+                <div class="total-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="font-size: 14px; color: #6b7280;">Subtotal:</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #111827;">R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
                 </div>
             `;
             
@@ -5425,9 +5426,9 @@
                 total -= pickupDiscount;
                 
                 totalHTML += `
-                    <div class="total-line discount-line">
-                        <span>Desconto Retirada no Local (5%):</span>
-                        <span>-R$ ${pickupDiscount.toFixed(2).replace('.', ',')}</span>
+                    <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                        <span style="font-size: 14px; color: #059669;">Desconto Retirada no Local (5%):</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #059669;">-R$ ${pickupDiscount.toFixed(2).replace('.', ',')}</span>
                     </div>
                 `;
             }
@@ -5440,9 +5441,9 @@
                     total -= promotionDiscount;
                     
                     totalHTML += `
-                        <div class="total-line discount-line">
-                            <span>Desconto Promoção (${activePromotion.discount}%):</span>
-                            <span>-R$ ${promotionDiscount.toFixed(2).replace('.', ',')}</span>
+                        <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                            <span style="font-size: 14px; color: #059669;">Desconto Promoção (${activePromotion.discount}%):</span>
+                            <span style="font-size: 14px; font-weight: 500; color: #059669;">-R$ ${promotionDiscount.toFixed(2).replace('.', ',')}</span>
                         </div>
                     `;
                 }
@@ -5450,9 +5451,9 @@
             
             // Final total
             totalHTML += `
-                <div class="total-line final">
-                    <span>Total:</span>
-                    <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+                <div class="total-line final" style="display: flex; justify-content: space-between; padding: 12px 0; margin-top: 8px; border-top: 2px solid #374151; background: #f9fafb;">
+                    <span style="font-size: 16px; font-weight: 600; color: #111827;">Total:</span>
+                    <span style="font-size: 18px; font-weight: 700; color: #374151;">R$ ${total.toFixed(2).replace('.', ',')}</span>
                 </div>
             `;
             

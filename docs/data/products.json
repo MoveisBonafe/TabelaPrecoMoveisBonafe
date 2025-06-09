@@ -11,9 +11,11 @@
     "images": [
       "data/images/product_1749429611624_byckyegge.png"
     ],
-    "colorVariations": [],
+    "colorVariations": [
+      "Imbuia"
+    ],
     "active": true,
-    "updatedAt": "2025-06-09T02:06:46.332Z",
+    "updatedAt": "2025-06-09T02:07:30.569Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
   }

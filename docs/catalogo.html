@@ -2877,7 +2877,6 @@
                                         <input type="radio" name="delivery-type" value="delivery">
                                         <div class="delivery-info">
                                             <div class="delivery-title">Entrega</div>
-                                            <div class="delivery-desc">Entrega no endereço</div>
                                         </div>
                                     </label>
                                 </div>
@@ -5156,12 +5155,16 @@
                 formFields.forEach(fieldId => {
                     const field = document.getElementById(fieldId);
                     if (field) {
+                        // Remove existing listeners to avoid duplicates
+                        field.removeEventListener('input', checkFormValidation);
+                        field.removeEventListener('blur', checkFormValidation);
+                        // Add new listeners
                         field.addEventListener('input', checkFormValidation);
                         field.addEventListener('blur', checkFormValidation);
                     }
                 });
                 checkFormValidation(); // Initial check
-            }, 100);
+            }, 200);
         }
 
         function goToPaymentStep() {
@@ -5197,10 +5200,19 @@
         function checkFormValidation() {
             const paymentBtn = document.getElementById('payment-btn');
             if (paymentBtn) {
-                if (validateDeliveryForm()) {
-                    paymentBtn.disabled = false;
+                const name = document.getElementById('customer-name')?.value?.trim() || '';
+                const phone = document.getElementById('customer-phone')?.value?.trim() || '';
+                const address = document.getElementById('customer-address')?.value?.trim() || '';
+                const cep = document.getElementById('customer-cep')?.value?.trim() || '';
+                
+                const isValid = name && phone && address && cep;
+                paymentBtn.disabled = !isValid;
+                
+                // Visual feedback
+                if (isValid) {
+                    paymentBtn.style.opacity = '1';
                 } else {
-                    paymentBtn.disabled = true;
+                    paymentBtn.style.opacity = '0.6';
                 }
             }
         }

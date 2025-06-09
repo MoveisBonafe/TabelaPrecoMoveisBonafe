@@ -26,7 +26,7 @@
     "name": "Restaurantes Moveis Bonafe",
     "username": "restaurantes",
     "passwordHash": "restaurantes@moveisbonafe",
-    "role": "loja",
+    "role": "restaurante",
     "priceMultiplier": 1.06,
     "active": true,
     "createdAt": "2025-05-25T09:53:21.213Z",

@@ -3530,9 +3530,12 @@
         .cart-steps {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 32px;
+            justify-content: space-evenly;
+            gap: 16px;
             margin-bottom: 16px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cart-step {
@@ -5368,11 +5371,16 @@
                     }
                     
                     summaryHTML += `
-                        <div class="order-item">
-                            <img src="${imageSrc}" alt="${item.name}" class="order-item-image" onerror="handleImageError(this)">
-                            <div class="order-item-info">
-                                <div class="order-item-name">${item.name}</div>
-                                <div class="order-item-details">Cor: ${item.color} | Qtd: ${item.quantity}</div>
+                        <div class="cart-item">
+                            <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" onerror="handleImageError(this)">
+                            <div class="cart-item-details">
+                                <div class="cart-item-header">
+                                    <div class="cart-item-name">${item.name}</div>
+                                </div>
+                                <div class="cart-item-info">
+                                    <span class="cart-item-color">Cor: ${item.color}</span>
+                                    <span class="cart-item-quantity-text">Qtd: ${item.quantity}</span>
+                                </div>
                             </div>
                         </div>
                     `;

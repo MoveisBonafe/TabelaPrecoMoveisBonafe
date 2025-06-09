@@ -2870,7 +2870,6 @@
                                         <input type="radio" name="delivery-type" value="pickup" id="pickup" checked>
                                         <div class="delivery-info">
                                             <div class="delivery-title">Retirada no Local</div>
-                                            <div class="delivery-desc">Retire na loja - Gratuito</div>
                                         </div>
                                         <div class="delivery-price">Grátis</div>
                                     </label>
@@ -2891,7 +2890,7 @@
                     <!-- Delivery Actions -->
                     <div class="cart-actions-new">
                         <button class="clear-cart-btn" onclick="goToCartStep()">Voltar ao Carrinho</button>
-                        <button class="checkout-btn" onclick="goToPaymentStep()">Ir Para Pagamento</button>
+                        <button class="checkout-btn" id="payment-btn" onclick="goToPaymentStep()" disabled>Ir Para Pagamento</button>
                     </div>
                 </div>
 
@@ -3824,12 +3823,21 @@
         }
 
         .checkout-btn {
-            background: #374151;
-            color: white;
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
         }
 
         .checkout-btn:hover {
-            background: #1f2937;
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .checkout-btn:disabled {
+            background: #f3f4f6;
+            color: #9ca3af;
+            border-color: #e5e7eb;
+            cursor: not-allowed;
         }
 
         .empty-cart {
@@ -4368,13 +4376,23 @@
         }
 
         .btn-primary {
-            background: #374151;
-            color: white;
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
         }
 
         .btn-primary:hover {
-            background: #1f2937;
+            background: #f9fafb;
+            border-color: #9ca3af;
             transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background: #f3f4f6;
+            color: #9ca3af;
+            border-color: #e5e7eb;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .btn-secondary {
@@ -5129,6 +5147,11 @@
         }
 
         function goToPaymentStep() {
+            if (!validateDeliveryForm()) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
             // Hide delivery step and show payment step
             document.getElementById('cart-step-1').style.display = 'none';
             document.getElementById('cart-step-2').style.display = 'none';
@@ -5142,6 +5165,26 @@
             
             // Update payment summary
             updatePaymentSummary();
+        }
+
+        function validateDeliveryForm() {
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            const cep = document.getElementById('customer-cep').value.trim();
+            
+            return name && phone && address && cep;
+        }
+
+        function checkFormValidation() {
+            const paymentBtn = document.getElementById('payment-btn');
+            if (paymentBtn) {
+                if (validateDeliveryForm()) {
+                    paymentBtn.disabled = false;
+                } else {
+                    paymentBtn.disabled = true;
+                }
+            }
         }
 
         function goToCartStep() {

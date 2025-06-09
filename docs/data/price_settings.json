@@ -11,10 +11,14 @@
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
-    "id": "2",
-    "tableName": "30",
+    "name": "30",
+    "description": "",
+    "type": "markup",
     "percentage": 2,
+    "categories": null,
     "active": true,
+    "updatedAt": "2025-06-09T00:23:44.604Z",
+    "id": "2",
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {

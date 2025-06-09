@@ -1246,6 +1246,19 @@
         let selectedColors = [];
         let categoryImage = null;
 
+        // Clean old image cache to free localStorage space
+        function cleanOldImageCache() {
+            const keys = Object.keys(localStorage);
+            const imageKeys = keys.filter(key => key.startsWith('image_base64_'));
+            
+            // Keep only the 10 most recent images
+            if (imageKeys.length > 10) {
+                const keysToRemove = imageKeys.slice(0, imageKeys.length - 10);
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+                addSystemLog(`🧹 Limpeza de cache: removidas ${keysToRemove.length} imagens antigas`);
+            }
+        }
+
         // Smart cache clearing that respects recent saves
         function clearCache() {
             const keys = ['moveisbonafe_products', 'moveisbonafe_categories', 'moveisbonafe_colors', 
@@ -1423,7 +1436,16 @@
                         
                         // Store base64 for immediate display while GitHub Pages updates
                         const base64Data = e.target.result;
-                        localStorage.setItem(`image_base64_${filename}`, base64Data);
+                        try {
+                            // Clean old image data to free space
+                            cleanOldImageCache();
+                            localStorage.setItem(`image_base64_${filename}`, base64Data);
+                        } catch (quotaError) {
+                            console.warn('localStorage quota exceeded, using memory cache only');
+                            // Use in-memory cache as fallback
+                            if (!window.imageMemoryCache) window.imageMemoryCache = {};
+                            window.imageMemoryCache[filename] = base64Data;
+                        }
                         
                         addSystemLog(`📸 Imagem uploaded: ${filename}`);
                         resolve(`data/images/${filename}`);
@@ -2059,11 +2081,19 @@
                 }
 
                 await saveToGitHub('products.json', adminClient.products);
+                
+                // Force immediate UI update with saved data
+                renderProducts();
+                updateStats();
+                
                 addSystemLog(`✅ Produto "${productData.name}" salvo com sucesso`);
                 showNotification(`Produto "${productData.name}" salvo com sucesso!`, 'success');
                 closeProductModal();
-                renderProducts();
-                updateStats();
+                
+                // Force a render refresh to ensure all data is current
+                setTimeout(() => {
+                    renderAllData();
+                }, 100);
                 
             } catch (error) {
                 addSystemLog(`❌ Erro ao salvar produto: ${error.message}`);
@@ -2197,7 +2227,12 @@
                 
                 // Try to use base64 fallback if available
                 const imageName = img.src.split('/').pop().split('?')[0];
-                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                // Check memory cache if localStorage fails
+                if (!base64Data && window.imageMemoryCache) {
+                    base64Data = window.imageMemoryCache[imageName];
+                }
                 
                 if (base64Data && retryCount >= 2) {
                     console.log(`🔄 Usando fallback base64 para: ${imageName}`);
@@ -2217,7 +2252,12 @@
             } else {
                 // Final fallback - try base64 one more time
                 const imageName = img.src.split('/').pop().split('?')[0];
-                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                // Check memory cache if localStorage fails
+                if (!base64Data && window.imageMemoryCache) {
+                    base64Data = window.imageMemoryCache[imageName];
+                }
                 
                 if (base64Data) {
                     console.log(`📸 Usando base64 final para: ${imageName}`);
@@ -3019,10 +3059,19 @@
         function logout() {
             if (confirm('Tem certeza que deseja sair do painel administrativo?')) {
                 addSystemLog('🚪 Usuário saindo do sistema...');
-                // Clear any sensitive data
+                
+                // Clear all admin data
                 localStorage.removeItem('github_token');
-                // Redirect to login using the full GitHub Pages URL
-                window.location.href = 'https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/login.html';
+                localStorage.removeItem('last_save_time');
+                
+                // Clear cache to force fresh login
+                clearCache();
+                
+                // Clean image cache
+                cleanOldImageCache();
+                
+                // Redirect to login page (relative URL works for both local and GitHub Pages)
+                window.location.href = './login.html';
             }
         }
 

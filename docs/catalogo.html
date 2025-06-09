@@ -2244,7 +2244,9 @@
 
         function populatePriceTableOptions() {
             const priceTableSelect = document.getElementById('price-table-select');
-            const userProfile = currentUser?.profile || 'loja';
+            // Get user profile from URL parameters or default to 'loja'
+            const urlParams = new URLSearchParams(window.location.search);
+            const userProfile = urlParams.get('tipo') || 'loja';
             
             // Clear existing options except the first one
             priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';

@@ -9,7 +9,10 @@
     "peso": 2,
     "description": "",
     "images": [
-      "data/images/product_1749429611624_byckyegge.png"
+      "data/images/product_1749429611624_byckyegge.png",
+      "data/images/product_1749436790490_ruzmv5rpz.png",
+      "data/images/product_1749436817443_3pyt4847w.png",
+      "data/images/product_1749436829152_dmz3ror8c.png"
     ],
     "colorVariations": [
       "Imbuia",
@@ -18,7 +21,7 @@
       "Mogno"
     ],
     "active": true,
-    "updatedAt": "2025-06-09T02:37:10.461Z",
+    "updatedAt": "2025-06-09T02:40:40.837Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
   }

@@ -1723,6 +1723,8 @@
         // Product modal image navigation functions
         function openProductDetailModal(product) {
             console.log('Opening detailed modal for:', product.name);
+            console.log('Complete product data:', product);
+            console.log('Product keys:', Object.keys(product));
             currentModalProduct = product;
             modalImages = [];
             currentModalImageIndex = 0;
@@ -2575,7 +2577,7 @@
                     <div class="product-images-section">
                         <div class="main-image-container" id="swipe-container">
                             <img id="modal-main-image" src="" alt="Produto">
-                            <div class="swipe-indicator swipe-hint">← Deslize para trocar cores →</div>
+                            <div class="swipe-indicator">← Deslize para trocar cores →</div>
                         </div>
                         
                         <!-- Color options centered below image -->
@@ -2861,14 +2863,7 @@
             z-index: 20;
         }
 
-        .swipe-hint {
-            animation: fadeInOut 3s ease-in-out infinite;
-        }
 
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 0.4; }
-        }
 
         .main-image-container img {
             width: 100%;
@@ -4081,12 +4076,25 @@
             const dimensionsContainer = document.getElementById('modal-dimensions');
             dimensionsContainer.innerHTML = '';
             
+            console.log('Setting up dimensions for product:', product.name);
+            console.log('Product dimension properties:');
+            console.log('  product.dimensions:', product.dimensions);
+            console.log('  product.width:', product.width);
+            console.log('  product.height:', product.height);
+            console.log('  product.depth:', product.depth);
+            console.log('  product.weight:', product.weight);
+            console.log('  product.dimensionsText:', product.dimensionsText);
+            console.log('  product.dimension:', product.dimension);
+            console.log('  product.size:', product.size);
+            console.log('All product properties:', Object.keys(product));
+            
             // Check multiple possible sources for dimensions
             let dimensions = null;
             
             // Try product.dimensions first
-            if (product.dimensions && Object.keys(product.dimensions).length > 0) {
+            if (product.dimensions && typeof product.dimensions === 'object' && Object.keys(product.dimensions).length > 0) {
                 dimensions = product.dimensions;
+                console.log('Using product.dimensions:', dimensions);
             }
             // Try individual dimension properties
             else if (product.width || product.height || product.depth || product.weight) {
@@ -4095,14 +4103,17 @@
                 if (product.height) dimensions.height = product.height;
                 if (product.depth) dimensions.depth = product.depth;
                 if (product.weight) dimensions.weight = product.weight;
+                console.log('Built dimensions from individual properties:', dimensions);
             }
             // Try dimensionsText property (if saved as text)
             else if (product.dimensionsText) {
-                // Parse dimensionsText if it exists
+                console.log('Trying to parse dimensionsText:', product.dimensionsText);
                 try {
                     dimensions = JSON.parse(product.dimensionsText);
+                    console.log('Parsed dimensions from text:', dimensions);
                 } catch (e) {
                     // If not JSON, treat as plain text
+                    console.log('DimensionsText is not JSON, treating as plain text');
                     const dimensionDiv = document.createElement('div');
                     dimensionDiv.className = 'dimension-item';
                     dimensionDiv.textContent = product.dimensionsText;
@@ -4110,8 +4121,26 @@
                     return;
                 }
             }
+            // Try other possible property names
+            else if (product.dimension) {
+                console.log('Using product.dimension:', product.dimension);
+                const dimensionDiv = document.createElement('div');
+                dimensionDiv.className = 'dimension-item';
+                dimensionDiv.textContent = product.dimension;
+                dimensionsContainer.appendChild(dimensionDiv);
+                return;
+            }
+            else if (product.size) {
+                console.log('Using product.size:', product.size);
+                const dimensionDiv = document.createElement('div');
+                dimensionDiv.className = 'dimension-item';
+                dimensionDiv.textContent = `Tamanho: ${product.size}`;
+                dimensionsContainer.appendChild(dimensionDiv);
+                return;
+            }
             
             if (!dimensions || Object.keys(dimensions).length === 0) {
+                console.log('No dimensions found, showing default message');
                 const dimensionDiv = document.createElement('div');
                 dimensionDiv.className = 'dimension-item';
                 dimensionDiv.textContent = 'Dimensões não informadas';
@@ -4120,6 +4149,7 @@
             }
             
             // Create dimension items
+            console.log('Creating dimension items from:', dimensions);
             Object.entries(dimensions).forEach(([key, value]) => {
                 if (value && value.toString().trim()) {
                     const dimensionDiv = document.createElement('div');
@@ -4136,6 +4166,7 @@
                     
                     dimensionDiv.textContent = `${label}: ${value}`;
                     dimensionsContainer.appendChild(dimensionDiv);
+                    console.log('Added dimension:', label, value);
                 }
             });
         }

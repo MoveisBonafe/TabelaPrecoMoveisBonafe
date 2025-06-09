@@ -10,16 +10,14 @@
     "description": "",
     "images": [
       "data/images/product_1749429611624_byckyegge.png",
-      "data/images/product_1749432216957_xibbxsjd4.png",
-      "data/images/product_1749432225159_u165yznyj.png"
+      "data/images/product_1749434745004_45qo32wlz.png"
     ],
     "colorVariations": [
-      "Cerejeira",
-      "Mogno",
-      "Tabaco"
+      "Imbuia",
+      "Cerejeira"
     ],
     "active": true,
-    "updatedAt": "2025-06-09T02:05:23.164Z",
+    "updatedAt": "2025-06-09T02:06:16.635Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
   }

@@ -1338,7 +1338,7 @@
                             `${this.baseUrl}/${imageSrc}` : 
                             `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                         
-                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #f0f0f0;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 40px !important; height: 40px !important; object-fit: cover !important; border-radius: 4px; background: #f0f0f0; max-width: 40px !important; max-height: 40px !important;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                         <div class="category-icon" style="display: none; width: 40px; height: 40px; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 4px; font-size: 20px;">${icons[category.name] || '📦'}</div>`;
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
@@ -1667,8 +1667,7 @@
             // Setup colors
             setupModalColors(product);
             
-            // Setup dimensions
-            setupModalDimensions(product);
+
             
             // Show modal
             document.getElementById('product-detail-modal').classList.add('active');
@@ -2678,8 +2677,7 @@
                 // Setup colors
                 setupModalColors(product);
                 
-                // Setup dimensions
-                setupModalDimensions(product);
+
                 
                 // Reset quantity
                 document.getElementById('modal-quantity').value = '1';
@@ -3033,28 +3031,7 @@
         });
 
         // Setup product dimensions display
-        function setupModalDimensions(product) {
-            const dimensionsContainer = document.getElementById('modal-dimensions');
-            dimensionsContainer.innerHTML = '';
-            
-            const dimensions = [];
-            if (product.altura && product.altura > 0) dimensions.push(`Altura: ${product.altura}cm`);
-            if (product.largura && product.largura > 0) dimensions.push(`Largura: ${product.largura}cm`);
-            if (product.comprimento && product.comprimento > 0) dimensions.push(`Comprimento: ${product.comprimento}cm`);
-            if (product.peso && product.peso > 0) dimensions.push(`Peso: ${product.peso}kg`);
-            
-            if (dimensions.length > 0) {
-                dimensions.forEach(dim => {
-                    const dimDiv = document.createElement('div');
-                    dimDiv.className = 'dimension-item';
-                    dimDiv.textContent = dim;
-                    dimensionsContainer.appendChild(dimDiv);
-                });
-                document.getElementById('modal-dimensions-section').style.display = 'block';
-            } else {
-                document.getElementById('modal-dimensions-section').style.display = 'none';
-            }
-        }
+
 
         // Shopping Cart System - Device-specific storage
         function getDeviceCartKey() {

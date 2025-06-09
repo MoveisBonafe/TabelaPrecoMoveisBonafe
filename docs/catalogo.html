@@ -1944,12 +1944,46 @@
             const quantity = parseInt(document.getElementById('modal-quantity').value);
             const selectedColor = document.querySelector('#modal-color-options .color-option.selected .color-name')?.textContent || 'Padrão';
             
-            // Add to cart logic here
-            console.log('Adding to cart:', {
-                product: currentModalProduct.name,
-                quantity: quantity,
-                color: selectedColor
-            });
+            // Add to cart with correct image for selected color
+            const product = currentModalProduct;
+            let imageUrl = '';
+            
+            if (product.images && product.images.length > 0) {
+                // Find image matching the selected color
+                const colorImage = product.images.find(img => 
+                    img.toLowerCase().includes(selectedColor.toLowerCase()) ||
+                    img.includes(selectedColor)
+                );
+                imageUrl = colorImage || product.images[0];
+                
+                // Ensure full URL
+                if (!imageUrl.startsWith('http')) {
+                    imageUrl = imageUrl.startsWith('data/images/') ? 
+                        `${catalogClient.baseUrl}/${imageUrl}` : 
+                        `${catalogClient.baseUrl}/data/images/${imageUrl.replace(/^data\/images\//, '')}`;
+                }
+            }
+            
+            // Check if item already exists in cart
+            const existingItemIndex = cart.findIndex(item => 
+                item.name === product.name && item.color === selectedColor
+            );
+            
+            if (existingItemIndex >= 0) {
+                // Update quantity for existing item
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                // Add new item to cart
+                cart.push({
+                    name: product.name,
+                    quantity: quantity,
+                    color: selectedColor,
+                    image: imageUrl,
+                    product: product
+                });
+            }
+            
+            updateCartDisplay();
             
             // Show success notification
             const notification = document.createElement('div');
@@ -2121,6 +2155,104 @@
                 'dinheiro': 'Dinheiro'
             };
             return methods[method] || method;
+        }
+
+        // Cart functionality
+        let cart = [];
+
+        function updateCartDisplay() {
+            const cartButton = document.querySelector('.cart-btn');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (cartButton) {
+                cartButton.textContent = `🛒 Carrinho (${totalItems})`;
+            }
+        }
+
+        function openCartModal() {
+            renderCartItems();
+            document.getElementById('cart-modal').classList.add('active');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').classList.remove('active');
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalItems = document.getElementById('cart-total-items');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Seu carrinho está vazio</h3>
+                        <p>Adicione produtos para começar suas compras</p>
+                    </div>
+                `;
+                cartTotalItems.textContent = '0';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = '';
+            let totalItems = 0;
+
+            cart.forEach((item, index) => {
+                totalItems += item.quantity;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-color">Cor: ${item.color}</div>
+                        <div class="cart-item-quantity">
+                            <button onclick="updateCartItemQuantity(${index}, -1)">-</button>
+                            <input type="number" value="${item.quantity}" min="1" onchange="setCartItemQuantity(${index}, this.value)">
+                            <button onclick="updateCartItemQuantity(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeCartItem(${index})">🗑️</button>
+                `;
+                
+                cartItemsContainer.appendChild(cartItem);
+            });
+
+            cartTotalItems.textContent = totalItems;
+        }
+
+        function updateCartItemQuantity(index, change) {
+            if (index >= 0 && index < cart.length) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                renderCartItems();
+                updateCartDisplay();
+            }
+        }
+
+        function setCartItemQuantity(index, newQuantity) {
+            const quantity = parseInt(newQuantity);
+            if (index >= 0 && index < cart.length && quantity > 0) {
+                cart[index].quantity = quantity;
+                renderCartItems();
+                updateCartDisplay();
+            }
+        }
+
+        function removeCartItem(index) {
+            if (index >= 0 && index < cart.length) {
+                cart.splice(index, 1);
+                renderCartItems();
+                updateCartDisplay();
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            renderCartItems();
+            updateCartDisplay();
         }
 
         console.log('🛍️ MoveisBonafe Catálogo - GitHub Pages');

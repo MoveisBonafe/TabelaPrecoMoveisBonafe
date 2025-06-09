@@ -1465,7 +1465,12 @@
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.style.cursor = 'pointer';
-                    card.onclick = () => openProductDetailModal(product);
+                    card.onclick = () => {
+                        console.log('Opening detailed modal for:', product.name);
+                        console.log('Complete product data:', product);
+                        console.log('Product keys:', Object.keys(product));
+                        openProductDetailModal(product);
+                    };
                     card.innerHTML = this.createProductCard(product, index);
                     grid.appendChild(card);
                 });
@@ -2411,18 +2416,23 @@
             swipeContainer.removeEventListener('mouseup', handleSwipeEnd);
             swipeContainer.removeEventListener('mouseleave', handleSwipeEnd);
 
-            // Touch events
-            swipeContainer.addEventListener('touchstart', handleSwipeStart, { passive: true });
-            swipeContainer.addEventListener('touchmove', handleSwipeMove, { passive: true });
-            swipeContainer.addEventListener('touchend', handleSwipeEnd, { passive: true });
+            // Only add events if there are colors to swipe through
+            if (availableColors.length > 1) {
+                // Touch events for mobile
+                swipeContainer.addEventListener('touchstart', handleSwipeStart, { passive: false });
+                swipeContainer.addEventListener('touchmove', handleSwipeMove, { passive: false });
+                swipeContainer.addEventListener('touchend', handleSwipeEnd, { passive: false });
 
-            // Mouse events for desktop
-            swipeContainer.addEventListener('mousedown', handleSwipeStart);
-            swipeContainer.addEventListener('mousemove', handleSwipeMove);
-            swipeContainer.addEventListener('mouseup', handleSwipeEnd);
-            swipeContainer.addEventListener('mouseleave', handleSwipeEnd);
-            
-            console.log('Swipe events configured successfully');
+                // Mouse events for desktop
+                swipeContainer.addEventListener('mousedown', handleSwipeStart);
+                swipeContainer.addEventListener('mousemove', handleSwipeMove);
+                swipeContainer.addEventListener('mouseup', handleSwipeEnd);
+                swipeContainer.addEventListener('mouseleave', handleSwipeEnd);
+                
+                console.log('Swipe events configured successfully for', availableColors.length, 'colors');
+            } else {
+                console.log('Not enough colors to enable swipe functionality');
+            }
         }
 
         function handleSwipeStart(e) {
@@ -2861,6 +2871,9 @@
             opacity: 0.8;
             pointer-events: none;
             z-index: 20;
+            white-space: nowrap;
+            max-width: 90%;
+            text-align: center;
         }
 
 

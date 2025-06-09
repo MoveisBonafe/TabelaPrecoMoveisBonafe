@@ -1,0 +1,70 @@
+🛍️ MoveisBonafe Catálogo - GitHub Pages
+✅ Dados carregados: 2 produtos, 2 categorias, 5 tabelas de preços, 1 promoções ativas, 4 cores
+✅ Promoção ativa exibida: Mês de Maio
+✅ Catálogo inicializado
+Opening modal for product: Banqueta 50 cm
+Modal images setup: 
+(4) ["data/images/product_1749429611624_byckyegge.png", "data/images/product_1749436790490_ruzmv5rpz.png", "data/images/product_1749436817443_3pyt4847w.png", "data/images/product_1749436829152_dmz3ror8c.png"]
+0: "data/images/product_1749429611624_byckyegge.png"
+1: "data/images/product_1749436790490_ruzmv5rpz.png"
+2: "data/images/product_1749436817443_3pyt4847w.png"
+3: "data/images/product_1749436829152_dmz3ror8c.png"
+length: 4
+[[Prototype]]: Array(0)
+at: ƒ at()
+concat: ƒ concat()
+constructor: ƒ Array()
+copyWithin: ƒ copyWithin()
+entries: ƒ entries()
+every: ƒ every()
+fill: ƒ fill()
+filter: ƒ filter()
+find: ƒ find()
+findIndex: ƒ findIndex()
+findLast: ƒ findLast()
+findLastIndex: ƒ findLastIndex()
+flat: ƒ flat()
+flatMap: ƒ flatMap()
+forEach: ƒ forEach()
+includes: ƒ includes()
+indexOf: ƒ indexOf()
+join: ƒ join()
+keys: ƒ keys()
+lastIndexOf: ƒ lastIndexOf()
+length: 4
+map: ƒ map()
+pop: ƒ pop()
+push: ƒ push()
+reduce: ƒ reduce()
+reduceRight: ƒ reduceRight()
+reverse: ƒ reverse()
+shift: ƒ shift()
+slice: ƒ slice()
+some: ƒ some()
+sort: ƒ sort()
+splice: ƒ splice()
+toLocaleString: ƒ toLocaleString()
+toReversed: ƒ toReversed()
+toSorted: ƒ toSorted()
+toSpliced: ƒ toSpliced()
+toString: ƒ toString()
+unshift: ƒ unshift()
+values: ƒ values()
+with: ƒ with()
+Symbol(Symbol.iterator): undefined
+Symbol(Symbol.unscopables): undefined
+[[Prototype]]: Object
+constructor: ƒ Array()
+hasOwnProperty: ƒ hasOwnProperty()
+isPrototypeOf: ƒ isPrototypeOf()
+propertyIsEnumerable: ƒ propertyIsEnumerable()
+toLocaleString: ƒ toLocaleString()
+toString: ƒ toString()
+valueOf: ƒ valueOf()
+__defineGetter__: ƒ __defineGetter__()
+__defineSetter__: ƒ __defineSetter__()
+__lookupGetter__: ƒ __lookupGetter__()
+__lookupSetter__: ƒ __lookupSetter__()
+__proto__: Array(0)
+get __proto__: ƒ get __proto__()
+set __proto__: ƒ set __proto__()

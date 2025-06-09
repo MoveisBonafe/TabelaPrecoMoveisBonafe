@@ -2393,31 +2393,57 @@
 
         function setupSwipeForColors() {
             const swipeContainer = document.getElementById('swipe-container');
-            if (!swipeContainer) return;
+            if (!swipeContainer) {
+                console.warn('Swipe container not found');
+                return;
+            }
+
+            console.log('Setting up swipe events for colors. Available colors:', availableColors.length);
+            
+            // Remove existing event listeners to avoid duplicates
+            swipeContainer.removeEventListener('touchstart', handleSwipeStart);
+            swipeContainer.removeEventListener('touchmove', handleSwipeMove);
+            swipeContainer.removeEventListener('touchend', handleSwipeEnd);
+            swipeContainer.removeEventListener('mousedown', handleSwipeStart);
+            swipeContainer.removeEventListener('mousemove', handleSwipeMove);
+            swipeContainer.removeEventListener('mouseup', handleSwipeEnd);
+            swipeContainer.removeEventListener('mouseleave', handleSwipeEnd);
 
             // Touch events
-            swipeContainer.addEventListener('touchstart', handleSwipeStart, { passive: false });
-            swipeContainer.addEventListener('touchmove', handleSwipeMove, { passive: false });
-            swipeContainer.addEventListener('touchend', handleSwipeEnd, { passive: false });
+            swipeContainer.addEventListener('touchstart', handleSwipeStart, { passive: true });
+            swipeContainer.addEventListener('touchmove', handleSwipeMove, { passive: true });
+            swipeContainer.addEventListener('touchend', handleSwipeEnd, { passive: true });
 
             // Mouse events for desktop
             swipeContainer.addEventListener('mousedown', handleSwipeStart);
             swipeContainer.addEventListener('mousemove', handleSwipeMove);
             swipeContainer.addEventListener('mouseup', handleSwipeEnd);
             swipeContainer.addEventListener('mouseleave', handleSwipeEnd);
+            
+            console.log('Swipe events configured successfully');
         }
 
         function handleSwipeStart(e) {
-            e.preventDefault();
             const touch = e.touches ? e.touches[0] : e;
             swipeStartX = touch.clientX;
             swipeStartY = touch.clientY;
             isSwipeEnabled = true;
+            
+            console.log('Swipe start at:', swipeStartX, swipeStartY);
+            
+            // Prevent default only for mouse events, not touch events
+            if (!e.touches) {
+                e.preventDefault();
+            }
         }
 
         function handleSwipeMove(e) {
             if (!isSwipeEnabled) return;
-            e.preventDefault();
+            
+            // Only prevent default for mouse events to avoid interfering with touch scrolling
+            if (!e.touches) {
+                e.preventDefault();
+            }
         }
 
         function handleSwipeEnd(e) {
@@ -2430,15 +2456,23 @@
             const deltaX = swipeEndX - swipeStartX;
             const deltaY = swipeEndY - swipeStartY;
             
+            console.log('Swipe end - deltaX:', deltaX, 'deltaY:', deltaY);
+            console.log('Available colors for swipe:', availableColors.length);
+            
             // Check if it's a horizontal swipe (not vertical scroll)
             if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                console.log('Valid horizontal swipe detected');
                 if (deltaX > 0) {
                     // Swipe right - previous color
+                    console.log('Swiping to previous color');
                     swipeToPreviousColor();
                 } else {
                     // Swipe left - next color
+                    console.log('Swiping to next color');
                     swipeToNextColor();
                 }
+            } else {
+                console.log('Swipe not significant enough or too vertical');
             }
             
             isSwipeEnabled = false;
@@ -2541,9 +2575,7 @@
                     <div class="product-images-section">
                         <div class="main-image-container" id="swipe-container">
                             <img id="modal-main-image" src="" alt="Produto">
-                            <div class="swipe-indicator">
-                                <span class="swipe-hint">← Deslize para trocar cores →</span>
-                            </div>
+                            <div class="swipe-indicator swipe-hint">← Deslize para trocar cores →</div>
                         </div>
                         
                         <!-- Color options centered below image -->
@@ -4049,25 +4081,62 @@
             const dimensionsContainer = document.getElementById('modal-dimensions');
             dimensionsContainer.innerHTML = '';
             
-            if (!product.dimensions) {
+            // Check multiple possible sources for dimensions
+            let dimensions = null;
+            
+            // Try product.dimensions first
+            if (product.dimensions && Object.keys(product.dimensions).length > 0) {
+                dimensions = product.dimensions;
+            }
+            // Try individual dimension properties
+            else if (product.width || product.height || product.depth || product.weight) {
+                dimensions = {};
+                if (product.width) dimensions.width = product.width;
+                if (product.height) dimensions.height = product.height;
+                if (product.depth) dimensions.depth = product.depth;
+                if (product.weight) dimensions.weight = product.weight;
+            }
+            // Try dimensionsText property (if saved as text)
+            else if (product.dimensionsText) {
+                // Parse dimensionsText if it exists
+                try {
+                    dimensions = JSON.parse(product.dimensionsText);
+                } catch (e) {
+                    // If not JSON, treat as plain text
+                    const dimensionDiv = document.createElement('div');
+                    dimensionDiv.className = 'dimension-item';
+                    dimensionDiv.textContent = product.dimensionsText;
+                    dimensionsContainer.appendChild(dimensionDiv);
+                    return;
+                }
+            }
+            
+            if (!dimensions || Object.keys(dimensions).length === 0) {
+                const dimensionDiv = document.createElement('div');
+                dimensionDiv.className = 'dimension-item';
+                dimensionDiv.textContent = 'Dimensões não informadas';
+                dimensionsContainer.appendChild(dimensionDiv);
                 return;
             }
             
             // Create dimension items
-            Object.entries(product.dimensions).forEach(([key, value]) => {
-                const dimensionDiv = document.createElement('div');
-                dimensionDiv.className = 'dimension-item';
-                
-                let label = key;
-                switch(key.toLowerCase()) {
-                    case 'width': label = 'Largura'; break;
-                    case 'height': label = 'Altura'; break;
-                    case 'depth': label = 'Profundidade'; break;
-                    case 'weight': label = 'Peso'; break;
+            Object.entries(dimensions).forEach(([key, value]) => {
+                if (value && value.toString().trim()) {
+                    const dimensionDiv = document.createElement('div');
+                    dimensionDiv.className = 'dimension-item';
+                    
+                    let label = key;
+                    switch(key.toLowerCase()) {
+                        case 'width': label = 'Largura'; break;
+                        case 'height': label = 'Altura'; break;
+                        case 'depth': label = 'Profundidade'; break;
+                        case 'weight': label = 'Peso'; break;
+                        case 'length': label = 'Comprimento'; break;
+                    }
+                    
+                    dimensionDiv.textContent = `${label}: ${value}`;
+                    dimensionsContainer.appendChild(dimensionDiv);
                 }
-                
-                dimensionDiv.textContent = `${label}: ${value}`;
-                dimensionsContainer.appendChild(dimensionDiv);
             });
         }
 

@@ -3,13 +3,13 @@
     "name": "Banqueta 50 cm",
     "category": "Banquetas",
     "priceAVista": 44,
-    "altura": 10,
-    "largura": 10,
-    "comprimento": 10,
+    "altura": 40,
+    "largura": 40,
+    "comprimento": 40,
     "peso": 2,
     "description": "",
     "images": [
-      "data/images/product_1749429226064_plrn236n8.png"
+      "data/images/product_1749429611624_byckyegge.png"
     ],
     "colorVariations": [
       "Cerejeira",
@@ -18,8 +18,8 @@
       "Imbuia"
     ],
     "active": true,
-    "updatedAt": "2025-06-09T00:34:02.680Z",
-    "id": 1749429242680,
-    "createdAt": "2025-06-09T00:34:02.680Z"
+    "updatedAt": "2025-06-09T00:40:24.029Z",
+    "id": 1749429624029,
+    "createdAt": "2025-06-09T00:40:24.029Z"
   }
 ]

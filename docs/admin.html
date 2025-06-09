@@ -1401,6 +1401,11 @@
                         }
 
                         const result = await response.json();
+                        
+                        // Store base64 for immediate display while GitHub Pages updates
+                        const base64Data = e.target.result;
+                        localStorage.setItem(`image_base64_${filename}`, base64Data);
+                        
                         addSystemLog(`📸 Imagem uploaded: ${filename}`);
                         resolve(`data/images/${filename}`);
                     } catch (error) {

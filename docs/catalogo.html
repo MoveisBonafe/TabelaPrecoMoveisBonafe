@@ -219,10 +219,10 @@
         }
 
         .category-card.restaurant-style .category-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             margin: 0 auto 8px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         .category-card.restaurant-style .category-name {
@@ -1389,14 +1389,47 @@
                     `;
                 }
 
-                // Para lojas e outros usuários, mostrar grade de preços regular
+                // Para lojas, mostrar layout de tabela de preços horizontal
+                if (this.userType === 'loja') {
+                    return `
+                        <div class="product-image">${productImage}</div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-category">${product.category}</div>
+                            <div class="price-table-horizontal">
+                                <div class="price-column">
+                                    <div class="price-header">À Vista</div>
+                                    <div class="price-value-large">R$ ${prices.vista.toFixed(2)}</div>
+                                </div>
+                                <div class="price-column">
+                                    <div class="price-header">30</div>
+                                    <div class="price-value-large">R$ ${prices.prazo30.toFixed(2)}</div>
+                                </div>
+                                <div class="price-column">
+                                    <div class="price-header">30/60</div>
+                                    <div class="price-value-large">R$ ${prices.prazo3060.toFixed(2)}</div>
+                                </div>
+                                <div class="price-column">
+                                    <div class="price-header">30/60/90</div>
+                                    <div class="price-value-large">R$ ${prices.prazo306090.toFixed(2)}</div>
+                                </div>
+                                <div class="price-column">
+                                    <div class="price-header">30/60/90/120</div>
+                                    <div class="price-value-large">R$ ${prices.prazo30606090120.toFixed(2)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Para outros usuários, mostrar grade de preços regular
                 return `
                     <div class="product-image">${productImage}</div>
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-category">${product.category}</div>
                         <div class="price-grid">
-                            <div class="price-item ${this.userType === 'loja' ? 'price-highlight' : ''}">
+                            <div class="price-item">
                                 <span class="price-label">À Vista</span>
                                 <span class="price-value">R$ ${prices.vista.toFixed(2)}</span>
                             </div>
@@ -3187,8 +3220,62 @@
         });
 
         // Initialize cart count on page load
+        // Enhanced image loading with base64 fallback for GitHub Pages delays
+        function handleImageError(img) {
+            const maxRetries = 3;
+            const retryDelay = 2000;
+            
+            if (!img.dataset.retryCount) {
+                img.dataset.retryCount = '0';
+            }
+            
+            const retryCount = parseInt(img.dataset.retryCount);
+            
+            if (retryCount < maxRetries) {
+                // Try base64 fallback if available
+                const imageName = img.src.split('/').pop().split('?')[0];
+                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                if (base64Data && retryCount >= 1) {
+                    console.log(`Using base64 fallback for: ${imageName}`);
+                    img.src = base64Data;
+                    return;
+                }
+                
+                img.dataset.retryCount = (retryCount + 1).toString();
+                
+                setTimeout(() => {
+                    const originalSrc = img.src.split('?')[0];
+                    img.src = `${originalSrc}?v=${Date.now()}&retry=${retryCount + 1}`;
+                }, retryDelay * retryCount);
+            } else {
+                // Final fallback - check base64 one more time
+                const imageName = img.src.split('/').pop().split('?')[0];
+                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                if (base64Data) {
+                    img.src = base64Data;
+                } else {
+                    img.style.display = 'none';
+                    if (img.nextElementSibling) {
+                        img.nextElementSibling.style.display = 'flex';
+                    }
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
+            
+            // Apply error handling to all images after initial load
+            setTimeout(() => {
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    if (!img.onerror) {
+                        img.onerror = () => handleImageError(img);
+                    }
+                });
+            }, 1000);
         });
     </script>
 </body>

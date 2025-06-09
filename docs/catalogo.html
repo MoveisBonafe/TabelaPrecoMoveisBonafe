@@ -2446,6 +2446,54 @@
             return methods[method] || method;
         }
 
+        // Formatting functions for phone and CEP
+        function formatPhone(value) {
+            // Remove all non-digits
+            const digits = value.replace(/\D/g, '');
+            
+            // Apply phone formatting (14) 99999-9999
+            if (digits.length >= 11) {
+                return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (digits.length >= 6) {
+                return digits.replace(/(\d{2})(\d{4})(\d*)/, '($1) $2-$3');
+            } else if (digits.length >= 2) {
+                return digits.replace(/(\d{2})(\d*)/, '($1) $2');
+            }
+            return digits;
+        }
+
+        function formatCEP(value) {
+            // Remove all non-digits
+            const digits = value.replace(/\D/g, '');
+            
+            // Apply CEP formatting 00000-000
+            if (digits.length >= 5) {
+                return digits.replace(/(\d{5})(\d{0,3})/, '$1-$2');
+            }
+            return digits;
+        }
+
+        // Add event listeners for formatting when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Phone formatting
+            const phoneInput = document.getElementById('customer-phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    const formatted = formatPhone(e.target.value);
+                    e.target.value = formatted;
+                });
+            }
+
+            // CEP formatting
+            const cepInput = document.getElementById('customer-cep');
+            if (cepInput) {
+                cepInput.addEventListener('input', function(e) {
+                    const formatted = formatCEP(e.target.value);
+                    e.target.value = formatted;
+                });
+            }
+        });
+
         // Cart functionality consolidated to use shoppingCart only
 
 
@@ -3926,18 +3974,20 @@
 
         .form-group input,
         .form-group select {
-            padding: 10px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
+            padding: 14px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.2s;
+            background: #fafafa;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+            border-color: #374151;
+            box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1);
+            background: white;
         }
 
         .price-table-selection select {
@@ -4012,26 +4062,28 @@
         .price-table-selection select,
         .payment-method-selection select {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            background: white;
+            padding: 14px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fafafa;
             font-size: 1rem;
-            color: #495057;
+            color: #374151;
             cursor: pointer;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
 
         .price-table-selection select:focus,
         .payment-method-selection select:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+            border-color: #374151;
+            box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1);
+            background: white;
         }
 
         .price-table-selection select:hover,
         .payment-method-selection select:hover {
-            border-color: #adb5bd;
+            border-color: #d1d5db;
+            background: white;
         }
 
         /* Responsive checkout layout */
@@ -4802,6 +4854,55 @@
             document.body.style.overflow = '';
         }
 
+        // Navigation functions for cart steps
+        function goToDeliveryStep() {
+            // Hide cart step and show delivery step
+            document.getElementById('cart-step-1').style.display = 'none';
+            document.getElementById('cart-step-2').style.display = 'block';
+            
+            // Update steps visual
+            updateCartSteps(2);
+            
+            // Update modal title
+            document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Entrega';
+        }
+
+        function goToCartStep() {
+            // Hide delivery step and show cart step
+            document.getElementById('cart-step-2').style.display = 'none';
+            document.getElementById('cart-step-1').style.display = 'block';
+            
+            // Update steps visual
+            updateCartSteps(1);
+            
+            // Update modal title
+            document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Carrinho de Compras';
+        }
+
+        function updateCartSteps(activeStep) {
+            // Remove active class from all steps
+            document.querySelectorAll('.cart-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Add active class to current step
+            document.querySelectorAll('.cart-step')[activeStep - 1].classList.add('active');
+        }
+
+        function openCartModal() {
+            // Reset to first step when opening cart
+            document.getElementById('cart-step-1').style.display = 'block';
+            document.getElementById('cart-step-2').style.display = 'none';
+            updateCartSteps(1);
+            
+            // Update modal title
+            document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Carrinho de Compras';
+            
+            renderCartItems();
+            document.getElementById('cart-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
         function renderCartItems() {
             const cartItemsContainer = document.getElementById('cart-items-list');
             const cartTotalItems = document.getElementById('cart-total-items');
@@ -5059,7 +5160,9 @@
                 }
             });
         }
+        </script>
         
+        <script>
         // Data synchronization listener for cross-page updates
         function checkForDataUpdates() {
             const dataTypes = ['products', 'categories', 'colors', 'priceSettings'];
@@ -5112,6 +5215,6 @@
         checkForDataUpdates();
         setInterval(initImageSync, 30000); // Check for images every 30 seconds
         setInterval(checkForDataUpdates, 10000); // Check for data updates every 10 seconds
-    </script>
+        </script>
 </body>
 </html>

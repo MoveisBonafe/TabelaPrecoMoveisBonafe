@@ -22,10 +22,14 @@
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {
-    "id": "3",
-    "tableName": "30/60",
+    "name": "60",
+    "description": "",
+    "type": "markup",
     "percentage": 4,
+    "categories": null,
     "active": true,
+    "updatedAt": "2025-06-09T00:23:54.824Z",
+    "id": "3",
     "createdAt": "2025-05-24T13:55:07.645Z"
   },
   {

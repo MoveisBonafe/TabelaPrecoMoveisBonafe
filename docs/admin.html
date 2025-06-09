@@ -231,7 +231,13 @@
         /* Comprehensive admin panel image sizing */
         .data-card img,
         .product-card img,
-        .category-card img {
+        .category-card img,
+        .image-gallery img,
+        .image-preview img,
+        .gallery-item img,
+        .uploaded-image img,
+        .form-image img,
+        .modal img {
             width: 100% !important;
             height: 200px !important;
             max-width: 100% !important;
@@ -239,6 +245,28 @@
             object-fit: contain !important;
             display: block !important;
             border-radius: 8px;
+            background: #f7fafc;
+        }
+        
+        /* Image gallery specific styles */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            background: #f7fafc;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+        
+        .gallery-item img {
+            height: 100% !important;
+            object-fit: contain !important;
         }
 
         .card-placeholder {
@@ -3313,25 +3341,51 @@
             }
         }
 
-        // Logout functionality
-        function logout() {
+        // Logout functionality - make it globally accessible
+        window.logout = function() {
             if (confirm('Tem certeza que deseja sair do painel administrativo?')) {
-                addSystemLog('🚪 Usuário saindo do sistema...');
+                try {
+                    addSystemLog('🚪 Usuário saindo do sistema...');
+                } catch (e) {
+                    console.log('🚪 Usuário saindo do sistema...');
+                }
                 
                 // Clear all admin data
                 localStorage.removeItem('github_token');
                 localStorage.removeItem('last_save_time');
+                localStorage.removeItem('admin_user');
+                localStorage.removeItem('isAuthenticated');
                 
                 // Clear cache to force fresh login
-                clearCache();
+                try {
+                    clearCache();
+                } catch (e) {
+                    console.log('Cache already clear');
+                }
                 
                 // Clean image cache
-                cleanOldImageCache();
+                try {
+                    cleanOldImageCache();
+                } catch (e) {
+                    console.log('Image cache already clean');
+                }
                 
-                // Redirect to login page (relative URL works for both local and GitHub Pages)
-                window.location.href = './login.html';
+                // Clear all localStorage admin keys
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (key.startsWith('admin_') || key.startsWith('github_') || key.startsWith('image_'))) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+                
+                // Redirect to login page
+                setTimeout(() => {
+                    window.location.href = './login.html';
+                }, 100);
             }
-        }
+        };
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', initAdmin);

@@ -9,13 +9,11 @@
     "peso": 2,
     "description": "",
     "images": [
-      "data/images/product_1749429611624_byckyegge.png",
-      "data/images/product_1749432216957_xibbxsjd4.png",
-      "data/images/product_1749432225159_u165yznyj.png"
+      "data/images/product_1749429611624_byckyegge.png"
     ],
     "colorVariations": [],
     "active": true,
-    "updatedAt": "2025-06-09T02:06:26.586Z",
+    "updatedAt": "2025-06-09T02:06:46.332Z",
     "id": 1749429624029,
     "createdAt": "2025-06-09T00:40:24.029Z"
   }

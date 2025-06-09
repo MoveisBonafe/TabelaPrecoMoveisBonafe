@@ -2335,9 +2335,21 @@
                 const product = catalogClient.products.find(p => p.name === item.name);
                 let itemPrice = 0;
                 
-                if (product && product.prices && product.prices[priceTable]) {
-                    itemPrice = product.prices[priceTable];
-                    total += itemPrice * item.quantity;
+                if (product) {
+                    // Map price table names to product properties
+                    const priceMapping = {
+                        'a vista': 'priceAVista',
+                        '30': 'price30',
+                        '30/60': 'price30_60',
+                        '30/60/90': 'price30_60_90',
+                        '30/60/90/120': 'price30_60_90_120'
+                    };
+                    
+                    const priceProperty = priceMapping[priceTable];
+                    if (priceProperty && product[priceProperty]) {
+                        itemPrice = product[priceProperty];
+                        total += itemPrice * item.quantity;
+                    }
                 }
                 
                 // Update individual item price display
@@ -2381,9 +2393,21 @@
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.name === item.name);
                 let price = 0;
-                if (product && product.prices && product.prices[priceTable]) {
-                    price = product.prices[priceTable];
-                    total += price * item.quantity;
+                if (product) {
+                    // Map price table names to product properties
+                    const priceMapping = {
+                        'a vista': 'priceAVista',
+                        '30': 'price30',
+                        '30/60': 'price30_60',
+                        '30/60/90': 'price30_60_90',
+                        '30/60/90/120': 'price30_60_90_120'
+                    };
+                    
+                    const priceProperty = priceMapping[priceTable];
+                    if (priceProperty && product[priceProperty]) {
+                        price = product[priceProperty];
+                        total += price * item.quantity;
+                    }
                 }
                 message += `• ${item.name}\n`;
                 message += `  Cor: ${item.color}\n`;
@@ -3591,6 +3615,18 @@
         }
 
         .checkout-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .checkout-left {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .checkout-right {
             display: flex;
             flex-direction: column;
             gap: 24px;
@@ -3736,6 +3772,25 @@
         .price-table-selection select:hover,
         .payment-method-selection select:hover {
             border-color: #adb5bd;
+        }
+
+        /* Responsive checkout layout */
+        @media (max-width: 768px) {
+            .checkout-sections {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .checkout-left,
+            .checkout-right {
+                gap: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
         }
 
         .payment-option input[type="radio"] {

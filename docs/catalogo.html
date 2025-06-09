@@ -2088,6 +2088,13 @@
             const quantity = parseInt(document.getElementById('modal-quantity').value);
             const selectedColor = document.querySelector('#modal-color-options .color-option.selected .color-name')?.textContent || 'Padrão';
             
+            console.log('🛒 Adicionando ao carrinho:', {
+                produto: currentModalProduct.name,
+                quantidade: quantity,
+                cor: selectedColor,
+                carrinhoAntes: cart.length
+            });
+            
             // Add to cart with correct image for selected color
             const product = currentModalProduct;
             let imageUrl = '';
@@ -2138,7 +2145,11 @@
                 });
             }
             
+            console.log('🛒 Item adicionado. Carrinho atual:', cart);
+            console.log('🛒 Total de itens após adição:', cart.length);
+            
             updateCartDisplay();
+            saveCart();
             
             // Show success notification
             const notification = document.createElement('div');
@@ -2315,6 +2326,31 @@
         // Cart functionality
         let cart = [];
 
+        // Load cart from localStorage on page load
+        function loadCart() {
+            try {
+                const savedCart = localStorage.getItem('moveisbonafe_cart');
+                if (savedCart) {
+                    cart = JSON.parse(savedCart);
+                    console.log('🛒 Carrinho carregado do localStorage:', cart);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar carrinho:', error);
+                cart = [];
+            }
+            updateCartDisplay();
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            try {
+                localStorage.setItem('moveisbonafe_cart', JSON.stringify(cart));
+                console.log('🛒 Carrinho salvo no localStorage');
+            } catch (error) {
+                console.error('Erro ao salvar carrinho:', error);
+            }
+        }
+
         function updateCartDisplay() {
             const cartCount = document.getElementById('cart-count');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -2387,6 +2423,7 @@
                 }
                 renderCartItems();
                 updateCartDisplay();
+                saveCart();
             }
         }
 
@@ -2396,6 +2433,7 @@
                 cart[index].quantity = quantity;
                 renderCartItems();
                 updateCartDisplay();
+                saveCart();
             }
         }
 
@@ -2404,6 +2442,7 @@
                 cart.splice(index, 1);
                 renderCartItems();
                 updateCartDisplay();
+                saveCart();
             }
         }
 
@@ -2411,6 +2450,7 @@
             cart = [];
             renderCartItems();
             updateCartDisplay();
+            saveCart();
         }
 
         console.log('🛍️ MoveisBonafe Catálogo - GitHub Pages');

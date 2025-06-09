@@ -4168,67 +4168,55 @@
             background: white;
         }
 
-        /* Desktop Layout for Delivery Step */
-        @media (min-width: 769px) {
-            .delivery-section {
-                padding: 32px 40px;
-                min-height: 60vh;
+        /* Desktop layout - force application */
+        @media screen and (min-width: 900px) {
+            #cart-step-2 .delivery-section {
+                padding: 40px 50px !important;
             }
 
-            .delivery-form-desktop {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 40px;
-                margin-bottom: 32px;
+            #cart-step-2 .delivery-form-desktop {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 50px !important;
+                margin-bottom: 40px !important;
             }
 
-            .delivery-left,
-            .delivery-right {
-                display: flex;
-                flex-direction: column;
-                gap: 32px;
+            #cart-step-2 .customer-data-section,
+            #cart-step-2 .delivery-options-section {
+                background: #f8f9fa !important;
+                border-radius: 16px !important;
+                padding: 40px !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+                margin-bottom: 0 !important;
             }
 
-            .customer-data-section {
-                background: #f8f9fa;
-                border-radius: 16px;
-                padding: 32px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                height: fit-content;
+            #cart-step-2 .customer-data-section h3,
+            #cart-step-2 .delivery-options-section h3 {
+                margin: 0 0 30px 0 !important;
+                font-size: 24px !important;
+                font-weight: 600 !important;
+                color: #1f2937 !important;
             }
 
-            .delivery-options-section {
-                background: #f8f9fa;
-                border-radius: 16px;
-                padding: 32px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                height: fit-content;
+            #cart-step-2 .form-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 24px !important;
             }
 
-            .customer-data-section h3,
-            .delivery-options-section h3 {
-                margin: 0 0 24px 0;
-                font-size: 20px;
-                font-weight: 600;
-                color: #1f2937;
+            #cart-step-2 .form-group {
+                margin-bottom: 0 !important;
             }
 
-            .form-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
+            #cart-step-2 .cart-actions-new {
+                padding: 40px 50px !important;
+                margin-top: 20px !important;
+                gap: 24px !important;
             }
 
-            .form-group {
-                margin-bottom: 0;
-            }
-
-            .delivery-choice {
-                gap: 16px;
-            }
-
-            .delivery-option {
-                padding: 20px;
-                border-radius: 12px;
+            #cart-step-2 .form-group input {
+                padding: 16px !important;
+                font-size: 16px !important;
             }
         }
 
@@ -4343,7 +4331,7 @@
             font-weight: 600;
         }
 
-        /* Default mobile styles */
+        /* Base styles - Mobile first */
         .delivery-section {
             padding: 24px 20px;
         }
@@ -4357,6 +4345,7 @@
         }
 
         .form-grid {
+            display: grid;
             grid-template-columns: 1fr;
             gap: 12px;
         }
@@ -4366,45 +4355,8 @@
             gap: 12px;
         }
 
-        /* Desktop overrides */
-        @media (min-width: 769px) {
-            .delivery-section {
-                padding: 32px 40px !important;
-            }
-
-            .delivery-form-desktop {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 40px !important;
-                margin-bottom: 32px;
-            }
-
-            .customer-data-section,
-            .delivery-options-section {
-                background: #f8f9fa !important;
-                padding: 32px !important;
-                border-radius: 16px !important;
-                margin-bottom: 0 !important;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 20px !important;
-            }
-
-            .cart-actions-new {
-                padding: 32px 40px !important;
-                gap: 16px !important;
-            }
-        }
-
-        /* Mobile specific overrides */
-        @media (max-width: 768px) {
-            .delivery-form-desktop,
-            .payment-form-desktop {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
+        .delivery-form-desktop {
+            display: block;
         }
 
         .payment-option input[type="radio"] {

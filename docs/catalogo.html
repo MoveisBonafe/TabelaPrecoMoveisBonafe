@@ -2834,45 +2834,45 @@
                 </div>
 
                 <!-- Step 2: Delivery Section -->
-                <div class="delivery-section" id="cart-step-2" style="display: none; padding: 30px; max-width: 600px; margin: 0 auto;">
+                <div class="delivery-section" id="cart-step-2" style="display: none; padding: 20px; max-width: 500px; margin: 0 auto;">
                     <div class="delivery-form-desktop">
                         <!-- Customer Data -->
-                        <div class="customer-data-section" style="background: #f8f9fa; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
-                            <h3 style="margin: 0 0 24px 0; font-size: 20px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
-                            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 16px;">
-                                <div class="form-group">
-                                    <label for="customer-name">Nome Completo *</label>
-                                    <input type="text" id="customer-name" required style="padding: 14px; font-size: 16px;">
+                        <div class="customer-data-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+                            <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
+                            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-name" style="text-align: right; font-size: 14px; font-weight: 500;">Nome Completo *</label>
+                                    <input type="text" id="customer-name" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
-                                <div class="form-group">
-                                    <label for="customer-phone">Telefone *</label>
-                                    <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 14px; font-size: 16px;">
+                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-phone" style="text-align: right; font-size: 14px; font-weight: 500;">Telefone *</label>
+                                    <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
-                                <div class="form-group">
-                                    <label for="customer-address">Endereço *</label>
-                                    <input type="text" id="customer-address" required style="padding: 14px; font-size: 16px;">
+                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-address" style="text-align: right; font-size: 14px; font-weight: 500;">Endereço *</label>
+                                    <input type="text" id="customer-address" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
-                                <div class="form-group">
-                                    <label for="customer-cep">CEP *</label>
-                                    <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 14px; font-size: 16px;">
+                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-cep" style="text-align: right; font-size: 14px; font-weight: 500;">CEP *</label>
+                                    <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Delivery Options -->
-                        <div class="delivery-options-section" style="background: #f8f9fa; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
-                            <h3 style="margin: 0 0 24px 0; font-size: 20px; font-weight: 600; color: #1f2937; text-align: center;">Opções de Entrega</h3>
-                            <div class="delivery-choice">
-                                <label class="delivery-option">
-                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked>
+                        <div class="delivery-options-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Opções de Entrega</h3>
+                            <div class="delivery-choice" style="display: flex; flex-direction: column; gap: 8px;">
+                                <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border-radius: 12px; cursor: pointer; border: 1px solid #e5e7eb;">
+                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked style="margin: 0;">
                                     <div class="delivery-info">
-                                        <div class="delivery-title">Retirada no Local</div>
+                                        <div class="delivery-title" style="font-size: 14px; font-weight: 500;">Retirada no Local</div>
                                     </div>
                                 </label>
-                                <label class="delivery-option">
-                                    <input type="radio" name="delivery-type" value="delivery">
+                                <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border-radius: 12px; cursor: pointer; border: 1px solid #e5e7eb;">
+                                    <input type="radio" name="delivery-type" value="delivery" style="margin: 0;">
                                     <div class="delivery-info">
-                                        <div class="delivery-title">Entrega</div>
+                                        <div class="delivery-title" style="font-size: 14px; font-weight: 500;">Entrega</div>
                                     </div>
                                 </label>
                             </div>
@@ -2882,9 +2882,9 @@
 
 
                     <!-- Delivery Actions -->
-                    <div class="cart-actions-new" style="padding: 30px; margin-top: 16px; gap: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                        <button class="clear-cart-btn" onclick="goToCartStep()">Voltar ao Carrinho</button>
-                        <button class="checkout-btn" id="payment-btn" onclick="goToPaymentStep()" disabled>Ir Para Pagamento</button>
+                    <div class="cart-actions-new" style="padding: 20px; margin-top: 12px; gap: 12px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        <button class="clear-cart-btn" onclick="goToCartStep()" style="padding: 12px 20px; border-radius: 20px; font-size: 14px;">Voltar ao Carrinho</button>
+                        <button class="checkout-btn" id="payment-btn" onclick="goToPaymentStep()" disabled style="padding: 12px 20px; border-radius: 20px; font-size: 14px;">Ir Para Pagamento</button>
                     </div>
                 </div>
 
@@ -4166,39 +4166,52 @@
         /* Mobile override for inline styles */
         @media screen and (max-width: 768px) {
             #cart-step-2.delivery-section {
-                padding: 24px 20px !important;
+                padding: 20px !important;
                 max-width: none !important;
             }
 
             #cart-step-2 .customer-data-section,
             #cart-step-2 .delivery-options-section {
                 background: white !important;
-                padding: 24px !important;
-                margin-bottom: 20px !important;
+                padding: 20px !important;
+                margin-bottom: 16px !important;
             }
 
             #cart-step-2 .customer-data-section h3,
             #cart-step-2 .delivery-options-section h3 {
-                font-size: 18px !important;
-                margin: 0 0 20px 0 !important;
-                text-align: left !important;
+                font-size: 16px !important;
+                margin: 0 0 16px 0 !important;
+                text-align: center !important;
             }
 
-            #cart-step-2 .form-grid {
+            #cart-step-2 .form-group {
                 grid-template-columns: 1fr !important;
-                gap: 12px !important;
+                gap: 8px !important;
+            }
+
+            #cart-step-2 .form-group label {
+                text-align: left !important;
+                font-size: 14px !important;
             }
 
             #cart-step-2 .cart-actions-new {
-                padding: 20px 24px !important;
+                padding: 16px 20px !important;
                 gap: 12px !important;
                 max-width: none !important;
-                margin: 0 !important;
+                margin: 8px 0 0 0 !important;
             }
 
             #cart-step-2 .form-group input {
-                padding: 14px !important;
+                padding: 12px !important;
                 font-size: 16px !important;
+                border-radius: 12px !important;
+            }
+
+            #cart-step-2 .clear-cart-btn,
+            #cart-step-2 .checkout-btn {
+                padding: 14px 18px !important;
+                border-radius: 12px !important;
+                font-size: 14px !important;
             }
         }
 

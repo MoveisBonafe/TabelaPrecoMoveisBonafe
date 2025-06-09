@@ -2325,7 +2325,7 @@
             message += `📋 *Produtos:*\n`;
             let total = 0;
             shoppingCart.forEach(item => {
-                const product = catalog.products.find(p => p.name === item.name);
+                const product = catalogClient.products.find(p => p.name === item.name);
                 let price = 0;
                 if (product && product.prices && product.prices[priceTable]) {
                     price = product.prices[priceTable];

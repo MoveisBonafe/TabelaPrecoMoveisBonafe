@@ -1246,10 +1246,21 @@
         let selectedColors = [];
         let categoryImage = null;
 
-        // Clear localStorage cache on load to force fresh data
+        // Smart cache clearing that respects recent saves
         function clearCache() {
             const keys = ['moveisbonafe_products', 'moveisbonafe_categories', 'moveisbonafe_colors', 
                          'moveisbonafe_users', 'moveisbonafe_priceSettings', 'moveisbonafe_promotions'];
+            
+            // Check if we recently saved data (within last 5 minutes)
+            const lastSaveTime = localStorage.getItem('last_save_time');
+            const now = Date.now();
+            const fiveMinutes = 5 * 60 * 1000;
+            
+            if (lastSaveTime && (now - parseInt(lastSaveTime)) < fiveMinutes) {
+                addSystemLog('🔄 Dados salvos recentemente - usando cache local para evitar problemas de sincronização GitHub Pages');
+                return;
+            }
+            
             keys.forEach(key => localStorage.removeItem(key));
             addSystemLog('Cache localStorage limpo - forçando dados frescos');
         }
@@ -1366,6 +1377,14 @@
                 throw new Error(`GitHub API error: ${resp.status} - ${errorData}`);
             }
 
+            // Record save time for cache management
+            localStorage.setItem('last_save_time', Date.now().toString());
+            
+            // Update localStorage with the fresh data
+            const dataType = filename.replace('.json', '').replace('_', '');
+            const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+            localStorage.setItem(localKey, JSON.stringify(data));
+            
             addSystemLog(`💾 Arquivo ${filename} salvo no GitHub`);
         }
 

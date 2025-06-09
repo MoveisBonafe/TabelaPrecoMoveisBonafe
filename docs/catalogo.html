@@ -2834,52 +2834,47 @@
                 </div>
 
                 <!-- Step 2: Delivery Section -->
-                <div class="delivery-section" id="cart-step-2" style="display: none; padding: 40px 50px;">
-                    <div class="delivery-form-desktop" style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 40px;">
-                        <div class="delivery-left">
-                            <!-- Customer Data -->
-                            <div class="customer-data-section" style="background: #f8f9fa; border-radius: 16px; padding: 40px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-                                <h3 style="margin: 0 0 30px 0; font-size: 24px; font-weight: 600; color: #1f2937;">Dados do Cliente</h3>
-                                <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                                    <div class="form-group">
-                                        <label for="customer-name">Nome Completo *</label>
-                                        <input type="text" id="customer-name" required style="padding: 16px; font-size: 16px;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="customer-phone">Telefone *</label>
-                                        <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 16px; font-size: 16px;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="customer-address">Endereço *</label>
-                                        <input type="text" id="customer-address" required style="padding: 16px; font-size: 16px;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="customer-cep">CEP *</label>
-                                        <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 16px; font-size: 16px;">
-                                    </div>
+                <div class="delivery-section" id="cart-step-2" style="display: none; padding: 30px; max-width: 600px; margin: 0 auto;">
+                    <div class="delivery-form-desktop">
+                        <!-- Customer Data -->
+                        <div class="customer-data-section" style="background: #f8f9fa; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+                            <h3 style="margin: 0 0 24px 0; font-size: 20px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
+                            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 16px;">
+                                <div class="form-group">
+                                    <label for="customer-name">Nome Completo *</label>
+                                    <input type="text" id="customer-name" required style="padding: 14px; font-size: 16px;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer-phone">Telefone *</label>
+                                    <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 14px; font-size: 16px;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer-address">Endereço *</label>
+                                    <input type="text" id="customer-address" required style="padding: 14px; font-size: 16px;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer-cep">CEP *</label>
+                                    <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 14px; font-size: 16px;">
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="delivery-right">
-                            <!-- Delivery Options -->
-                            <div class="delivery-options-section" style="background: #f8f9fa; border-radius: 16px; padding: 40px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-                                <h3 style="margin: 0 0 30px 0; font-size: 24px; font-weight: 600; color: #1f2937;">Opções de Entrega</h3>
-                                <div class="delivery-choice">
-                                    <label class="delivery-option">
-                                        <input type="radio" name="delivery-type" value="pickup" id="pickup" checked>
-                                        <div class="delivery-info">
-                                            <div class="delivery-title">Retirada no Local</div>
-                                        </div>
-                                        <div class="delivery-price">Grátis</div>
-                                    </label>
-                                    <label class="delivery-option">
-                                        <input type="radio" name="delivery-type" value="delivery">
-                                        <div class="delivery-info">
-                                            <div class="delivery-title">Entrega</div>
-                                        </div>
-                                    </label>
-                                </div>
+                        <!-- Delivery Options -->
+                        <div class="delivery-options-section" style="background: #f8f9fa; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+                            <h3 style="margin: 0 0 24px 0; font-size: 20px; font-weight: 600; color: #1f2937; text-align: center;">Opções de Entrega</h3>
+                            <div class="delivery-choice">
+                                <label class="delivery-option">
+                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked>
+                                    <div class="delivery-info">
+                                        <div class="delivery-title">Retirada no Local</div>
+                                    </div>
+                                </label>
+                                <label class="delivery-option">
+                                    <input type="radio" name="delivery-type" value="delivery">
+                                    <div class="delivery-info">
+                                        <div class="delivery-title">Entrega</div>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -2887,7 +2882,7 @@
 
 
                     <!-- Delivery Actions -->
-                    <div class="cart-actions-new" style="padding: 40px 50px; margin-top: 20px; gap: 24px;">
+                    <div class="cart-actions-new" style="padding: 30px; margin-top: 16px; gap: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">
                         <button class="clear-cart-btn" onclick="goToCartStep()">Voltar ao Carrinho</button>
                         <button class="checkout-btn" id="payment-btn" onclick="goToPaymentStep()" disabled>Ir Para Pagamento</button>
                     </div>
@@ -4172,12 +4167,7 @@
         @media screen and (max-width: 768px) {
             #cart-step-2.delivery-section {
                 padding: 24px 20px !important;
-            }
-
-            #cart-step-2 .delivery-form-desktop {
-                display: block !important;
-                grid-template-columns: none !important;
-                gap: 20px !important;
+                max-width: none !important;
             }
 
             #cart-step-2 .customer-data-section,
@@ -4191,6 +4181,7 @@
             #cart-step-2 .delivery-options-section h3 {
                 font-size: 18px !important;
                 margin: 0 0 20px 0 !important;
+                text-align: left !important;
             }
 
             #cart-step-2 .form-grid {
@@ -4201,6 +4192,8 @@
             #cart-step-2 .cart-actions-new {
                 padding: 20px 24px !important;
                 gap: 12px !important;
+                max-width: none !important;
+                margin: 0 !important;
             }
 
             #cart-step-2 .form-group input {

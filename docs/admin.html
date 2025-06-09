@@ -2157,10 +2157,10 @@
             }
         }
 
-        // Handle image loading errors with retry logic
+        // Enhanced image loading with GitHub Pages cache handling and base64 fallback
         function handleImageError(img) {
-            const maxRetries = 3;
-            const retryDelay = 2000; // 2 seconds
+            const maxRetries = 5;
+            const baseDelay = 3000; // Start with 3 seconds
             
             if (!img.dataset.retryCount) {
                 img.dataset.retryCount = '0';
@@ -2170,31 +2170,71 @@
             
             if (retryCount < maxRetries) {
                 img.dataset.retryCount = (retryCount + 1).toString();
-                console.log(`Tentativa ${retryCount + 1}/${maxRetries} de carregar imagem: ${img.src}`);
+                
+                // Try to use base64 fallback if available
+                const imageName = img.src.split('/').pop().split('?')[0];
+                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                if (base64Data && retryCount >= 2) {
+                    console.log(`🔄 Usando fallback base64 para: ${imageName}`);
+                    img.src = base64Data;
+                    return;
+                }
+                
+                console.log(`🔄 Tentativa ${retryCount + 1}/${maxRetries} de carregar imagem: ${img.src}`);
+                
+                // Exponential backoff with jitter for GitHub Pages
+                const delay = baseDelay * Math.pow(1.5, retryCount) + Math.random() * 1000;
                 
                 setTimeout(() => {
-                    const originalSrc = img.src.split('?')[0]; // Remove cache busting params
-                    img.src = originalSrc + '?v=' + Date.now(); // Cache busting
-                }, retryDelay);
+                    const originalSrc = img.src.split('?')[0];
+                    img.src = `${originalSrc}?v=${Date.now()}&retry=${retryCount + 1}&t=${Math.random()}`;
+                }, delay);
             } else {
-                console.log(`Imagem não carregou após ${maxRetries} tentativas: ${img.src}`);
-                // Create placeholder
-                const placeholder = document.createElement('div');
-                placeholder.className = 'card-placeholder';
-                placeholder.innerHTML = '📁<span>Erro ao carregar</span>';
-                placeholder.style.width = img.style.width || '100%';
-                placeholder.style.height = img.style.height || '100%';
-                placeholder.style.display = 'flex';
-                placeholder.style.alignItems = 'center';
-                placeholder.style.justifyContent = 'center';
-                placeholder.style.flexDirection = 'column';
-                placeholder.style.background = '#f7fafc';
-                placeholder.style.color = '#a0aec0';
-                placeholder.style.fontSize = '14px';
+                // Final fallback - try base64 one more time
+                const imageName = img.src.split('/').pop().split('?')[0];
+                const base64Data = localStorage.getItem(`image_base64_${imageName}`);
                 
-                img.style.display = 'none';
-                if (img.parentNode) {
-                    img.parentNode.insertBefore(placeholder, img);
+                if (base64Data) {
+                    console.log(`📸 Usando base64 final para: ${imageName}`);
+                    img.src = base64Data;
+                } else {
+                    console.log(`❌ Imagem não carregou após ${maxRetries} tentativas: ${img.src}`);
+                    // Create loading placeholder
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'card-placeholder';
+                    placeholder.innerHTML = `
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⏳</div>
+                            <div style="font-size: 12px;">Aguardando GitHub Pages...</div>
+                            <div style="font-size: 10px; margin-top: 4px; opacity: 0.7;">Pode levar alguns minutos</div>
+                        </div>
+                    `;
+                    placeholder.style.width = img.style.width || '100%';
+                    placeholder.style.height = img.style.height || '100%';
+                    placeholder.style.display = 'flex';
+                    placeholder.style.alignItems = 'center';
+                    placeholder.style.justifyContent = 'center';
+                    placeholder.style.background = '#fff8dc';
+                    placeholder.style.color = '#8b7355';
+                    placeholder.style.border = '2px dashed #ddd';
+                    placeholder.style.borderRadius = '8px';
+                    
+                    img.style.display = 'none';
+                    if (img.parentNode) {
+                        img.parentNode.insertBefore(placeholder, img);
+                    }
+                    
+                    // Continue trying in background every 30 seconds
+                    setTimeout(() => {
+                        img.dataset.retryCount = '0';
+                        img.style.display = 'block';
+                        if (placeholder.parentNode) {
+                            placeholder.parentNode.removeChild(placeholder);
+                        }
+                        const originalSrc = img.src.split('?')[0];
+                        img.src = `${originalSrc}?v=${Date.now()}&background=true`;
+                    }, 30000);
                 }
             }
         }

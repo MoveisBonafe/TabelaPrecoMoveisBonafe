@@ -258,22 +258,23 @@
         }
         
         .category-icon {
-            width: 64px;
-            height: 64px;
+            width: 48px;
+            height: 48px;
             margin: 0 auto 12px;
             background: #f3f4f6;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             overflow: hidden;
         }
         
         .category-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
         }
         
         .category-name {
@@ -1299,8 +1300,8 @@
                             `${this.baseUrl}/${imageSrc}` : 
                             `${this.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
                         
-                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #f0f0f0;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <div class="category-icon" style="display: none; width: 48px; height: 48px; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 8px; font-size: 24px;">${icons[category.name] || '📦'}</div>`;
+                        categoryIcon = `<img src="${imageSrc}" alt="${category.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #f0f0f0;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="category-icon" style="display: none; width: 40px; height: 40px; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 4px; font-size: 20px;">${icons[category.name] || '📦'}</div>`;
                     } else {
                         categoryIcon = `<div class="category-icon">${icons[category.name] || '📦'}</div>`;
                     }

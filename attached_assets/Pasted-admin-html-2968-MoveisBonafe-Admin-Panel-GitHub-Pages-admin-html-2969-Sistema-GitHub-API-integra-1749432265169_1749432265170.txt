@@ -1,0 +1,280 @@
+admin.html:2968 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:2969 Sistema: GitHub API integrado com fallback localStorage
+admin.html:2377 [22:23:08] Inicializando sistema admin...
+admin.html:2377 [22:23:08] Cache localStorage limpo - forçando dados frescos
+admin.html:2377 [22:23:08] 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" class=​"form-input" placeholder=​"Digite seu token GitHub">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"user-password" class=​"form-input">​
+admin.html:2377 [22:23:08] ✅ Dados carregados: 1 produtos, 1 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+admin.html:1501 Original product image path: data/images/product_1749429611624_byckyegge.png
+admin.html:1502 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1514 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749429611624_byckyegge.png
+admin.html:2377 [22:23:08] Erro na inicialização: Cannot read properties of undefined (reading 'toFixed')
+admin.html:2377 [22:23:19] 📤 Uploading image: imagem_2025-06-08_222319044.png
+admin.html:2377 [22:23:19] ❌ Error uploading imagem_2025-06-08_222319044.png: Token GitHub não configurado
+admin.html:2377 [22:23:28] 🔐 Token GitHub salvo
+admin.html:2377 [22:23:28] 🔐 Token GitHub válido para usuário: MoveisBonafe
+admin.html:2377 [22:23:36] 📤 Uploading image: imagem_2025-06-08_222336942.png
+admin.html:2377 [22:23:38] 📸 Imagem uploaded: product_1749432216957_xibbxsjd4.png
+data/images/product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432220276:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432220276
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432222908:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432222908
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432224948:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432224948
+admin.html:2377 [22:23:45] 📤 Uploading image: imagem_2025-06-08_222345145.png
+admin.html:2377 [22:23:45] 📸 Imagem uploaded: product_1749432225159_u165yznyj.png
+data/images/product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png
+data/images/product_1749432225159_u165yznyj.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432228266:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432228266
+data/images/product_1749432225159_u165yznyj.png?v=1749432228267:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432228267
+data/images/product_1749432225159_u165yznyj.png?v=1749432230299:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432230299
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432230298:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432230298
+admin.html:2377 [22:23:51] 📤 Uploading image: imagem_2025-06-08_222351930.png
+data/images/product_1749432225159_u165yznyj.png?v=1749432232329:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432232329
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432232331:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432232331
+admin.html:2377 [22:23:53] 📸 Imagem uploaded: product_1749432231944_5n6zmougz.png
+data/images/product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png
+data/images/product_1749432225159_u165yznyj.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png
+data/images/product_1749432231944_5n6zmougz.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png
+admin.html:2377 [22:23:54] 💾 Salvando produto...
+admin.html:2377 [22:23:55] 💾 Arquivo products.json salvo no GitHub
+admin.html:2377 [22:23:55] ✅ Produto "Banqueta 50 cm" salvo com sucesso
+admin.html:1501 Original product image path: data/images/product_1749429611624_byckyegge.png
+admin.html:1502 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1514 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749429611624_byckyegge.png
+product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432235474
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432235474
+product_1749432231944_5n6zmougz.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432235488
+product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432237509
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432237509
+product_1749432231944_5n6zmougz.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432237524
+product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432239539 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432239539
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432239554 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432239554
+product_1749432231944_5n6zmougz.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432239563 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432239563
+product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:1954
+displayImageGallery @ admin.html:1937
+fillProductForm @ admin.html:1896
+openProductModal @ admin.html:1868
+editProduct @ admin.html:2051
+onclick @ admin.html:1
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:1954
+displayImageGallery @ admin.html:1937
+fillProductForm @ admin.html:1896
+openProductModal @ admin.html:1868
+editProduct @ admin.html:2051
+onclick @ admin.html:1
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png
+product_1749432231944_5n6zmougz.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:1954
+displayImageGallery @ admin.html:1937
+fillProductForm @ admin.html:1896
+openProductModal @ admin.html:1868
+editProduct @ admin.html:2051
+onclick @ admin.html:1
+admin.html:2173 Tentativa 1/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png
+data/images/product_1749432216957_xibbxsjd4.png?v=1749432252274:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432252274 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432252274
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432252275 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432252275
+product_1749432231944_5n6zmougz.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432252275 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2173 Tentativa 2/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432252275
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432255275 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432255275
+product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432255274 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432255274
+product_1749432231944_5n6zmougz.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432255275 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2173 Tentativa 3/3 de carregar imagem: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432255275
+product_1749432225159_u165yznyj.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432258271 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432225159_u165yznyj.png?v=1749432258271
+data/images/product_1749432231944_5n6zmougz.png?v=1749432258272:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432258272 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432231944_5n6zmougz.png?v=1749432258272
+product_1749432216957_xibbxsjd4.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432258272 404 (Not Found)
+Image
+(anônimo) @ admin.html:2177
+setTimeout
+handleImageError @ admin.html:2175
+onerror @ admin.html:1
+admin.html:2180 Imagem não carregou após 3 tentativas: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749432216957_xibbxsjd4.png?v=1749432258272

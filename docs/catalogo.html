@@ -1856,7 +1856,8 @@
         function setupModalColors(product) {
             const colorSection = document.getElementById('modal-color-section');
             const colorOptions = document.getElementById('modal-color-options');
-            const selectedColorText = document.getElementById('modal-selected-color');
+
+            console.log('🎨 Configurando cores do modal:', product.colorVariations);
 
             if (product.colorVariations && product.colorVariations.length > 0) {
                 colorOptions.innerHTML = '';
@@ -1865,6 +1866,8 @@
                     // Find color data from colors array
                     const colorData = catalogClient.colors.find(c => c.name === colorName);
                     const colorCode = colorData ? colorData.code : '#cccccc';
+                    
+                    console.log(`🎨 Adicionando cor: ${colorName} - ${colorCode}`);
                     
                     const colorOption = document.createElement('div');
                     colorOption.className = `color-option ${index === 0 ? 'selected' : ''}`;
@@ -1876,14 +1879,11 @@
                     colorOptions.appendChild(colorOption);
                 });
                 
-                // Select first color by default
-                if (product.colorVariations[0]) {
-                    selectedColorText.textContent = `Cor selecionada: ${product.colorVariations[0]}`;
-                }
-                
                 colorSection.style.display = 'block';
+                console.log('🎨 Seção de cores exibida');
             } else {
                 colorSection.style.display = 'none';
+                console.log('🎨 Produto sem variações de cor');
             }
         }
 

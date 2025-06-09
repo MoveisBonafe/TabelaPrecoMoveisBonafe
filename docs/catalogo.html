@@ -2237,8 +2237,40 @@
         }
 
         function openCheckoutModal() {
+            populatePriceTableOptions();
             populateCheckoutOrderSummary();
             document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function populatePriceTableOptions() {
+            const priceTableSelect = document.getElementById('price-table-select');
+            const userProfile = currentUser?.profile || 'loja';
+            
+            // Clear existing options except the first one
+            priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
+            
+            // Define available price tables for each user profile
+            const priceTablesByProfile = {
+                'loja': [
+                    { value: 'a vista', label: 'À Vista' },
+                    { value: '30', label: '30 dias' },
+                    { value: '30/60', label: '30/60 dias' },
+                    { value: '30/60/90', label: '30/60/90 dias' },
+                    { value: '30/60/90/120', label: '30/60/90/120 dias' }
+                ],
+                'restaurante': [
+                    { value: 'a vista', label: 'À Vista' }
+                ]
+            };
+            
+            const availableTables = priceTablesByProfile[userProfile] || priceTablesByProfile['loja'];
+            
+            availableTables.forEach(table => {
+                const option = document.createElement('option');
+                option.value = table.value;
+                option.textContent = table.label;
+                priceTableSelect.appendChild(option);
+            });
         }
 
         function closeCheckoutModal() {
@@ -2272,7 +2304,7 @@
                         <div class="order-item-name">${item.name}</div>
                         <div class="order-item-info">Cor: ${item.color} | Qtd: ${item.quantity}</div>
                     </div>
-                    <div class="order-item-price">A definir</div>
+                    <div class="order-item-price" id="item-price-${item.id}">-</div>
                 `;
                 
                 summaryContainer.appendChild(orderItem);
@@ -2285,6 +2317,13 @@
             
             if (!priceTable) {
                 totalContainer.textContent = 'R$ 0,00';
+                // Reset individual item prices
+                shoppingCart.forEach(item => {
+                    const itemPriceElement = document.getElementById(`item-price-${item.id}`);
+                    if (itemPriceElement) {
+                        itemPriceElement.textContent = '-';
+                    }
+                });
                 return;
             }
 
@@ -2292,8 +2331,21 @@
             let total = 0;
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.name === item.name);
+                let itemPrice = 0;
+                
                 if (product && product.prices && product.prices[priceTable]) {
-                    total += product.prices[priceTable] * item.quantity;
+                    itemPrice = product.prices[priceTable];
+                    total += itemPrice * item.quantity;
+                }
+                
+                // Update individual item price display
+                const itemPriceElement = document.getElementById(`item-price-${item.id}`);
+                if (itemPriceElement) {
+                    if (itemPrice > 0) {
+                        itemPriceElement.textContent = `R$ ${itemPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                    } else {
+                        itemPriceElement.textContent = 'Indisponível';
+                    }
                 }
             });
 
@@ -2723,11 +2775,7 @@
                         <div class="price-table-selection">
                             <select id="price-table-select" onchange="updateCheckoutTotal()">
                                 <option value="">Selecione a tabela de preços</option>
-                                <option value="varejo">Varejo</option>
-                                <option value="atacado">Atacado</option>
-                                <option value="especial">Especial</option>
-                                <option value="promocional">Promocional</option>
-                                <option value="restaurante">Restaurante</option>
+                                <!-- Options will be populated based on user profile -->
                             </select>
                         </div>
                     </div>
@@ -2746,23 +2794,16 @@
                     <!-- Payment Method -->
                     <div class="checkout-section">
                         <h3>Método de Pagamento</h3>
-                        <div class="payment-methods">
-                            <label class="payment-option">
-                                <input type="radio" name="payment-method" value="pix">
-                                <span>PIX</span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="payment-method" value="cartao">
-                                <span>Cartão de Crédito/Débito</span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="payment-method" value="boleto">
-                                <span>Boleto Bancário</span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="payment-method" value="dinheiro">
-                                <span>Dinheiro</span>
-                            </label>
+                        <div class="payment-method-selection">
+                            <select id="payment-method-select" required>
+                                <option value="">Selecione o método de pagamento</option>
+                                <option value="pix">PIX</option>
+                                <option value="cartao">Cartão de Crédito/Débito</option>
+                                <option value="boleto">Boleto Bancário</option>
+                                <option value="dinheiro">Dinheiro</option>
+                                <option value="duplicata">Duplicata</option>
+                                <option value="cheque">Cheque</option>
+                            </select>
                         </div>
                     </div>
 

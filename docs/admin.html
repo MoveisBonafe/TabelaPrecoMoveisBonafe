@@ -12,18 +12,19 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: #f5f5f5;
             color: #333;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
+        .admin-container {
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        .header {
+        .admin-header {
             background: white;
             padding: 24px;
             border-radius: 12px;
@@ -34,9 +35,20 @@
             align-items: center;
         }
 
-        .status {
+        .admin-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .admin-subtitle {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .status-indicators {
             display: flex;
-            align-items: center;
             gap: 16px;
         }
 
@@ -51,13 +63,14 @@
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
         }
 
         .status-online { background: #48bb78; }
         .status-offline { background: #f56565; }
+        .status-warning { background: #ed8936; }
 
         .tabs {
             display: flex;
@@ -77,12 +90,17 @@
             background: #f8f9fa;
             color: #4a5568;
             font-weight: 500;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .tab.active {
             background: #4299e1;
             color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #e2e8f0;
         }
 
         .tab-content {
@@ -97,13 +115,19 @@
             display: block;
         }
 
-        .section-header {
+        .content-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
             padding-bottom: 16px;
             border-bottom: 2px solid #e2e8f0;
+        }
+
+        .content-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
         }
 
         .btn {
@@ -113,7 +137,11 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-primary {
@@ -123,6 +151,16 @@
 
         .btn-primary:hover {
             background: #3182ce;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
         }
 
         .btn-danger {
@@ -130,27 +168,43 @@
             color: white;
         }
 
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
         .btn-secondary {
             background: #e2e8f0;
             color: #4a5568;
         }
 
-        .grid {
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+
+        .data-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
+            margin-top: 20px;
         }
 
-        .card {
+        .data-card {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             padding: 20px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .card:hover {
+        .data-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
 
         .card-image {
@@ -171,13 +225,36 @@
             object-fit: cover;
         }
 
-        .placeholder-image {
+        .card-placeholder {
             background: #f7fafc;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #a0aec0;
             font-size: 14px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .card-info {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
         }
 
         .modal {
@@ -189,6 +266,7 @@
             height: 100%;
             background: rgba(0,0,0,0.6);
             z-index: 1000;
+            backdrop-filter: blur(4px);
         }
 
         .modal.active {
@@ -205,6 +283,7 @@
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         .modal-header {
@@ -212,6 +291,14 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
         }
 
         .modal-close {
@@ -219,6 +306,15 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
+            color: #a0aec0;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #4a5568;
+            background: #f7fafc;
         }
 
         .form-group {
@@ -229,6 +325,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
+            color: #4a5568;
         }
 
         .form-input,
@@ -239,6 +336,15 @@
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
         }
 
         .form-row {
@@ -281,6 +387,9 @@
             height: 20px;
             cursor: pointer;
             font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .color-list {
@@ -307,15 +416,43 @@
             border: 1px solid #e2e8f0;
         }
 
-        .log-container {
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4299e1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .system-log {
             background: #1a202c;
             color: #e2e8f0;
             border-radius: 8px;
             padding: 16px;
             max-height: 300px;
             overflow-y: auto;
-            font-family: monospace;
+            font-family: 'Monaco', 'Consolas', monospace;
             font-size: 12px;
+            line-height: 1.4;
         }
 
         .empty-state {
@@ -323,92 +460,424 @@
             padding: 60px 20px;
             color: #a0aec0;
         }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .upload-zone {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: #4299e1;
+            background: #f7fafc;
+        }
+
+        .upload-zone.dragover {
+            border-color: #4299e1;
+            background: rgba(66, 153, 225, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #48bb78;
+        }
+
+        .notification.error {
+            background: #f56565;
+        }
+
+        .notification.warning {
+            background: #ed8936;
+        }
+
+        .notification.info {
+            background: #4299e1;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4299e1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4299e1;
+            transition: width 0.3s ease;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .breadcrumb a {
+            color: #4299e1;
+            text-decoration: none;
+        }
+
+        .breadcrumb-separator {
+            color: #a0aec0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #4299e1;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 10px;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .status-indicators {
+                justify-content: center;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <div class="admin-container">
+        <div class="admin-header">
             <div>
-                <h1>MoveisBonafe - Admin Panel</h1>
-                <p style="color: #718096;">Sistema GitHub Pages</p>
+                <h1 class="admin-title">MoveisBonafe Admin Panel</h1>
+                <p class="admin-subtitle">Sistema: GitHub API integrado com fallback localStorage</p>
             </div>
-            <div class="status">
+            <div class="status-indicators">
                 <div class="status-item">
                     <div class="status-dot status-online"></div>
                     <span>Sistema Online</span>
                 </div>
-                <div class="status-item" id="github-status">
-                    <div class="status-dot status-offline" id="github-dot"></div>
-                    <span id="github-text">GitHub Offline</span>
+                <div class="status-item" id="github-status-item">
+                    <div class="status-dot status-offline" id="github-status-dot"></div>
+                    <span id="github-status-text">GitHub Offline</span>
                 </div>
             </div>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('products')">Produtos</button>
-            <button class="tab" onclick="switchTab('categories')">Categorias</button>
-            <button class="tab" onclick="switchTab('colors')">Cores</button>
-            <button class="tab" onclick="switchTab('settings')">Configurações</button>
+            <button class="tab active" onclick="switchTab('produtos')">📦 Produtos</button>
+            <button class="tab" onclick="switchTab('categorias')">📁 Categorias</button>
+            <button class="tab" onclick="switchTab('cores')">🎨 Cores</button>
+            <button class="tab" onclick="switchTab('usuarios')">👥 Usuários</button>
+            <button class="tab" onclick="switchTab('precos')">💰 Preços</button>
+            <button class="tab" onclick="switchTab('promocoes')">🎯 Promoções</button>
+            <button class="tab" onclick="switchTab('monitor')">📊 Monitor</button>
         </div>
 
-        <!-- Products Tab -->
-        <div id="products-tab" class="tab-content active">
-            <div class="section-header">
-                <h2>Gerenciar Produtos</h2>
-                <button class="btn btn-primary" onclick="openProductModal()">Adicionar Produto</button>
-            </div>
-            <div id="products-grid" class="grid">
-                <div class="empty-state">
-                    <div style="font-size: 3rem; margin-bottom: 16px;">📦</div>
-                    <h3>Nenhum produto cadastrado</h3>
-                    <p>Comece adicionando seu primeiro produto</p>
+        <!-- Produtos Tab -->
+        <div id="produtos-tab" class="tab-content active">
+            <div class="content-header">
+                <h2 class="content-title">Gerenciamento de Produtos</h2>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-secondary" onclick="exportProducts()">📥 Exportar</button>
+                    <button class="btn btn-secondary" onclick="importProducts()">📤 Importar</button>
+                    <button class="btn btn-primary" onclick="openProductModal()">➕ Adicionar Produto</button>
                 </div>
             </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-products">0</div>
+                    <div class="stat-label">Total de Produtos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="active-products">0</div>
+                    <div class="stat-label">Produtos Ativos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="products-with-images">0</div>
+                    <div class="stat-label">Com Imagens</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avg-price">R$ 0</div>
+                    <div class="stat-label">Preço Médio</div>
+                </div>
+            </div>
+
+            <div id="produtos-loading" style="text-align: center; padding: 40px;">
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 16px; color: #718096;">Carregando produtos...</p>
+            </div>
+
+            <div id="produtos-content" style="display: none;">
+                <div id="produtos-empty" class="empty-state" style="display: none;">
+                    <div class="empty-state-icon">📦</div>
+                    <h3>Nenhum produto cadastrado</h3>
+                    <p>Comece adicionando produtos ao seu catálogo</p>
+                    <button class="btn btn-primary" onclick="openProductModal()" style="margin-top: 16px;">
+                        Adicionar Primeiro Produto
+                    </button>
+                </div>
+
+                <div id="produtos-grid" class="data-grid"></div>
+            </div>
         </div>
 
-        <!-- Categories Tab -->
-        <div id="categories-tab" class="tab-content">
-            <div class="section-header">
-                <h2>Gerenciar Categorias</h2>
-                <button class="btn btn-primary" onclick="openCategoryModal()">Adicionar Categoria</button>
+        <!-- Categorias Tab -->
+        <div id="categorias-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Gerenciamento de Categorias</h2>
+                <button class="btn btn-primary" onclick="openCategoryModal()">➕ Adicionar Categoria</button>
             </div>
-            <div id="categories-grid" class="grid">
+
+            <div id="categorias-grid" class="data-grid">
                 <div class="empty-state">
-                    <div style="font-size: 3rem; margin-bottom: 16px;">📁</div>
+                    <div class="empty-state-icon">📁</div>
                     <h3>Nenhuma categoria cadastrada</h3>
                     <p>Crie categorias para organizar seus produtos</p>
                 </div>
             </div>
         </div>
 
-        <!-- Colors Tab -->
-        <div id="colors-tab" class="tab-content">
-            <div class="section-header">
-                <h2>Gerenciar Cores</h2>
-                <button class="btn btn-primary" onclick="openColorModal()">Adicionar Cor</button>
+        <!-- Cores Tab -->
+        <div id="cores-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Gerenciamento de Cores</h2>
+                <button class="btn btn-primary" onclick="openColorModal()">➕ Adicionar Cor</button>
             </div>
-            <div id="colors-grid" class="grid"></div>
+
+            <div id="cores-grid" class="data-grid"></div>
         </div>
 
-        <!-- Settings Tab -->
-        <div id="settings-tab" class="tab-content">
-            <div class="section-header">
-                <h2>Configurações</h2>
+        <!-- Usuarios Tab -->
+        <div id="usuarios-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Gerenciamento de Usuários</h2>
+                <button class="btn btn-primary" onclick="openUserModal()">➕ Adicionar Usuário</button>
             </div>
-            
-            <div class="card" style="margin-bottom: 24px;">
-                <h3 style="margin-bottom: 16px;">Configuração GitHub</h3>
-                <div class="form-group">
-                    <label class="form-label">Token GitHub (para upload de imagens):</label>
-                    <input type="password" id="github-token-input" class="form-input" placeholder="Digite seu token GitHub">
-                    <button class="btn btn-primary" onclick="saveGitHubToken()" style="margin-top: 12px;">Salvar Token</button>
+
+            <div id="usuarios-grid" class="data-grid">
+                <div class="empty-state">
+                    <div class="empty-state-icon">👥</div>
+                    <h3>Sistema sem usuários cadastrados</h3>
+                    <p>Configure usuários para acessar o sistema</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Precos Tab -->
+        <div id="precos-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Configuração de Preços</h2>
+                <button class="btn btn-primary" onclick="openPriceModal()">➕ Adicionar Tabela</button>
+            </div>
+
+            <div id="precos-grid" class="data-grid">
+                <div class="empty-state">
+                    <div class="empty-state-icon">💰</div>
+                    <h3>Configurar tabelas de preço</h3>
+                    <p>Defina margens e percentuais para diferentes tipos de cliente</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Promocoes Tab -->
+        <div id="promocoes-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Gerenciamento de Promoções</h2>
+                <button class="btn btn-primary" onclick="openPromotionModal()">➕ Criar Promoção</button>
+            </div>
+
+            <div id="promocoes-grid" class="data-grid">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎯</div>
+                    <h3>Nenhuma promoção ativa</h3>
+                    <p>Crie promoções para destacar ofertas especiais</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monitor Tab -->
+        <div id="monitor-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Monitor do Sistema</h2>
+                <button class="btn btn-secondary" onclick="refreshData()">🔄 Atualizar Dados</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="monitor-products">-</div>
+                    <div class="stat-label">Produtos Ativos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monitor-categories">-</div>
+                    <div class="stat-label">Categorias</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monitor-users">-</div>
+                    <div class="stat-label">Usuários Ativos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monitor-promotions">-</div>
+                    <div class="stat-label">Promoções Ativas</div>
                 </div>
             </div>
 
-            <div class="card">
-                <h3 style="margin-bottom: 16px;">Log do Sistema</h3>
-                <div class="log-container" id="system-log">Sistema iniciado...<br></div>
-                <button class="btn btn-secondary" onclick="clearLog()" style="margin-top: 12px;">Limpar Log</button>
+            <div class="data-card" style="margin-bottom: 24px;">
+                <h3 style="margin-bottom: 16px;">⚙️ Configuração GitHub</h3>
+                <div class="form-group">
+                    <label class="form-label">Token GitHub (para upload de imagens):</label>
+                    <input type="password" id="github-token-input" class="form-input" placeholder="Digite seu token GitHub">
+                    <button class="btn btn-primary" onclick="saveGitHubToken()" style="margin-top: 12px;">
+                        Salvar Token
+                    </button>
+                </div>
+                <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; margin-top: 16px;">
+                    <h4 style="margin-bottom: 8px;">Como obter um token GitHub:</h4>
+                    <ol style="margin-left: 20px; color: #666;">
+                        <li>Acesse GitHub → Settings → Developer settings</li>
+                        <li>Personal access tokens → Tokens (classic)</li>
+                        <li>Generate new token com permissão "repo"</li>
+                        <li>Cole o token aqui</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <h3 style="margin-bottom: 16px;">📋 Log do Sistema</h3>
+                <div class="system-log" id="system-log">
+                    Sistema iniciado...<br>
+                </div>
+                <button class="btn btn-secondary" onclick="clearSystemLog()" style="margin-top: 12px;">
+                    Limpar Log
+                </button>
             </div>
         </div>
     </div>
@@ -417,7 +886,7 @@
     <div id="product-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="product-modal-title">Adicionar Produto</h3>
+                <h3 class="modal-title" id="product-modal-title">Adicionar Produto</h3>
                 <button class="modal-close" onclick="closeProductModal()">&times;</button>
             </div>
             
@@ -468,7 +937,7 @@
                 
                 <div class="form-group">
                     <label class="form-label">Imagens do Produto:</label>
-                    <input type="file" id="product-images" multiple accept="image/*" onchange="handleImageUpload()">
+                    <input type="file" id="product-images" multiple accept="image/*" onchange="handleImageUpload()" style="margin-bottom: 12px;">
                     <div id="image-gallery" class="image-gallery"></div>
                 </div>
                 
@@ -478,14 +947,20 @@
                         <select id="color-select" class="form-select" style="flex: 1;">
                             <option value="">Selecione uma cor</option>
                         </select>
-                        <button type="button" class="btn btn-secondary" onclick="addColorVariation()">Adicionar</button>
+                        <button type="button" class="btn btn-secondary" onclick="addColorVariation()">
+                            Adicionar
+                        </button>
                     </div>
                     <div id="selected-colors" class="color-list"></div>
                 </div>
                 
                 <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
-                    <button type="submit" class="btn btn-primary">Salvar Produto</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Produto
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
@@ -495,7 +970,7 @@
     <div id="category-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="category-modal-title">Adicionar Categoria</h3>
+                <h3 class="modal-title" id="category-modal-title">Adicionar Categoria</h3>
                 <button class="modal-close" onclick="closeCategoryModal()">&times;</button>
             </div>
             
@@ -517,8 +992,12 @@
                 </div>
                 
                 <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
-                    <button type="submit" class="btn btn-primary">Salvar Categoria</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Categoria
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
@@ -528,7 +1007,7 @@
     <div id="color-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="color-modal-title">Adicionar Cor</h3>
+                <h3 class="modal-title" id="color-modal-title">Adicionar Cor</h3>
                 <button class="modal-close" onclick="closeColorModal()">&times;</button>
             </div>
             
@@ -544,64 +1023,125 @@
                 </div>
                 
                 <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
-                    <button type="submit" class="btn btn-primary">Salvar Cor</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeColorModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Cor
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeColorModal()">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // Data store
-        const data = {
+        // Global application state
+        const adminClient = {
             products: [],
             categories: [],
             colors: [],
-            baseUrl: 'https://movieisbonafe.github.io/TabelaPrecoMoveisBonafe'
+            users: [],
+            priceSettings: [],
+            promotions: [],
+            baseUrl: 'https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe',
+            repoOwner: 'moveisbonafe',
+            repoName: 'TabelaPrecoMoveisBonafe'
         };
 
-        let currentProduct = null;
-        let currentCategory = null;
-        let currentColor = null;
+        let currentEditingProduct = null;
+        let currentEditingCategory = null;
+        let currentEditingColor = null;
         let uploadedImages = [];
         let selectedColors = [];
         let categoryImage = null;
 
-        // Initialize
-        async function init() {
-            log('Inicializando sistema...');
-            await loadData();
-            await checkGitHub();
-            renderAll();
-            log('Sistema inicializado');
+        // Clear localStorage cache on load to force fresh data
+        function clearCache() {
+            const keys = ['moveisbonafe_products', 'moveisbonafe_categories', 'moveisbonafe_colors', 
+                         'moveisbonafe_users', 'moveisbonafe_priceSettings', 'moveisbonafe_promotions'];
+            keys.forEach(key => localStorage.removeItem(key));
+            addSystemLog('Cache localStorage limpo - forçando dados frescos');
         }
 
-        // Load data
-        async function loadData() {
+        // Initialize admin system
+        async function initAdmin() {
+            addSystemLog('Inicializando sistema admin...');
+            clearCache();
+            
             try {
-                const [products, categories, colors] = await Promise.all([
-                    fetch(`${data.baseUrl}/data/products.json`).then(r => r.json()).catch(() => []),
-                    fetch(`${data.baseUrl}/data/categories.json`).then(r => r.json()).catch(() => []),
-                    fetch(`${data.baseUrl}/data/colors.json`).then(r => r.json()).catch(() => [])
-                ]);
-
-                data.products = products;
-                data.categories = categories;
-                data.colors = colors;
-
-                log(`Carregados: ${products.length} produtos, ${categories.length} categorias, ${colors.length} cores`);
+                await detectRepositoryInfo();
+                await loadAllData();
+                await checkGitHubToken();
+                renderAllData();
+                updateStats();
+                addSystemLog('Sistema admin inicializado com sucesso');
             } catch (error) {
-                log(`Erro ao carregar dados: ${error.message}`);
+                addSystemLog(`Erro na inicialização: ${error.message}`);
             }
         }
 
-        // Save to GitHub
-        async function saveToGitHub(filename, content) {
+        // Detect repository information
+        async function detectRepositoryInfo() {
+            try {
+                const hostname = window.location.hostname;
+                if (hostname.includes('github.io')) {
+                    const parts = hostname.split('.');
+                    if (parts.length >= 3) {
+                        adminClient.repoOwner = parts[0];
+                        adminClient.repoName = window.location.pathname.split('/')[1] || parts[0] + '.github.io';
+                        adminClient.baseUrl = `https://${hostname}${window.location.pathname.replace(/\/[^\/]*$/, '')}`;
+                        addSystemLog(`🔗 Detectado repositório: ${adminClient.repoOwner}/${adminClient.repoName}`);
+                        return;
+                    }
+                }
+                
+                // Fallback detection
+                const response = await fetch('https://api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe');
+                if (response.ok) {
+                    const repoData = await response.json();
+                    adminClient.repoOwner = repoData.owner.login;
+                    adminClient.repoName = repoData.name;
+                    adminClient.baseUrl = repoData.homepage || `https://${adminClient.repoOwner}.github.io/${adminClient.repoName}`;
+                    addSystemLog(`🔗 Repositório detectado via API: ${adminClient.repoOwner}/${adminClient.repoName}`);
+                }
+            } catch (error) {
+                addSystemLog(`⚠️ Erro ao detectar repositório: ${error.message}`);
+            }
+        }
+
+        // Load all data
+        async function loadAllData() {
+            try {
+                // Always load fresh data from GitHub
+                const [products, categories, colors, users, priceSettings, promotions] = await Promise.all([
+                    fetch(`${adminClient.baseUrl}/data/products.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/categories.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/colors.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/users.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/price_settings.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/promotions.json`).then(r => r.ok ? r.json() : []).catch(() => [])
+                ]);
+
+                adminClient.products = products;
+                adminClient.categories = categories;
+                adminClient.colors = colors;
+                adminClient.users = users;
+                adminClient.priceSettings = priceSettings;
+                adminClient.promotions = promotions;
+
+                addSystemLog(`✅ Dados carregados: ${products.length} produtos, ${categories.length} categorias, ${colors.length} cores, ${users.length} usuários, ${priceSettings.length} tabelas de preço, ${promotions.length} promoções`);
+            } catch (error) {
+                addSystemLog(`❌ Erro ao carregar dados: ${error.message}`);
+            }
+        }
+
+        // Save data to GitHub
+        async function saveToGitHub(filename, data) {
             const token = localStorage.getItem('github_token');
             if (!token) throw new Error('Token GitHub não configurado');
 
             const path = `docs/data/${filename}`;
-            const url = `https://api.github.com/repos/movieisbonafe/TabelaPrecoMoveisBonafe/contents/${path}`;
+            const url = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${path}`;
 
             // Get current SHA
             let sha = null;
@@ -616,8 +1156,8 @@
 
             // Save file
             const payload = {
-                message: `Update ${filename}`,
-                content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))))
+                message: `Update ${filename} - ${new Date().toISOString()}`,
+                content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))))
             };
             if (sha) payload.sha = sha;
 
@@ -630,25 +1170,33 @@
                 body: JSON.stringify(payload)
             });
 
-            if (!resp.ok) throw new Error(`GitHub API error: ${resp.status}`);
+            if (!resp.ok) {
+                const errorData = await resp.text();
+                throw new Error(`GitHub API error: ${resp.status} - ${errorData}`);
+            }
+
+            addSystemLog(`💾 Arquivo ${filename} salvo no GitHub`);
         }
 
-        // Upload image
-        async function uploadImage(file, filename) {
+        // Upload image to GitHub
+        async function uploadImageToGitHub(file, filename) {
             const token = localStorage.getItem('github_token');
             if (!token) throw new Error('Token GitHub não configurado');
 
+            const filePath = `docs/data/images/${filename}`;
+            const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
+
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = async (e) => {
+                reader.onload = async function(e) {
                     try {
                         const content = e.target.result.split(',')[1];
-                        const url = `https://api.github.com/repos/movieisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/images/${filename}`;
-
-                        const resp = await fetch(url, {
+                        
+                        const response = await fetch(apiUrl, {
                             method: 'PUT',
                             headers: {
                                 'Authorization': `token ${token}`,
+                                'Accept': 'application/vnd.github.v3+json',
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
@@ -657,7 +1205,12 @@
                             })
                         });
 
-                        if (!resp.ok) throw new Error(`Upload failed: ${resp.status}`);
+                        if (!response.ok) {
+                            throw new Error(`GitHub API error: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        addSystemLog(`📸 Imagem uploaded: ${filename}`);
                         resolve(`data/images/${filename}`);
                     } catch (error) {
                         reject(error);
@@ -667,80 +1220,98 @@
             });
         }
 
-        // Check GitHub connection
-        async function checkGitHub() {
+        // Check GitHub token
+        async function checkGitHubToken() {
             const token = localStorage.getItem('github_token');
-            const dot = document.getElementById('github-dot');
-            const text = document.getElementById('github-text');
-
+            const statusDot = document.getElementById('github-status-dot');
+            const statusText = document.getElementById('github-status-text');
+            
             if (!token) {
-                dot.className = 'status-dot status-offline';
-                text.textContent = 'Token não configurado';
-                return;
+                statusDot.className = 'status-dot status-offline';
+                statusText.textContent = 'Token não configurado';
+                return false;
             }
 
             try {
-                const resp = await fetch('https://api.github.com/user', {
-                    headers: { 'Authorization': `token ${token}` }
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
                 });
 
-                if (resp.ok) {
-                    dot.className = 'status-dot status-online';
-                    text.textContent = 'GitHub Online';
+                if (response.ok) {
+                    const userData = await response.json();
+                    statusDot.className = 'status-dot status-online';
+                    statusText.textContent = `GitHub Online (${userData.login})`;
+                    addSystemLog(`🔐 Token GitHub válido para usuário: ${userData.login}`);
+                    return true;
                 } else {
-                    dot.className = 'status-dot status-offline';
-                    text.textContent = 'Token inválido';
+                    statusDot.className = 'status-dot status-offline';
+                    statusText.textContent = 'Token inválido';
+                    addSystemLog('❌ Token GitHub inválido');
+                    return false;
                 }
             } catch (error) {
-                dot.className = 'status-dot status-offline';
-                text.textContent = 'Erro de conexão';
+                statusDot.className = 'status-dot status-offline';
+                statusText.textContent = 'Erro de conexão';
+                addSystemLog(`❌ Erro ao verificar token: ${error.message}`);
+                return false;
             }
         }
 
-        // Render functions
-        function renderAll() {
+        // Render all data
+        function renderAllData() {
             renderProducts();
             renderCategories();
             renderColors();
+            renderUsers();
+            renderPriceSettings();
+            renderPromotions();
             populateSelects();
         }
 
+        // Render products
         function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            
-            if (data.products.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div style="font-size: 3rem; margin-bottom: 16px;">📦</div>
-                        <h3>Nenhum produto cadastrado</h3>
-                        <p>Comece adicionando seu primeiro produto</p>
-                    </div>
-                `;
+            const loading = document.getElementById('produtos-loading');
+            const content = document.getElementById('produtos-content');
+            const grid = document.getElementById('produtos-grid');
+            const empty = document.getElementById('produtos-empty');
+
+            loading.style.display = 'none';
+            content.style.display = 'block';
+
+            if (adminClient.products.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
                 return;
             }
 
+            empty.style.display = 'none';
+            grid.style.display = 'grid';
             grid.innerHTML = '';
-            data.products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'card';
 
-                let imageHtml = `<div class="placeholder-image">Sem imagem</div>`;
+            adminClient.products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+
+                let imageHtml = `<div class="card-placeholder">📦<span>Sem imagem</span></div>`;
                 if (product.images && product.images.length > 0) {
-                    const src = product.images[0].startsWith('data:') ? 
+                    const imageSrc = product.images[0].startsWith('data:') ? 
                         product.images[0] : 
-                        `${data.baseUrl}/${product.images[0]}`;
-                    imageHtml = `<img src="${src}" alt="${product.name}" onerror="this.parentNode.innerHTML='<div class=&quot;placeholder-image&quot;>Erro ao carregar</div>'">`;
+                        `${adminClient.baseUrl}/${product.images[0]}`;
+                    imageHtml = `<img src="${imageSrc}" alt="${product.name}" onerror="this.parentNode.innerHTML='<div class=&quot;card-placeholder&quot;>📦<span>Erro ao carregar</span></div>'">`;
                 }
 
                 let colorsHtml = '';
                 if (product.colorVariations && product.colorVariations.length > 0) {
                     colorsHtml = '<div class="color-list" style="margin-top: 12px;">';
                     product.colorVariations.forEach(colorName => {
-                        const color = data.colors.find(c => c.name === colorName);
-                        const code = color ? color.code : '#ccc';
+                        const colorData = adminClient.colors.find(c => c.name === colorName);
+                        const colorCode = colorData ? colorData.code : '#cccccc';
                         colorsHtml += `
                             <div class="color-item">
-                                <div class="color-circle" style="background: ${code};"></div>
+                                <div class="color-circle" style="background: ${colorCode};"></div>
                                 <span style="font-size: 12px;">${colorName}</span>
                             </div>
                         `;
@@ -750,14 +1321,14 @@
 
                 card.innerHTML = `
                     <div class="card-image">${imageHtml}</div>
-                    <h4>${product.name}</h4>
-                    <p><strong>Categoria:</strong> ${product.category}</p>
-                    <p><strong>Preço:</strong> R$ ${(product.priceAVista || 0).toFixed(2)}</p>
-                    <p><strong>Dimensões:</strong> ${product.altura || 0} x ${product.largura || 0} x ${product.comprimento || 0} cm</p>
+                    <div class="card-title">${product.name}</div>
+                    <div class="card-info"><strong>Categoria:</strong> ${product.category}</div>
+                    <div class="card-info"><strong>Preço:</strong> R$ ${(product.priceAVista || 0).toFixed(2)}</div>
+                    <div class="card-info"><strong>Dimensões:</strong> ${product.altura || 0} x ${product.largura || 0} x ${product.comprimento || 0} cm</div>
                     ${colorsHtml}
-                    <div style="display: flex; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;">
-                        <button class="btn btn-primary" onclick="editProduct(${product.id})">Editar</button>
-                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Excluir</button>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editProduct(${product.id})">✏️ Editar</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">🗑️ Excluir</button>
                     </div>
                 `;
                 
@@ -765,13 +1336,14 @@
             });
         }
 
+        // Render categories
         function renderCategories() {
-            const grid = document.getElementById('categories-grid');
+            const grid = document.getElementById('categorias-grid');
             
-            if (data.categories.length === 0) {
+            if (adminClient.categories.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
-                        <div style="font-size: 3rem; margin-bottom: 16px;">📁</div>
+                        <div class="empty-state-icon">📁</div>
                         <h3>Nenhuma categoria cadastrada</h3>
                         <p>Crie categorias para organizar seus produtos</p>
                     </div>
@@ -780,28 +1352,29 @@
             }
 
             grid.innerHTML = '';
-            data.categories.forEach(category => {
-                const card = document.createElement('div');
-                card.className = 'card';
 
-                let imageHtml = `<div class="placeholder-image">Sem imagem</div>`;
+            adminClient.categories.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+
+                let imageHtml = `<div class="card-placeholder">📁<span>Sem imagem</span></div>`;
                 if (category.imageFile) {
-                    const src = category.imageFile.startsWith('data:') ? 
+                    const imageSrc = category.imageFile.startsWith('data:') ? 
                         category.imageFile : 
-                        `${data.baseUrl}/${category.imageFile}`;
-                    imageHtml = `<img src="${src}" alt="${category.name}" onerror="this.parentNode.innerHTML='<div class=&quot;placeholder-image&quot;>Erro ao carregar</div>'">`;
+                        `${adminClient.baseUrl}/${category.imageFile}`;
+                    imageHtml = `<img src="${imageSrc}" alt="${category.name}" onerror="this.parentNode.innerHTML='<div class=&quot;card-placeholder&quot;>📁<span>Erro ao carregar</span></div>'">`;
                 }
 
-                const productCount = data.products.filter(p => p.category === category.name).length;
+                const productCount = adminClient.products.filter(p => p.category === category.name).length;
 
                 card.innerHTML = `
                     <div class="card-image" style="height: 150px;">${imageHtml}</div>
-                    <h4>${category.name}</h4>
-                    <p>${category.description || 'Sem descrição'}</p>
-                    <p><strong>Produtos:</strong> ${productCount}</p>
-                    <div style="display: flex; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;">
-                        <button class="btn btn-primary" onclick="editCategory('${category.id}')">Editar</button>
-                        <button class="btn btn-danger" onclick="deleteCategory('${category.id}')">Excluir</button>
+                    <div class="card-title">${category.name}</div>
+                    <div class="card-info">${category.description || 'Sem descrição'}</div>
+                    <div class="card-info"><strong>Produtos:</strong> ${productCount}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editCategory('${category.id}')">✏️ Editar</button>
+                        <button class="btn btn-danger" onclick="deleteCategory('${category.id}')">🗑️ Excluir</button>
                     </div>
                 `;
                 
@@ -809,25 +1382,26 @@
             });
         }
 
+        // Render colors
         function renderColors() {
-            const grid = document.getElementById('colors-grid');
+            const grid = document.getElementById('cores-grid');
             grid.innerHTML = '';
 
-            data.colors.forEach(color => {
+            adminClient.colors.forEach(color => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'data-card';
                 
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
                         <div class="color-circle" style="background: ${color.code}; width: 40px; height: 40px;"></div>
                         <div>
-                            <h4>${color.name}</h4>
-                            <p style="font-family: monospace; color: #666;">${color.code}</p>
+                            <div class="card-title">${color.name}</div>
+                            <div class="card-info" style="font-family: monospace;">${color.code}</div>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-primary" onclick="editColor('${color.name}')">Editar</button>
-                        <button class="btn btn-danger" onclick="deleteColor('${color.name}')">Excluir</button>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editColor('${color.name}')">✏️ Editar</button>
+                        <button class="btn btn-danger" onclick="deleteColor('${color.name}')">🗑️ Excluir</button>
                     </div>
                 `;
                 
@@ -835,34 +1409,74 @@
             });
         }
 
+        // Render users (placeholder)
+        function renderUsers() {
+            // Implementation for users tab
+        }
+
+        // Render price settings (placeholder)
+        function renderPriceSettings() {
+            // Implementation for price settings tab
+        }
+
+        // Render promotions (placeholder)
+        function renderPromotions() {
+            // Implementation for promotions tab
+        }
+
+        // Populate select elements
         function populateSelects() {
+            // Product category select
             const categorySelect = document.getElementById('product-category');
             categorySelect.innerHTML = '<option value="">Selecione uma categoria</option>';
-            data.categories.forEach(cat => {
-                categorySelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+            adminClient.categories.forEach(category => {
+                categorySelect.innerHTML += `<option value="${category.name}">${category.name}</option>`;
             });
 
+            // Color select
             const colorSelect = document.getElementById('color-select');
             colorSelect.innerHTML = '<option value="">Selecione uma cor</option>';
-            data.colors.forEach(color => {
+            adminClient.colors.forEach(color => {
                 colorSelect.innerHTML += `<option value="${color.name}">${color.name}</option>`;
             });
         }
 
+        // Update statistics
+        function updateStats() {
+            document.getElementById('total-products').textContent = adminClient.products.length;
+            document.getElementById('active-products').textContent = adminClient.products.filter(p => p.active !== false).length;
+            document.getElementById('products-with-images').textContent = adminClient.products.filter(p => p.images && p.images.length > 0).length;
+            
+            const avgPrice = adminClient.products.length > 0 ? 
+                adminClient.products.reduce((sum, p) => sum + (p.priceAVista || 0), 0) / adminClient.products.length : 0;
+            document.getElementById('avg-price').textContent = `R$ ${avgPrice.toFixed(2)}`;
+
+            document.getElementById('monitor-products').textContent = adminClient.products.filter(p => p.active !== false).length;
+            document.getElementById('monitor-categories').textContent = adminClient.categories.length;
+            document.getElementById('monitor-users').textContent = adminClient.users.length;
+            document.getElementById('monitor-promotions').textContent = adminClient.promotions.filter(p => p.active).length;
+        }
+
         // Tab switching
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
             document.getElementById(`${tabName}-tab`).classList.add('active');
             event.target.classList.add('active');
         }
 
-        // Product functions
+        // Product management functions
         function openProductModal(productId = null) {
-            currentProduct = productId ? data.products.find(p => p.id === productId) : null;
+            currentEditingProduct = productId ? adminClient.products.find(p => p.id === productId) : null;
             const title = document.getElementById('product-modal-title');
             
-            if (currentProduct) {
+            if (currentEditingProduct) {
                 title.textContent = 'Editar Produto';
                 fillProductForm();
             } else {
@@ -879,19 +1493,19 @@
         }
 
         function fillProductForm() {
-            if (!currentProduct) return;
+            if (!currentEditingProduct) return;
             
-            document.getElementById('product-name').value = currentProduct.name || '';
-            document.getElementById('product-category').value = currentProduct.category || '';
-            document.getElementById('product-price').value = currentProduct.priceAVista || 0;
-            document.getElementById('product-height').value = currentProduct.altura || '';
-            document.getElementById('product-width').value = currentProduct.largura || '';
-            document.getElementById('product-length').value = currentProduct.comprimento || '';
-            document.getElementById('product-weight').value = currentProduct.peso || '';
-            document.getElementById('product-description').value = currentProduct.description || '';
+            document.getElementById('product-name').value = currentEditingProduct.name || '';
+            document.getElementById('product-category').value = currentEditingProduct.category || '';
+            document.getElementById('product-price').value = currentEditingProduct.priceAVista || 0;
+            document.getElementById('product-height').value = currentEditingProduct.altura || '';
+            document.getElementById('product-width').value = currentEditingProduct.largura || '';
+            document.getElementById('product-length').value = currentEditingProduct.comprimento || '';
+            document.getElementById('product-weight').value = currentEditingProduct.peso || '';
+            document.getElementById('product-description').value = currentEditingProduct.description || '';
             
-            uploadedImages = [...(currentProduct.images || [])];
-            selectedColors = [...(currentProduct.colorVariations || [])];
+            uploadedImages = [...(currentEditingProduct.images || [])];
+            selectedColors = [...(currentEditingProduct.colorVariations || [])];
             displayImageGallery();
             displaySelectedColors();
         }
@@ -911,18 +1525,17 @@
             for (const file of files) {
                 if (file.type.startsWith('image/')) {
                     try {
-                        log(`Uploading image: ${file.name}`);
+                        addSystemLog(`📤 Uploading image: ${file.name}`);
                         const timestamp = Date.now();
                         const filename = `product_${timestamp}_${Math.random().toString(36).substr(2, 9)}.${file.name.split('.').pop()}`;
                         
-                        const imagePath = await uploadImage(file, filename);
+                        const imagePath = await uploadImageToGitHub(file, filename);
                         uploadedImages.push(imagePath);
-                        log(`Image uploaded: ${filename}`);
                         
                         displayImageGallery();
                     } catch (error) {
-                        log(`Error uploading ${file.name}: ${error.message}`);
-                        alert(`Erro no upload de ${file.name}: ${error.message}`);
+                        addSystemLog(`❌ Error uploading ${file.name}: ${error.message}`);
+                        showNotification(`Erro no upload de ${file.name}: ${error.message}`, 'error');
                     }
                 }
             }
@@ -938,7 +1551,7 @@
                 const preview = document.createElement('div');
                 preview.className = 'image-preview';
                 
-                const src = imagePath.startsWith('data:') ? imagePath : `${data.baseUrl}/${imagePath}`;
+                const src = imagePath.startsWith('data:') ? imagePath : `${adminClient.baseUrl}/${imagePath}`;
                 
                 preview.innerHTML = `
                     <img src="${src}" alt="Preview ${index + 1}">
@@ -969,13 +1582,13 @@
             container.innerHTML = '';
             
             selectedColors.forEach(colorName => {
-                const color = data.colors.find(c => c.name === colorName);
-                const code = color ? color.code : '#ccc';
+                const colorData = adminClient.colors.find(c => c.name === colorName);
+                const colorCode = colorData ? colorData.code : '#cccccc';
                 
                 const colorDiv = document.createElement('div');
                 colorDiv.className = 'color-item';
                 colorDiv.innerHTML = `
-                    <div class="color-circle" style="background: ${code};"></div>
+                    <div class="color-circle" style="background: ${colorCode};"></div>
                     <span>${colorName}</span>
                     <button type="button" onclick="removeColor('${colorName}')" style="margin-left: 8px; background: #f56565; color: white; border: none; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 12px;">&times;</button>
                 `;
@@ -992,7 +1605,7 @@
             event.preventDefault();
             
             try {
-                log('Salvando produto...');
+                addSystemLog('💾 Salvando produto...');
                 
                 const productData = {
                     name: document.getElementById('product-name').value,
@@ -1009,28 +1622,30 @@
                     updatedAt: new Date().toISOString()
                 };
 
-                if (currentProduct) {
-                    productData.id = currentProduct.id;
-                    productData.createdAt = currentProduct.createdAt;
+                if (currentEditingProduct) {
+                    productData.id = currentEditingProduct.id;
+                    productData.createdAt = currentEditingProduct.createdAt;
                     
-                    const index = data.products.findIndex(p => p.id === currentProduct.id);
+                    const index = adminClient.products.findIndex(p => p.id === currentEditingProduct.id);
                     if (index !== -1) {
-                        data.products[index] = productData;
+                        adminClient.products[index] = productData;
                     }
                 } else {
                     productData.id = Date.now();
                     productData.createdAt = new Date().toISOString();
-                    data.products.push(productData);
+                    adminClient.products.push(productData);
                 }
 
-                await saveToGitHub('products.json', data.products);
-                log(`Produto "${productData.name}" salvo com sucesso`);
+                await saveToGitHub('products.json', adminClient.products);
+                addSystemLog(`✅ Produto "${productData.name}" salvo com sucesso`);
+                showNotification(`Produto "${productData.name}" salvo com sucesso!`, 'success');
                 closeProductModal();
                 renderProducts();
+                updateStats();
                 
             } catch (error) {
-                log(`Erro ao salvar produto: ${error.message}`);
-                alert('Erro ao salvar produto. Verifique o token GitHub.');
+                addSystemLog(`❌ Erro ao salvar produto: ${error.message}`);
+                showNotification('Erro ao salvar produto. Verifique o token GitHub.', 'error');
             }
         }
 
@@ -1042,21 +1657,25 @@
             if (!confirm('Tem certeza que deseja excluir este produto?')) return;
             
             try {
-                data.products = data.products.filter(p => p.id !== productId);
-                await saveToGitHub('products.json', data.products);
-                log('Produto excluído com sucesso');
+                const product = adminClient.products.find(p => p.id === productId);
+                adminClient.products = adminClient.products.filter(p => p.id !== productId);
+                await saveToGitHub('products.json', adminClient.products);
+                addSystemLog(`🗑️ Produto "${product?.name}" excluído com sucesso`);
+                showNotification('Produto excluído com sucesso!', 'success');
                 renderProducts();
+                updateStats();
             } catch (error) {
-                log(`Erro ao excluir produto: ${error.message}`);
+                addSystemLog(`❌ Erro ao excluir produto: ${error.message}`);
+                showNotification('Erro ao excluir produto.', 'error');
             }
         }
 
-        // Category functions
+        // Category management functions
         function openCategoryModal(categoryId = null) {
-            currentCategory = categoryId ? data.categories.find(c => c.id === categoryId) : null;
+            currentEditingCategory = categoryId ? adminClient.categories.find(c => c.id === categoryId) : null;
             const title = document.getElementById('category-modal-title');
             
-            if (currentCategory) {
+            if (currentEditingCategory) {
                 title.textContent = 'Editar Categoria';
                 fillCategoryForm();
             } else {
@@ -1073,11 +1692,11 @@
         }
 
         function fillCategoryForm() {
-            if (!currentCategory) return;
+            if (!currentEditingCategory) return;
             
-            document.getElementById('category-name').value = currentCategory.name || '';
-            document.getElementById('category-description').value = currentCategory.description || '';
-            categoryImage = currentCategory.imageFile || null;
+            document.getElementById('category-name').value = currentEditingCategory.name || '';
+            document.getElementById('category-description').value = currentEditingCategory.description || '';
+            categoryImage = currentEditingCategory.imageFile || null;
             displayCategoryImagePreview();
         }
 
@@ -1093,17 +1712,15 @@
             
             if (file && file.type.startsWith('image/')) {
                 try {
-                    log(`Uploading category image: ${file.name}`);
+                    addSystemLog(`📤 Uploading category image: ${file.name}`);
                     const timestamp = Date.now();
                     const filename = `category_${timestamp}.${file.name.split('.').pop()}`;
                     
-                    categoryImage = await uploadImage(file, filename);
-                    log(`Category image uploaded: ${filename}`);
-                    
+                    categoryImage = await uploadImageToGitHub(file, filename);
                     displayCategoryImagePreview();
                 } catch (error) {
-                    log(`Error uploading category image: ${error.message}`);
-                    alert(`Erro no upload da imagem: ${error.message}`);
+                    addSystemLog(`❌ Error uploading category image: ${error.message}`);
+                    showNotification(`Erro no upload da imagem: ${error.message}`, 'error');
                 }
             }
         }
@@ -1112,7 +1729,7 @@
             const preview = document.getElementById('category-image-preview');
             
             if (categoryImage) {
-                const src = categoryImage.startsWith('data:') ? categoryImage : `${data.baseUrl}/${categoryImage}`;
+                const src = categoryImage.startsWith('data:') ? categoryImage : `${adminClient.baseUrl}/${categoryImage}`;
                 
                 preview.innerHTML = `
                     <div class="image-preview" style="width: 120px; height: 120px;">
@@ -1134,7 +1751,7 @@
             event.preventDefault();
             
             try {
-                log('Salvando categoria...');
+                addSystemLog('💾 Salvando categoria...');
                 
                 const categoryData = {
                     name: document.getElementById('category-name').value,
@@ -1144,29 +1761,30 @@
                     updatedAt: new Date().toISOString()
                 };
 
-                if (currentCategory) {
-                    categoryData.id = currentCategory.id;
-                    categoryData.createdAt = currentCategory.createdAt;
+                if (currentEditingCategory) {
+                    categoryData.id = currentEditingCategory.id;
+                    categoryData.createdAt = currentEditingCategory.createdAt;
                     
-                    const index = data.categories.findIndex(c => c.id === currentCategory.id);
+                    const index = adminClient.categories.findIndex(c => c.id === currentEditingCategory.id);
                     if (index !== -1) {
-                        data.categories[index] = categoryData;
+                        adminClient.categories[index] = categoryData;
                     }
                 } else {
                     categoryData.id = Date.now().toString();
                     categoryData.createdAt = new Date().toISOString();
-                    data.categories.push(categoryData);
+                    adminClient.categories.push(categoryData);
                 }
 
-                await saveToGitHub('categories.json', data.categories);
-                log(`Categoria "${categoryData.name}" salva com sucesso`);
+                await saveToGitHub('categories.json', adminClient.categories);
+                addSystemLog(`✅ Categoria "${categoryData.name}" salva com sucesso`);
+                showNotification(`Categoria "${categoryData.name}" salva com sucesso!`, 'success');
                 closeCategoryModal();
                 renderCategories();
                 populateSelects();
                 
             } catch (error) {
-                log(`Erro ao salvar categoria: ${error.message}`);
-                alert('Erro ao salvar categoria. Verifique o token GitHub.');
+                addSystemLog(`❌ Erro ao salvar categoria: ${error.message}`);
+                showNotification('Erro ao salvar categoria. Verifique o token GitHub.', 'error');
             }
         }
 
@@ -1178,22 +1796,25 @@
             if (!confirm('Tem certeza que deseja excluir esta categoria?')) return;
             
             try {
-                data.categories = data.categories.filter(c => c.id !== categoryId);
-                await saveToGitHub('categories.json', data.categories);
-                log('Categoria excluída com sucesso');
+                const category = adminClient.categories.find(c => c.id === categoryId);
+                adminClient.categories = adminClient.categories.filter(c => c.id !== categoryId);
+                await saveToGitHub('categories.json', adminClient.categories);
+                addSystemLog(`🗑️ Categoria "${category?.name}" excluída com sucesso`);
+                showNotification('Categoria excluída com sucesso!', 'success');
                 renderCategories();
                 populateSelects();
             } catch (error) {
-                log(`Erro ao excluir categoria: ${error.message}`);
+                addSystemLog(`❌ Erro ao excluir categoria: ${error.message}`);
+                showNotification('Erro ao excluir categoria.', 'error');
             }
         }
 
-        // Color functions
+        // Color management functions
         function openColorModal(colorName = null) {
-            currentColor = colorName ? data.colors.find(c => c.name === colorName) : null;
+            currentEditingColor = colorName ? adminClient.colors.find(c => c.name === colorName) : null;
             const title = document.getElementById('color-modal-title');
             
-            if (currentColor) {
+            if (currentEditingColor) {
                 title.textContent = 'Editar Cor';
                 fillColorForm();
             } else {
@@ -1210,10 +1831,10 @@
         }
 
         function fillColorForm() {
-            if (!currentColor) return;
+            if (!currentEditingColor) return;
             
-            document.getElementById('color-name').value = currentColor.name || '';
-            document.getElementById('color-code').value = currentColor.code || '#000000';
+            document.getElementById('color-name').value = currentEditingColor.name || '';
+            document.getElementById('color-code').value = currentEditingColor.code || '#000000';
         }
 
         function clearColorForm() {
@@ -1224,31 +1845,32 @@
             event.preventDefault();
             
             try {
-                log('Salvando cor...');
+                addSystemLog('💾 Salvando cor...');
                 
                 const colorData = {
                     name: document.getElementById('color-name').value,
                     code: document.getElementById('color-code').value
                 };
 
-                if (currentColor) {
-                    const index = data.colors.findIndex(c => c.name === currentColor.name);
+                if (currentEditingColor) {
+                    const index = adminClient.colors.findIndex(c => c.name === currentEditingColor.name);
                     if (index !== -1) {
-                        data.colors[index] = colorData;
+                        adminClient.colors[index] = colorData;
                     }
                 } else {
-                    data.colors.push(colorData);
+                    adminClient.colors.push(colorData);
                 }
 
-                await saveToGitHub('colors.json', data.colors);
-                log(`Cor "${colorData.name}" salva com sucesso`);
+                await saveToGitHub('colors.json', adminClient.colors);
+                addSystemLog(`✅ Cor "${colorData.name}" salva com sucesso`);
+                showNotification(`Cor "${colorData.name}" salva com sucesso!`, 'success');
                 closeColorModal();
                 renderColors();
                 populateSelects();
                 
             } catch (error) {
-                log(`Erro ao salvar cor: ${error.message}`);
-                alert('Erro ao salvar cor. Verifique o token GitHub.');
+                addSystemLog(`❌ Erro ao salvar cor: ${error.message}`);
+                showNotification('Erro ao salvar cor. Verifique o token GitHub.', 'error');
             }
         }
 
@@ -1260,30 +1882,32 @@
             if (!confirm('Tem certeza que deseja excluir esta cor?')) return;
             
             try {
-                data.colors = data.colors.filter(c => c.name !== colorName);
-                await saveToGitHub('colors.json', data.colors);
-                log('Cor excluída com sucesso');
+                adminClient.colors = adminClient.colors.filter(c => c.name !== colorName);
+                await saveToGitHub('colors.json', adminClient.colors);
+                addSystemLog(`🗑️ Cor "${colorName}" excluída com sucesso`);
+                showNotification('Cor excluída com sucesso!', 'success');
                 renderColors();
                 populateSelects();
             } catch (error) {
-                log(`Erro ao excluir cor: ${error.message}`);
+                addSystemLog(`❌ Erro ao excluir cor: ${error.message}`);
+                showNotification('Erro ao excluir cor.', 'error');
             }
         }
 
-        // Settings
+        // Settings functions
         async function saveGitHubToken() {
             const token = document.getElementById('github-token-input').value.trim();
             if (token) {
                 localStorage.setItem('github_token', token);
-                log('Token GitHub salvo');
-                await checkGitHub();
+                addSystemLog('🔐 Token GitHub salvo');
+                await checkGitHubToken();
                 document.getElementById('github-token-input').value = '';
-                alert('Token GitHub salvo com sucesso!');
+                showNotification('Token GitHub salvo com sucesso!', 'success');
             }
         }
 
         // Utility functions
-        function log(message) {
+        function addSystemLog(message) {
             const logEl = document.getElementById('system-log');
             const time = new Date().toLocaleTimeString();
             logEl.innerHTML += `[${time}] ${message}<br>`;
@@ -1291,12 +1915,64 @@
             console.log(`[${time}] ${message}`);
         }
 
-        function clearLog() {
+        function clearSystemLog() {
             document.getElementById('system-log').innerHTML = 'Log limpo...<br>';
         }
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', init);
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        async function refreshData() {
+            addSystemLog('🔄 Atualizando dados...');
+            await loadAllData();
+            renderAllData();
+            updateStats();
+            addSystemLog('✅ Dados atualizados');
+            showNotification('Dados atualizados com sucesso!', 'success');
+        }
+
+        // Placeholder functions for other features
+        function exportProducts() {
+            addSystemLog('📥 Função de exportar produtos em desenvolvimento');
+            showNotification('Função em desenvolvimento', 'info');
+        }
+
+        function importProducts() {
+            addSystemLog('📤 Função de importar produtos em desenvolvimento');
+            showNotification('Função em desenvolvimento', 'info');
+        }
+
+        function openUserModal() {
+            addSystemLog('👥 Função de gerenciar usuários em desenvolvimento');
+            showNotification('Função em desenvolvimento', 'info');
+        }
+
+        function openPriceModal() {
+            addSystemLog('💰 Função de configurar preços em desenvolvimento');
+            showNotification('Função em desenvolvimento', 'info');
+        }
+
+        function openPromotionModal() {
+            addSystemLog('🎯 Função de criar promoções em desenvolvimento');
+            showNotification('Função em desenvolvimento', 'info');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initAdmin);
+
+        console.log('MoveisBonafe Admin Panel - GitHub Pages');
+        console.log('Sistema: GitHub API integrado com fallback localStorage');
     </script>
 </body>
 </html>

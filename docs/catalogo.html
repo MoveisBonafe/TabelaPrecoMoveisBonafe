@@ -1740,7 +1740,11 @@
             // Setup colors
             setupModalColors(product);
             
-
+            // Setup dimensions
+            setupModalDimensions(product);
+            
+            // Initialize expandable sections
+            initializeExpandableSections();
             
             // Show modal
             document.getElementById('product-detail-modal').classList.add('active');
@@ -1748,7 +1752,7 @@
             
             // Setup swipe events after modal is fully rendered
             setTimeout(() => {
-                setupSwipeEvents();
+                setupSwipeForColors();
             }, 300);
         }
 
@@ -2497,6 +2501,21 @@
                 if (mainImage) {
                     mainImage.src = imageToShow;
                 }
+            }
+        }
+
+        // Load cart from localStorage
+        function loadCart() {
+            try {
+                const savedCart = localStorage.getItem('moveisbonafe_shoppingCart');
+                if (savedCart) {
+                    shoppingCart = JSON.parse(savedCart);
+                    updateCartCount();
+                    console.log('✅ Carrinho carregado:', shoppingCart.length, 'itens');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao carregar carrinho:', error);
+                shoppingCart = [];
             }
         }
 
@@ -3949,15 +3968,21 @@
                         console.log('Available colors:', colors.map(c => c.name));
                         console.log('Full color objects:', colors);
                         
+                        // Reset and populate available colors for swipe
+                        availableColors = [];
+                        
                         product.colorVariations.forEach((colorName, index) => {
                             const colorData = colors.find(c => c.name === colorName);
                             console.log('Looking for color:', colorName, 'Found:', colorData);
                             if (colorData) {
+                                // Add to available colors for swipe
+                                availableColors.push(colorData);
+                                
                                 const colorDiv = document.createElement('div');
                                 colorDiv.className = `modal-color-option ${index === 0 ? 'selected' : ''}`;
                                 colorDiv.style.backgroundColor = colorData.code;
                                 colorDiv.title = colorData.name;
-                                colorDiv.onclick = () => selectModalColor(colorData, colorDiv);
+                                colorDiv.onclick = () => selectModalColor(colorData, colorDiv, index);
                                 colorOptions.appendChild(colorDiv);
                                 console.log('Added color option for:', colorData.name, colorData.code);
                             } else {
@@ -3975,13 +4000,17 @@
                     } else {
                         // Show all available colors if product doesn't have specific variations
                         console.log('Product has no color variations, showing all available colors');
+                        
+                        // Reset and populate available colors for swipe
+                        availableColors = [...colors];
+                        
                         colors.forEach((colorData, index) => {
                             console.log('Adding color option:', colorData.name, colorData.code);
                             const colorDiv = document.createElement('div');
                             colorDiv.className = `modal-color-option ${index === 0 ? 'selected' : ''}`;
                             colorDiv.style.backgroundColor = colorData.code;
                             colorDiv.title = colorData.name;
-                            colorDiv.onclick = () => selectModalColor(colorData, colorDiv);
+                            colorDiv.onclick = () => selectModalColor(colorData, colorDiv, index);
                             colorOptions.appendChild(colorDiv);
                         });
                         
@@ -4016,7 +4045,53 @@
             }
         }
 
-        function selectModalColor(colorData, colorElement) {
+        function setupModalDimensions(product) {
+            const dimensionsContainer = document.getElementById('modal-dimensions');
+            dimensionsContainer.innerHTML = '';
+            
+            if (!product.dimensions) {
+                return;
+            }
+            
+            // Create dimension items
+            Object.entries(product.dimensions).forEach(([key, value]) => {
+                const dimensionDiv = document.createElement('div');
+                dimensionDiv.className = 'dimension-item';
+                
+                let label = key;
+                switch(key.toLowerCase()) {
+                    case 'width': label = 'Largura'; break;
+                    case 'height': label = 'Altura'; break;
+                    case 'depth': label = 'Profundidade'; break;
+                    case 'weight': label = 'Peso'; break;
+                }
+                
+                dimensionDiv.textContent = `${label}: ${value}`;
+                dimensionsContainer.appendChild(dimensionDiv);
+            });
+        }
+
+        function initializeExpandableSections() {
+            // Initialize all sections as collapsed
+            const sections = ['description', 'dimensions'];
+            sections.forEach(sectionId => {
+                const content = document.getElementById(`${sectionId}-content`);
+                const icon = document.getElementById(`${sectionId}-icon`);
+                
+                if (content && icon) {
+                    content.classList.add('collapsed');
+                    content.classList.remove('expanded');
+                    icon.classList.remove('expanded');
+                }
+            });
+        }
+
+        function selectModalColor(colorData, colorElement, index) {
+            // Update current color index for swipe functionality
+            if (typeof index !== 'undefined') {
+                currentColorIndex = index;
+            }
+            
             // Remove previous selection
             document.querySelectorAll('.modal-color-option').forEach(option => {
                 option.classList.remove('selected');

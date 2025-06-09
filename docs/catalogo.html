@@ -1746,10 +1746,10 @@
             document.getElementById('product-detail-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Setup swipe events after modal is shown
+            // Setup swipe events after modal is fully rendered
             setTimeout(() => {
                 setupSwipeEvents();
-            }, 100);
+            }, 300);
         }
 
         function setupModalImages(product) {
@@ -1925,10 +1925,25 @@
 
         function setupSwipeEvents() {
             const imageContainer = document.querySelector('.main-image-container');
-            if (!imageContainer) return;
+            if (!imageContainer) {
+                console.log('⚠️ Container de imagem não encontrado para swipe');
+                return;
+            }
 
-            imageContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
-            imageContainer.addEventListener('touchmove', handleTouchMove, { passive: true });
+            console.log('👆 Configurando eventos de swipe no container:', imageContainer);
+
+            // Remove existing listeners to avoid duplicates
+            imageContainer.removeEventListener('touchstart', handleTouchStart);
+            imageContainer.removeEventListener('touchmove', handleTouchMove);
+            imageContainer.removeEventListener('touchend', handleTouchEnd);
+            imageContainer.removeEventListener('mousedown', handleMouseStart);
+            imageContainer.removeEventListener('mousemove', handleMouseMove);
+            imageContainer.removeEventListener('mouseup', handleMouseEnd);
+            imageContainer.removeEventListener('mouseleave', handleMouseEnd);
+
+            // Add new listeners
+            imageContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+            imageContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
             imageContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
             
             // Mouse events for desktop
@@ -1936,11 +1951,14 @@
             imageContainer.addEventListener('mousemove', handleMouseMove);
             imageContainer.addEventListener('mouseup', handleMouseEnd);
             imageContainer.addEventListener('mouseleave', handleMouseEnd);
+            
+            console.log('✅ Eventos de swipe configurados');
         }
 
         function handleTouchStart(e) {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
+            console.log('👆 Touch start:', startX, startY);
         }
 
         function handleTouchMove(e) {
@@ -1952,15 +1970,21 @@
             const diffX = startX - currentX;
             const diffY = startY - currentY;
             
+            console.log('👆 Touch move - diffX:', diffX, 'diffY:', diffY);
+            
             // Only process horizontal swipes
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
                 e.preventDefault();
+                
+                console.log('👆 Swipe detectado!');
                 
                 if (diffX > 0) {
                     // Swipe left - next color
+                    console.log('👆 Swipe left - próxima cor');
                     nextColor();
                 } else {
                     // Swipe right - previous color
+                    console.log('👆 Swipe right - cor anterior');
                     previousColor();
                 }
                 
@@ -2004,13 +2028,18 @@
         }
 
         function nextColor() {
-            if (!currentModalProduct || !currentModalProduct.colorVariations) return;
+            if (!currentModalProduct || !currentModalProduct.colorVariations || currentModalProduct.colorVariations.length <= 1) {
+                console.log('⚠️ NextColor: Produto sem cores ou cor única');
+                return;
+            }
             
             const colors = currentModalProduct.colorVariations;
             const currentColorElement = document.querySelector('#modal-color-options .color-option.selected .color-name');
             const currentColor = currentColorElement ? currentColorElement.textContent : colors[0];
             const currentIndex = colors.indexOf(currentColor);
             const nextIndex = (currentIndex + 1) % colors.length;
+            
+            console.log(`👆 Swipe: ${currentColor} → ${colors[nextIndex]}`);
             
             const nextColorElement = Array.from(document.querySelectorAll('#modal-color-options .color-option')).find(el => 
                 el.querySelector('.color-name').textContent === colors[nextIndex]
@@ -2022,13 +2051,18 @@
         }
 
         function previousColor() {
-            if (!currentModalProduct || !currentModalProduct.colorVariations) return;
+            if (!currentModalProduct || !currentModalProduct.colorVariations || currentModalProduct.colorVariations.length <= 1) {
+                console.log('⚠️ PreviousColor: Produto sem cores ou cor única');
+                return;
+            }
             
             const colors = currentModalProduct.colorVariations;
             const currentColorElement = document.querySelector('#modal-color-options .color-option.selected .color-name');
             const currentColor = currentColorElement ? currentColorElement.textContent : colors[0];
             const currentIndex = colors.indexOf(currentColor);
             const prevIndex = currentIndex <= 0 ? colors.length - 1 : currentIndex - 1;
+            
+            console.log(`👆 Swipe: ${currentColor} ← ${colors[prevIndex]}`);
             
             const prevColorElement = Array.from(document.querySelectorAll('#modal-color-options .color-option')).find(el => 
                 el.querySelector('.color-name').textContent === colors[prevIndex]

@@ -1706,7 +1706,10 @@
         // Initialize application
         const catalogClient = new CatalogClient();
         document.addEventListener('DOMContentLoaded', () => {
-            catalogClient.init().catch(error => {
+            catalogClient.init().then(() => {
+                console.log('✅ Catálogo inicializado');
+                loadCart(); // Carregar carrinho salvo
+            }).catch(error => {
                 console.error('❌ Erro na inicialização:', error);
                 alert('Erro ao carregar o catálogo. Tente novamente.');
             });

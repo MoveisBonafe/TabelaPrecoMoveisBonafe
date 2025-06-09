@@ -1542,7 +1542,7 @@
                     <div class="card-image">${imageHtml}</div>
                     <div class="card-title">${product.name}</div>
                     <div class="card-info"><strong>Categoria:</strong> ${product.category}</div>
-                    <div class="card-info"><strong>Preço:</strong> R$ ${(product.priceAVista || 0).toFixed(2)}</div>
+                    <div class="card-info"><strong>Preço:</strong> R$ ${Number(product.priceAVista || 0).toFixed(2)}</div>
                     <div class="card-info"><strong>Dimensões:</strong> ${product.altura || 0} x ${product.largura || 0} x ${product.comprimento || 0} cm</div>
                     ${colorsHtml}
                     <div class="card-actions">
@@ -1796,7 +1796,7 @@
                     </div>
                     <div class="card-info" style="margin-bottom: 8px;">${promotion.description}</div>
                     <div class="card-info"><strong>Tipo:</strong> ${promotion.type === 'percentage' ? 'Desconto percentual' : 'Desconto fixo'}</div>
-                    <div class="card-info"><strong>Valor:</strong> ${promotion.type === 'percentage' ? promotion.value + '%' : 'R$ ' + promotion.value.toFixed(2)}</div>
+                    <div class="card-info"><strong>Valor:</strong> ${promotion.type === 'percentage' ? promotion.value + '%' : 'R$ ' + Number(promotion.value || 0).toFixed(2)}</div>
                     <div class="card-info"><strong>Período:</strong> ${startDate.toLocaleDateString('pt-BR')} até ${endDate.toLocaleDateString('pt-BR')}</div>
                     <div class="card-info"><strong>Aplicável a:</strong> ${promotion.categories?.length ? promotion.categories.join(', ') : 'Todas as categorias'}</div>
                     <div class="card-info"><strong>Criado em:</strong> ${new Date(promotion.createdAt).toLocaleDateString('pt-BR')}</div>
@@ -1838,7 +1838,7 @@
             
             const avgPrice = adminClient.products.length > 0 ? 
                 adminClient.products.reduce((sum, p) => sum + (parseFloat(p.priceAVista) || 0), 0) / adminClient.products.length : 0;
-            document.getElementById('avg-price').textContent = `R$ ${(avgPrice || 0).toFixed(2)}`;
+            document.getElementById('avg-price').textContent = `R$ ${Number(avgPrice || 0).toFixed(2)}`;
 
             document.getElementById('monitor-products').textContent = adminClient.products.filter(p => p.active !== false).length;
             document.getElementById('monitor-categories').textContent = adminClient.categories.length;

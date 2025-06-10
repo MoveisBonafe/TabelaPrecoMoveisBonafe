@@ -1869,10 +1869,7 @@
             });
         });
 
-        // Global variables for modal image navigation
-        let currentModalImageIndex = 0;
-        let currentModalProduct = null;
-        let modalImages = [];
+        // Remove duplicate declarations - variables already declared earlier
 
         // Product modal image navigation functions
         function openProductDetailModal(product) {
@@ -2298,6 +2295,23 @@
             const message = `Olá! Tenho interesse no produto:\n\n*${currentModalProduct.name}*\nCor: ${selectedColor}\nQuantidade: ${quantity}\n\nPoderia me enviar mais informações?`;
             const whatsappUrl = `https://wa.me/5514998450972?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+        }
+
+        function openCartModal() {
+            const modal = document.getElementById('cart-modal');
+            if (modal) {
+                renderCartItems();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeCartModal() {
+            const modal = document.getElementById('cart-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         // Checkout functionality
@@ -5023,6 +5037,10 @@
 
         function setupModalDimensions(product) {
             const dimensionsContainer = document.getElementById('modal-dimensions');
+            if (!dimensionsContainer) {
+                console.warn('Dimensions container not found');
+                return;
+            }
             dimensionsContainer.innerHTML = '';
             
             console.log('Setting up dimensions for product:', product.name);

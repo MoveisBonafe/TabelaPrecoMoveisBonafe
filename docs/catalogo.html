@@ -5745,19 +5745,32 @@
             const customerCep = document.getElementById('customer-cep').value;
             const customerNeighborhood = document.getElementById('customer-neighborhood').value;
             const customerNumber = document.getElementById('customer-number').value;
+            const customerCity = document.getElementById('customer-city').value;
+            const customerState = document.getElementById('customer-state').value;
+            const customerComplement = document.getElementById('customer-complement').value;
             
             // Build WhatsApp message with order details
-            let message = `🛍️ *NOVO PEDIDO - ${customerName}*\n\n`;
+            let message = `🛒 *NOVO PEDIDO - ${customerName}*\n\n`;
             message += `📞 *Telefone:* ${customerPhone}\n`;
-            message += `📍 *Endereço:* ${customerAddress}, ${customerNumber}\n`;
-            message += `🏘️ *Bairro:* ${customerNeighborhood}\n`;
-            message += `📮 *CEP:* ${customerCep}\n`;
+            
+            // Add delivery option first
+            const isPickup = document.getElementById('pickup') && document.getElementById('pickup').checked;
+            message += `🚚 *Entrega:* ${isPickup ? 'Retirada no Local' : 'Entrega'}\n`;
+            
+            // Add address only for delivery
+            if (!isPickup) {
+                message += `📍 *Endereço:* ${customerAddress}${customerNumber ? ', ' + customerNumber : ''}\n`;
+                message += `🏘️ *Bairro:* ${customerNeighborhood}\n`;
+                message += `🏙️ *Cidade:* ${customerCity}\n`;
+                message += `🗺️ *Estado:* ${customerState}\n`;
+                if (customerComplement) {
+                    message += `🏠 *Complemento:* ${customerComplement}\n`;
+                }
+                message += `📮 *CEP:* ${customerCep}\n`;
+            }
+            
             message += `💳 *Forma de Pagamento:* ${paymentMethod}\n`;
             message += `📊 *Tabela de Preços:* ${priceTable}\n\n`;
-            
-            // Add delivery option
-            const isPickup = document.getElementById('pickup') && document.getElementById('pickup').checked;
-            message += `🚚 *Entrega:* ${isPickup ? 'Retirada no Local' : 'Entrega'}\n\n`;
             
             // Add items
             message += `📦 *ITENS DO PEDIDO:*\n`;
@@ -5877,28 +5890,26 @@
                 }
                 
                 cartItemDiv.innerHTML = `
-                    <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" onerror="handleImageError(this)">
-                    <div class="cart-item-details">
-                        <div class="cart-item-header">
-                            <div class="cart-item-name">${item.name}</div>
-                        </div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-color">Cor: ${item.color}</div>
-                            <div class="cart-item-quantity-display">Qtd: ${item.quantity}</div>
-                        </div>
-                        <div class="cart-item-controls">
-                            <div class="cart-item-quantity">
-                                <button onclick="updateCartItemQuantity('${item.id}', -1)">−</button>
-                                <input type="number" value="${item.quantity}" min="1" onchange="setCartItemQuantity('${item.id}', this.value)">
-                                <button onclick="updateCartItemQuantity('${item.id}', 1)">+</button>
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #f3f4f6;">
+                        <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" onerror="handleImageError(this)" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #f0f0f0; flex-shrink: 0;">
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div class="cart-item-name" style="font-weight: 600; color: #111827; font-size: 0.95rem; margin-bottom: 4px;">${item.name}</div>
+                                    <div class="cart-item-color" style="font-size: 0.85rem; color: #6b7280;">Cor: ${item.color}</div>
+                                    <div class="cart-item-quantity-display" style="font-size: 0.85rem; color: #6b7280; margin-top: 2px;">Qtd: ${item.quantity}</div>
+                                </div>
+                                <button class="cart-item-remove" onclick="removeCartItem('${item.id}')" style="background: none; border: none; color: #9ca3af; cursor: pointer; padding: 4px; font-size: 18px; line-height: 1;">×</button>
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center; margin-top: 8px;">
+                                <div class="cart-item-quantity" style="display: flex; align-items: center; gap: 0; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+                                    <button onclick="updateCartItemQuantity('${item.id}', -1)" style="width: 44px; height: 44px; border: none; background: #f9fafb; cursor: pointer; font-size: 20px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #374151;">−</button>
+                                    <input type="number" value="${item.quantity}" min="1" onchange="setCartItemQuantity('${item.id}', this.value)" style="width: 60px; height: 44px; text-align: center; border: none; background: white; font-size: 1rem; font-weight: 600; color: #111827;">
+                                    <button onclick="updateCartItemQuantity('${item.id}', 1)" style="width: 44px; height: 44px; border: none; background: #f9fafb; cursor: pointer; font-size: 20px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #374151;">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <button class="cart-item-remove" onclick="removeCartItem('${item.id}')">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
                 `;
                 
                 cartItemsContainer.appendChild(cartItemDiv);

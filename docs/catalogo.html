@@ -493,6 +493,34 @@
             overflow: hidden;
             position: relative;
         }
+
+        .ver-produto-btn-overlay {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .product-card:hover .ver-produto-btn-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ver-produto-btn-overlay:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
         
         .product-image img {
             width: 100%;
@@ -1570,74 +1598,19 @@
                 const prices = this.calculatePrices(product);
                 const productImage = this.getProductImage(product);
 
-                // Para usuários restaurante, mostrar banner dourado especial
-                if (this.userType === 'restaurante') {
-                    return `
-                        <div class="product-image">${productImage}</div>
-                        <div class="product-info">
-                            <div class="product-name">${product.name}</div>
-                            <div class="product-category">${product.category}</div>
-                            <div class="restaurant-price-banner">
-                                <div class="golden-banner">
-                                    <span class="banner-icon">💰</span>
-                                    <span class="banner-text">Preço Especial Restaurante</span>
-                                </div>
-                                <div class="special-price">
-                                    <span class="price-label">Pagamento à Vista</span>
-                                    <span class="special-price-value">R$ ${prices.vista.toFixed(2)}</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    `;
-                }
-
-                // Para lojas, mostrar layout de tabela de preços (2 por linha)
-                if (this.userType === 'loja') {
-                    return `
-                        <div class="product-image">${productImage}</div>
-                        <div class="product-info">
-                            <div class="product-name">${product.name}</div>
-                            <div class="product-category">${product.category}</div>
-                            <div class="price-table-grid">
-                                <div class="price-cell">
-                                    <div class="price-header">À Vista</div>
-                                    <div class="price-value-large">R$ ${prices.vista.toFixed(2)}</div>
-                                </div>
-                                <div class="price-cell">
-                                    <div class="price-header">30</div>
-                                    <div class="price-value-large">R$ ${prices.prazo30.toFixed(2)}</div>
-                                </div>
-                                <div class="price-cell">
-                                    <div class="price-header">30/60</div>
-                                    <div class="price-value-large">R$ ${prices.prazo3060.toFixed(2)}</div>
-                                </div>
-                                <div class="price-cell">
-                                    <div class="price-header">30/60/90</div>
-                                    <div class="price-value-large">R$ ${prices.prazo306090.toFixed(2)}</div>
-                                </div>
-                                <div class="price-cell full-width">
-                                    <div class="price-header">30/60/90/120</div>
-                                    <div class="price-value-large">R$ ${prices.prazo30606090120.toFixed(2)}</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // Para outros usuários, mostrar design atualizado com cores e botão amarelo
+                // Novo design uniforme para todos os tipos de usuário
                 const colorCircles = this.getProductColors(product);
                 const categoryLabel = product.category || 'Categoria';
                 const dimensions = this.getProductDimensions(product);
                 
                 return `
-                    <div class="product-image">${productImage}</div>
+                    <div class="product-image">
+                        ${productImage}
+                        <button class="ver-produto-btn-overlay" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
+                    </div>
                     <div class="product-info">
                         <div class="product-category-badge">${categoryLabel}</div>
-                        <div class="product-header">
-                            <div class="product-name">${product.name}</div>
-                            <button class="ver-produto-btn" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
-                        </div>
+                        <div class="product-name">${product.name}</div>
                         <div class="product-dimensions">
                             ${dimensions}
                         </div>

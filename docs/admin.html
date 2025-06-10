@@ -1272,7 +1272,7 @@
         </div>
     </div>
 
-    <script src="./image-sync-fix.js"></script>
+    <script src="./simple-image-manager.js"></script>
     <script>
         // Global application state
         const adminClient = {
@@ -1562,28 +1562,15 @@
                         console.log('GitHub API Success:', result);
                         addSystemLog(`✅ Imagem salva no GitHub: ${result.content?.path || filename}`);
                         
-                        // Store in memory cache only - no localStorage issues
+                        // Store using simple image manager
                         const base64Data = e.target.result;
+                        if (window.simpleImageManager) {
+                            window.simpleImageManager.store(filename, base64Data);
+                        }
                         
-                        // Initialize memory cache
+                        // Backup memory cache
                         if (!window.imageMemoryCache) window.imageMemoryCache = {};
                         window.imageMemoryCache[filename] = base64Data;
-                        
-                        // Use ImageSyncManager if available
-                        if (window.imageSyncManager) {
-                            window.imageSyncManager.storeUpload(filename, base64Data);
-                        }
-                        } catch (quotaError) {
-                            console.warn('localStorage quota exceeded, using memory cache only');
-                            // Emergency cleanup to free space
-                            Object.keys(localStorage).forEach(key => {
-                                if (key.startsWith('image_base64_') || key.startsWith('cache_')) {
-                                    try {
-                                        localStorage.removeItem(key);
-                                    } catch (e) {}
-                                }
-                            });
-                        }
                         
                         addSystemLog(`📸 Imagem uploaded: ${filename}`);
                         
@@ -2414,24 +2401,24 @@
             }
         }
 
-        // Simple image error handling with memory cache fallback
+        // Simplified image error handling
         function handleImageError(img) {
-            if (window.imageSyncManager) {
-                return window.imageSyncManager.handleImageError(img);
+            // Use the simple image manager first
+            if (window.simpleImageManager && window.simpleImageManager.handleError(img)) {
+                return;
             }
             
+            // Fallback to memory cache
             const imageName = img.src.split('/').pop().split('?')[0];
-            
-            // Check memory cache
             if (window.imageMemoryCache && window.imageMemoryCache[imageName]) {
                 img.src = window.imageMemoryCache[imageName];
                 img.style.border = '2px solid #10b981';
                 return;
             }
             
-            // Show placeholder
-            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2IiBzdHJva2U9IiNkMWQ1ZGIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNmI3NDgxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BZ3VhcmRhbmRvPC90ZXh0Pjwvc3ZnPg==';
-            img.title = 'Aguardando sincronização';
+            // Show loading state
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2IiBzdHJva2U9IiNkMWQ1ZGIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNmI3NDgxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Carregando...</dGV4dD48L3N2Zz4=';
+            img.title = 'Carregando imagem';
         }
 
         function removeCategoryImage() {

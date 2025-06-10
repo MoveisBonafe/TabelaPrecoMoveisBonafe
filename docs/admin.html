@@ -850,6 +850,27 @@
                 <button class="btn btn-primary" onclick="openPriceModal()">➕ Adicionar Tabela</button>
             </div>
 
+            <!-- Restaurant Price Configuration -->
+            <div class="restaurant-price-config" style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 24px; border: 1px solid #e5e7eb;">
+                <h3 style="margin: 0 0 16px 0; color: #1f2937; display: flex; align-items: center; gap: 8px;">
+                    🍽️ Configuração Especial para Restaurantes
+                </h3>
+                <p style="color: #6b7280; margin-bottom: 16px; font-size: 0.9rem;">
+                    Defina o percentual adicional sobre o preço "À Vista" para usuários do tipo restaurante
+                </p>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <label style="font-weight: 500; color: #374151;">Percentual adicional (%):</label>
+                    <input type="number" id="restaurant-markup" min="0" max="100" step="0.1" 
+                           style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; width: 120px;"
+                           placeholder="0.0">
+                    <button class="btn btn-primary" onclick="saveRestaurantMarkup()">💾 Salvar</button>
+                    <span id="restaurant-markup-status" style="color: #059669; font-size: 0.9rem; display: none;">✅ Salvo com sucesso</span>
+                </div>
+                <div style="margin-top: 12px; padding: 12px; background: #f3f4f6; border-radius: 6px; font-size: 0.85rem; color: #6b7280;">
+                    <strong>Exemplo:</strong> Se o preço "À Vista" é R$ 100,00 e o percentual é 5%, o preço para restaurantes será R$ 105,00
+                </div>
+            </div>
+
             <div id="precos-grid" class="data-grid">
                 <div class="empty-state">
                     <div class="empty-state-icon">💰</div>
@@ -3670,8 +3691,65 @@
             }
         };
 
+        // Restaurant markup configuration functions
+        function saveRestaurantMarkup() {
+            const markupInput = document.getElementById('restaurant-markup');
+            const statusSpan = document.getElementById('restaurant-markup-status');
+            const markup = parseFloat(markupInput.value) || 0;
+            
+            // Save to localStorage
+            localStorage.setItem('restaurant_markup_percentage', markup.toString());
+            
+            // Show success message
+            statusSpan.style.display = 'inline';
+            setTimeout(() => {
+                statusSpan.style.display = 'none';
+            }, 3000);
+            
+            addSystemLog(`🍽️ Percentual para restaurantes configurado: ${markup}%`);
+            
+            // Sync to GitHub in background
+            setTimeout(() => {
+                try {
+                    const token = localStorage.getItem('github_token');
+                    if (token) {
+                        syncRestaurantMarkupToGitHub(markup, token);
+                    }
+                } catch (error) {
+                    console.log('Background sync failed');
+                }
+            }, 100);
+        }
+        
+        function loadRestaurantMarkup() {
+            const markupInput = document.getElementById('restaurant-markup');
+            const savedMarkup = localStorage.getItem('restaurant_markup_percentage');
+            if (savedMarkup && markupInput) {
+                markupInput.value = savedMarkup;
+            }
+        }
+        
+        async function syncRestaurantMarkupToGitHub(markup, token) {
+            try {
+                // Create a simple config object for restaurant markup
+                const config = {
+                    restaurantMarkupPercentage: markup,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                // This would sync to GitHub - implementation depends on your GitHub setup
+                console.log('Restaurant markup config ready for sync:', config);
+            } catch (error) {
+                console.log('GitHub sync error:', error);
+            }
+        }
+
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', initAdmin);
+        document.addEventListener('DOMContentLoaded', () => {
+            initAdmin();
+            // Load restaurant markup after DOM is ready
+            setTimeout(loadRestaurantMarkup, 100);
+        });
 
         console.log('MoveisBonafe Admin Panel - GitHub Pages');
         console.log('Sistema: GitHub API integrado com fallback localStorage');

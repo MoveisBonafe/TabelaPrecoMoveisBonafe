@@ -824,6 +824,8 @@
             border: 1px solid #e5e7eb;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            justify-content: center;
         }
         
         .restaurant-layout .special-price {
@@ -905,6 +907,99 @@
         
         .banner-text {
             font-size: 0.8rem;
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            margin-top: 60px;
+            padding: 40px 0 20px 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            text-align: center;
+            flex: 1;
+        }
+
+        .footer-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 2s ease-in-out infinite alternate;
+        }
+
+        .footer-subtitle {
+            font-size: 1rem;
+            color: #cccccc;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .footer-contact-btn {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+        }
+
+        .footer-contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+        }
+
+        .footer-contact-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-title {
+                font-size: 1.5rem;
+            }
+            
+            .footer-contact-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
         }
         
         .special-price {
@@ -6719,5 +6814,21 @@ ${this.userType === 'restaurante' ? `
         checkForDataUpdates();
         setInterval(checkForDataUpdates, 10000);
         </script>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3 class="footer-title">Móveis Bonafé</h3>
+                    <p class="footer-subtitle">Qualidade e tradição em móveis</p>
+                </div>
+                <button class="footer-contact-btn" onclick="openWhatsAppContact()">
+                    📞 Fale Conosco
+                </button>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Móveis Bonafé. Todos os direitos reservados.</p>
+            </div>
+        </footer>
     </body>
 </html>

@@ -164,10 +164,20 @@
     "comprimento": 190,
     "peso": 46,
     "description": "",
-    "images": [],
-    "colorVariations": [],
+    "images": [
+      "data/images/product_1749516020469_44nk7ts19.png",
+      "data/images/product_1749516025505_8ce14egza.png",
+      "data/images/product_1749516031497_9jvebs7l4.png",
+      "data/images/product_1749516037480_3fwz7gjcd.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
-    "updatedAt": "2025-06-10T00:07:07.899Z",
+    "updatedAt": "2025-06-10T00:40:48.647Z",
     "id": 1749514027904,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

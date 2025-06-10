@@ -42,7 +42,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #f59e0b, #000000, #f59e0b, #000000);
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24, #000000);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -90,7 +90,7 @@
 
         .cart-btn {
             padding: 8px 16px;
-            background: linear-gradient(45deg, #f59e0b, #000000, #f59e0b);
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24);
             background-size: 200% 200%;
             color: white;
             border: none;
@@ -101,6 +101,9 @@
             transition: all 0.3s;
             margin-right: 12px;
             animation: cartGradient 2s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         @keyframes cartGradient {
@@ -114,7 +117,7 @@
 
         .cart-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
         }
         
         .container {
@@ -301,16 +304,16 @@
         }
         
         .category-card:hover {
-            border-color: #f59e0b;
+            border-color: #d1d5db;
             background: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
         .category-card.active {
-            border-color: #f59e0b;
+            border-color: #d1d5db;
             background: white;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
         .category-icon {
@@ -521,7 +524,7 @@
         }
 
         .ver-produto-btn-fixed {
-            background: linear-gradient(45deg, #f59e0b, #d97706, #f59e0b);
+            background: linear-gradient(45deg, #fbbf24, #facc15, #fbbf24);
             background-size: 200% 200%;
             color: white;
             border: none;
@@ -546,7 +549,7 @@
 
         .ver-produto-btn-fixed:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
         }
         
         .product-image img {
@@ -1019,12 +1022,14 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">Móveis Bonafé</div>
-            <div class="user-info">
+            <div style="display: flex; align-items: center;">
                 <button class="cart-btn" onclick="openCartModal()">
                     🛒 Carrinho (<span id="cart-count">0</span>)
                 </button>
-                <span class="user-badge" id="user-info">Carregando...</span>
-                <button class="logout-btn" onclick="logout()">Sair</button>
+                <div class="user-info">
+                    <span class="user-badge" id="user-info">Carregando...</span>
+                    <button class="logout-btn" onclick="logout()">Sair</button>
+                </div>
             </div>
         </div>
     </div>

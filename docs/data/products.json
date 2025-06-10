@@ -93,19 +93,19 @@
     "peso": 5,
     "description": "",
     "images": [
-      "data/images/product_1749514904110_j7lfz8ux0.png",
       "data/images/product_1749514932272_w98pggwr3.png",
-      "data/images/product_1749514940455_pgdrgz5h4.png",
-      "data/images/product_1749514945925_uig2jbyrg.png"
+      "data/images/product_1749515115522_2o62qclp8.png",
+      "data/images/product_1749515125318_1sfgwvznt.png",
+      "data/images/product_1749515136409_av7u4a0z0.png"
     ],
     "colorVariations": [
-      "Cerejeira",
       "Imbuia",
+      "Cerejeira",
       "Tabaco",
       "Mogno"
     ],
     "active": true,
-    "updatedAt": "2025-06-10T00:22:27.928Z",
+    "updatedAt": "2025-06-10T00:26:12.266Z",
     "id": 1749514027902,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

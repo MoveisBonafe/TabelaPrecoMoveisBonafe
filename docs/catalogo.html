@@ -1517,7 +1517,7 @@
                     return;
                 }
 
-                container.style.display = 'block';
+                container.style.display = 'none'; // Hide top banner, show tags on categories instead
                 container.innerHTML = `
                     <div class="promotion-content" style="
                         background: linear-gradient(135deg, ${activePromotion.color || '#f39c12'}, ${activePromotion.color ? activePromotion.color + '80' : '#e67e22'});
@@ -1551,6 +1551,45 @@
                 console.log(`✅ Promoção ativa exibida: ${activePromotion.title}`);
             }
 
+            getActivePromotion() {
+                if (!this.promotions || this.promotions.length === 0) return null;
+                
+                return this.promotions.find(p => {
+                    if (!p.active) return false;
+                    
+                    // Check if promotion is within date range
+                    const now = new Date();
+                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    
+                    // Parse promotion dates
+                    let startDate, endDate;
+                    
+                    if (p.startDate.includes('/')) {
+                        const [startDay, startMonth, startYear] = p.startDate.split('/');
+                        startDate = new Date(startYear, startMonth - 1, startDay);
+                    } else {
+                        startDate = new Date(p.startDate);
+                    }
+                    
+                    if (p.endDate.includes('/')) {
+                        const [endDay, endMonth, endYear] = p.endDate.split('/');
+                        endDate = new Date(endYear, endMonth - 1, endDay);
+                    } else {
+                        endDate = new Date(p.endDate);
+                    }
+                    
+                    return today >= startDate && today <= endDate;
+                });
+            }
+
+            promotionAppliesTo(promotion, categoryName) {
+                if (!promotion) return false;
+                // If no categories specified, applies to all
+                if (!promotion.categories || promotion.categories.length === 0) return true;
+                // Check if category is in promotion list
+                return promotion.categories.includes(categoryName);
+            }
+
             renderCategories() {
                 const grid = document.getElementById('categories-grid');
                 const filter = document.getElementById('category-filter');
@@ -1573,6 +1612,9 @@
                 } else {
                     grid.classList.remove('restaurant-categories');
                 }
+
+                // Get active promotion
+                const activePromotion = this.getActivePromotion();
 
                 this.categories.forEach(category => {
                     const productCount = this.products.filter(p => p.category === category.name).length;

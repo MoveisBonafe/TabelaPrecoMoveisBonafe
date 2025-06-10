@@ -334,6 +334,7 @@
     "name": "Agulha Cadeira Comum",
     "category": "Cadeiras",
     "priceAVista": 8,
+    "fixedPrice": true,
     "altura": 0,
     "largura": 0,
     "comprimento": 0,
@@ -344,7 +345,7 @@
     ],
     "colorVariations": [],
     "active": true,
-    "updatedAt": "2025-06-10T01:43:38.481Z",
+    "updatedAt": "2025-06-10T21:44:17.942Z",
     "id": 1749514027911,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

@@ -2444,18 +2444,60 @@
             totalContainer.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
         }
 
+        function toggleAddressFields() {
+            const isPickup = document.getElementById('pickup').checked;
+            const addressFields = document.querySelectorAll('.address-field');
+            
+            addressFields.forEach(field => {
+                if (isPickup) {
+                    field.style.display = 'none';
+                    // Remove required attribute from address fields
+                    const inputs = field.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        input.removeAttribute('required');
+                    });
+                } else {
+                    field.style.display = 'grid';
+                    // Add required attribute back to address fields (except complement)
+                    const inputs = field.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        if (input.id !== 'customer-complement') {
+                            input.setAttribute('required', 'required');
+                        }
+                    });
+                }
+            });
+        }
+
         function finalizeWhatsAppOrder() {
-            // Validate form
+            // Get delivery option
+            const isPickup = document.getElementById('pickup').checked;
+            
+            // Validate form based on delivery option
             const name = document.getElementById('customer-name').value.trim();
             const phone = document.getElementById('customer-phone').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
-            const cep = document.getElementById('customer-cep').value.trim();
             const priceTable = document.getElementById('price-table-select').value;
             const paymentMethod = document.getElementById('payment-method-select').value;
 
-            if (!name || !phone || !address || !cep || !priceTable || !paymentMethod) {
+            // Basic validation for all orders
+            if (!name || !phone || !priceTable || !paymentMethod) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 return;
+            }
+
+            // Additional validation for delivery orders
+            if (!isPickup) {
+                const address = document.getElementById('customer-address').value.trim();
+                const neighborhood = document.getElementById('customer-neighborhood').value.trim();
+                const number = document.getElementById('customer-number').value.trim();
+                const city = document.getElementById('customer-city').value.trim();
+                const state = document.getElementById('customer-state').value.trim();
+                const cep = document.getElementById('customer-cep').value.trim();
+
+                if (!address || !neighborhood || !number || !city || !state || !cep) {
+                    alert('Por favor, preencha todos os campos de endereço obrigatórios.');
+                    return;
+                }
             }
 
             // Build WhatsApp message
@@ -2463,8 +2505,28 @@
             message += `👤 *Dados do Cliente:*\n`;
             message += `Nome: ${name}\n`;
             message += `Telefone: ${phone}\n`;
-            message += `Endereço: ${address}\n`;
-            message += `CEP: ${cep}\n\n`;
+            
+            // Add delivery information
+            if (isPickup) {
+                message += `🚚 *Entrega:* Retirada no Local\n\n`;
+            } else {
+                const address = document.getElementById('customer-address').value.trim();
+                const neighborhood = document.getElementById('customer-neighborhood').value.trim();
+                const number = document.getElementById('customer-number').value.trim();
+                const city = document.getElementById('customer-city').value.trim();
+                const state = document.getElementById('customer-state').value.trim();
+                const complement = document.getElementById('customer-complement').value.trim();
+                const cep = document.getElementById('customer-cep').value.trim();
+                
+                message += `🚚 *Entrega:* Entrega no endereço\n`;
+                message += `📍 *Endereço:* ${address}, ${number}\n`;
+                message += `🏘️ *Bairro:* ${neighborhood}\n`;
+                message += `🏙️ *Cidade:* ${city} - ${state}\n`;
+                if (complement) {
+                    message += `📝 *Complemento:* ${complement}\n`;
+                }
+                message += `📮 *CEP:* ${cep}\n\n`;
+            }
 
             message += `📋 *Produtos:*\n`;
             let total = 0;
@@ -2937,21 +2999,33 @@
                                     <label for="customer-phone" style="text-align: right; font-size: 14px; font-weight: 500;">Telefone *</label>
                                     <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                <div class="form-group address-field" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
                                     <label for="customer-address" style="text-align: right; font-size: 14px; font-weight: 500;">Endereço *</label>
                                     <input type="text" id="customer-address" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-cep" style="text-align: right; font-size: 14px; font-weight: 500;">CEP *</label>
-                                    <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
-                                </div>
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                <div class="form-row address-field" style="display: grid; grid-template-columns: 110px 1fr 1fr; gap: 12px; align-items: center;">
                                     <label for="customer-neighborhood" style="text-align: right; font-size: 14px; font-weight: 500;">Bairro *</label>
                                     <input type="text" id="customer-neighborhood" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                    <div style="display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center;">
+                                        <label for="customer-number" style="font-size: 14px; font-weight: 500;">Número *</label>
+                                        <input type="text" id="customer-number" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                    </div>
                                 </div>
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-number" style="text-align: right; font-size: 14px; font-weight: 500;">Número *</label>
-                                    <input type="text" id="customer-number" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                <div class="form-row address-field" style="display: grid; grid-template-columns: 110px 1fr 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-city" style="text-align: right; font-size: 14px; font-weight: 500;">Cidade *</label>
+                                    <input type="text" id="customer-city" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                    <div style="display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center;">
+                                        <label for="customer-state" style="font-size: 14px; font-weight: 500;">Estado *</label>
+                                        <input type="text" id="customer-state" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                    </div>
+                                </div>
+                                <div class="form-group address-field" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-complement" style="text-align: right; font-size: 14px; font-weight: 500;">Complemento</label>
+                                    <input type="text" id="customer-complement" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;" placeholder="Apartamento, casa, etc (opcional)">
+                                </div>
+                                <div class="form-group address-field" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
+                                    <label for="customer-cep" style="text-align: right; font-size: 14px; font-weight: 500;">CEP *</label>
+                                    <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
                             </div>
                         </div>
@@ -2961,13 +3035,13 @@
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Opções de Entrega</h3>
                             <div class="delivery-choice" style="display: flex; flex-direction: column; gap: 8px;">
                                 <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border-radius: 20px; cursor: pointer; border: 1px solid #d1d5db;">
-                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked style="margin: 0;">
+                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked onchange="toggleAddressFields()" style="margin: 0;">
                                     <div class="delivery-info">
                                         <div class="delivery-title" style="font-size: 14px; font-weight: 500;">Retirada no Local</div>
                                     </div>
                                 </label>
                                 <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border-radius: 20px; cursor: pointer; border: 1px solid #d1d5db;">
-                                    <input type="radio" name="delivery-type" value="delivery" style="margin: 0;">
+                                    <input type="radio" name="delivery-type" value="delivery" onchange="toggleAddressFields()" style="margin: 0;">
                                     <div class="delivery-info">
                                         <div class="delivery-title" style="font-size: 14px; font-weight: 500;">Entrega</div>
                                     </div>
@@ -5999,6 +6073,11 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
+            
+            // Initialize address fields visibility based on delivery option
+            setTimeout(() => {
+                toggleAddressFields();
+            }, 500);
             
             // Apply error handling to all images after initial load
             setTimeout(() => {

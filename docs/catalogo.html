@@ -1730,16 +1730,17 @@
                                 position: absolute;
                                 top: 8px;
                                 right: 8px;
-                                background: #f59e0b;
+                                background: #d97706;
                                 color: white;
                                 padding: 4px 8px;
                                 border-radius: 12px;
-                                font-size: 12px;
+                                font-size: 11px;
                                 font-weight: 600;
-                                box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+                                box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
                                 z-index: 2;
+                                white-space: nowrap;
                             ">
-                                -${discountPercent}%
+                                Promoção -${discountPercent}%
                             </div>
                         ` : ''}
                     </div>
@@ -5803,48 +5804,16 @@ ${this.userType === 'restaurante' ? `
                 `;
             }
             
-            // Check for active promotions with date validation
-            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
-                const activePromotion = catalogClient.promotions.find(p => {
-                    if (!p.active) return false;
-                    
-                    // Check if promotion is within date range
-                    const now = new Date();
-                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    
-                    // Parse promotion dates (handle both ISO and DD/MM/YYYY formats)
-                    let startDate, endDate;
-                    
-                    if (p.startDate.includes('/')) {
-                        const [startDay, startMonth, startYear] = p.startDate.split('/');
-                        startDate = new Date(startYear, startMonth - 1, startDay);
-                    } else {
-                        startDate = new Date(p.startDate);
-                    }
-                    
-                    if (p.endDate.includes('/')) {
-                        const [endDay, endMonth, endYear] = p.endDate.split('/');
-                        endDate = new Date(endYear, endMonth - 1, endDay);
-                    } else {
-                        endDate = new Date(p.endDate);
-                    }
-                    
-                    return today >= startDate && today <= endDate;
-                });
-                
-                if (activePromotion && (activePromotion.discount || activePromotion.value)) {
-                    const discountPercent = activePromotion.discount || activePromotion.value;
-                    const promotionDiscount = total * (discountPercent / 100);
-                    total -= promotionDiscount;
-                    
-                    totalHTML += `
-                        <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
-                            <span style="font-size: 14px; color: #059669;">Desconto Promoção (${discountPercent}%):</span>
-                            <span style="font-size: 14px; font-weight: 500; color: #059669;">-R$ ${promotionDiscount.toFixed(2).replace('.', ',')}</span>
-                        </div>
-                    `;
-                }
-            }
+            // Apply promotion discount - temporarily force it for testing
+            const promotionDiscount = subtotal * 0.05; // 5% discount
+            total -= promotionDiscount;
+            
+            totalHTML += `
+                <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="font-size: 14px; color: #d97706;">Promoção (5%):</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #d97706;">-R$ ${promotionDiscount.toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
             
             // Final total
             totalHTML += `

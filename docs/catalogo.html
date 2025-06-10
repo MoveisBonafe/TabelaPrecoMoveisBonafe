@@ -928,74 +928,7 @@
             /* Mobile delivery form styling */
             .delivery-form-desktop .form-group,
             .delivery-form-desktop .form-row {
-                display: block !important;
-                margin-bottom: 16px !important;
-            }
-            
-            .delivery-form-desktop label {
-                display: block !important;
-                text-align: left !important;
-                font-size: 14px !important;
-                font-weight: 500 !important;
-                margin-bottom: 8px !important;
-                color: #374151 !important;
-            }
-            
-            .delivery-form-desktop input {
-                width: 100% !important;
-                padding: 14px 16px !important;
-                font-size: 16px !important;
-                border-radius: 16px !important;
-                border: 1px solid #d1d5db !important;
-                background: white !important;
-                box-sizing: border-box !important;
-                margin-bottom: 4px !important;
-            }
-            
-            /* Bairro and Número side by side */
-            .delivery-form-desktop .form-row:has(#customer-neighborhood) {
-                display: flex !important;
-                gap: 12px !important;
-                align-items: flex-start !important;
-            }
-            
-            .delivery-form-desktop .form-row:has(#customer-neighborhood) > label:first-child {
-                width: 100px !important;
-                margin-right: 0 !important;
-                flex-shrink: 0 !important;
-            }
-            
-            .delivery-form-desktop .form-row:has(#customer-neighborhood) #customer-neighborhood {
-                flex: 2 !important;
-            }
-            
-            .delivery-form-desktop .form-row:has(#customer-neighborhood) > div:last-child {
-                flex: 1 !important;
-                display: flex !important;
-                flex-direction: column !important;
-            }
-            
-            /* Cidade and Estado side by side */
-            .delivery-form-desktop .form-row:has(#customer-city) {
-                display: flex !important;
-                gap: 12px !important;
-                align-items: flex-start !important;
-            }
-            
-            .delivery-form-desktop .form-row:has(#customer-city) > label:first-child {
-                width: 100px !important;
-                margin-right: 0 !important;
-                flex-shrink: 0 !important;
-            }
-            
-            .delivery-form-desktop .form-row:has(#customer-city) #customer-city {
-                flex: 2 !important;
-            }
-            
-            .delivery-form-desktop .form-row:has(#customer-city) > div:last-child {
-                flex: 1 !important;
-                display: flex !important;
-                flex-direction: column !important;
+                margin-bottom: 16px;
             }
             
             /* Button styling fix for mobile */
@@ -3080,41 +3013,28 @@
                         <div class="customer-data-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
                             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-name" style="text-align: right; font-size: 14px; font-weight: 500; white-space: nowrap;">Nome Completo *</label>
-                                    <input type="text" id="customer-name" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-name" required placeholder="Nome Completo *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-phone" style="text-align: right; font-size: 14px; font-weight: 500;">Telefone *</label>
-                                    <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
-                                <div class="form-group address-field" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-address" style="text-align: right; font-size: 14px; font-weight: 500;">Endereço *</label>
-                                    <input type="text" id="customer-address" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                <div class="form-group address-field" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-address" required placeholder="Endereço *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
-                                <div class="form-row address-field" style="display: grid; grid-template-columns: 110px 1fr 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-neighborhood" style="text-align: right; font-size: 14px; font-weight: 500;">Bairro *</label>
-                                    <input type="text" id="customer-neighborhood" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
-                                    <div style="display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center;">
-                                        <label for="customer-number" style="font-size: 14px; font-weight: 500;">Número *</label>
-                                        <input type="text" id="customer-number" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
-                                    </div>
+                                <div class="form-row address-field" style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                    <input type="text" id="customer-neighborhood" required placeholder="Bairro *" style="flex: 2; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-number" required placeholder="Número *" style="flex: 1; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
-                                <div class="form-row address-field" style="display: grid; grid-template-columns: 110px 1fr 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-city" style="text-align: right; font-size: 14px; font-weight: 500;">Cidade *</label>
-                                    <input type="text" id="customer-city" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
-                                    <div style="display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center;">
-                                        <label for="customer-state" style="font-size: 14px; font-weight: 500;">Estado *</label>
-                                        <input type="text" id="customer-state" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
-                                    </div>
+                                <div class="form-row address-field" style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                    <input type="text" id="customer-city" required placeholder="Cidade *" style="flex: 2; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-state" required placeholder="Estado *" style="flex: 1; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
-                                <div class="form-group address-field" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-complement" style="text-align: right; font-size: 14px; font-weight: 500;">Complemento</label>
-                                    <input type="text" id="customer-complement" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;" placeholder="Apartamento, casa, etc (opcional)">
+                                <div class="form-group address-field" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-complement" placeholder="Complemento (opcional)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
-                                <div class="form-group address-field" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-cep" style="text-align: right; font-size: 14px; font-weight: 500;">CEP *</label>
-                                    <input type="text" id="customer-cep" required placeholder="00000-000" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                <div class="form-group address-field" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                             </div>
                         </div>
@@ -3122,18 +3042,14 @@
                         <!-- Delivery Options -->
                         <div class="delivery-options-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Opções de Entrega</h3>
-                            <div class="delivery-choice" style="display: flex; flex-direction: column; gap: 8px;">
-                                <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border-radius: 20px; cursor: pointer; border: 1px solid #d1d5db;">
-                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked onchange="toggleAddressFields()" style="margin: 0;">
-                                    <div class="delivery-info">
-                                        <div class="delivery-title" style="font-size: 14px; font-weight: 500;">Retirada no Local</div>
-                                    </div>
+                            <div class="delivery-choice" style="display: flex; flex-direction: column; gap: 12px;">
+                                <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 16px; background: white; border-radius: 16px; cursor: pointer; border: 1px solid #d1d5db;">
+                                    <input type="radio" name="delivery-type" value="pickup" id="pickup" checked onchange="toggleAddressFields()" style="margin: 0; min-width: 20px; height: 20px;">
+                                    <span style="font-size: 16px; font-weight: 500; color: #374151;">Retirada no Local</span>
                                 </label>
-                                <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border-radius: 20px; cursor: pointer; border: 1px solid #d1d5db;">
-                                    <input type="radio" name="delivery-type" value="delivery" onchange="toggleAddressFields()" style="margin: 0;">
-                                    <div class="delivery-info">
-                                        <div class="delivery-title" style="font-size: 14px; font-weight: 500;">Entrega</div>
-                                    </div>
+                                <label class="delivery-option" style="display: flex; align-items: center; gap: 12px; padding: 16px; background: white; border-radius: 16px; cursor: pointer; border: 1px solid #d1d5db;">
+                                    <input type="radio" name="delivery-type" value="delivery" onchange="toggleAddressFields()" style="margin: 0; min-width: 20px; height: 20px;">
+                                    <span style="font-size: 16px; font-weight: 500; color: #374151;">Entrega</span>
                                 </label>
                             </div>
                         </div>

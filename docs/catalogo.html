@@ -198,38 +198,24 @@
         
         .search-bar {
             background: white;
-            border-radius: 20px;
+            border-radius: 8px;
             padding: 20px;
             margin-bottom: 24px;
-            border: 1px solid #f3f4f6;
-        }
-        
-        .search-input-container {
-            position: relative;
-            width: 100%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .search-input {
             width: 100%;
-            padding: 12px 16px 12px 44px;
+            padding: 12px 16px;
             border: 2px solid #e5e7eb;
-            border-radius: 25px;
+            border-radius: 8px;
             font-size: 1rem;
-            background: white;
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            font-size: 1.1rem;
+            background: #f9fafb;
         }
         
         .search-input:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: #d4831e;
             background: white;
         }
         
@@ -241,17 +227,11 @@
         }
         
         .filter-select {
-            padding: 12px 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 20px;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
             background: white;
             font-size: 0.9rem;
-            min-width: 160px;
-        }
-        
-        .filter-select:focus {
-            outline: none;
-            border-color: #fbbf24;
         }
         
         .categories-section {
@@ -544,21 +524,18 @@
         }
 
         .ver-produto-btn-fixed {
-            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24);
+            background: linear-gradient(45deg, #fbbf24, #facc15, #fbbf24);
             background-size: 200% 200%;
             color: white;
             border: none;
             padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             flex-shrink: 0;
             animation: buttonGradient 2s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         @keyframes buttonGradient {
@@ -1047,7 +1024,7 @@
             <div class="logo">Móveis Bonafé</div>
             <div style="display: flex; align-items: center;">
                 <button class="cart-btn" onclick="openCartModal()">
-                    🛍️ Carrinho (<span id="cart-count">0</span>)
+                    🛒 Carrinho (<span id="cart-count">0</span>)
                 </button>
                 <div class="user-info">
                     <span class="user-badge" id="user-info">Carregando...</span>
@@ -1062,15 +1039,12 @@
         <div id="promotion-banner" style="display: none;"></div>
 
         <div class="search-bar">
-            <div class="search-input-container">
-                <span class="search-icon">🔍</span>
-                <input 
-                    type="text" 
-                    class="search-input" 
-                    id="search-input"
-                    placeholder="Buscar produtos..."
-                >
-            </div>
+            <input 
+                type="text" 
+                class="search-input" 
+                id="search-input"
+                placeholder="Buscar produtos..."
+            >
             <div class="filter-row">
                 <select class="filter-select" id="category-filter">
                     <option value="">Todas as categorias</option>
@@ -1682,7 +1656,7 @@
                                     ${colorCircles}
                                 </div>
                             </div>
-                            <button class="ver-produto-btn-fixed" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">👁️ Ver Produto</button>
+                            <button class="ver-produto-btn-fixed" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
                         </div>
                         <div class="price-table-grid">
                             <div class="price-cell">
@@ -2525,13 +2499,12 @@
             // Validate form
             const name = document.getElementById('customer-name').value.trim();
             const phone = document.getElementById('customer-phone').value.trim();
-            const neighborhood = document.getElementById('customer-neighborhood').value.trim();
-            const number = document.getElementById('customer-number').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
             const cep = document.getElementById('customer-cep').value.trim();
             const priceTable = document.getElementById('price-table-select').value;
             const paymentMethod = document.getElementById('payment-method-select').value;
 
-            if (!name || !phone || !neighborhood || !number || !cep || !priceTable || !paymentMethod) {
+            if (!name || !phone || !address || !cep || !priceTable || !paymentMethod) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 return;
             }
@@ -2541,8 +2514,7 @@
             message += `👤 *Dados do Cliente:*\n`;
             message += `Nome: ${name}\n`;
             message += `Telefone: ${phone}\n`;
-            message += `Bairro: ${neighborhood}\n`;
-            message += `Número: ${number}\n`;
+            message += `Endereço: ${address}\n`;
             message += `CEP: ${cep}\n\n`;
 
             message += `📋 *Produtos:*\n`;
@@ -2922,7 +2894,7 @@
                         </div>
                         
                         <div class="product-actions">
-                            <button class="add-to-cart-btn" onclick="addToCart()">🛍️ Adicionar ao Carrinho</button>
+                            <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
                         </div>
                         
                         <!-- Expandable sections -->
@@ -3017,12 +2989,8 @@
                                     <input type="tel" id="customer-phone" required placeholder="(14) 99999-9999" style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
                                 <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-neighborhood" style="text-align: right; font-size: 14px; font-weight: 500;">Bairro *</label>
-                                    <input type="text" id="customer-neighborhood" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
-                                </div>
-                                <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
-                                    <label for="customer-number" style="text-align: right; font-size: 14px; font-weight: 500;">Número *</label>
-                                    <input type="text" id="customer-number" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                    <label for="customer-address" style="text-align: right; font-size: 14px; font-weight: 500;">Endereço *</label>
+                                    <input type="text" id="customer-address" required style="padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 </div>
                                 <div class="form-group" style="display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center;">
                                     <label for="customer-cep" style="text-align: right; font-size: 14px; font-weight: 500;">CEP *</label>
@@ -3670,21 +3638,16 @@
         }
 
         .add-to-cart-btn {
-            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24);
-            background-size: 200% 200%;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            animation: buttonGradient 2s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 20px;
         }
 
         .add-to-cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+            background: #f9fafb;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
         }
 
         .whatsapp-btn {
@@ -5438,7 +5401,7 @@
             
             // Add event listeners for form validation
             setTimeout(() => {
-                const formFields = ['customer-name', 'customer-phone', 'customer-neighborhood', 'customer-number', 'customer-cep'];
+                const formFields = ['customer-name', 'customer-phone', 'customer-address', 'customer-cep'];
                 formFields.forEach(fieldId => {
                     const field = document.getElementById(fieldId);
                     if (field) {
@@ -5478,11 +5441,10 @@
         function validateDeliveryForm() {
             const name = document.getElementById('customer-name').value.trim();
             const phone = document.getElementById('customer-phone').value.trim();
-            const neighborhood = document.getElementById('customer-neighborhood').value.trim();
-            const number = document.getElementById('customer-number').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
             const cep = document.getElementById('customer-cep').value.trim();
             
-            return name && phone && neighborhood && number && cep;
+            return name && phone && address && cep;
         }
 
         function checkFormValidation() {
@@ -5490,11 +5452,10 @@
             if (paymentBtn) {
                 const name = document.getElementById('customer-name')?.value?.trim() || '';
                 const phone = document.getElementById('customer-phone')?.value?.trim() || '';
-                const neighborhood = document.getElementById('customer-neighborhood')?.value?.trim() || '';
-                const number = document.getElementById('customer-number')?.value?.trim() || '';
+                const address = document.getElementById('customer-address')?.value?.trim() || '';
                 const cep = document.getElementById('customer-cep')?.value?.trim() || '';
                 
-                const isValid = name && phone && neighborhood && number && cep;
+                const isValid = name && phone && address && cep;
                 paymentBtn.disabled = !isValid;
                 
                 // Visual feedback

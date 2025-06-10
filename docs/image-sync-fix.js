@@ -1,66 +1,109 @@
-// Image Sync Fix for GitHub Pages CDN delay
+// Enhanced Image Sync Manager - Primary memory cache with localStorage backup
 class ImageSyncManager {
     constructor() {
-        this.recentUploads = new Map();
-        this.fallbackCache = new Map();
-        this.maxCacheTime = 24 * 60 * 60 * 1000; // 24 hours
+        this.memoryCache = new Map(); // Primary cache
+        this.uploadQueue = new Map(); // Recently uploaded items
+        this.githubSyncDelay = 30000; // 30 seconds expected delay
+        this.maxMemoryCacheSize = 50; // Limit memory usage
     }
 
-    // Store image data after upload
+    // Store image data after upload (prioritize memory cache)
     storeUpload(filename, base64Data) {
         const uploadData = {
             filename,
             base64Data,
             uploadTime: Date.now(),
-            githubPath: `data/images/${filename}`
+            synced: false
         };
         
-        this.recentUploads.set(filename, uploadData);
-        this.fallbackCache.set(filename, base64Data);
+        // Store in memory cache first (most reliable)
+        this.memoryCache.set(filename, base64Data);
+        this.uploadQueue.set(filename, uploadData);
         
-        // Also store in localStorage with cleanup
+        // Try minimal localStorage only for critical info
         try {
-            localStorage.setItem(`img_${filename}`, base64Data);
-            localStorage.setItem(`img_time_${filename}`, Date.now().toString());
-            this.cleanOldLocalStorage();
+            localStorage.setItem(`recent_${filename}`, Date.now().toString());
         } catch (e) {
-            console.warn('localStorage full, using memory cache only');
+            // Ignore localStorage errors - memory cache is primary
         }
+        
+        // Auto-cleanup memory cache
+        this.cleanMemoryCache();
+        
+        console.log(`Image stored in memory cache: ${filename}`);
     }
 
-    // Get image source with automatic fallback
+    // Get image source with intelligent fallback logic
     getImageSrc(filename) {
-        const upload = this.recentUploads.get(filename);
-        const now = Date.now();
-        
-        // If uploaded recently (< 5 minutes), use base64 immediately
-        if (upload && (now - upload.uploadTime) < 5 * 60 * 1000) {
-            return upload.base64Data;
+        // Check if we have it in memory cache first
+        if (this.memoryCache.has(filename)) {
+            return this.memoryCache.get(filename);
         }
         
-        // Otherwise try GitHub URL first
+        // Check if it's a recent upload that might not be synced yet
+        const uploadInfo = this.uploadQueue.get(filename);
+        if (uploadInfo) {
+            const timeSinceUpload = Date.now() - uploadInfo.uploadTime;
+            
+            // Use base64 for first 2 minutes after upload
+            if (timeSinceUpload < 120000) {
+                return uploadInfo.base64Data;
+            }
+        }
+        
+        // Default to GitHub URL for older images
         return `https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/${filename}`;
     }
 
-    // Handle image load errors with smart fallback
+    // Enhanced error handling with immediate fallback
     handleImageError(img) {
         const filename = this.extractFilename(img.src);
         
-        // Try base64 fallback first
-        const fallback = this.fallbackCache.get(filename) || 
-                         localStorage.getItem(`img_${filename}`);
-        
-        if (fallback) {
-            img.src = fallback;
-            img.style.border = '2px solid #059669';
-            img.title = 'Imagem carregada do cache local';
+        // Priority 1: Memory cache
+        if (this.memoryCache.has(filename)) {
+            img.src = this.memoryCache.get(filename);
+            img.style.border = '2px solid #10b981';
+            img.title = 'Cache local';
             return true;
         }
         
-        // If no fallback, show placeholder
-        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY5NzU4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbSBuw6NvIGRpc3BvbsOtdmVsPC90ZXh0Pjwvc3ZnPg==';
-        img.title = 'Imagem não disponível';
+        // Priority 2: Upload queue
+        const uploadInfo = this.uploadQueue.get(filename);
+        if (uploadInfo && uploadInfo.base64Data) {
+            img.src = uploadInfo.base64Data;
+            img.style.border = '2px solid #f59e0b';
+            img.title = 'Upload recente';
+            return true;
+        }
+        
+        // Priority 3: Check for recent upload marker
+        const recentMarker = localStorage.getItem(`recent_${filename}`);
+        if (recentMarker) {
+            const uploadTime = parseInt(recentMarker);
+            const timeSince = Date.now() - uploadTime;
+            
+            // If very recent, retry GitHub URL with cache busting
+            if (timeSince < 300000) { // 5 minutes
+                setTimeout(() => {
+                    img.src = `https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/${filename}?t=${Date.now()}`;
+                }, 2000);
+                return false;
+            }
+        }
+        
+        // Final fallback: placeholder
+        this.showPlaceholder(img, filename);
         return false;
+    }
+
+    // Clean memory cache to prevent excessive memory usage
+    cleanMemoryCache() {
+        if (this.memoryCache.size > this.maxMemoryCacheSize) {
+            // Remove oldest entries
+            const entries = Array.from(this.memoryCache.entries());
+            const toRemove = entries.slice(0, entries.length - this.maxMemoryCacheSize);
+            toRemove.forEach(([key]) => this.memoryCache.delete(key));
+        }
     }
 
     // Extract filename from URL
@@ -68,27 +111,11 @@ class ImageSyncManager {
         return url.split('/').pop().split('?')[0];
     }
 
-    // Clean old localStorage entries
-    cleanOldLocalStorage() {
-        const now = Date.now();
-        const keysToRemove = [];
-        
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('img_time_')) {
-                const uploadTime = parseInt(localStorage.getItem(key));
-                if (now - uploadTime > this.maxCacheTime) {
-                    const filename = key.replace('img_time_', '');
-                    keysToRemove.push(`img_${filename}`, key);
-                }
-            }
-        }
-        
-        keysToRemove.forEach(key => {
-            try {
-                localStorage.removeItem(key);
-            } catch (e) {}
-        });
+    // Show placeholder image
+    showPlaceholder(img, filename) {
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2IiBzdHJva2U9IiNkMWQ1ZGIiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNDAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Yjc0ODEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkFndWFyZGFuZG88L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzZiNzQ4MSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+c2luY3Jvbml6YcOnw6NvLi4uPC90ZXh0Pjwvc3ZnPg==';
+        img.title = `Aguardando sincronização: ${filename}`;
+        img.style.border = '2px solid #ef4444';
     }
 
     // Initialize global handlers

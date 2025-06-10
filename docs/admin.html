@@ -1562,20 +1562,17 @@
                         console.log('GitHub API Success:', result);
                         addSystemLog(`✅ Imagem salva no GitHub: ${result.content?.path || filename}`);
                         
-                        // Use the new ImageSyncManager for better handling
+                        // Store in memory cache only - no localStorage issues
                         const base64Data = e.target.result;
-                        if (window.imageSyncManager) {
-                            window.imageSyncManager.storeUpload(filename, base64Data);
-                        }
                         
-                        // Legacy fallback storage
-                        cleanOldImageCache();
+                        // Initialize memory cache
                         if (!window.imageMemoryCache) window.imageMemoryCache = {};
                         window.imageMemoryCache[filename] = base64Data;
                         
-                        try {
-                            localStorage.setItem(`image_base64_${filename}`, base64Data);
-                            localStorage.setItem(`image_upload_time_${filename}`, Date.now().toString());
+                        // Use ImageSyncManager if available
+                        if (window.imageSyncManager) {
+                            window.imageSyncManager.storeUpload(filename, base64Data);
+                        }
                         } catch (quotaError) {
                             console.warn('localStorage quota exceeded, using memory cache only');
                             // Emergency cleanup to free space
@@ -2417,103 +2414,24 @@
             }
         }
 
-        // Enhanced image loading with immediate base64 fallback for new uploads
+        // Simple image error handling with memory cache fallback
         function handleImageError(img) {
+            if (window.imageSyncManager) {
+                return window.imageSyncManager.handleImageError(img);
+            }
+            
             const imageName = img.src.split('/').pop().split('?')[0];
             
-            // Priority 1: Check if this is a recently uploaded image (use base64 immediately)
-            const recentImages = JSON.parse(localStorage.getItem('recent_uploaded_images') || '[]');
-            const recentImage = recentImages.find(item => item.filename === imageName);
-            const isRecentUpload = recentImage && (Date.now() - recentImage.uploadTime) < 24 * 60 * 60 * 1000; // 24 hours
-            
-            if (isRecentUpload) {
-                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
-                
-                // Check memory cache if localStorage fails
-                if (!base64Data && window.imageMemoryCache) {
-                    base64Data = window.imageMemoryCache[imageName];
-                }
-                
-                if (base64Data) {
-                    console.log(`Using base64 fallback for recent upload: ${imageName}`);
-                    img.src = base64Data;
-                    img.style.border = '2px solid #10b981'; // Green border to indicate base64 source
-                    return;
-                }
+            // Check memory cache
+            if (window.imageMemoryCache && window.imageMemoryCache[imageName]) {
+                img.src = window.imageMemoryCache[imageName];
+                img.style.border = '2px solid #10b981';
+                return;
             }
             
-            // Priority 2: Retry mechanism for older images
-            const maxRetries = 3;
-            const baseDelay = 2000;
-            
-            if (!img.dataset.retryCount) {
-                img.dataset.retryCount = '0';
-            }
-            
-            const retryCount = parseInt(img.dataset.retryCount);
-            
-            if (retryCount < maxRetries) {
-                img.dataset.retryCount = (retryCount + 1).toString();
-                console.log(`Retry ${retryCount + 1}/${maxRetries} for: ${imageName}`);
-                
-                const delay = baseDelay * Math.pow(2, retryCount);
-                
-                setTimeout(() => {
-                    const originalSrc = img.src.split('?')[0];
-                    img.src = `${originalSrc}?cache_bust=${Date.now()}`;
-                }, delay);
-            } else {
-                // Final fallback: try any available base64 data
-                const imageName = img.src.split('/').pop().split('?')[0];
-                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
-                
-                // Check memory cache if localStorage fails
-                if (!base64Data && window.imageMemoryCache) {
-                    base64Data = window.imageMemoryCache[imageName];
-                }
-                
-                if (base64Data) {
-                    console.log(`📸 Usando base64 final para: ${imageName}`);
-                    img.src = base64Data;
-                } else {
-                    console.log(`❌ Imagem não carregou após ${maxRetries} tentativas: ${img.src}`);
-                    // Create loading placeholder
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'card-placeholder';
-                    placeholder.innerHTML = `
-                        <div style="text-align: center;">
-                            <div style="font-size: 24px; margin-bottom: 8px;">⏳</div>
-                            <div style="font-size: 12px;">Aguardando GitHub Pages...</div>
-                            <div style="font-size: 10px; margin-top: 4px; opacity: 0.7;">Pode levar alguns minutos</div>
-                        </div>
-                    `;
-                    placeholder.style.width = img.style.width || '100%';
-                    placeholder.style.height = img.style.height || '100%';
-                    placeholder.style.display = 'flex';
-                    placeholder.style.alignItems = 'center';
-                    placeholder.style.justifyContent = 'center';
-                    placeholder.style.background = '#fff8dc';
-                    placeholder.style.color = '#8b7355';
-                    placeholder.style.border = '2px dashed #ddd';
-                    placeholder.style.borderRadius = '8px';
-                    
-                    img.style.display = 'none';
-                    if (img.parentNode) {
-                        img.parentNode.insertBefore(placeholder, img);
-                    }
-                    
-                    // Continue trying in background every 30 seconds
-                    setTimeout(() => {
-                        img.dataset.retryCount = '0';
-                        img.style.display = 'block';
-                        if (placeholder.parentNode) {
-                            placeholder.parentNode.removeChild(placeholder);
-                        }
-                        const originalSrc = img.src.split('?')[0];
-                        img.src = `${originalSrc}?v=${Date.now()}&background=true`;
-                    }, 30000);
-                }
-            }
+            // Show placeholder
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2IiBzdHJva2U9IiNkMWQ1ZGIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNmI3NDgxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BZ3VhcmRhbmRvPC90ZXh0Pjwvc3ZnPg==';
+            img.title = 'Aguardando sincronização';
         }
 
         function removeCategoryImage() {

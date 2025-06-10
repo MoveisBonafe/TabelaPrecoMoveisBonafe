@@ -74,50 +74,41 @@
         
         .logout-btn {
             padding: 8px 16px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 6px;
+            background: white;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
         
         .logout-btn:hover {
-            background: #dc2626;
+            background: #f9fafb;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
         }
 
         .cart-btn {
             padding: 8px 16px;
-            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24);
-            background-size: 200% 200%;
-            color: white;
-            border: none;
-            border-radius: 6px;
+            background: white;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: all 0.3s;
-            margin-right: 12px;
-            animation: cartGradient 2s ease-in-out infinite;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        @keyframes cartGradient {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
         .cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+            background: #f9fafb;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
         }
         
         .container {
@@ -214,7 +205,7 @@
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #9ca3af;
+            color: #6b7280;
             font-size: 16px;
             z-index: 1;
         }
@@ -547,10 +538,9 @@
         }
 
         .ver-produto-btn-fixed {
-            background: linear-gradient(45deg, #fbbf24, #facc15, #fbbf24);
-            background-size: 200% 200%;
-            color: white;
-            border: none;
+            background: white;
+            color: #374151;
+            border: 2px solid #e5e7eb;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -558,21 +548,12 @@
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
-            animation: buttonGradient 2s ease-in-out infinite;
-        }
-
-        @keyframes buttonGradient {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
         }
 
         .ver-produto-btn-fixed:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #d1d5db;
         }
         
         .product-image img {
@@ -1045,13 +1026,15 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">Móveis Bonafé</div>
-            <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                 <button class="logout-btn" onclick="logout()">Sair</button>
-                <button class="cart-btn" onclick="openCartModal()">
-                    🛒 Carrinho (<span id="cart-count">0</span>)
-                </button>
-                <div class="user-info">
-                    <span class="user-badge" id="user-info">Carregando...</span>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="cart-btn" onclick="openCartModal()">
+                        🛒 Carrinho (<span id="cart-count">0</span>)
+                    </button>
+                    <div class="user-info">
+                        <span class="user-badge" id="user-info">Carregando...</span>
+                    </div>
                 </div>
             </div>
         </div>

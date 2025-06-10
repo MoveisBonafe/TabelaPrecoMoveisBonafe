@@ -26,6 +26,11 @@ app.get('/catalogo', (req, res) => {
     res.sendFile(path.join(__dirname, 'docs', 'catalogo.html'));
 });
 
+// Serve price table (tabelapreco)
+app.get('/tabelapreco', (req, res) => {
+    res.sendFile(path.join(__dirname, 'docs', 'catalogo.html'));
+});
+
 // Serve login
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'docs', 'login.html'));

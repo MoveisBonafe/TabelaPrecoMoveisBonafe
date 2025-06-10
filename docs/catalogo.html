@@ -38,6 +38,11 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        .header-brand {
+            text-align: center;
+            flex: 1;
+        }
         
         .logo {
             font-size: 1.5rem;
@@ -930,8 +935,8 @@
         }
 
         .footer-brand {
-            text-align: left;
-            flex: 0;
+            text-align: center;
+            flex: 1;
         }
 
         .footer-title {
@@ -1235,14 +1240,14 @@
 <body>
     <div class="header">
         <div class="header-content">
-            <div class="logo">Móveis Bonafé</div>
-            <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
-                <button class="cart-btn" onclick="openCartModal()">
-                    🛒 Carrinho (<span id="cart-count">0</span>)
-                </button>
-                <div class="user-info">
-                    <span class="user-badge" id="user-info">Carregando...</span>
-                </div>
+            <div class="header-brand">
+                <div class="logo">Móveis Bonafé</div>
+            </div>
+            <button class="cart-btn" onclick="openCartModal()">
+                🛒 Carrinho (<span id="cart-count">0</span>)
+            </button>
+            <div class="user-info">
+                <span class="user-badge" id="user-info">Carregando...</span>
             </div>
         </div>
     </div>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Force Update Products</title>
+</head>
+<body>
+    <h1>Forçando atualização dos produtos...</h1>
+    <div id="status"></div>
+    
+    <script>
+        async function forceUpdateProducts() {
+            const status = document.getElementById('status');
+            
+            try {
+                status.innerHTML = 'Carregando produtos atualizados...';
+                
+                // Carregar os produtos atualizados
+                const productsResponse = await fetch('./docs/data/products.json');
+                const products = await productsResponse.json();
+                
+                const categoriesResponse = await fetch('./docs/data/categories.json');
+                const categories = await categoriesResponse.json();
+                
+                status.innerHTML = `Produtos carregados: ${products.length}<br>Categorias carregadas: ${categories.length}`;
+                
+                // Limpar cache e forçar atualização
+                localStorage.clear();
+                
+                // Salvar os dados atualizados no localStorage
+                localStorage.setItem('moveisbonafe_products', JSON.stringify(products));
+                localStorage.setItem('moveisbonafe_categories', JSON.stringify(categories));
+                localStorage.setItem('force_update_timestamp', Date.now().toString());
+                
+                status.innerHTML += '<br>Dados salvos no localStorage<br>Redirecionando para o admin...';
+                
+                // Redirecionar para o admin
+                setTimeout(() => {
+                    window.location.href = './docs/admin.html';
+                }, 2000);
+                
+            } catch (error) {
+                status.innerHTML = `Erro: ${error.message}`;
+            }
+        }
+        
+        // Executar automaticamente
+        forceUpdateProducts();
+    </script>
+</body>
+</html>

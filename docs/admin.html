@@ -1368,6 +1368,10 @@
             
             try {
                 await detectRepositoryInfo();
+                
+                // Force load updated local data first
+                await forceLoadLocalData();
+                
                 await loadAllData();
                 await checkGitHubToken();
                 renderAllData();
@@ -1375,6 +1379,30 @@
                 addSystemLog('Sistema admin inicializado com sucesso');
             } catch (error) {
                 addSystemLog(`Erro na inicialização: ${error.message}`);
+            }
+        }
+        
+        // Force load updated local data
+        async function forceLoadLocalData() {
+            try {
+                addSystemLog('Carregando dados locais atualizados...');
+                
+                // Load products directly from local file
+                const productsResponse = await fetch('./data/products.json?t=' + Date.now());
+                if (productsResponse.ok) {
+                    adminClient.products = await productsResponse.json();
+                    addSystemLog(`✅ ${adminClient.products.length} produtos carregados localmente`);
+                }
+                
+                // Load categories directly from local file
+                const categoriesResponse = await fetch('./data/categories.json?t=' + Date.now());
+                if (categoriesResponse.ok) {
+                    adminClient.categories = await categoriesResponse.json();
+                    addSystemLog(`✅ ${adminClient.categories.length} categorias carregadas localmente`);
+                }
+                
+            } catch (error) {
+                addSystemLog(`⚠️ Erro ao carregar dados locais: ${error.message}`);
             }
         }
 

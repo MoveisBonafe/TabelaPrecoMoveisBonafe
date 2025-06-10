@@ -5534,14 +5534,15 @@ ${this.userType === 'restaurante' ? `
                 // Automatically set to "À Vista"
                 priceTableSelect.value = 'avista';
                 priceTableSelect.removeAttribute('required');
+                // Update payment summary after setting the price table
+                setTimeout(() => updatePaymentSummary(), 100);
             } else {
                 // Show price table section for shop users
                 priceTableSection.style.display = 'block';
                 priceTableSelect.setAttribute('required', 'required');
+                // Update payment summary for shop users
+                updatePaymentSummary();
             }
-            
-            // Update payment summary
-            updatePaymentSummary();
         }
 
         function validateDeliveryForm() {
@@ -5640,14 +5641,12 @@ ${this.userType === 'restaurante' ? `
 
         // Payment calculation functions
         function updatePaymentSummary() {
-            const orderSummaryDiv = document.getElementById('order-summary');
             const totalSectionDiv = document.getElementById('total-section');
             const priceTable = document.getElementById('price-table').value;
             
-            if (!orderSummaryDiv || !totalSectionDiv) return;
+            if (!totalSectionDiv) return;
             
-            // Build order summary
-            let summaryHTML = '';
+            // Calculate totals
             let subtotal = 0;
             
             shoppingCart.forEach(item => {
@@ -5668,41 +5667,8 @@ ${this.userType === 'restaurante' ? `
                     
                     const itemTotal = unitPrice * item.quantity;
                     subtotal += itemTotal;
-                    
-                    let imageSrc = item.image;
-                    
-                    // Check for immediate base64 fallback for recently uploaded images
-                    if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {
-                        const filename = imageSrc.split('/').pop();
-                        let base64Data = localStorage.getItem(`image_base64_${filename}`);
-                        
-                        if (!base64Data && window.imageMemoryCache) {
-                            base64Data = window.imageMemoryCache[filename];
-                        }
-                        
-                        if (base64Data) {
-                            imageSrc = base64Data;
-                        } else if (imageSrc && !imageSrc.startsWith('http')) {
-                            imageSrc = imageSrc.startsWith('data/images/') ? 
-                                `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}` : 
-                                `${catalogClient.baseUrl}/data/images/${imageSrc.replace(/^data\/images\//, '')}`;
-                        }
-                    }
-                    
-                    summaryHTML += `
-                        <div class="cart-item" style="display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f3f4f6;">
-                            <img src="${imageSrc}" alt="${item.name}" class="cart-item-image" onerror="handleImageError(this)" style="width: 60px; height: 60px; border-radius: 6px; object-fit: cover; background: #f0f0f0; flex-shrink: 0;">
-                            <div class="cart-item-details" style="flex: 1;">
-                                <div class="cart-item-name" style="font-weight: 500; color: #111827; font-size: 0.95rem; line-height: 1.3; margin-bottom: 4px;">${item.name}</div>
-                                <div class="cart-item-info" style="font-size: 0.85rem; color: #6b7280;">Cor: ${item.color}</div>
-                            </div>
-                            <div class="cart-item-quantity" style="font-size: 0.85rem; color: #6b7280; align-self: flex-start; margin-top: 2px;">Qtd: ${item.quantity}</div>
-                        </div>
-                    `;
                 }
             });
-            
-            orderSummaryDiv.innerHTML = summaryHTML;
             
             // Calculate totals (prices already include table adjustments)
             let total = subtotal;

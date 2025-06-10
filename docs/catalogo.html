@@ -1684,28 +1684,41 @@
                             </div>
                             <button class="ver-produto-btn-fixed" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
                         </div>
-                        <div class="price-table-grid">
-                            <div class="price-cell">
-                                <div class="price-header">À Vista</div>
-                                <div class="price-value-large">R$ ${prices.vista.toFixed(2)}</div>
+${this.userType === 'restaurante' ? `
+                            <div class="restaurant-price-banner">
+                                <div class="golden-banner">
+                                    <span class="banner-icon">🍽️</span>
+                                    <span class="banner-text">Especial para Restaurantes</span>
+                                </div>
+                                <div class="special-price">
+                                    <span class="price-label">À Vista</span>
+                                    <div class="special-price-value">R$ ${prices.vista.toFixed(2)}</div>
+                                </div>
                             </div>
-                            <div class="price-cell">
-                                <div class="price-header">30</div>
-                                <div class="price-value-large">R$ ${prices.prazo30.toFixed(2)}</div>
+                        ` : `
+                            <div class="price-table-grid">
+                                <div class="price-cell">
+                                    <div class="price-header">À Vista</div>
+                                    <div class="price-value-large">R$ ${prices.vista.toFixed(2)}</div>
+                                </div>
+                                <div class="price-cell">
+                                    <div class="price-header">30</div>
+                                    <div class="price-value-large">R$ ${prices.prazo30.toFixed(2)}</div>
+                                </div>
+                                <div class="price-cell">
+                                    <div class="price-header">30/60</div>
+                                    <div class="price-value-large">R$ ${prices.prazo3060.toFixed(2)}</div>
+                                </div>
+                                <div class="price-cell">
+                                    <div class="price-header">30/60/90</div>
+                                    <div class="price-value-large">R$ ${prices.prazo306090.toFixed(2)}</div>
+                                </div>
+                                <div class="price-cell full-width">
+                                    <div class="price-header">30/60/90/120</div>
+                                    <div class="price-value-large">R$ ${prices.prazo30606090120.toFixed(2)}</div>
+                                </div>
                             </div>
-                            <div class="price-cell">
-                                <div class="price-header">30/60</div>
-                                <div class="price-value-large">R$ ${prices.prazo3060.toFixed(2)}</div>
-                            </div>
-                            <div class="price-cell">
-                                <div class="price-header">30/60/90</div>
-                                <div class="price-value-large">R$ ${prices.prazo306090.toFixed(2)}</div>
-                            </div>
-                            <div class="price-cell full-width">
-                                <div class="price-header">30/60/90/120</div>
-                                <div class="price-value-large">R$ ${prices.prazo30606090120.toFixed(2)}</div>
-                            </div>
-                        </div>
+                        `}
                     </div>
                 `;
             }
@@ -5779,14 +5792,17 @@
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
+                    // Calculate prices using the same system as product cards
+                    const prices = catalogClient.calculatePrices(product);
+                    
                     // Get price based on selected table
-                    let unitPrice = product.priceAVista || 0;
+                    let unitPrice = prices.vista || 0; // Default to À Vista
                     switch(priceTable) {
-                        case '30': unitPrice = product.price30 || product.priceAVista || 0; break;
-                        case '30/60': unitPrice = product.price3060 || product.priceAVista || 0; break;
-                        case '30/60/90': unitPrice = product.price306090 || product.priceAVista || 0; break;
-                        case '30/60/90/120': unitPrice = product.price30609120 || product.priceAVista || 0; break;
-                        default: unitPrice = product.priceAVista || 0; break;
+                        case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
+                        case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
+                        case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
+                        case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
+                        default: unitPrice = prices.vista || 0; break;
                     }
                     
                     const itemTotal = unitPrice * item.quantity;

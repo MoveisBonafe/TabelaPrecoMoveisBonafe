@@ -5633,8 +5633,20 @@ ${this.userType === 'restaurante' ? `
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
-                    const basePrice = product.priceAVista || 0;
-                    const itemTotal = basePrice * item.quantity;
+                    // Calculate prices using the same system as product cards
+                    const prices = catalogClient.calculatePrices(product);
+                    
+                    // Get price based on selected table
+                    let unitPrice = prices.vista || 0; // Default to À Vista
+                    switch(priceTable) {
+                        case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
+                        case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
+                        case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
+                        case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
+                        default: unitPrice = prices.vista || 0; break;
+                    }
+                    
+                    const itemTotal = unitPrice * item.quantity;
                     subtotal += itemTotal;
                     
                     let imageSrc = item.image;
@@ -5672,26 +5684,9 @@ ${this.userType === 'restaurante' ? `
             
             orderSummaryDiv.innerHTML = summaryHTML;
             
-            // Calculate totals with table markup and discounts
+            // Calculate totals (prices already include table adjustments)
             let total = subtotal;
             let totalHTML = '';
-            
-            // Apply price table markup if selected (À Vista has no markup)
-            if (priceTable && priceTable !== 'avista') {
-                let markup = 0;
-                switch(priceTable) {
-                    case '30': markup = 0.02; break;
-                    case '30/60': markup = 0.04; break;
-                    case '30/60/90': markup = 0.06; break;
-                    case '30/60/90/120': markup = 0.08; break;
-                }
-                
-                if (markup > 0) {
-                    const markupAmount = subtotal * markup;
-                    subtotal += markupAmount; // Include markup in subtotal
-                    total = subtotal; // Update total
-                }
-            }
 
             // Add subtotal (already includes markup if applicable)
             totalHTML += `

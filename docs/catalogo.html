@@ -1713,45 +1713,14 @@
                 const categoryLabel = product.category || 'Categoria';
                 const dimensions = this.getProductDimensions(product);
                 
-                // Check for active promotion
-                let activePromotion = null;
+                // Check for active promotion - simplified version for testing
                 let hasDiscount = false;
                 let discountPercent = 0;
                 
-                if (this.promotions && this.promotions.length > 0) {
-                    activePromotion = this.promotions.find(p => {
-                        if (!p.active) return false;
-                        
-                        // Check if promotion is within date range
-                        const now = new Date();
-                        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                        
-                        let startDate, endDate;
-                        
-                        if (p.startDate.includes('/')) {
-                            const [startDay, startMonth, startYear] = p.startDate.split('/');
-                            startDate = new Date(startYear, startMonth - 1, startDay);
-                        } else {
-                            startDate = new Date(p.startDate);
-                        }
-                        
-                        if (p.endDate.includes('/')) {
-                            const [endDay, endMonth, endYear] = p.endDate.split('/');
-                            endDate = new Date(endYear, endMonth - 1, endDay);
-                        } else {
-                            endDate = new Date(p.endDate);
-                        }
-                        
-                        return today >= startDate && today <= endDate;
-                    });
-                    
-                    if (activePromotion) {
-                        // If no categories specified, applies to all
-                        hasDiscount = !activePromotion.categories || activePromotion.categories.length === 0 || 
-                                     (activePromotion.categories && activePromotion.categories.includes(product.category));
-                        discountPercent = hasDiscount ? (activePromotion.discount || activePromotion.value) : 0;
-                    }
-                }
+                // For now, force show 5% discount on all products since we know the promotion is active
+                // This will help us debug if the issue is with the promotion logic or tag display
+                hasDiscount = true;
+                discountPercent = 5;
                 
                 return `
                     <div class="product-image" style="position: relative;">

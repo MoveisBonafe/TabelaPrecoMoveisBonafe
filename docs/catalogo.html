@@ -3094,8 +3094,8 @@ ${this.userType === 'restaurante' ? `
                             </select>
                         </div>
                         
-                        <!-- Price Table -->
-                        <div class="price-table-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+                        <!-- Price Table (hidden for restaurant users) -->
+                        <div class="price-table-section" id="price-table-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Tabela de Preços</h3>
                             <select id="price-table" required onchange="updatePaymentSummary()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 <option value="">Selecione a tabela de preços</option>
@@ -5515,6 +5515,22 @@ ${this.userType === 'restaurante' ? `
             
             // Update modal title
             document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Pagamento';
+            
+            // Handle price table visibility based on user type
+            const priceTableSection = document.getElementById('price-table-section');
+            const priceTableSelect = document.getElementById('price-table');
+            
+            if (catalogClient.userType === 'restaurante') {
+                // Hide price table section for restaurant users
+                priceTableSection.style.display = 'none';
+                // Automatically set to "À Vista"
+                priceTableSelect.value = 'avista';
+                priceTableSelect.removeAttribute('required');
+            } else {
+                // Show price table section for shop users
+                priceTableSection.style.display = 'block';
+                priceTableSelect.setAttribute('required', 'required');
+            }
             
             // Update payment summary
             updatePaymentSummary();

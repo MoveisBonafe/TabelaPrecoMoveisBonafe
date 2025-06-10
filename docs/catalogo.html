@@ -953,33 +953,29 @@
         }
 
         .footer-contact-btn {
-            background: linear-gradient(45deg, #f1c40f, #f39c12);
-            color: #1a1a1a;
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24, #000000);
+            background-size: 300% 300%;
+            color: white;
             border: none;
             padding: 12px 24px;
-            border-radius: 25px;
+            border-radius: 20px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
-            background-size: 200% 200%;
-            animation: gradient-shift 3s ease infinite;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: gradientShift 3s ease-in-out infinite;
         }
 
         .footer-contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
         }
 
         .footer-contact-btn:active {
             transform: translateY(0);
-        }
-
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .footer-bottom {

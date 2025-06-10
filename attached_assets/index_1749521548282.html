@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Móveis Bonafé - Catálogo</title>
+    <meta name="description" content="Catálogo completo de móveis de qualidade - sofás, poltronas, mesas, cadeiras e muito mais da Móveis Bonafé.">
+    <meta property="og:title" content="Móveis Bonafé - Catálogo">
+    <meta property="og:description" content="Catálogo completo de móveis de qualidade - sofás, poltronas, mesas, cadeiras e muito mais.">
+    <meta property="og:type" content="website">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: #FFFFFF;
+            color: #333333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #1a1a1a, #ffd700, #ffb347, #ffd700, #1a1a1a);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            background: #F2C41B;
+            color: #1A1A1A;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #E6B800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(242, 196, 27, 0.3);
+        }
+        
+        .search-section {
+            background: white;
+            padding: 30px 0;
+            border-bottom: 1px solid #E6D5A8;
+        }
+        
+        .search-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            box-sizing: border-box;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #CCC;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #A3A3A3;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            background: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            color: #000;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: #CCC;
+        }
+        
+        .main-content {
+            padding: 40px 0;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: #CCC;
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .category-badge {
+            background: #F5F5F5;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            touch-action: pan-y;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .product-image-indicator {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.7em;
+            display: none;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            loading: lazy;
+            background: transparent;
+        }
+
+        .product-image img.error {
+            display: none;
+        }
+        
+        .product-image.no-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9em;
+            border: 2px dashed #E6D5A8;
+        }
+        
+        .product-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1A1A1A;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-tag {
+            background: #F8F9FA;
+            color: #495057;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            border: 1px solid #DEE2E6;
+        }
+        
+        .colors {
+            margin-top: 15px;
+        }
+        
+        .color-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .colors-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .color-dots {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+            align-items: center;
+        }
+        
+        .view-btn {
+            background: linear-gradient(135deg, #F2C41B, #FFD700);
+            color: #1A1A1A;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(242, 196, 27, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(242, 196, 27, 0.4);
+        }
+        
+        .view-btn-solo {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 0.9em;
+            justify-content: center;
+        }
+        
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #E6D5A8;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .color-dot:hover {
+            transform: scale(1.2);
+            border-color: #F2C41B;
+        }
+        
+        .color-dot.selected {
+            border: 3px solid #F2C41B;
+            transform: scale(1.15);
+            box-shadow: 0 0 0 2px rgba(242, 196, 27, 0.3);
+        }
+        
+        .footer {
+            background: white;
+            border-top: 3px solid #F2C41B;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #E6D5A8;
+            border-top: 4px solid #F2C41B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            z-index: 1001;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .image-gallery {
+            width: 95vw;
+            max-width: 800px;
+            height: 90vh;
+            max-height: 800px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: rgba(248, 250, 252, 0.98);
+            border-radius: 20px;
+            margin: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(248, 250, 252, 0.98);
+            width: 100%;
+            min-height: 0;
+            overflow: hidden;
+            cursor: pointer;
+            touch-action: none;
+            user-select: none;
+            position: relative;
+        }
+        
+        .gallery-image {
+            max-width: calc(100% - 10px);
+            max-height: calc(100% - 10px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .modal-header {
+            padding: 20px 25px 15px;
+            background: rgba(248, 250, 252, 0.98);
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .modal-color-name {
+            font-size: 1.3em;
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .modal-footer {
+            padding: 15px 25px 20px;
+            background: rgba(248, 250, 252, 0.98);
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .social-sharing {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: transform 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .social-btn.whatsapp { background: #25D366; }
+        .social-btn.facebook { background: #1877F2; }
+        .social-btn.instagram { background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
+        .social-btn.pinterest { background: #BD081C; }
+        .social-btn.twitter { background: #1DA1F2; }
+        
+        .modal-colors {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 0 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .modal-color-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 12px;
+        }
+        
+        .modal-color-item:hover {
+            background: rgba(0, 123, 255, 0.1);
+        }
+        
+        .modal-color-item.active {
+            background: rgba(0, 123, 255, 0.15);
+        }
+        
+        .modal-color-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            margin-bottom: 6px;
+        }
+        
+        .modal-color-item:hover .modal-color-dot {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-color-item.active .modal-color-dot {
+            border-color: #007AFF;
+            border-width: 4px;
+            transform: scale(1.1);
+        }
+        
+        .modal-color-item.active .modal-color-dot::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-color-label {
+            font-size: 0.85em;
+            color: #495057;
+            font-weight: 500;
+            text-align: center;
+            max-width: 70px;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+        
+        .swipe-indicator {
+            font-size: 0.85em;
+            color: #6c757d;
+            white-space: nowrap;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .image-gallery {
+                max-width: 95vw;
+                max-height: 90vh;
+                background: rgba(248, 250, 252, 0.98);
+            }
+            
+            .modal-header {
+                padding: 20px 20px 15px;
+                background: rgba(248, 250, 252, 0.98);
+            }
+            
+            .modal-product-title {
+                font-size: 1.5em;
+            }
+            
+            .modal-color-name {
+                font-size: 1em;
+            }
+            
+            .modal-footer {
+                padding: 15px 20px 20px;
+                background: rgba(248, 250, 252, 0.98);
+            }
+            
+            .modal-colors {
+                gap: 10px;
+                max-width: 320px;
+            }
+            
+            .modal-color-dot {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .modal-color-label {
+                font-size: 0.75em;
+                max-width: 60px;
+            }
+            
+            .gallery-image-container {
+                padding: 20px;
+                background: rgba(248, 250, 252, 0.98);
+            }
+            
+            .swipe-indicator {
+                display: block;
+            }
+        }
+        
+        .gallery-counter {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-images-placeholder {
+            color: white;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .header-content {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                text-align: center;
+            }
+            
+            .logo {
+                font-size: 2em;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .image-gallery {
+                max-width: 95vw;
+                max-height: 80vh;
+                padding: 20px;
+                margin: 10px auto;
+            }
+            
+            .gallery-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .gallery-prev {
+                left: -22px;
+            }
+            
+            .gallery-next {
+                right: -22px;
+            }
+            
+            .gallery-counter {
+                bottom: -15px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1 class="logo">Móveis Bonafé</h1>
+                    <p class="subtitle">Catálogo de Móveis</p>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Buscar produtos..." id="searchInput">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">Todas as Categorias</option>
+                    <option value="Sofás">Sofás</option>
+                    <option value="Poltronas">Poltronas</option>
+                    <option value="Mesas">Mesas</option>
+                    <option value="Cadeiras">Cadeiras</option>
+                    <option value="Estantes">Estantes</option>
+                    <option value="Camas">Camas</option>
+                    <option value="Guarda-roupas">Guarda-roupas</option>
+                    <option value="Decoração">Decoração</option>
+                </select>
+                <select class="filter-select" id="sortFilter">
+                    <option value="name">Ordenar por Nome</option>
+                    <option value="category">Ordenar por Categoria</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <p>Carregando produtos...</p>
+            </div>
+            <div id="productsContainer" class="products-grid" style="display: none;"></div>
+            <div id="noProductsState" class="no-products" style="display: none;">
+                <h3>Nenhum produto encontrado</h3>
+                <p>Tente ajustar os filtros de busca</p>
+            </div>
+        </div>
+    </main>
+
+
+
+    <!-- Modal para visualizar produto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProductModal()">&times;</span>
+            <div class="image-gallery" id="imageGallery">
+
+                <div class="gallery-image-container">
+                    <img id="galleryImage" class="gallery-image" src="" alt="">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-colors" id="modalColors"></div>
+                    <div class="swipe-indicator">← Deslize para trocar cores →</div>
+                </div>
+            </div>
+            <div class="no-images-placeholder" id="noImagesPlaceholder" style="display: none;">
+                📷 Nenhuma imagem disponível
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample products data
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Sofá Moderno 3 Lugares",
+                description: "Sofá confortável com design moderno, estofado em tecido de alta qualidade.",
+                images: [],
+                category: "Sofás",
+                colors: [
+                    { name: "Cinza Claro", hex: "#D3D3D3", images: [] },
+                    { name: "Azul Marinho", hex: "#000080", images: [] }
+                ],
+                features: ["3 lugares", "Estofado em tecido", "Estrutura em madeira", "Almofadas soltas"]
+            },
+            {
+                id: 2,
+                name: "Poltrona Relax Premium",
+                description: "Poltrona reclinável com sistema de massagem e aquecimento integrado.",
+                images: [],
+                category: "Poltronas",
+                colors: [
+                    { name: "Couro Marrom", hex: "#8B4513" },
+                    { name: "Preto", hex: "#000000" }
+                ],
+                features: ["Reclinável", "Sistema de massagem", "Aquecimento", "Couro sintético"]
+            },
+            {
+                id: 3,
+                name: "Mesa de Jantar Extensível",
+                description: "Mesa de jantar em madeira maciça com sistema de extensão para 8 pessoas.",
+                images: [],
+                category: "Mesas",
+                colors: [
+                    { name: "Mogno", hex: "#CD853F" },
+                    { name: "Carvalho", hex: "#DEB887" }
+                ],
+                features: ["Madeira maciça", "Extensível", "Para 8 pessoas", "Acabamento verniz"]
+            },
+            {
+                id: 4,
+                name: "Cadeira Ergonômica Office",
+                description: "Cadeira de escritório com apoio lombar ajustável e rodízios silenciosos.",
+                images: [],
+                category: "Cadeiras",
+                colors: [
+                    { name: "Preto", hex: "#000000" },
+                    { name: "Cinza", hex: "#808080" }
+                ],
+                features: ["Ergonômica", "Apoio lombar", "Rodízios silenciosos", "Altura regulável"]
+            },
+            {
+                id: 5,
+                name: "Estante Biblioteca 5 Prateleiras",
+                description: "Estante moderna com 5 prateleiras e compartimentos para livros e decoração.",
+                images: [],
+                category: "Estantes",
+                colors: [
+                    { name: "Branco", hex: "#FFFFFF" },
+                    { name: "Amadeirado", hex: "#DEB887" }
+                ],
+                features: ["5 prateleiras", "Design moderno", "Fácil montagem", "MDF 18mm"]
+            },
+            {
+                id: 6,
+                name: "Cama Box Queen Size",
+                description: "Cama box queen com colchão de molas ensacadas e pillow top.",
+                images: [],
+                category: "Camas",
+                colors: [
+                    { name: "Bege", hex: "#F5F5DC" },
+                    { name: "Cinza Escuro", hex: "#2F4F4F" }
+                ],
+                features: ["Queen size", "Molas ensacadas", "Pillow top", "Base box"]
+            }
+        ];
+
+        // Function to ensure proper UTF-8 encoding
+        function ensureUTF8(str) {
+            if (typeof str !== 'string') return str;
+            try {
+                // Decode and re-encode to ensure proper UTF-8
+                return decodeURIComponent(escape(str));
+            } catch (e) {
+                return str;
+            }
+        }
+
+        // Function to fix UTF-8 encoding in product data
+        function fixProductEncoding(products) {
+            return products.map(product => ({
+                ...product,
+                name: ensureUTF8(product.name),
+                description: ensureUTF8(product.description),
+                category: ensureUTF8(product.category),
+                features: product.features ? product.features.map(f => ensureUTF8(f)) : [],
+                colors: product.colors ? product.colors.map(c => ({
+                    ...c,
+                    name: ensureUTF8(c.name)
+                })) : []
+            }));
+        }
+
+        // Load products from GitHub - automatic synchronization for all devices
+        async function loadProductsFromGitHub() {
+            // Force reload to ensure latest data
+            const timestamp = new Date().getTime();
+            const sources = [
+                // Direct GitHub Pages URL with cache busting
+                `https://moveisbonafe.github.io/Catalogo-Moveis-Bonafe/products.json?t=${timestamp}`,
+                // Local fallback with cache busting
+                `./products.json?t=${timestamp}`,
+                // GitHub API as fallback
+                'https://api.github.com/repos/MoveisBonafe/Catalogo-Moveis-Bonafe/contents/docs/products.json'
+            ];
+
+            for (const source of sources) {
+                try {
+                    const response = await fetch(source, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        }
+                    });
+                    if (response.ok) {
+                        let products;
+                        
+                        if (source.includes('api.github.com')) {
+                            // GitHub API response needs decoding
+                            const data = await response.json();
+                            const decodedContent = decodeURIComponent(escape(atob(data.content)));
+                            products = JSON.parse(decodedContent);
+                        } else {
+                            // Direct JSON response
+                            const text = await response.text();
+                            products = JSON.parse(text);
+                        }
+                        
+                        // Fix encoding issues
+                        products = fixProductEncoding(products);
+                        
+                        // Save successful load to localStorage for offline access
+                        localStorage.setItem('catalogProducts', JSON.stringify(products));
+                        return products;
+                    }
+                } catch (error) {
+                    console.log(`Fonte ${source} não disponível`);
+                    continue;
+                }
+            }
+            
+            // Final fallback to localStorage
+            const savedProducts = localStorage.getItem('catalogProducts');
+            if (savedProducts) {
+                try {
+                    const products = JSON.parse(savedProducts);
+                    return fixProductEncoding(products);
+                } catch (e) {
+                    console.error('Erro ao carregar produtos salvos:', e);
+                }
+            }
+            
+            // Return sample products only if nothing else works
+            return fixProductEncoding([...sampleProducts]);
+        }
+
+        function loadProducts() {
+            return loadProductsFromGitHub();
+        }
+
+        let allProducts = [];
+        let filteredProducts = [];
+
+        // Function to safely escape HTML content
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderProducts(products) {
+            const container = document.getElementById('productsContainer');
+            const loadingState = document.getElementById('loadingState');
+            const noProductsState = document.getElementById('noProductsState');
+
+            loadingState.style.display = 'none';
+            
+            if (products.length === 0) {
+                container.style.display = 'none';
+                noProductsState.style.display = 'block';
+                return;
+            }
+
+            noProductsState.style.display = 'none';
+            container.style.display = 'grid';
+            
+            container.innerHTML = products.map(product => `
+                <div class="product-card" onclick="openProductModal(${product.id})">
+                    ${product.images && product.images.length > 0 ? `
+                        <div class="product-image" 
+                             ontouchstart="handleProductTouchStart(event, ${product.id})" 
+                             ontouchend="handleProductTouchEnd(event, ${product.id})"
+                             data-product-id="${product.id}"
+                             data-current-image="0">
+                            <img src="${product.images[0]}" alt="${escapeHtml(product.name)}" 
+                                 onload="this.parentElement.classList.remove('no-image')"
+                                 onerror="handleImageError(this)">
+                            ${product.images.length > 1 ? `
+                                <div class="product-image-indicator">1/${product.images.length}</div>
+                            ` : ''}
+                        </div>
+                    ` : `
+                        <div class="product-image no-image">
+                            📷 Sem imagem
+                        </div>
+                    `}
+                    <div class="product-header">
+                        <span class="category-badge">${escapeHtml(product.category)}</span>
+                    </div>
+                    <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                    <p class="product-description">${escapeHtml(product.description).replace(/\n/g, '<br>')}</p>
+                    ${product.features && product.features.length > 0 ? `
+                        <div class="features">
+                            ${product.features.slice(0, 3).map(feature => 
+                                `<span class="feature-tag">${escapeHtml(feature)}</span>`
+                            ).join('')}
+                            ${product.features.length > 3 ? 
+                                `<span class="feature-tag">+${product.features.length - 3} mais</span>` : ''
+                            }
+                        </div>
+                    ` : ''}
+                    ${product.colors && product.colors.length > 0 ? `
+                        <div class="colors">
+                            <span class="color-label">Cores:</span>
+                            <div class="colors-row">
+                                <div class="color-dots">
+                                    ${product.colors.slice(0, 4).map(color => 
+                                        `<div class="color-dot" style="background-color: ${escapeHtml(color.hex)}" title="${escapeHtml(color.name)}"></div>`
+                                    ).join('')}
+                                    ${product.colors.length > 4 ? 
+                                        `<span style="font-size: 0.8em; color: #666;">+${product.colors.length - 4}</span>` : ''
+                                    }
+                                </div>
+                                <button class="view-btn" onclick="event.stopPropagation(); openProductModal(${product.id})" title="Ver produto">
+                                    👁️ Ver Produto
+                                </button>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="colors">
+                            <button class="view-btn view-btn-solo" onclick="event.stopPropagation(); openProductModal(${product.id})" title="Ver produto">
+                                👁️ Ver Produto
+                            </button>
+                        </div>
+                    `}
+                </div>
+            `).join('');
+        }
+
+        function updateCategoryFilter() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const currentValue = categoryFilter.value;
+            
+            // Get unique categories from current products
+            const availableCategories = [...new Set(allProducts.map(p => p.category))].sort();
+            
+            // Clear and rebuild options
+            categoryFilter.innerHTML = '<option value="">Todas as categorias</option>';
+            
+            availableCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+            
+            // Restore previous selection if still valid
+            if (availableCategories.includes(currentValue)) {
+                categoryFilter.value = currentValue;
+            }
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const sortFilter = document.getElementById('sortFilter').value;
+
+            filteredProducts = allProducts.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                                    product.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = categoryFilter === '' || product.category === categoryFilter;
+                return matchesSearch && matchesCategory;
+            });
+
+            // Sort products
+            filteredProducts.sort((a, b) => {
+                switch (sortFilter) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'category':
+                        return a.category.localeCompare(b.category);
+                    default:
+                        return 0;
+                }
+            });
+
+            renderProducts(filteredProducts);
+        }
+
+        let currentProduct = null;
+        let currentColorIndex = 0;
+        let currentImageIndex = 0;
+
+        function openProductModal(productId) {
+            currentProduct = allProducts.find(p => p.id === productId);
+            if (!currentProduct) return;
+
+            currentColorIndex = 0;
+            currentImageIndex = 0;
+
+            const gallery = document.getElementById('imageGallery');
+            const placeholder = document.getElementById('noImagesPlaceholder');
+            
+            // Setup colors
+            setupModalColors();
+            
+            // Show first color's images or fallback
+            showColorImages();
+
+            document.getElementById('productModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            // Add swipe events to the entire modal for complete touch coverage
+            setupModalSwipeEvents();
+        }
+
+        function setupModalSwipeEvents() {
+            const modal = document.getElementById('productModal');
+            const gallery = document.getElementById('imageGallery');
+            const imageContainer = gallery.querySelector('.gallery-image-container');
+            const galleryImage = document.getElementById('galleryImage');
+
+            // Remove ALL existing touch events to prevent conflicts
+            modal.removeEventListener('touchstart', handleModalTouchStart);
+            modal.removeEventListener('touchend', handleModalTouchEnd);
+            modal.removeEventListener('touchstart', handleTouchStart);
+            modal.removeEventListener('touchend', handleTouchEnd);
+            
+            gallery.removeEventListener('touchstart', handleModalTouchStart);
+            gallery.removeEventListener('touchend', handleModalTouchEnd);
+            gallery.removeEventListener('touchstart', handleTouchStart);
+            gallery.removeEventListener('touchend', handleTouchEnd);
+            
+            if (imageContainer) {
+                imageContainer.removeEventListener('touchstart', handleModalTouchStart);
+                imageContainer.removeEventListener('touchend', handleModalTouchEnd);
+                imageContainer.removeEventListener('touchstart', handleTouchStart);
+                imageContainer.removeEventListener('touchend', handleTouchEnd);
+            }
+            
+            galleryImage.removeEventListener('touchstart', handleModalTouchStart);
+            galleryImage.removeEventListener('touchend', handleModalTouchEnd);
+            galleryImage.removeEventListener('touchstart', handleTouchStart);
+            galleryImage.removeEventListener('touchend', handleTouchEnd);
+
+            // Add ONLY to the image container for better precision and coverage
+            if (imageContainer) {
+                imageContainer.addEventListener('touchstart', handleModalTouchStart, { passive: false });
+                imageContainer.addEventListener('touchend', handleModalTouchEnd, { passive: false });
+            }
+            
+            // Also add to the image itself as backup
+            galleryImage.addEventListener('touchstart', handleModalTouchStart, { passive: false });
+            galleryImage.addEventListener('touchend', handleModalTouchEnd, { passive: false });
+        }
+
+        function setupModalColors() {
+            const colorsContainer = document.getElementById('modalColors');
+            
+            if (!currentProduct.colors || currentProduct.colors.length === 0) {
+                colorsContainer.style.display = 'none';
+                return;
+            }
+            
+            colorsContainer.style.display = 'flex';
+            colorsContainer.innerHTML = currentProduct.colors.map((color, index) => 
+                `<div class="modal-color-item ${index === currentColorIndex ? 'active' : ''}" 
+                      onclick="selectColor(${index})">
+                    <div class="modal-color-dot" style="background-color: ${escapeHtml(color.hex)}"></div>
+                    <div class="modal-color-label">${escapeHtml(color.name)}</div>
+                </div>`
+            ).join('');
+        }
+
+        function selectColor(colorIndex) {
+            currentColorIndex = colorIndex;
+            currentImageIndex = 0;
+            setupModalColors(); // Update active state
+            showColorImages();
+        }
+
+        function showColorImages() {
+            const gallery = document.getElementById('imageGallery');
+            const placeholder = document.getElementById('noImagesPlaceholder');
+            const galleryImage = document.getElementById('galleryImage');
+            
+            let imagesToShow = currentProduct.images || [];
+            
+            // Se não há cores selecionadas ou imagens para a cor, usar navegação por imagem
+            if (!currentProduct.colors || currentProduct.colors.length === 0) {
+                // Sem cores: navegar pelas imagens disponíveis
+                if (imagesToShow.length > 0 && imagesToShow[currentImageIndex]) {
+                    gallery.style.display = 'flex';
+                    placeholder.style.display = 'none';
+                    galleryImage.src = imagesToShow[currentImageIndex];
+                    galleryImage.alt = 'Imagem do produto';
+                } else {
+                    gallery.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                }
+            } else {
+                // Com cores: usar índice da cor para selecionar imagem
+                let imageIndex = Math.min(currentColorIndex, imagesToShow.length - 1);
+                
+                if (imagesToShow.length > 0 && imagesToShow[imageIndex]) {
+                    gallery.style.display = 'flex';
+                    placeholder.style.display = 'none';
+                    galleryImage.src = imagesToShow[imageIndex];
+                    galleryImage.alt = currentProduct.colors[currentColorIndex]?.name || 'Imagem do produto';
+                    
+                    // Handle image loading errors
+                    galleryImage.onerror = function() {
+                        this.style.display = 'none';
+                        gallery.style.display = 'none';
+                        placeholder.style.display = 'flex';
+                        placeholder.innerHTML = `
+                            <div style="text-align: center; padding: 40px;">
+                                <div style="font-size: 4em; margin-bottom: 20px; opacity: 0.3;">📷</div>
+                                <h3 style="color: #999; font-weight: 400;">Imagem não disponível</h3>
+                            </div>
+                        `;
+                    };
+                    
+                    galleryImage.onload = function() {
+                        this.style.display = 'block';
+                    };
+                } else {
+                    gallery.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                    placeholder.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <div style="font-size: 4em; margin-bottom: 20px; opacity: 0.3;">📷</div>
+                            <h3 style="color: #999; font-weight: 400;">Nenhuma imagem disponível</h3>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextColor() {
+            if (!currentProduct.colors || currentProduct.colors.length <= 1) return;
+            
+            const oldIndex = currentColorIndex;
+            currentColorIndex = currentColorIndex < currentProduct.colors.length - 1 ? currentColorIndex + 1 : 0;
+            
+            console.log(`Color changed from ${oldIndex} to ${currentColorIndex} (total: ${currentProduct.colors.length})`);
+            
+            // Mapear cor para imagem correspondente (igual à tela principal)
+            if (currentProduct.images && currentProduct.images.length > 0) {
+                currentImageIndex = currentColorIndex % currentProduct.images.length;
+            }
+            
+            setupModalColors();
+            showColorImages();
+        }
+
+        function previousColor() {
+            if (!currentProduct.colors || currentProduct.colors.length <= 1) return;
+            
+            const oldIndex = currentColorIndex;
+            currentColorIndex = currentColorIndex > 0 ? currentColorIndex - 1 : currentProduct.colors.length - 1;
+            
+            console.log(`Color changed from ${oldIndex} to ${currentColorIndex} (total: ${currentProduct.colors.length})`);
+            
+            // Mapear cor para imagem correspondente (igual à tela principal)
+            if (currentProduct.images && currentProduct.images.length > 0) {
+                currentImageIndex = currentColorIndex % currentProduct.images.length;
+            }
+            
+            setupModalColors();
+            showColorImages();
+        }
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    previousColor(); // Swipe right = previous color
+                } else {
+                    nextColor(); // Swipe left = next color
+                }
+            }
+        }
+
+        // Keyboard navigation
+        function handleKeyPress(event) {
+            const modal = document.getElementById('productModal');
+            if (modal.style.display === 'block') {
+                switch(event.key) {
+                    case 'Escape':
+                        closeProductModal();
+                        break;
+                    case 'ArrowLeft':
+                        previousColor();
+                        break;
+                    case 'ArrowRight':
+                        nextColor();
+                        break;
+                }
+            }
+        }
+
+        // Product card image swipe functionality
+        let productTouchStartX = {};
+        let productTouchEndX = {};
+
+        function handleProductTouchStart(event, productId) {
+            productTouchStartX[productId] = event.changedTouches[0].screenX;
+        }
+
+        function handleProductTouchEnd(event, productId) {
+            productTouchEndX[productId] = event.changedTouches[0].screenX;
+            const swipeDetected = handleProductSwipe(productId);
+            if (swipeDetected) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        }
+
+        function handleProductSwipe(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product || !product.images || product.images.length <= 1) return false;
+
+            const swipeThreshold = 50;
+            const swipeDistance = productTouchEndX[productId] - productTouchStartX[productId];
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                const imageContainer = document.querySelector(`[data-product-id="${productId}"]`);
+                if (!imageContainer) return false;
+
+                let currentImageIndex = parseInt(imageContainer.dataset.currentImage) || 0;
+
+                if (swipeDistance > 0) {
+                    currentImageIndex = currentImageIndex > 0 ? currentImageIndex - 1 : product.images.length - 1;
+                } else {
+                    currentImageIndex = currentImageIndex < product.images.length - 1 ? currentImageIndex + 1 : 0;
+                }
+
+                const img = imageContainer.querySelector('img');
+                const indicator = imageContainer.querySelector('.product-image-indicator');
+                
+                if (img) {
+                    img.src = product.images[currentImageIndex];
+                    imageContainer.dataset.currentImage = currentImageIndex;
+                }
+                
+                if (indicator) {
+                    indicator.textContent = `${currentImageIndex + 1}/${product.images.length}`;
+                    indicator.style.display = 'block';
+                }
+
+                // Atualizar cor selecionada baseada na imagem
+                if (product.colors && product.colors.length > 0) {
+                    const productCard = imageContainer.closest('.product-card');
+                    const colorDots = productCard.querySelectorAll('.color-dot');
+                    
+                    // Remover seleção anterior
+                    colorDots.forEach(dot => dot.classList.remove('selected'));
+                    
+                    // Mapear imagem para cor de forma sequencial e respeitosa
+                    const colorIndex = currentImageIndex % product.colors.length;
+                    if (colorDots[colorIndex]) {
+                        colorDots[colorIndex].classList.add('selected');
+                    }
+                }
+                return true; // Swipe detectado
+            }
+            return false; // Sem swipe
+        }
+
+
+
+        // Modal touch/swipe events
+        let modalTouchStartX = 0;
+        let modalTouchEndX = 0;
+        
+        function handleModalTouchStart(e) {
+            modalTouchStartX = e.changedTouches[0].screenX;
+            console.log('Touch start on modal:', modalTouchStartX);
+        }
+
+        function handleModalTouchEnd(e) {
+            modalTouchEndX = e.changedTouches[0].screenX;
+            console.log('Touch end on modal:', modalTouchEndX);
+            
+            // Prevent default behavior to avoid interference
+            e.preventDefault();
+            e.stopPropagation();
+            
+            handleModalSwipe();
+        }
+
+        function handleModalSwipe() {
+            const swipeThreshold = 30; // Reduzido para detectar swipes menores
+            const diff = modalTouchStartX - modalTouchEndX;
+            
+            console.log('Swipe detectado:', { start: modalTouchStartX, end: modalTouchEndX, diff: diff, threshold: swipeThreshold });
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                console.log('Swipe válido detectado');
+                if (currentProduct.colors && currentProduct.colors.length > 1) {
+                    // Com cores: navegar entre cores
+                    console.log('Navegando entre cores');
+                    if (diff > 0) {
+                        nextColor();
+                    } else {
+                        previousColor();
+                    }
+                } else if (currentProduct.images && currentProduct.images.length > 1) {
+                    // Sem cores: navegar entre imagens
+                    console.log('Navegando entre imagens');
+                    if (diff > 0) {
+                        nextImage();
+                    } else {
+                        previousImage();
+                    }
+                }
+            } else {
+                console.log('Swipe não atingiu threshold');
+            }
+        }
+
+        function nextImage() {
+            if (currentProduct.images && currentProduct.images.length > 1) {
+                currentImageIndex = (currentImageIndex + 1) % currentProduct.images.length;
+                showColorImages();
+            }
+        }
+
+        function previousImage() {
+            if (currentProduct.images && currentProduct.images.length > 1) {
+                currentImageIndex = currentImageIndex > 0 ? currentImageIndex - 1 : currentProduct.images.length - 1;
+                showColorImages();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterProducts);
+        document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+        document.getElementById('sortFilter').addEventListener('change', filterProducts);
+        
+        // Modal touch/swipe events
+        document.addEventListener('keydown', handleKeyPress);
+        
+        // Close modal when clicking outside the image
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProductModal();
+            }
+        });
+
+        // Handle image loading errors
+        function handleImageError(img) {
+            img.style.display = 'none';
+            img.parentElement.classList.add('no-image');
+            img.parentElement.innerHTML = '📷 Imagem não disponível';
+        }
+
+        // Auto-refresh products to sync with management changes
+        async function refreshProducts() {
+            try {
+                const newProducts = await loadProducts();
+                const currentHash = JSON.stringify(allProducts);
+                const newHash = JSON.stringify(newProducts);
+                
+                if (currentHash !== newHash) {
+                    console.log('Products updated, refreshing catalog');
+                    allProducts = newProducts;
+                    filteredProducts = [...allProducts];
+                    updateCategoryFilter(); // Update categories dynamically
+                    filterProducts();
+                    console.log('Products synchronized successfully');
+                } else {
+                    console.log('No product changes detected');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+            }
+        }
+
+        // Refresh products when page becomes visible (returning from management)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                refreshProducts();
+            }
+        });
+
+        // Listen for storage changes for instant sync
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'catalogProducts' || e.key === 'catalogUpdate') {
+                console.log('Storage change detected, refreshing products');
+                refreshProducts();
+            }
+        });
+
+        // Listen for focus events (returning from management page)
+        window.addEventListener('focus', function() {
+            console.log('Page focused, checking for updates');
+            refreshProducts();
+        });
+
+        // Check for product updates every 3 seconds as backup
+        setInterval(refreshProducts, 3000);
+
+        // Initialize
+        async function initializeCatalog() {
+            try {
+                allProducts = await loadProducts();
+                filteredProducts = [...allProducts];
+                updateCategoryFilter(); // Initialize category filter with available categories
+                renderProducts(filteredProducts);
+            } catch (error) {
+                console.error('Error loading products:', error);
+                allProducts = [...sampleProducts];
+                filteredProducts = [...allProducts];
+                updateCategoryFilter(); // Initialize category filter even with sample data
+                renderProducts(filteredProducts);
+            }
+        }
+
+        initializeCatalog();
+    </script>
+
+    <footer style="background: white; color: #333; text-align: center; padding: 40px 0; margin-top: 60px; border-top: 1px solid #E0E0E0;">
+        <div class="container">
+            <h3 style="background: linear-gradient(45deg, #1a1a1a, #ffd700, #ffb347, #ffd700, #1a1a1a); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 6s ease-in-out infinite; margin-bottom: 15px; font-size: 1.5em; font-weight: bold;">Móveis Bonafé</h3>
+            <p style="margin: 5px 0;">Qualidade e tradição em móveis</p>
+            
+            <a href="https://wa.me/5514997181108" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; background: #F2C41B; color: #1A1A1A; padding: 12px 24px; border-radius: 25px; text-decoration: none; margin: 20px 0; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(242, 196, 27, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(242, 196, 27, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(242, 196, 27, 0.3)'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1A1A1A">
+                    <path d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8q-2.3-2.3-3.65-5.362T3.2 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.238t.325.562l.65 3.5q.05.4-.025.675T9.4 8.45L6.975 10.9q.5.925 1.187 1.787t1.513 1.663q.775.775 1.625 1.438T13.1 17l2.35-2.35q.225-.225.588-.337t.712-.063l3.45.7q.35.1.575.363T21 15.9v4.05q0 .45-.3.75t-.75.3z"/>
+                </svg>
+                <span>Fale Conosco</span>
+            </a>
+            
+            <p style="margin: 5px 0; opacity: 0.8;">© 2025 Móveis Bonafé. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

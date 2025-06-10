@@ -1,0 +1,1079 @@
+ Cleared localStorage image cache
+ MoveisBonafe Admin Panel - GitHub Pages
+ Sistema: GitHub API integrado com fallback localStorage
+ [22:39:51] Inicializando sistema admin...
+ [22:39:51] 🔄 Dados salvos recentemente - usando cache local para evitar problemas de sincronização GitHub Pages
+ [22:39:51] 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+ [22:39:51] Carregando dados locais atualizados...
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) 
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) 
+ [22:39:51] ✅ 25 produtos carregados localmente
+ [22:39:51] ✅ 5 categorias carregadas localmente
+ [22:39:51] ✅ Dados carregados: 25 produtos, 5 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+ [22:39:52] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ [22:39:52] Sistema admin inicializado com sucesso
+ [22:40:07] 📤 Uploading image: imagem_2025-06-09_224007414.png
+ [22:40:07] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ GitHub API Success: Object
+ [22:40:08] ✅ Imagem salva no GitHub: docs/data/images/product_1749519607424_mg0mp51hg.png
+ Image stored in memory cache: product_1749519607424_mg0mp51hg.png
+ [22:40:08] 📸 Imagem uploaded: product_1749519607424_mg0mp51hg.png
+data/images/product_1749519607424_mg0mp51hg.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519614029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519619065:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:40:20] 📤 Uploading image: imagem_2025-06-09_224020025.png
+ [22:40:20] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ GitHub API Success: Object
+ [22:40:20] ✅ Imagem salva no GitHub: docs/data/images/product_1749519620037_2wy24a4kw.png
+ Image stored in memory cache: product_1749519620037_2wy24a4kw.png
+ [22:40:20] 📸 Imagem uploaded: product_1749519620037_2wy24a4kw.png
+data/images/product_1749519607424_mg0mp51hg.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519624101:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:40:25] 📤 Uploading image: imagem_2025-06-09_224025074.png
+ [22:40:25] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519625824:1  Failed to load resource: the server responded with a status of 404 ()
+ GitHub API Success: Object
+ [22:40:25] ✅ Imagem salva no GitHub: docs/data/images/product_1749519625083_2eo3093t3.png
+ Image stored in memory cache: product_1749519625083_2eo3093t3.png
+ [22:40:25] 📸 Imagem uploaded: product_1749519625083_2eo3093t3.png
+data/images/product_1749519607424_mg0mp51hg.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519625937:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519629164:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519630847:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519630895:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519630900:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519630959:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519631026:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:40:33] 💾 Salvando produto...
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519634197:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:40:34] 💾 Arquivo products.json salvo no GitHub
+ [22:40:34] 📡 Dados sincronizados: products
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ [22:40:34] ✅ Produto "Mesa Bonacor 1,80 X 0,85" salvo com sucesso
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519635889:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519635928:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519635928:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519635983:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519636054:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519639229:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519640917:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519640961:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519640977:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519641007:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519641084:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519644252:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519645942:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519645994:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519646009:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519646040:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519646114:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519650018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519651021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519651020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519652016:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519652017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519652017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519655047:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:40:55] 📤 Uploading image: imagem_2025-06-09_224055446.png
+ [22:40:55] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ GitHub API Success: Object
+ [22:40:56] ✅ Imagem salva no GitHub: docs/data/images/product_1749519655456_fapc9fdwc.png
+ Image stored in memory cache: product_1749519655456_fapc9fdwc.png
+ [22:40:56] 📸 Imagem uploaded: product_1749519655456_fapc9fdwc.png
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519657026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519657027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519658023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519658023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519658024:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519660503:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519661903:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:02] 📤 Uploading image: imagem_2025-06-09_224102047.png
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519662059:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519662060:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:02] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ GitHub API Success: Object
+ [22:41:02] ✅ Imagem salva no GitHub: docs/data/images/product_1749519662058_x9rgbex68.png
+ Image stored in memory cache: product_1749519662058_x9rgbex68.png
+ [22:41:02] 📸 Imagem uploaded: product_1749519662058_x9rgbex68.png
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519664025:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519664026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519664026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519665814:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519666931:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519667118:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:07] 📤 Uploading image: imagem_2025-06-09_224107370.png
+ [22:41:07] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519667838:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519668017:1  Failed to load resource: the server responded with a status of 404 ()
+ GitHub API Success: Object
+ [22:41:08] ✅ Imagem salva no GitHub: docs/data/images/product_1749519667380_j0pwvofez.png
+ Image stored in memory cache: product_1749519667380_j0pwvofez.png
+ [22:41:08] 📸 Imagem uploaded: product_1749519667380_j0pwvofez.png
+data/images/product_1749519662058_x9rgbex68.png:1  Failed to load resource: the server responded with a status of 404 ()
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519670031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519670031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519670030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519670935:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519671969:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519672155:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:12] 📤 Uploading image: imagem_2025-06-09_224112553.png
+ [22:41:12] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519672862:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519673043:1  Failed to load resource: the server responded with a status of 404 ()
+ GitHub API Success: Object
+ [22:41:13] ✅ Imagem salva no GitHub: docs/data/images/product_1749519672563_be4sqzayv.png
+ Image stored in memory cache: product_1749519672563_be4sqzayv.png
+ [22:41:13] 📸 Imagem uploaded: product_1749519672563_be4sqzayv.png
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519673538:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519673535:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519673658:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519675077:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519675076:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519675079:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519676005:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519676993:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519677179:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519677886:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519678073:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519678373:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519678380:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519678371:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519678507:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519678567:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519678583:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519678691:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519680108:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519680115:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519680113:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519681030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519682015:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519682222:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:22] 💾 Salvando produto...
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519682920:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:23] 💾 Arquivo products.json salvo no GitHub
+ [22:41:23] 📡 Dados sincronizados: products
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ [22:41:23] ✅ Produto "Mesa Bonacor 2,00 X 0,88" salvo com sucesso
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519683097:1  Failed to load resource: the server responded with a status of 404 ()
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519683405:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519683413:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519683422:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519683535:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519683597:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519683612:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519683718:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519685142:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519685149:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519685151:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519686055:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519687045:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519687245:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519687941:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519688059:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519688163:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519688134:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519688434:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519688449:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519688436:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519688623:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519688636:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519688562:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519688740:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519691026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519691025:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519691026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519692026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519693017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519693017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519693018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519693018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519694030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519694030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519694031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519694031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519694031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519694031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519697021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519697022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519697022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519698029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519698843:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519698842:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519698835:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519699065:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519699066:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519699067:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519699082:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519699083:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519699097:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519699098:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519699103:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:42] 📤 Uploading image: imagem_2025-06-09_224141998.png
+ [22:41:42] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519702061:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519702060:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519702075:1  Failed to load resource: the server responded with a status of 404 ()
+ GitHub API Success: Object
+ [22:41:42] ✅ Imagem salva no GitHub: docs/data/images/product_1749519702008_9bndqsb2a.png
+ Image stored in memory cache: product_1749519702008_9bndqsb2a.png
+ [22:41:42] 📸 Imagem uploaded: product_1749519702008_9bndqsb2a.png
+product_1749519702008_9bndqsb2a.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519704020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519704020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519704019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519704021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519704021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519705031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519705030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519705030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519705031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519705032:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519705031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519707099:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519707099:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519707114:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519707902:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:47] 📤 Uploading image: imagem_2025-06-09_224147931.png
+ [22:41:47] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ GitHub API Success: Object
+ [22:41:48] ✅ Imagem salva no GitHub: docs/data/images/product_1749519707941_4sggivalz.png
+ Image stored in memory cache: product_1749519707941_4sggivalz.png
+ [22:41:48] 📸 Imagem uploaded: product_1749519707941_4sggivalz.png
+product_1749519702008_9bndqsb2a.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519710018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519710019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519710019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519710020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519710726:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519710734:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519710735:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519710735:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519710736:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519710735:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519710736:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519710736:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519712130:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519712131:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519712146:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:52] 📤 Uploading image: imagem_2025-06-09_224152551.png
+ [22:41:52] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519712941:1  Failed to load resource: the server responded with a status of 404 ()
+ GitHub API Success: Object
+ [22:41:53] ✅ Imagem salva no GitHub: docs/data/images/product_1749519712561_zn18yyh8f.png
+ Image stored in memory cache: product_1749519712561_zn18yyh8f.png
+ [22:41:53] 📸 Imagem uploaded: product_1749519712561_zn18yyh8f.png
+product_1749519702008_9bndqsb2a.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519714018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519714018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519716028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519716027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519716028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519716028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519716029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519716029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519716029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519717162:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519717165:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519717171:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:57] 📤 Uploading image: imagem_2025-06-09_224157886.png
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519717978:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:41:58] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519718463:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519718470:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519718593:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519719048:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519719046:1  Failed to load resource: the server responded with a status of 404 ()
+ GitHub API Success: Object
+ [22:41:59] ✅ Imagem salva no GitHub: docs/data/images/product_1749519717895_tcioct7rx.png
+ Image stored in memory cache: product_1749519717895_tcioct7rx.png
+ [22:41:59] 📸 Imagem uploaded: product_1749519717895_tcioct7rx.png
+data/images/product_1749519707941_4sggivalz.png:1  Failed to load resource: the server responded with a status of 404 ()
+product_1749519702008_9bndqsb2a.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519721062:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519721072:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519721075:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519721076:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519721117:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519721121:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519721120:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519721136:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519721137:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519721146:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519722201:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519722202:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519722195:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519723004:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519723488:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519723492:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519723620:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519724079:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519724078:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519724165:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519724164:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519724164:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519724284:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519726095:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519726094:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519726110:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519726113:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519726115:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519726116:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519726161:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519726163:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519726162:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519726183:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519726183:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:42:06] 💾 Salvando produto...
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519727242:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519727246:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519727238:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:42:07] 💾 Arquivo products.json salvo no GitHub
+ [22:42:07] 📡 Dados sincronizados: products
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+ [22:42:07] ✅ Produto "Mesa Bonacor 2,20 X 0,88" salvo com sucesso
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+product_1749519702008_9bndqsb2a.png:1  Failed to load resource: the server responded with a status of 404 ()
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+product_1749519655456_fapc9fdwc.png:1  Failed to load resource: the server responded with a status of 404 ()
+product_1749519702008_9bndqsb2a.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519728034:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519728526:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519728526:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519728651:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519729120:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519729121:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519729213:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519729213:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519729212:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519729319:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519731152:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519731167:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519731168:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519731214:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519731213:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519731214:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519731228:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519731213:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519732280:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519732281:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519732572:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519732571:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519732679:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519732678:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519733071:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519733555:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519733562:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519733685:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519734155:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519734155:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519734248:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519734263:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519734263:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519734356:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519736197:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519736199:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519736198:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519736198:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519736260:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519736275:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519736276:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519736276:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519736276:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519737308:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519737323:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519737613:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519737613:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519737707:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519737708:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519738105:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519738577:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519738586:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519738708:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519739198:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519739199:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519739279:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519739294:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519739296:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519739384:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519742026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519742027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519742027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519742028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519742027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519742028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519742028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519743017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519743018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519743018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519743018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519743018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519743019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519743019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519744021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519744020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519744021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519744021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519745025:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519745026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519745026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519745027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519745027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519745027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519748017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519748018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519748018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519748019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519748019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519748019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519748019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519749029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519749028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519749028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519749029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519749029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519750023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519750022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519750023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519750023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519751017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519751018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519751018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519751018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519751018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519753067:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519753066:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519753066:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519753065:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519753096:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519753097:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519753112:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519753112:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519753112:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519753111:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519754068:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519754083:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519754099:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519754100:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519754099:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519756022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519756023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519756022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519757017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519757018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519757018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519757018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519757018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519759030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519759030:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519759029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519759031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519759031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519759031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519759031:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519760022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519760022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519760021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519760022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519760023:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519760022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519762022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519762022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519762021:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519762022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519763026:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519763027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519707941_4sggivalz.png?retry=1749519763027:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519712561_zn18yyh8f.png?retry=1749519763028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519717895_tcioct7rx.png?retry=1749519763028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519765018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519607424_mg0mp51hg.png?retry=1749519765019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519765019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519662058_x9rgbex68.png?retry=1749519765019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519765019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519667380_j0pwvofez.png?retry=1749519765020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519765020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519672563_be4sqzayv.png?retry=1749519765020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519620037_2wy24a4kw.png?retry=1749519766020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519625083_2eo3093t3.png?retry=1749519766019:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519702008_9bndqsb2a.png?retry=1749519766020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519655456_fapc9fdwc.png?retry=1749519766021:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:43:25] 📤 Uploading image: imagem_2025-06-09_224325022.png
+ [22:43:25] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ GitHub API Success: Object
+ [22:43:26] ✅ Imagem salva no GitHub: docs/data/images/product_1749519805032_qaicnp7ga.png
+ Image stored in memory cache: product_1749519805032_qaicnp7ga.png
+ [22:43:26] 📸 Imagem uploaded: product_1749519805032_qaicnp7ga.png
+data/images/product_1749519805032_qaicnp7ga.png:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:43:31] 💾 Salvando produto...
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519812032:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:43:32] 💾 Arquivo products.json salvo no GitHub
+ [22:43:32] 📡 Dados sincronizados: products
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+ Original product image path: data/images/product_1749519805032_qaicnp7ga.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519805032_qaicnp7ga.png
+ [22:43:32] ✅ Produto "Agulha Cadeira Alta" salvo com sucesso
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+ Original product image path: data/images/product_1749519805032_qaicnp7ga.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519805032_qaicnp7ga.png
+data/images/product_1749519805032_qaicnp7ga.png:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:43:35] 📤 Uploading image: imagem_2025-06-09_224335090.png
+ [22:43:35] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+ Uploading to GitHub: Object
+ [22:43:35] 💾 Salvando produto...
+api.github.com/repos/moveisbonafe/TabelaPrecoMoveisBonafe/contents/docs/data/products.json:1  Failed to load resource: the server responded with a status of 409 ()
+ [22:43:36] ❌ Erro ao salvar produto: GitHub API error: 409 - {
+  "message": "is at cf61f55c0f206c3c658c484add0520c98d4e8646 but expected dd62df4f5881a57a97dc61f2ac610b7119cf400c",
+  "documentation_url": "https://docs.github.com/rest/repos/contents#create-or-update-file-contents",
+  "status": "409"
+}
+
+ GitHub API Success: Object
+ [22:43:36] ✅ Imagem salva no GitHub: docs/data/images/product_1749519815100_t4jwmmxn5.png
+ Image stored in memory cache: product_1749519815100_t4jwmmxn5.png
+ [22:43:36] 📸 Imagem uploaded: product_1749519815100_t4jwmmxn5.png
+data/images/product_1749519815100_t4jwmmxn5.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519817079:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519817330:1  Failed to load resource: the server responded with a status of 404 ()
+ [22:43:38] 💾 Salvando produto...
+ [22:43:38] 💾 Arquivo products.json salvo no GitHub
+ [22:43:38] 📡 Dados sincronizados: products
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+ Original product image path: data/images/product_1749519805032_qaicnp7ga.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519805032_qaicnp7ga.png
+ Original product image path: data/images/product_1749519815100_t4jwmmxn5.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519815100_t4jwmmxn5.png
+ [22:43:38] ✅ Produto "Agulha Cadeira Comum" salvo com sucesso
+data/images/product_1749519805032_qaicnp7ga.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png:1  Failed to load resource: the server responded with a status of 404 ()
+ Original product image path: data/images/product_1749515748135_77edzm9d2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+ Original product image path: data/images/product_1749515793116_llfars6sc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+ Original product image path: data/images/product_1749514738650_klus3daqr.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+ Original product image path: data/images/product_1749514847355_eznlgf80h.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+ Original product image path: data/images/product_1749515687207_syua1lz07.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+ Original product image path: data/images/product_1749516289890_tj1gcowss.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+ Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+ Original product image path: data/images/product_1749517490130_a93f7xmua.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+ Original product image path: data/images/product_1749518322906_l9699ha6q.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+ Original product image path: data/images/product_1749519327404_yguweh8q2.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+ Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+ Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+ Original product image path: data/images/product_1749519805032_qaicnp7ga.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519805032_qaicnp7ga.png
+ Original product image path: data/images/product_1749519815100_t4jwmmxn5.png
+ Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519815100_t4jwmmxn5.png
+data/images/product_1749519805032_qaicnp7ga.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519821704:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519822103:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519822354:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519822355:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519824011:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519824016:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519824125:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519824121:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519826744:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519827127:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519827396:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519827392:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519829054:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519829054:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519829161:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519829161:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519832016:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519833020:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519835018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519835017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519835018:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519838022:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519838549:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519838548:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519841017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519841016:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519841017:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519843045:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519844029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519847028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519847028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519849024:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519850028:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519850029:1  Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519853021:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519853021:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519855024:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519856026:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519859027:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519859028:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519860046:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519861048:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519805032_qaicnp7ga.png?retry=1749519864071:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519864070:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+data/images/product_1749519815100_t4jwmmxn5.png?retry=1749519864071:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+admin.html:2621 [22:44:37] 📤 Uploading category image: imagem_2025-06-09_224437937.png
+admin.html:1551 Uploading to GitHub: Object
+admin.html:2621 [22:44:38] 💾 Salvando categoria...
+admin.html:1583 GitHub API Success: Object
+admin.html:2621 [22:44:38] ✅ Imagem salva no GitHub: docs/data/images/category_1749519877947.png
+admin.html:1598 Image stored in memory cache: category_1749519877947.png
+admin.html:2621 [22:44:38] 📸 Imagem uploaded: category_1749519877947.png
+admin.html:2621 [22:44:38] ⏳ Aguardando GitHub Pages processar a imagem...
+admin.html:2621 [22:44:39] 💾 Arquivo categories.json salvo no GitHub
+admin.html:2621 [22:44:39] ✅ Categoria "Beliches" salva com sucesso
+admin.html:2621 [22:44:40] 🔄 Interface atualizada com nova categoria
+admin.html:2621 [22:44:54] 📤 Uploading category image: imagem_2025-06-09_224454723.png
+admin.html:1551 Uploading to GitHub: Object
+admin.html:2621 [22:44:55] 💾 Salvando categoria...
+admin.html:1583 GitHub API Success: Object
+admin.html:2621 [22:44:55] ✅ Imagem salva no GitHub: docs/data/images/category_1749519894732.png
+admin.html:1598 Image stored in memory cache: category_1749519894732.png
+admin.html:2621 [22:44:55] 📸 Imagem uploaded: category_1749519894732.png
+admin.html:2621 [22:44:55] ⏳ Aguardando GitHub Pages processar a imagem...
+admin.html:2621 [22:44:56] 💾 Arquivo categories.json salvo no GitHub
+admin.html:2621 [22:44:56] ✅ Categoria "Banquetas" salva com sucesso
+admin.html:2621 [22:44:57] 🔄 Interface atualizada com nova categoria
+admin.html:2621 [22:45:14] 📤 Uploading category image: imagem_2025-06-09_224514170.png
+admin.html:1551 Uploading to GitHub: Object
+admin.html:1583 GitHub API Success: Object
+admin.html:2621 [22:45:14] ✅ Imagem salva no GitHub: docs/data/images/category_1749519914180.png
+admin.html:1598 Image stored in memory cache: category_1749519914180.png
+admin.html:2621 [22:45:14] 📸 Imagem uploaded: category_1749519914180.png
+admin.html:2621 [22:45:14] ⏳ Aguardando GitHub Pages processar a imagem...
+admin.html:2621 [22:45:15] 💾 Salvando categoria...
+admin.html:2621 [22:45:15] 💾 Arquivo categories.json salvo no GitHub
+admin.html:2621 [22:45:15] ✅ Categoria "Mesas" salva com sucesso
+admin.html:2621 [22:45:16] 🔄 Interface atualizada com nova categoria
+category_1749519914180.png:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+category_1749519914180.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/category_1749519914180.png?retry=1749519921974 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1

@@ -471,9 +471,9 @@
         }
         
         .product-card:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.8);
             transform: translateY(-4px);
-            border-color: #059669;
+            border-color: #ffffff;
             cursor: pointer;
         }
 
@@ -518,6 +518,96 @@
             color: #6b7280;
             font-size: 0.85rem;
             margin-bottom: 12px;
+        }
+
+        /* New product card styles to match reference image */
+        .product-category-badge {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .ver-produto-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .ver-produto-btn:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+        }
+
+        .product-dimensions {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .dimensions-text {
+            line-height: 1.4;
+        }
+
+        .no-dimensions {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .product-colors {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .colors-label {
+            font-size: 0.85rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .color-circles {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .color-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .color-circle:hover {
+            transform: scale(1.1);
+            border-color: #9ca3af;
+        }
+
+        .more-colors {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-left: 4px;
         }
         
         .price-grid {
@@ -1535,35 +1625,28 @@
                     `;
                 }
 
-                // Para outros usuários, mostrar grade de preços regular
+                // Para outros usuários, mostrar design atualizado com cores e botão amarelo
+                const colorCircles = this.getProductColors(product);
+                const categoryLabel = product.category || 'Categoria';
+                const dimensions = this.getProductDimensions(product);
+                
                 return `
                     <div class="product-image">${productImage}</div>
                     <div class="product-info">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-category">${product.category}</div>
-                        <div class="price-grid">
-                            <div class="price-item">
-                                <span class="price-label">À Vista</span>
-                                <span class="price-value">R$ ${prices.vista.toFixed(2)}</span>
-                            </div>
-                            <div class="price-item">
-                                <span class="price-label">30d</span>
-                                <span class="price-value">R$ ${prices.prazo30.toFixed(2)}</span>
-                            </div>
-                            <div class="price-item">
-                                <span class="price-label">30/60d</span>
-                                <span class="price-value">R$ ${prices.prazo3060.toFixed(2)}</span>
-                            </div>
-                            <div class="price-item">
-                                <span class="price-label">30/60/90d</span>
-                                <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
-                            </div>
-                            <div class="price-item">
-                                <span class="price-label">30/60/90/120d</span>
-                                <span class="price-value">R$ ${prices.prazo30606090120.toFixed(2)}</span>
+                        <div class="product-category-badge">${categoryLabel}</div>
+                        <div class="product-header">
+                            <div class="product-name">${product.name}</div>
+                            <button class="ver-produto-btn" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
+                        </div>
+                        <div class="product-dimensions">
+                            ${dimensions}
+                        </div>
+                        <div class="product-colors">
+                            <span class="colors-label">Cores:</span>
+                            <div class="color-circles">
+                                ${colorCircles}
                             </div>
                         </div>
-
                     </div>
                 `;
             }
@@ -1585,6 +1668,30 @@
                     // Fallback para ícone da categoria
                     return this.getProductIcon(product.category);
                 }
+            }
+
+            getProductColors(product) {
+                if (!product.colorVariations || product.colorVariations.length === 0) {
+                    return '<div class="color-circle" style="background-color: #cccccc;" title="Cor padrão"></div>';
+                }
+                
+                return product.colorVariations.slice(0, 4).map(colorName => {
+                    const colorData = this.colors.find(c => c.name === colorName);
+                    const colorCode = colorData ? colorData.code : '#cccccc';
+                    return `<div class="color-circle" style="background-color: ${colorCode};" title="${colorName}"></div>`;
+                }).join('') + (product.colorVariations.length > 4 ? `<span class="more-colors">+${product.colorVariations.length - 4}</span>` : '');
+            }
+
+            getProductDimensions(product) {
+                const specs = [];
+                if (product.height) specs.push(`Altura: ${product.height}cm`);
+                if (product.width) specs.push(`Largura: ${product.width}cm`);
+                if (product.length) specs.push(`Comprimento: ${product.length}cm`);
+                if (product.weight) specs.push(`Peso: ${product.weight}kg`);
+                
+                if (specs.length === 0) return '<div class="no-dimensions">Medidas: Consulte</div>';
+                
+                return `<div class="dimensions-text">Medidas:<br>${specs.join('<br>')}</div>`;
             }
 
             calculatePrices(product) {

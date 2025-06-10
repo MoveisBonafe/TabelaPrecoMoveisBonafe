@@ -3339,6 +3339,7 @@
                         <div class="order-details-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
                             <div>
                                 <h4 style="margin: 0 0 12px 0; color: #1f2937;">Dados do Cliente</h4>
+                                ${order.customerCnpj ? `<p><strong>CNPJ:</strong> ${order.customerCnpj}</p>` : ''}
                                 <p><strong>Nome:</strong> ${order.customerName}</p>
                                 <p><strong>Telefone:</strong> ${order.customerPhone}</p>
                                 <p><strong>Tipo:</strong> ${order.userType === 'restaurante' ? 'Restaurante' : 'Loja'}</p>
@@ -3396,10 +3397,24 @@
                             </div>
                         </div>
                         
-                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb; display: flex; gap: 12px;">
-                            <button class="btn btn-primary" onclick="printOrder('${order.id}')">🖨️ Imprimir</button>
-                            <button class="btn btn-secondary" onclick="emailOrder('${order.id}')">📧 Enviar Email</button>
-                            <button class="btn btn-secondary" onclick="exportOrderPDF('${order.id}')">📄 Exportar PDF</button>
+                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <h4 style="margin: 0; color: #1f2937;">Status do Pedido</h4>
+                                <select id="order-status-${order.id}" onchange="updateOrderStatus('${order.id}', this.value)" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db;">
+                                    <option value="Pendente" ${order.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                                    <option value="Processando" ${order.status === 'Processando' ? 'selected' : ''}>Processando</option>
+                                    <option value="Concluído" ${order.status === 'Concluído' ? 'selected' : ''}>Concluído</option>
+                                    <option value="Cancelado" ${order.status === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; gap: 12px;">
+                                <div style="display: flex; gap: 12px;">
+                                    <button class="btn btn-primary" onclick="printOrder('${order.id}')">🖨️ Imprimir</button>
+                                    <button class="btn btn-secondary" onclick="emailOrder('${order.id}')">📧 Enviar Email</button>
+                                    <button class="btn btn-secondary" onclick="exportOrderPDF('${order.id}')">📄 Exportar PDF</button>
+                                </div>
+                                <button class="btn" onclick="deleteOrder('${order.id}')" style="background: #dc2626; color: white; border: none;">🗑️ Excluir</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3516,6 +3531,71 @@
             a.download = `pedidos_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
             URL.revokeObjectURL(url);
+        }
+        
+        function updateOrderStatus(orderId, newStatus) {
+            const orderIndex = orders.findIndex(o => o.id == orderId);
+            if (orderIndex === -1) return;
+            
+            const oldStatus = orders[orderIndex].status;
+            orders[orderIndex].status = newStatus;
+            orders[orderIndex].updatedAt = new Date().toISOString();
+            
+            // Save to localStorage immediately
+            localStorage.setItem('moveisbonafe_orders', JSON.stringify(orders));
+            
+            // Update display
+            renderOrders();
+            
+            // Close modal and show success message
+            document.querySelector('.modal.active')?.remove();
+            addSystemLog(`📋 Status do pedido ${orders[orderIndex].number} alterado de "${oldStatus}" para "${newStatus}"`);
+            
+            // Sync to GitHub in background
+            setTimeout(() => {
+                try {
+                    const token = localStorage.getItem('github_token');
+                    if (token) {
+                        syncOrdersToGitHub(orders, token);
+                    }
+                } catch (error) {
+                    console.log('Background sync failed');
+                }
+            }, 100);
+        }
+        
+        function deleteOrder(orderId) {
+            if (!confirm('Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            const orderIndex = orders.findIndex(o => o.id == orderId);
+            if (orderIndex === -1) return;
+            
+            const orderNumber = orders[orderIndex].number;
+            orders.splice(orderIndex, 1);
+            
+            // Save to localStorage immediately
+            localStorage.setItem('moveisbonafe_orders', JSON.stringify(orders));
+            
+            // Update display
+            renderOrders();
+            
+            // Close modal and show success message
+            document.querySelector('.modal.active')?.remove();
+            addSystemLog(`🗑️ Pedido ${orderNumber} excluído com sucesso`);
+            
+            // Sync to GitHub in background
+            setTimeout(() => {
+                try {
+                    const token = localStorage.getItem('github_token');
+                    if (token) {
+                        syncOrdersToGitHub(orders, token);
+                    }
+                } catch (error) {
+                    console.log('Background sync failed');
+                }
+            }, 100);
         }
         
         function refreshOrders() {

@@ -5780,6 +5780,7 @@ ${this.userType === 'restaurante' ? `
         function checkFormValidation() {
             const paymentBtn = document.getElementById('payment-btn');
             if (paymentBtn) {
+                const cnpj = document.getElementById('customer-cnpj')?.value?.trim() || '';
                 const name = document.getElementById('customer-name')?.value?.trim() || '';
                 const phone = document.getElementById('customer-phone')?.value?.trim() || '';
                 const isPickup = document.getElementById('pickup')?.checked || false;
@@ -5787,10 +5788,10 @@ ${this.userType === 'restaurante' ? `
                 let isValid = false;
                 
                 if (isPickup) {
-                    // For pickup, only name and phone are required
-                    isValid = name && phone;
+                    // For pickup, CNPJ, name and phone are required
+                    isValid = cnpj && name && phone;
                 } else {
-                    // For delivery, all address fields are required
+                    // For delivery, all fields including address are required
                     const address = document.getElementById('customer-address')?.value?.trim() || '';
                     const cep = document.getElementById('customer-cep')?.value?.trim() || '';
                     const neighborhood = document.getElementById('customer-neighborhood')?.value?.trim() || '';
@@ -5798,7 +5799,7 @@ ${this.userType === 'restaurante' ? `
                     const city = document.getElementById('customer-city')?.value?.trim() || '';
                     const state = document.getElementById('customer-state')?.value?.trim() || '';
                     
-                    isValid = name && phone && address && cep && neighborhood && number && city && state;
+                    isValid = cnpj && name && phone && address && cep && neighborhood && number && city && state;
                 }
                 
                 paymentBtn.disabled = !isValid;
@@ -5996,6 +5997,7 @@ ${this.userType === 'restaurante' ? `
             let message = catalogClient.userType === 'restaurante' 
                 ? `🍽️ *Restaurante* 🍽️\n🛒 *NOVO PEDIDO - ${customerName}*\n\n`
                 : `🛒 *NOVO PEDIDO - ${customerName}*\n\n`;
+            message += `🏢 *CNPJ:* ${customerCnpj}\n`;
             message += `📞 *Telefone:* ${customerPhone}\n`;
             
             // Add delivery option first
@@ -6111,6 +6113,7 @@ ${this.userType === 'restaurante' ? `
             const orderData = {
                 id: Date.now(),
                 number: `PED-${Date.now().toString().slice(-6)}`,
+                customerCnpj: customerCnpj,
                 customerName: customerName,
                 customerPhone: customerPhone,
                 items: shoppingCart.map(item => {

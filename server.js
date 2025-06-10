@@ -26,11 +26,6 @@ app.get('/catalogo', (req, res) => {
     res.sendFile(path.join(__dirname, 'docs', 'catalogo.html'));
 });
 
-// Serve price table (tabelapreco)
-app.get('/tabelapreco', (req, res) => {
-    res.sendFile(path.join(__dirname, 'docs', 'catalogo.html'));
-});
-
 // Serve login
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'docs', 'login.html'));
@@ -44,7 +39,6 @@ app.use((req, res, next) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`MoveisBonafe Catalog Server running on port ${PORT}`);
     console.log(`Admin Panel: http://localhost:${PORT}/admin`);
-    console.log(`Price Table: http://localhost:${PORT}/tabelapreco`);
     console.log(`Catalog: http://localhost:${PORT}/catalogo`);
     console.log(`Login: http://localhost:${PORT}/login`);
 });

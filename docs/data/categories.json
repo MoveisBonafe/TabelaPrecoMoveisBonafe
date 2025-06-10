@@ -1,27 +1,47 @@
 [
   {
-    "id": "cat_1749514027886_nze3afahh",
     "name": "Banquetas",
-    "description": "Categoria Banquetas"
+    "description": "Categoria Banquetas",
+    "imageFile": "data/images/category_1749519983770.png",
+    "active": true,
+    "updatedAt": "2025-06-10T01:46:28.101Z",
+    "id": "1749514027886",
+    "createdAt": "2025-06-10T00:07:07.886Z"
   },
   {
-    "id": "cat_1749514027897_6u83bd0e3",
     "name": "Cadeiras",
-    "description": "Categoria Cadeiras"
+    "description": "Categoria Cadeiras",
+    "imageFile": "data/images/category_1749518300308.png",
+    "active": true,
+    "updatedAt": "2025-06-10T01:18:21.401Z",
+    "id": "1749514027897",
+    "createdAt": "2025-06-10T00:07:07.897Z"
   },
   {
-    "id": "cat_1749514027898_oie9gpzq9",
     "name": "Beliches",
-    "description": "Categoria Beliches"
+    "description": "Categoria Beliches",
+    "imageFile": "data/images/category_1749519959636.png",
+    "active": true,
+    "updatedAt": "2025-06-10T01:46:06.140Z",
+    "id": "1749514027898",
+    "createdAt": "2025-06-10T00:07:07.898Z"
   },
   {
-    "id": "cat_1749514027898_uxw222nwk",
     "name": "Mesas",
-    "description": "Categoria Mesas"
+    "description": "Categoria Mesas",
+    "imageFile": "data/images/category_1749519914180.png",
+    "active": true,
+    "updatedAt": "2025-06-10T01:45:15.144Z",
+    "id": "1749514027899",
+    "createdAt": "2025-06-10T00:07:07.898Z"
   },
   {
-    "id": "cat_1749514027898_i1dflgroy",
     "name": "Camas",
-    "description": "Categoria Camas"
+    "description": "Categoria Camas",
+    "imageFile": "data/images/category_1749517731405.png",
+    "active": true,
+    "updatedAt": "2025-06-10T01:09:02.160Z",
+    "id": "1749514027900",
+    "createdAt": "2025-06-10T00:07:07.898Z"
   }
 ]

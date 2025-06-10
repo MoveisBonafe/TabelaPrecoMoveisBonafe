@@ -1,452 +1,628 @@
 [
   {
-    "id": "product_1749514027898_uuqcw726j",
     "name": "Banqueta 50 cm",
-    "category": "cat_1749514027886_nze3afahh",
-    "categoryName": "Banquetas",
+    "category": "Banquetas",
     "priceAVista": 44,
+    "altura": 50,
+    "largura": 30,
+    "comprimento": 30,
+    "peso": 2,
     "description": "",
-    "dimensions": {
-      "height": 50,
-      "width": 30,
-      "length": 30,
-      "weight": 2
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749515748135_77edzm9d2.png",
+      "data/images/product_1749515753694_gu47cbnvk.png",
+      "data/images/product_1749515758550_k3vmo71dt.png",
+      "data/images/product_1749515764536_wjryn57hx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:36:15.799Z",
+    "id": 1749514027898,
     "createdAt": "2025-06-10T00:07:07.898Z"
   },
   {
-    "id": "product_1749514027899_52hqnjwrc",
     "name": "Banqueta 70 cm",
-    "category": "cat_1749514027886_nze3afahh",
-    "categoryName": "Banquetas",
+    "category": "Banquetas",
     "priceAVista": 56,
+    "altura": 70,
+    "largura": 30,
+    "comprimento": 30,
+    "peso": 3.5,
     "description": "",
-    "dimensions": {
-      "height": 70,
-      "width": 30,
-      "length": 30,
-      "weight": 3.5
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749515793116_llfars6sc.png",
+      "data/images/product_1749515799989_y4zoylrfe.png",
+      "data/images/product_1749515804272_puniqg6cx.png",
+      "data/images/product_1749515810562_vnrcqww9l.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:36:59.764Z",
+    "id": 1749514027899,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_t4kf5p9gh",
     "name": "Cadeira Alta",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 99,
+    "altura": 100,
+    "largura": 45,
+    "comprimento": 45,
+    "peso": 5.5,
     "description": "",
-    "dimensions": {
-      "height": 100,
-      "width": 45,
-      "length": 45,
-      "weight": 5.5
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749514738650_klus3daqr.png",
+      "data/images/product_1749514776727_bdkbtxcin.png",
+      "data/images/product_1749514783305_oejsw05f1.png",
+      "data/images/product_1749514790985_whfothj4z.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:19:57.384Z",
+    "id": 1749514027900,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_mjygx4o8g",
     "name": "Cadeira Alta Estofada",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 119,
+    "altura": 100,
+    "largura": 45,
+    "comprimento": 45,
+    "peso": 6,
     "description": "",
-    "dimensions": {
-      "height": 100,
-      "width": 45,
-      "length": 45,
-      "weight": 6
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749514847355_eznlgf80h.png",
+      "data/images/product_1749514865052_i7kwagwqg.png",
+      "data/images/product_1749514871274_k8qsay30t.png",
+      "data/images/product_1749514876498_9bh3u0bmf.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:21:23.008Z",
+    "id": 1749514027901,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_semvjlr9w",
     "name": "Cadeira Comum",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 77,
+    "altura": 90,
+    "largura": 40,
+    "comprimento": 40,
+    "peso": 5,
     "description": "",
-    "dimensions": {
-      "height": 90,
-      "width": 40,
-      "length": 40,
-      "weight": 5
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749515687207_syua1lz07.png",
+      "data/images/product_1749515694616_nw90t7g0a.png",
+      "data/images/product_1749515700956_parag6q8m.png",
+      "data/images/product_1749515707166_l6w28yho8.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:35:16.645Z",
+    "id": 1749514027902,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_aixgimmc5",
     "name": "Cadeira Criança",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 44,
+    "altura": 62,
+    "largura": 35,
+    "comprimento": 45,
+    "peso": 3,
     "description": "",
-    "dimensions": {
-      "height": 62,
-      "width": 35,
-      "length": 45,
-      "weight": 3
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749516289890_tj1gcowss.png",
+      "data/images/product_1749516295560_0seubodjl.png",
+      "data/images/product_1749516300573_8lqibz6h1.png",
+      "data/images/product_1749516304945_170wq9967.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:45:14.998Z",
+    "id": 1749514027903,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_gkmrwmjzc",
     "name": "Beliche Paris",
-    "category": "cat_1749514027898_oie9gpzq9",
-    "categoryName": "Beliches",
+    "category": "Beliches",
     "priceAVista": 468,
+    "altura": 164,
+    "largura": 80,
+    "comprimento": 190,
+    "peso": 46,
     "description": "",
-    "dimensions": {
-      "height": 164,
-      "width": 80,
-      "length": 190,
-      "weight": 46
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749516330562_t6ipkjc72.png",
+      "data/images/product_1749516334613_j6mard76z.png",
+      "data/images/product_1749516339908_b3hvk90yn.png",
+      "data/images/product_1749516344141_mo1npvhlx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T00:45:54.947Z",
+    "id": 1749514027904,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_iuz17vsgs",
     "name": "Cadeira Restaurante",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 115,
+    "altura": 95,
+    "largura": 40,
+    "comprimento": 40,
+    "peso": 5.5,
     "description": "",
-    "dimensions": {
-      "height": 95,
-      "width": 40,
-      "length": 40,
-      "weight": 5.5
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749517490130_a93f7xmua.png"
+    ],
+    "colorVariations": [],
     "active": true,
+    "updatedAt": "2025-06-10T01:05:11.240Z",
+    "id": 1749514027905,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_6swpqqtuo",
     "name": "Mesa Bonacor 1,60 X 0,80",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 372,
+    "altura": 80,
+    "largura": 80,
+    "comprimento": 160,
+    "peso": 22,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 80,
-      "length": 160,
-      "weight": 22
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749518322906_l9699ha6q.png",
+      "data/images/product_1749518341312_ag082hx0u.png",
+      "data/images/product_1749518346216_s3ffnkt7l.png",
+      "data/images/product_1749518350791_4fazdir45.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:19:19.406Z",
+    "id": 1749514027906,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_0ed1xo8gg",
     "name": "Mesa Bonacor 1,80 X 0,85",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 430,
+    "altura": 80,
+    "largura": 85,
+    "comprimento": 180,
+    "peso": 25,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 85,
-      "length": 180,
-      "weight": 25
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749519327404_yguweh8q2.png",
+      "data/images/product_1749519607424_mg0mp51hg.png",
+      "data/images/product_1749519620037_2wy24a4kw.png",
+      "data/images/product_1749519625083_2eo3093t3.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:40:33.636Z",
+    "id": 1749514027907,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_zzypiaaiw",
     "name": "Mesa Bonacor 2,00 X 0,88",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 508,
+    "altura": 80,
+    "largura": 88,
+    "comprimento": 200,
+    "peso": 26,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 88,
-      "length": 200,
-      "weight": 26
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749519655456_fapc9fdwc.png",
+      "data/images/product_1749519662058_x9rgbex68.png",
+      "data/images/product_1749519667380_j0pwvofez.png",
+      "data/images/product_1749519672563_be4sqzayv.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:41:22.286Z",
+    "id": 1749514027908,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_flqp8966j",
     "name": "Mesa Bonacor 2,20 X 0,88",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 535,
+    "altura": 80,
+    "largura": 88,
+    "comprimento": 220,
+    "peso": 30,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 88,
-      "length": 220,
-      "weight": 30
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749519702008_9bndqsb2a.png",
+      "data/images/product_1749519707941_4sggivalz.png",
+      "data/images/product_1749519712561_zn18yyh8f.png",
+      "data/images/product_1749519717895_tcioct7rx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:42:06.820Z",
+    "id": 1749514027909,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_xp72v2ecd",
     "name": "Agulha Cadeira Alta",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 8,
+    "altura": 0,
+    "largura": 0,
+    "comprimento": 0,
+    "peso": 0,
     "description": "",
-    "dimensions": {
-      "height": 0,
-      "width": 0,
-      "length": 0,
-      "weight": 0
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749519805032_qaicnp7ga.png"
+    ],
+    "colorVariations": [],
     "active": true,
+    "updatedAt": "2025-06-10T01:43:31.428Z",
+    "id": 1749514027910,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_2l5rw1q2f",
     "name": "Agulha Cadeira Comum",
-    "category": "cat_1749514027897_6u83bd0e3",
-    "categoryName": "Cadeiras",
+    "category": "Cadeiras",
     "priceAVista": 8,
+    "altura": 0,
+    "largura": 0,
+    "comprimento": 0,
+    "peso": 0,
     "description": "",
-    "dimensions": {
-      "height": 0,
-      "width": 0,
-      "length": 0,
-      "weight": 0
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749519815100_t4jwmmxn5.png"
+    ],
+    "colorVariations": [],
     "active": true,
+    "updatedAt": "2025-06-10T01:43:38.481Z",
+    "id": 1749514027911,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_7zvcjjly5",
     "name": "Mesa Bonacor 0,70 X 0,45 Criança",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 136,
+    "altura": 60,
+    "largura": 45,
+    "comprimento": 70,
+    "peso": 9,
     "description": "",
-    "dimensions": {
-      "height": 60,
-      "width": 45,
-      "length": 70,
-      "weight": 9
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520025603_e9ihmowmk.png",
+      "data/images/product_1749520033423_snv6l1ddv.png",
+      "data/images/product_1749520041912_bo36uowuu.png",
+      "data/images/product_1749520046768_pkclxqlb1.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:47:40.505Z",
+    "id": 1749514027912,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_2q58b1toc",
     "name": "Mesa Bonacor 0,75 X 0,75 Criança",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 182,
+    "altura": 60,
+    "largura": 75,
+    "comprimento": 75,
+    "peso": 15,
     "description": "",
-    "dimensions": {
-      "height": 60,
-      "width": 75,
-      "length": 75,
-      "weight": 15
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520101916_6pbwx0hcr.png",
+      "data/images/product_1749520110763_c259kdqll.png",
+      "data/images/product_1749520115421_j04debbn9.png",
+      "data/images/product_1749520119849_h9ddlw1x1.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:48:48.202Z",
+    "id": 1749514027913,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_wwzr37vbn",
     "name": "Cama Paris Casal",
-    "category": "cat_1749514027898_i1dflgroy",
-    "categoryName": "Camas",
+    "category": "Camas",
     "priceAVista": 310,
+    "altura": 94,
+    "largura": 130,
+    "comprimento": 190,
+    "peso": 23.5,
     "description": "",
-    "dimensions": {
-      "height": 94,
-      "width": 130,
-      "length": 190,
-      "weight": 23.5
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520142866_n40ygta0i.png",
+      "data/images/product_1749520149359_pqhd5c7yu.png",
+      "data/images/product_1749520153760_yntd5a1y1.png",
+      "data/images/product_1749520157985_0ju7uny3g.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:49:30.338Z",
+    "id": 1749514027914,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_v2ueh3x4x",
     "name": "Cama Paris Solteiro",
-    "category": "cat_1749514027898_i1dflgroy",
-    "categoryName": "Camas",
+    "category": "Camas",
     "priceAVista": 258,
+    "altura": 94,
+    "largura": 80,
+    "comprimento": 190,
+    "peso": 20,
     "description": "",
-    "dimensions": {
-      "height": 94,
-      "width": 80,
-      "length": 190,
-      "weight": 20
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520189280_kxvcfhr2d.png",
+      "data/images/product_1749520193767_ppn72ewal.png",
+      "data/images/product_1749520197899_pggjxlt1b.png",
+      "data/images/product_1749520202177_vqzritbku.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:50:22.693Z",
+    "id": 1749514027915,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_1fiwkaeqd",
     "name": "Mesa Bonacor 0,70 X 0,45",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 136,
+    "altura": 80,
+    "largura": 45,
+    "comprimento": 70,
+    "peso": 9,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 45,
-      "length": 70,
-      "weight": 9
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520235411_u00w056vm.png",
+      "data/images/product_1749520239594_3ko74b3fd.png",
+      "data/images/product_1749520243447_7bgmi4kei.png",
+      "data/images/product_1749520247339_0aec1b4km.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:50:57.837Z",
+    "id": 1749514027916,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_42cdh29x4",
     "name": "Mesa Bonacor 0,75 X 0,75",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 182,
+    "altura": 80,
+    "largura": 75,
+    "comprimento": 75,
+    "peso": 15,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 75,
-      "length": 75,
-      "weight": 15
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520271577_5n7p9m7co.png",
+      "data/images/product_1749520277293_bveen3k98.png",
+      "data/images/product_1749520281896_2da3ji4ep.png",
+      "data/images/product_1749520287123_m5ofyjptq.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:51:35.913Z",
+    "id": 1749514027917,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_xxyfy6ysr",
     "name": "Mesa Bonacor 0,80 X 0,80",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 212,
+    "altura": 80,
+    "largura": 80,
+    "comprimento": 80,
+    "peso": 15,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 80,
-      "length": 80,
-      "weight": 15
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520305283_qx876qcb0.png",
+      "data/images/product_1749520310351_aurivn7v0.png",
+      "data/images/product_1749520315514_qoabc9bj8.png",
+      "data/images/product_1749520320671_ktfxcyc9m.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:52:10.080Z",
+    "id": 1749514027918,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_gttwhacx7",
     "name": "Mesa Bonacor 1,10 X 0,45",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 169,
+    "altura": 80,
+    "largura": 45,
+    "comprimento": 110,
+    "peso": 11,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 45,
-      "length": 110,
-      "weight": 11
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520430867_7bn7llwhy.png",
+      "data/images/product_1749520436263_sf6chlbkb.png",
+      "data/images/product_1749520440717_h5vp2r7mj.png",
+      "data/images/product_1749520447976_qeqp4vbib.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:54:20.218Z",
+    "id": 1749514027919,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_vmj4wj4sk",
     "name": "Mesa Bonacor 1,15 X 0,75",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 252,
+    "altura": 80,
+    "largura": 75,
+    "comprimento": 115,
+    "peso": 16,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 75,
-      "length": 115,
-      "weight": 16
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520470450_qszuglnme.png",
+      "data/images/product_1749520475273_hiclp1q9u.png",
+      "data/images/product_1749520479114_k9egg8mi5.png",
+      "data/images/product_1749520483050_jeokrir2x.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:55:00.610Z",
+    "id": 1749514027920,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_azq70ky5x",
     "name": "Mesa Bonacor 1,20 X 0,80",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 284,
+    "altura": 80,
+    "largura": 80,
+    "comprimento": 120,
+    "peso": 17,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 80,
-      "length": 120,
-      "weight": 17
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520512529_ofm6i4j6t.png",
+      "data/images/product_1749520518897_3zqhckc1f.png",
+      "data/images/product_1749520523136_fx1kzgot3.png",
+      "data/images/product_1749520526827_wcqe15pl9.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:55:35.828Z",
+    "id": 1749514027921,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "id": "product_1749514027899_gzgyrsona",
     "name": "Mesa Bonacor 1,50 X 0,80",
-    "category": "cat_1749514027898_uxw222nwk",
-    "categoryName": "Mesas",
+    "category": "Mesas",
     "priceAVista": 359,
+    "altura": 80,
+    "largura": 80,
+    "comprimento": 150,
+    "peso": 22,
     "description": "",
-    "dimensions": {
-      "height": 80,
-      "width": 80,
-      "length": 150,
-      "weight": 22
-    },
-    "colors": [],
-    "image": "",
+    "images": [
+      "data/images/product_1749520548661_b8peqm8g9.png",
+      "data/images/product_1749520552376_p99qq6o54.png",
+      "data/images/product_1749520556248_bbayaw8cy.png",
+      "data/images/product_1749520560198_936iks8ov.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
+    "updatedAt": "2025-06-10T01:56:09.967Z",
+    "id": 1749514027922,
     "createdAt": "2025-06-10T00:07:07.899Z"
   }
 ]

@@ -15,7 +15,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
+            background: #f8fafc;
             line-height: 1.6;
             color: #1f2937;
         }
@@ -60,9 +60,7 @@
         }
         
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            display: none;
         }
         
         .user-badge {
@@ -110,7 +108,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 24px 20px;
         }
 
         /* Responsividade geral */
@@ -202,7 +200,7 @@
         
         .search-input:focus {
             outline: none;
-            border-color: #f59e0b;
+            border-color: #d4831e;
             background: white;
         }
         
@@ -278,11 +276,11 @@
         .category-card {
             text-align: center;
             padding: 24px 16px;
-            border: 1px solid #f3f4f6;
-            border-radius: 12px;
+            border: 2px solid #f3f4f6;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
-            background: white;
+            background: #fafafa;
             min-height: 160px;
             display: flex;
             flex-direction: column;
@@ -292,15 +290,13 @@
         
         .category-card:hover {
             border-color: #f59e0b;
-            background: white;
+            background: #fef3e2;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .category-card.active {
             border-color: #f59e0b;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: #fef3e2;
         }
         
         .category-icon {
@@ -428,7 +424,7 @@
         .price-label {
             display: block;
             font-size: 0.75rem;
-            color: #f59e0b;
+            color: #92400e;
             font-weight: 500;
             margin-bottom: 4px;
         }
@@ -437,7 +433,7 @@
             display: block;
             font-size: 1.25rem;
             font-weight: 700;
-            color: #f59e0b;
+            color: #92400e;
         }
 
         /* Responsividade para grade de produtos */
@@ -479,17 +475,17 @@
         }
         
         .product-card {
-            border: 1px solid #f3f4f6;
-            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
             overflow: hidden;
             background: white;
             transition: all 0.2s;
         }
         
         .product-card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-            transform: translateY(-5px);
-            border-color: #E0E0E0;
+            box-shadow: 0 8px 25px rgba(255,255,255,0.8);
+            transform: translateY(-4px);
+            border-color: #ffffff;
             cursor: pointer;
         }
 
@@ -681,11 +677,11 @@
         
         .price-highlight {
             background: #fef3e2;
-            border: 1px solid #f59e0b;
+            border: 1px solid #d4831e;
         }
         
         .price-highlight .price-value {
-            color: #f59e0b;
+            color: #d4831e;
             font-size: 0.85rem;
         }
 
@@ -741,11 +737,11 @@
             
             .price-highlight {
                 background: #fef3e2;
-                border: 2px solid #f59e0b;
+                border: 2px solid #d4831e;
             }
             
             .price-highlight .price-value {
-                color: #f59e0b;
+                color: #d4831e;
                 font-size: 1.1rem;
             }
         }
@@ -773,7 +769,7 @@
         }
         
         .golden-banner {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, #f39c12, #e67e22);
             color: white;
             padding: 8px 12px;
             border-radius: 6px;
@@ -798,13 +794,13 @@
             text-align: center;
             padding: 12px;
             background: #fef3e2;
-            border: 2px solid #f59e0b;
+            border: 2px solid #f39c12;
             border-radius: 6px;
         }
         
         .special-price .price-label {
             display: block;
-            color: #f59e0b;
+            color: #8b5a2b;
             font-size: 0.75rem;
             margin-bottom: 4px;
             font-weight: 500;
@@ -813,7 +809,7 @@
         .special-price-value {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #f59e0b;
+            color: #d68910;
         }
         
         /* Grid price table layout for shop users (2 per row) */
@@ -977,8 +973,8 @@
         }
 
         .color-circle.selected {
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+            border-color: #d4831e;
+            box-shadow: 0 0 0 2px rgba(212, 131, 30, 0.2);
         }
 
         .color-name {
@@ -1002,6 +998,8 @@
                 <button class="cart-btn" onclick="openCartModal()">
                     🛒 Carrinho (<span id="cart-count">0</span>)
                 </button>
+                <span class="user-badge" id="user-info">Carregando...</span>
+                <button class="logout-btn" onclick="logout()">Sair</button>
             </div>
         </div>
     </div>
@@ -1166,8 +1164,10 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 this.userType = urlParams.get('tipo') || this.mapUserRole(this.currentUser.role);
 
-                // User info display removed from interface
-                
+                // Update user info display
+                document.getElementById('user-info').textContent = 
+                    `${this.currentUser.name} (${this.userType.charAt(0).toUpperCase() + this.userType.slice(1)})`;
+
                 // Load data
                 await this.loadAllData();
                 this.setupEventListeners();
@@ -1464,7 +1464,7 @@
                 container.style.display = 'block';
                 container.innerHTML = `
                     <div class="promotion-content" style="
-                        background: ${activePromotion.color || '#f59e0b'};
+                        background: ${activePromotion.color || '#f39c12'};
                         color: white;
                         padding: 15px 20px;
                         border-radius: 8px;

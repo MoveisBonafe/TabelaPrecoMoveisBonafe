@@ -928,39 +928,85 @@
             /* Mobile delivery form styling */
             .delivery-form-desktop .form-group,
             .delivery-form-desktop .form-row {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 8px !important;
-                margin-bottom: 16px;
-            }
-            
-            .delivery-form-desktop .form-group > div,
-            .delivery-form-desktop .form-row > div {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 8px !important;
+                display: block !important;
+                margin-bottom: 16px !important;
             }
             
             .delivery-form-desktop label {
+                display: block !important;
                 text-align: left !important;
                 font-size: 14px !important;
                 font-weight: 500 !important;
-                margin-bottom: 4px;
+                margin-bottom: 8px !important;
+                color: #374151 !important;
             }
             
             .delivery-form-desktop input {
                 width: 100% !important;
-                padding: 12px !important;
+                padding: 14px 16px !important;
                 font-size: 16px !important;
-                border-radius: 8px !important;
+                border-radius: 16px !important;
                 border: 1px solid #d1d5db !important;
                 background: white !important;
-                box-sizing: border-box;
+                box-sizing: border-box !important;
+                margin-bottom: 4px !important;
             }
             
-            /* Hide complex grid layouts on mobile */
-            .delivery-form-desktop .form-row {
-                grid-template-columns: 1fr !important;
+            /* Bairro and Número side by side */
+            .delivery-form-desktop .form-row:has(#customer-neighborhood) {
+                display: flex !important;
+                gap: 12px !important;
+                align-items: flex-start !important;
+            }
+            
+            .delivery-form-desktop .form-row:has(#customer-neighborhood) > label:first-child {
+                width: 100px !important;
+                margin-right: 0 !important;
+                flex-shrink: 0 !important;
+            }
+            
+            .delivery-form-desktop .form-row:has(#customer-neighborhood) #customer-neighborhood {
+                flex: 2 !important;
+            }
+            
+            .delivery-form-desktop .form-row:has(#customer-neighborhood) > div:last-child {
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            /* Cidade and Estado side by side */
+            .delivery-form-desktop .form-row:has(#customer-city) {
+                display: flex !important;
+                gap: 12px !important;
+                align-items: flex-start !important;
+            }
+            
+            .delivery-form-desktop .form-row:has(#customer-city) > label:first-child {
+                width: 100px !important;
+                margin-right: 0 !important;
+                flex-shrink: 0 !important;
+            }
+            
+            .delivery-form-desktop .form-row:has(#customer-city) #customer-city {
+                flex: 2 !important;
+            }
+            
+            .delivery-form-desktop .form-row:has(#customer-city) > div:last-child {
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            /* Button styling fix for mobile */
+            .cart-actions-new button {
+                padding: 16px 24px !important;
+                border-radius: 16px !important;
+                font-size: 16px !important;
+                font-weight: 600 !important;
+                text-align: center !important;
+                width: 100% !important;
+                margin: 8px 0 !important;
             }
         }
         
@@ -5509,7 +5555,7 @@
             
             // Add event listeners for form validation
             setTimeout(() => {
-                const formFields = ['customer-name', 'customer-phone', 'customer-address', 'customer-cep', 'customer-neighborhood', 'customer-number'];
+                const formFields = ['customer-name', 'customer-phone', 'customer-address', 'customer-cep', 'customer-neighborhood', 'customer-number', 'customer-city', 'customer-state'];
                 formFields.forEach(fieldId => {
                     const field = document.getElementById(fieldId);
                     if (field) {
@@ -5521,6 +5567,9 @@
                         field.addEventListener('blur', checkFormValidation);
                     }
                 });
+                
+                // Initialize field visibility and validation
+                toggleAddressFields();
                 checkFormValidation(); // Initial check
             }, 200);
         }
@@ -6144,6 +6193,25 @@
             setTimeout(() => {
                 toggleAddressFields();
             }, 500);
+            
+            // Also trigger when cart modal opens
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        const cartModal = document.getElementById('cart-modal');
+                        if (cartModal && cartModal.classList.contains('active')) {
+                            setTimeout(() => {
+                                toggleAddressFields();
+                            }, 200);
+                        }
+                    }
+                });
+            });
+            
+            const cartModal = document.getElementById('cart-modal');
+            if (cartModal) {
+                observer.observe(cartModal, { attributes: true });
+            }
             
             // Apply error handling to all images after initial load
             setTimeout(() => {

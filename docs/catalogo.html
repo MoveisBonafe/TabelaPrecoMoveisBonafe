@@ -1713,9 +1713,31 @@
                 const categoryLabel = product.category || 'Categoria';
                 const dimensions = this.getProductDimensions(product);
                 
+                // Check for active promotion
+                const activePromotion = this.getActivePromotion();
+                const hasDiscount = activePromotion && this.promotionAppliesTo(activePromotion, product.category);
+                const discountPercent = hasDiscount ? (activePromotion.discount || activePromotion.value) : 0;
+                
                 return `
-                    <div class="product-image">
+                    <div class="product-image" style="position: relative;">
                         ${productImage}
+                        ${hasDiscount ? `
+                            <div class="discount-tag" style="
+                                position: absolute;
+                                top: 8px;
+                                right: 8px;
+                                background: #f59e0b;
+                                color: white;
+                                padding: 4px 8px;
+                                border-radius: 12px;
+                                font-size: 12px;
+                                font-weight: 600;
+                                box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+                                z-index: 2;
+                            ">
+                                -${discountPercent}%
+                            </div>
+                        ` : ''}
                     </div>
                     <div class="product-info">
                         <div class="product-category-badge">${categoryLabel}</div>

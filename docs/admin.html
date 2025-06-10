@@ -1315,54 +1315,7 @@
         let selectedColors = [];
         let categoryImage = null;
 
-        // Aggressive cache management to prevent quota issues
-        function cleanOldImageCache() {
-            try {
-                // Emergency cleanup if quota is near limit
-                const testKey = 'quota_test_' + Date.now();
-                try {
-                    localStorage.setItem(testKey, 'test');
-                    localStorage.removeItem(testKey);
-                } catch (quotaError) {
-                    // Emergency cleanup - remove all image cache
-                    Object.keys(localStorage).forEach(key => {
-                        if (key.startsWith('image_base64_')) {
-                            localStorage.removeItem(key);
-                        }
-                    });
-                    addSystemLog('🚨 Cache de emergência: localStorage limpo por quota');
-                    return;
-                }
-                
-                const keys = Object.keys(localStorage);
-                const imageKeys = keys.filter(key => key.startsWith('image_base64_'));
-                
-                // Keep only the 3 most recent images to prevent quota issues
-                if (imageKeys.length > 3) {
-                    const sortedKeys = imageKeys.sort((a, b) => {
-                        const timeA = parseInt(a.match(/\d+/)?.[0] || '0');
-                        const timeB = parseInt(b.match(/\d+/)?.[0] || '0');
-                        return timeB - timeA;
-                    });
-                    
-                    // Remove old entries
-                    for (let i = 3; i < sortedKeys.length; i++) {
-                        localStorage.removeItem(sortedKeys[i]);
-                    }
-                    addSystemLog(`🧹 Cache limpo: mantidas ${Math.min(3, imageKeys.length)} imagens recentes`);
-                }
-            } catch (error) {
-                console.warn('Erro na limpeza de cache:', error);
-                // Fallback - clear all image cache
-                Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('image_base64_')) {
-                        try {
-                            localStorage.removeItem(key);
-                        } catch (e) {}
-                    }
-                });
-            }
-        }
+        // Cache functions removed - using simple memory-only approach
 
         // Smart cache clearing that respects recent saves
         function clearCache() {
@@ -1534,87 +1487,7 @@
             addSystemLog(`💾 Arquivo ${filename} salvo no GitHub`);
         }
 
-        // Upload image to GitHub
-        async function uploadImageToGitHub(file, filename) {
-            const token = localStorage.getItem('github_token');
-            if (!token) throw new Error('Token GitHub não configurado');
-
-            const filePath = `docs/data/images/${filename}`;
-            const apiUrl = `https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/${filePath}`;
-
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    try {
-                        const content = e.target.result.split(',')[1];
-                        
-                        console.log('Uploading to GitHub:', {
-                            url: apiUrl,
-                            filename: filename,
-                            contentLength: content.length
-                        });
-                        
-                        const response = await fetch(apiUrl, {
-                            method: 'PUT',
-                            headers: {
-                                'Authorization': `token ${token}`,
-                                'Accept': 'application/vnd.github.v3+json',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                message: `Upload image: ${filename}`,
-                                content: content
-                            })
-                        });
-
-                        if (!response.ok) {
-                            const errorText = await response.text();
-                            console.error('GitHub API Error Details:', {
-                                status: response.status,
-                                statusText: response.statusText,
-                                headers: Object.fromEntries(response.headers.entries()),
-                                body: errorText
-                            });
-                            addSystemLog(`❌ Erro GitHub API ${response.status}: ${errorText}`);
-                            throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
-                        }
-
-                        const result = await response.json();
-                        console.log('GitHub API Success:', result);
-                        addSystemLog(`✅ Imagem salva no GitHub: ${result.content?.path || filename}`);
-                        
-                        // Store in memory cache only - no localStorage usage
-                        const base64Data = e.target.result;
-                        
-                        // Initialize global memory cache
-                        if (!window.imageMemoryCache) window.imageMemoryCache = {};
-                        window.imageMemoryCache[filename] = base64Data;
-                        
-                        // Store using simple image manager
-                        if (window.simpleImageManager) {
-                            window.simpleImageManager.store(filename, base64Data);
-                        }
-                        
-                        console.log(`Image stored in memory cache: ${filename}`);
-                        
-                        addSystemLog(`📸 Imagem uploaded: ${filename}`);
-                        
-                        // Show success notification with sync info
-                        showNotification(
-                            `Imagem ${filename} salva no GitHub. Usando cache local para exibição imediata.`, 
-                            'success'
-                        );
-                        
-                        resolve(`data/images/${filename}`);
-                    } catch (error) {
-                        console.error('Upload error details:', error);
-                        addSystemLog(`❌ Erro detalhado no upload: ${error.message}`);
-                        reject(error);
-                    }
-                };
-                reader.readAsDataURL(file);
-            });
-        }
+        // Image upload function will be provided by reliable-upload.js
 
         // Check GitHub token and repository permissions
         async function checkGitHubToken() {

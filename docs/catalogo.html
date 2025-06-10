@@ -1611,33 +1611,32 @@
                     <div class="product-info">
                         <div class="product-category-badge">${categoryLabel}</div>
                         <div class="product-name">${product.name}</div>
-                        ${dimensions ? `<div class="product-dimensions">${dimensions}</div>` : ''}
                         <div class="product-colors">
                             <span class="colors-label">Cores:</span>
                             <div class="color-circles">
                                 ${colorCircles}
                             </div>
                         </div>
-                        <div class="price-grid">
-                            <div class="price-item">
-                                <span class="price-label">À VISTA</span>
-                                <span class="price-value">R$ ${prices.vista.toFixed(2)}</span>
+                        <div class="price-table-grid">
+                            <div class="price-cell">
+                                <div class="price-header">À Vista</div>
+                                <div class="price-value-large">R$ ${prices.vista.toFixed(2)}</div>
                             </div>
-                            <div class="price-item">
-                                <span class="price-label">30</span>
-                                <span class="price-value">R$ ${prices.prazo30.toFixed(2)}</span>
+                            <div class="price-cell">
+                                <div class="price-header">30</div>
+                                <div class="price-value-large">R$ ${prices.prazo30.toFixed(2)}</div>
                             </div>
-                            <div class="price-item">
-                                <span class="price-label">30/60</span>
-                                <span class="price-value">R$ ${prices.prazo3060.toFixed(2)}</span>
+                            <div class="price-cell">
+                                <div class="price-header">30/60</div>
+                                <div class="price-value-large">R$ ${prices.prazo3060.toFixed(2)}</div>
                             </div>
-                            <div class="price-item">
-                                <span class="price-label">30/60/90</span>
-                                <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
+                            <div class="price-cell">
+                                <div class="price-header">30/60/90</div>
+                                <div class="price-value-large">R$ ${prices.prazo306090.toFixed(2)}</div>
                             </div>
-                            <div class="price-item">
-                                <span class="price-label">30/60/90/120</span>
-                                <span class="price-value">R$ ${prices.prazo30606090120.toFixed(2)}</span>
+                            <div class="price-cell full-width">
+                                <div class="price-header">30/60/90/120</div>
+                                <div class="price-value-large">R$ ${prices.prazo30606090120.toFixed(2)}</div>
                             </div>
                         </div>
                     </div>

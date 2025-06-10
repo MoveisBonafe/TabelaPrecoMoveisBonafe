@@ -2074,7 +2074,17 @@ ${this.userType === 'restaurante' ? `
             initializeExpandableSections();
             
             // Show modal
-            document.getElementById('product-detail-modal').classList.add('active');
+            const modal = document.getElementById('product-detail-modal');
+            modal.classList.add('active');
+            
+            // Apply restaurant-specific styling if user is restaurant type
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+            if (currentUser.type === 'restaurante') {
+                modal.classList.add('restaurant-modal');
+            } else {
+                modal.classList.remove('restaurant-modal');
+            }
+            
             document.body.style.overflow = 'hidden';
             
             // Setup swipe events after modal is fully rendered

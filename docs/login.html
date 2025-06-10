@@ -111,7 +111,8 @@
         .login-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #92400e 100%);
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24, #000000);
+            background-size: 300% 300%;
             color: white;
             border: none;
             border-radius: 25px;
@@ -120,6 +121,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            animation: gradientShift 3s ease-in-out infinite;
             transition: all 0.2s;
             margin-top: 8px;
         }

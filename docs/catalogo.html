@@ -1611,13 +1611,33 @@
                     <div class="product-info">
                         <div class="product-category-badge">${categoryLabel}</div>
                         <div class="product-name">${product.name}</div>
-                        <div class="product-dimensions">
-                            ${dimensions}
-                        </div>
+                        ${dimensions ? `<div class="product-dimensions">${dimensions}</div>` : ''}
                         <div class="product-colors">
                             <span class="colors-label">Cores:</span>
                             <div class="color-circles">
                                 ${colorCircles}
+                            </div>
+                        </div>
+                        <div class="price-grid">
+                            <div class="price-item">
+                                <span class="price-label">À VISTA</span>
+                                <span class="price-value">R$ ${prices.vista.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30</span>
+                                <span class="price-value">R$ ${prices.prazo30.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30/60</span>
+                                <span class="price-value">R$ ${prices.prazo3060.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30/60/90</span>
+                                <span class="price-value">R$ ${prices.prazo306090.toFixed(2)}</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">30/60/90/120</span>
+                                <span class="price-value">R$ ${prices.prazo30606090120.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
@@ -1657,14 +1677,14 @@
 
             getProductDimensions(product) {
                 const specs = [];
-                if (product.height) specs.push(`Altura: ${product.height}cm`);
-                if (product.width) specs.push(`Largura: ${product.width}cm`);
-                if (product.length) specs.push(`Comprimento: ${product.length}cm`);
-                if (product.weight) specs.push(`Peso: ${product.weight}kg`);
+                if (product.altura) specs.push(`Altura: ${product.altura}cm`);
+                if (product.largura) specs.push(`Largura: ${product.largura}cm`);
+                if (product.comprimento) specs.push(`Comprimento: ${product.comprimento}cm`);
+                if (product.peso) specs.push(`Peso: ${product.peso}kg`);
                 
-                if (specs.length === 0) return '<div class="no-dimensions">Medidas: Consulte</div>';
+                if (specs.length === 0) return null;
                 
-                return `<div class="dimensions-text">Medidas:<br>${specs.join('<br>')}</div>`;
+                return `<div class="dimensions-text">${specs.join('<br>')}</div>`;
             }
 
             calculatePrices(product) {

@@ -958,6 +958,16 @@
                     <input type="number" id="product-price" class="form-input" step="0.01" required>
                 </div>
                 
+                <div class="form-group">
+                    <label class="form-label" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="product-fixed-price" style="margin: 0;">
+                        Preço Fixo (não altera com tabelas de preço)
+                    </label>
+                    <small style="color: #6b7280; font-size: 0.85rem; margin-top: 4px; display: block;">
+                        Quando ativado, o produto manterá sempre o preço à vista, independente da tabela de preço selecionada
+                    </small>
+                </div>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Altura (cm):</label>
@@ -2010,6 +2020,7 @@
             document.getElementById('product-name').value = currentEditingProduct.name || '';
             document.getElementById('product-category').value = currentEditingProduct.category || '';
             document.getElementById('product-price').value = currentEditingProduct.priceAVista || 0;
+            document.getElementById('product-fixed-price').checked = currentEditingProduct.fixedPrice || false;
             document.getElementById('product-height').value = currentEditingProduct.altura || '';
             document.getElementById('product-width').value = currentEditingProduct.largura || '';
             document.getElementById('product-length').value = currentEditingProduct.comprimento || '';
@@ -2140,6 +2151,7 @@
                     name: document.getElementById('product-name').value,
                     category: document.getElementById('product-category').value,
                     priceAVista: parseFloat(document.getElementById('product-price').value) || 0,
+                    fixedPrice: document.getElementById('product-fixed-price').checked,
                     altura: parseFloat(document.getElementById('product-height').value) || 0,
                     largura: parseFloat(document.getElementById('product-width').value) || 0,
                     comprimento: parseFloat(document.getElementById('product-length').value) || 0,

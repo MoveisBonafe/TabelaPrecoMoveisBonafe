@@ -5964,9 +5964,7 @@
                 }
             });
         }
-        </script>
-        
-        <script>
+
         // Data synchronization listener for cross-page updates
         function checkForDataUpdates() {
             const dataTypes = ['products', 'categories', 'colors', 'priceSettings'];
@@ -6012,6 +6010,28 @@
                     updateInterfaceBasedOnUser();
                 }
             }
+        }
+        
+        // Header icon functions
+        function toggleSearch() {
+            const searchBar = document.querySelector('.search-bar');
+            const searchInput = document.getElementById('search-input');
+            if (searchBar.style.display === 'none') {
+                searchBar.style.display = 'block';
+                searchInput.focus();
+            } else {
+                searchBar.style.display = 'none';
+            }
+        }
+
+        function toggleFavorites() {
+            // Toggle favorites view - placeholder for future implementation
+            console.log('Favorites toggle - feature coming soon');
+        }
+
+        function openUserMenu() {
+            // Show user menu - placeholder for future implementation
+            console.log('User menu - feature coming soon');
         }
         
         // Run sync checks

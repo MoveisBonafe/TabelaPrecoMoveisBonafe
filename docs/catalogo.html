@@ -3817,18 +3817,31 @@ ${this.userType === 'restaurante' ? `
         }
 
         .quantity-controls button {
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             border: 1px solid #d1d5db;
             background: white;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
+            color: #374151;
+            transition: all 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
         }
 
         .quantity-controls button:hover {
             background: #f3f4f6;
+            border-color: #9ca3af;
+            transform: scale(1.05);
+        }
+
+        .quantity-controls button:active {
+            transform: scale(0.95);
+            background: #e5e7eb;
         }
 
         .quantity-controls input {
@@ -6658,6 +6671,8 @@ ${this.userType === 'restaurante' ? `
             if (quantityInput) {
                 const currentValue = parseInt(quantityInput.value) || 1;
                 quantityInput.value = currentValue + 1;
+                // Trigger change event to update any listeners
+                quantityInput.dispatchEvent(new Event('change'));
             }
         }
 
@@ -6667,9 +6682,35 @@ ${this.userType === 'restaurante' ? `
                 const currentValue = parseInt(quantityInput.value) || 1;
                 if (currentValue > 1) {
                     quantityInput.value = currentValue - 1;
+                    // Trigger change event to update any listeners
+                    quantityInput.dispatchEvent(new Event('change'));
                 }
             }
         }
+
+        // Add event delegation for better button responsiveness
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle quantity button clicks with event delegation
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[onclick*="increaseModalQuantity"]')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    increaseModalQuantity();
+                } else if (e.target.closest('[onclick*="decreaseModalQuantity"]')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    decreaseModalQuantity();
+                }
+            });
+
+            // Handle touch events for mobile
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.closest('[onclick*="increaseModalQuantity"]') || 
+                    e.target.closest('[onclick*="decreaseModalQuantity"]')) {
+                    e.preventDefault();
+                }
+            });
+        });
 
         // Close modal with Escape key
         document.addEventListener('keydown', function(event) {

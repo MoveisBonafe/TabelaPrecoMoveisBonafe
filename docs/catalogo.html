@@ -60,9 +60,7 @@
         }
         
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            display: none;
         }
         
         .user-badge {
@@ -509,9 +507,6 @@
         }
 
         .ver-produto-btn-fixed {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
             background: #f59e0b;
             color: white;
             border: none;
@@ -521,7 +516,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            z-index: 10;
+            flex-shrink: 0;
         }
 
         .ver-produto-btn-fixed:hover {
@@ -605,6 +600,13 @@
         .no-dimensions {
             color: #9ca3af;
             font-style: italic;
+        }
+
+        .product-colors-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
         }
 
         .product-colors {

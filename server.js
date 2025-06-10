@@ -44,6 +44,7 @@ app.use((req, res, next) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`MoveisBonafe Catalog Server running on port ${PORT}`);
     console.log(`Admin Panel: http://localhost:${PORT}/admin`);
+    console.log(`Price Table: http://localhost:${PORT}/tabelapreco`);
     console.log(`Catalog: http://localhost:${PORT}/catalogo`);
     console.log(`Login: http://localhost:${PORT}/login`);
 });

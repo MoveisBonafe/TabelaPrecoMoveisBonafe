@@ -206,20 +206,10 @@
     "comprimento": 160,
     "peso": 22,
     "description": "",
-    "images": [
-      "data/images/product_1749517073827_syuv6bgno.png",
-      "data/images/product_1749517079496_zeryov68h.png",
-      "data/images/product_1749517088759_x3ubq0qei.png",
-      "data/images/product_1749517094487_abp0l4xah.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
+    "images": [],
+    "colorVariations": [],
     "active": true,
-    "updatedAt": "2025-06-10T00:58:29.385Z",
+    "updatedAt": "2025-06-10T00:07:07.899Z",
     "id": 1749514027906,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
@@ -232,10 +222,20 @@
     "comprimento": 180,
     "peso": 25,
     "description": "",
-    "images": [],
-    "colorVariations": [],
+    "images": [
+      "data/images/product_1749517186576_3gqyt3exy.png",
+      "data/images/product_1749517194303_0te16izcq.png",
+      "data/images/product_1749517199395_fsty5vczo.png",
+      "data/images/product_1749517209643_t8b5t6q29.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
-    "updatedAt": "2025-06-10T00:07:07.899Z",
+    "updatedAt": "2025-06-10T01:00:22.529Z",
     "id": 1749514027907,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

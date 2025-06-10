@@ -2068,7 +2068,15 @@ ${this.userType === 'restaurante' ? `
                 this.priceSettings.forEach(setting => {
                     const percentage = setting.percentage || 0;
                     const priceMultiplier = 1 + (percentage / 100);
-                    const finalPrice = basePrice * priceMultiplier * multiplier;
+                    let finalPrice = basePrice * priceMultiplier * multiplier;
+                    
+                    // Apply restaurant markup if user is restaurant type
+                    if (this.currentUser.userType === 'restaurante') {
+                        const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
+                        if (restaurantMarkup > 0) {
+                            finalPrice = finalPrice * (1 + (restaurantMarkup / 100));
+                        }
+                    }
                     
                     // Map table names to price keys based on your actual configuration
                     const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
@@ -2087,8 +2095,18 @@ ${this.userType === 'restaurante' ? `
 
                 // Fallback to default calculation if no price settings
                 if (Object.keys(prices).length === 0) {
+                    let vistaPrice = basePrice * multiplier;
+                    
+                    // Apply restaurant markup to base À Vista price
+                    if (this.currentUser.userType === 'restaurante') {
+                        const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
+                        if (restaurantMarkup > 0) {
+                            vistaPrice = vistaPrice * (1 + (restaurantMarkup / 100));
+                        }
+                    }
+                    
                     return {
-                        vista: basePrice * multiplier,
+                        vista: vistaPrice,
                         prazo30: (basePrice * 1.02) * multiplier,
                         prazo3060: (basePrice * 1.04) * multiplier,
                         prazo306090: (basePrice * 1.06) * multiplier,
@@ -6591,6 +6609,14 @@ ${this.userType === 'restaurante' ? `
             const whatsappNumber = '5511999999999'; // Replace with actual WhatsApp number
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // WhatsApp contact function for footer
+        function openWhatsAppContact() {
+            const message = 'Olá! Gostaria de conversar com a Móveis Bonafé. Como posso ajudar?';
+            const whatsappNumber = '5511999999999'; // Same number as order finalization
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
 

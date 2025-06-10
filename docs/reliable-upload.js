@@ -1,5 +1,5 @@
-// Simple and reliable image upload system based on working project
-async function uploadImageToGitHub(file, pathPrefix = 'product') {
+// Override all existing upload functions with clean, working implementation
+window.uploadImageToGitHub = async function(file, pathPrefix = 'product') {
     const token = localStorage.getItem('github_token');
     if (!token) {
         throw new Error('Token GitHub não configurado');
@@ -10,7 +10,7 @@ async function uploadImageToGitHub(file, pathPrefix = 'product') {
         const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
         const filename = `${pathPrefix}_${Date.now()}_${cleanName}`;
         
-        // Convert to base64 using FileReader (safe method)
+        // Convert to base64 using FileReader (safe method like working project)
         const base64Content = await new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => {
@@ -35,20 +35,42 @@ async function uploadImageToGitHub(file, pathPrefix = 'product') {
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Erro no upload: ${response.status} - ${errorText}`);
+            throw new Error(`Upload failed: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
         const imageUrl = `https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/${filename}`;
         
+        // Add to system log if function exists
+        if (typeof addSystemLog === 'function') {
+            addSystemLog(`✅ Upload successful: ${filename}`);
+        }
+        
         console.log(`Upload successful: ${imageUrl}`);
         return imageUrl;
         
     } catch (error) {
+        if (typeof addSystemLog === 'function') {
+            addSystemLog(`❌ Upload error: ${error.message}`);
+        }
         console.error('Upload error:', error);
         throw error;
     }
-}
+};
 
-// Replace global upload function
-window.uploadImageToGitHub = uploadImageToGitHub;
+// Simple image error handler without localStorage dependencies
+window.handleImageError = function(img) {
+    const filename = img.src.split('/').pop().split('?')[0];
+    
+    // Show loading state and schedule retry
+    img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNmNTk1MDIiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNDAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNkOTI1MjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkFndWFyZGFuZG8uLi48L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iI2Q5MjUyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R2l0SHViIFBhZ2VzIHNpbmNyb25pemFuZG88L3RleHQ+PC9zdmc+';
+    img.title = `Aguardando sincronização: ${filename}`;
+    img.style.border = '2px solid #f59e0b';
+    
+    // Retry after 10 seconds
+    setTimeout(() => {
+        if (img.src.includes('data:image/svg+xml')) {
+            img.src = `https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/${filename}?retry=${Date.now()}`;
+        }
+    }, 10000);
+};

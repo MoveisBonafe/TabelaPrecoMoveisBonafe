@@ -1,0 +1,927 @@
+admin.html:1292 Cleared localStorage image cache
+admin.html:3359 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:3360 Sistema: GitHub API integrado com fallback localStorage
+admin.html:2621 [22:29:16] Inicializando sistema admin...
+admin.html:2621 [22:29:16] 🔄 Dados salvos recentemente - usando cache local para evitar problemas de sincronização GitHub Pages
+admin.html:2621 [22:29:16] 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:2621 [22:29:16] Carregando dados locais atualizados...
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" class=​"form-input" placeholder=​"Digite seu token GitHub">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"user-password" class=​"form-input">​
+admin.html:2621 [22:29:16] ✅ 25 produtos carregados localmente
+admin.html:2621 [22:29:16] ✅ 5 categorias carregadas localmente
+admin.html:2621 [22:29:16] ✅ Dados carregados: 25 produtos, 5 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+admin.html:2621 [22:29:16] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1752 Original product image path: data/images/product_1749515748135_77edzm9d2.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+admin.html:1752 Original product image path: data/images/product_1749515793116_llfars6sc.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+admin.html:1752 Original product image path: data/images/product_1749514738650_klus3daqr.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+admin.html:1752 Original product image path: data/images/product_1749514847355_eznlgf80h.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+admin.html:1752 Original product image path: data/images/product_1749515687207_syua1lz07.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+admin.html:1752 Original product image path: data/images/product_1749516289890_tj1gcowss.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+admin.html:1752 Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+admin.html:1752 Original product image path: data/images/product_1749517490130_a93f7xmua.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+admin.html:1752 Original product image path: data/images/product_1749518322906_l9699ha6q.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+admin.html:2621 [22:29:16] Sistema admin inicializado com sucesso
+admin.html:2621 [22:30:02] 📤 Uploading image: imagem_2025-06-09_223002286.png
+admin.html:2621 [22:30:02] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1551 Uploading to GitHub: {url: 'https://api.github.com/repos/moveisbonafe/TabelaPr…s/data/images/product_1749519002295_5szwzhknd.png', filename: 'product_1749519002295_5szwzhknd.png', contentLength: 187876}
+admin.html:1583 GitHub API Success: {content: {…}, commit: {…}}
+admin.html:2621 [22:30:03] ✅ Imagem salva no GitHub: docs/data/images/product_1749519002295_5szwzhknd.png
+admin.html:1598 Image stored in memory cache: product_1749519002295_5szwzhknd.png
+admin.html:2621 [22:30:03] 📸 Imagem uploaded: product_1749519002295_5szwzhknd.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+admin.html:2621 [22:30:08] 📤 Uploading image: imagem_2025-06-09_223008818.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519008862 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:2621 [22:30:09] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1551 Uploading to GitHub: {url: 'https://api.github.com/repos/moveisbonafe/TabelaPr…s/data/images/product_1749519008827_7bcukdiow.png', filename: 'product_1749519008827_7bcukdiow.png', contentLength: 247196}
+admin.html:1583 GitHub API Success: {content: {…}, commit: {…}}
+admin.html:2621 [22:30:10] ✅ Imagem salva no GitHub: docs/data/images/product_1749519008827_7bcukdiow.png
+admin.html:1598 Image stored in memory cache: product_1749519008827_7bcukdiow.png
+admin.html:2621 [22:30:10] 📸 Imagem uploaded: product_1749519008827_7bcukdiow.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png 404 (Not Found)
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519013891 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:2621 [22:30:15] 📤 Uploading image: imagem_2025-06-09_223015294.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519015285 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:2621 [22:30:15] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1551 Uploading to GitHub: {url: 'https://api.github.com/repos/moveisbonafe/TabelaPr…s/data/images/product_1749519015303_d3olitzch.png', filename: 'product_1749519015303_d3olitzch.png', contentLength: 181644}
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519015403 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:1583 GitHub API Success: {content: {…}, commit: {…}}
+admin.html:2621 [22:30:16] ✅ Imagem salva no GitHub: docs/data/images/product_1749519015303_d3olitzch.png
+admin.html:1598 Image stored in memory cache: product_1749519015303_d3olitzch.png
+admin.html:2621 [22:30:16] 📸 Imagem uploaded: product_1749519015303_d3olitzch.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png 404 (Not Found)
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png 404 (Not Found)
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519019017 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519020332 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519020442 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:2621 [22:30:20] 📤 Uploading image: imagem_2025-06-09_223020874.png
+admin.html:2621 [22:30:20] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1551 Uploading to GitHub: {url: 'https://api.github.com/repos/moveisbonafe/TabelaPr…s/data/images/product_1749519020883_y4auyqkfr.png', filename: 'product_1749519020883_y4auyqkfr.png', contentLength: 211940}
+admin.html:1583 GitHub API Success: {content: {…}, commit: {…}}
+admin.html:2621 [22:30:21] ✅ Imagem salva no GitHub: docs/data/images/product_1749519020883_y4auyqkfr.png
+admin.html:1598 Image stored in memory cache: product_1749519020883_y4auyqkfr.png
+admin.html:2621 [22:30:21] 📸 Imagem uploaded: product_1749519020883_y4auyqkfr.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519021644 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519021655 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png 404 (Not Found)
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519021653 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png 404 (Not Found)
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png 404 (Not Found)
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519024052 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519025355 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519025466 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519026707 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519026707 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519026722 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519026722 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519026723 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519026722 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519026833 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519029076 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:2621 [22:30:29] 💾 Salvando produto...
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519030380 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519030497 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+admin.html:2621 [22:30:30] 💾 Arquivo products.json salvo no GitHub
+admin.html:2621 [22:30:30] 📡 Dados sincronizados: products
+admin.html:1752 Original product image path: data/images/product_1749515748135_77edzm9d2.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+admin.html:1752 Original product image path: data/images/product_1749515793116_llfars6sc.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+admin.html:1752 Original product image path: data/images/product_1749514738650_klus3daqr.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+admin.html:1752 Original product image path: data/images/product_1749514847355_eznlgf80h.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+admin.html:1752 Original product image path: data/images/product_1749515687207_syua1lz07.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+admin.html:1752 Original product image path: data/images/product_1749516289890_tj1gcowss.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+admin.html:1752 Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+admin.html:1752 Original product image path: data/images/product_1749517490130_a93f7xmua.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+admin.html:1752 Original product image path: data/images/product_1749518322906_l9699ha6q.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+admin.html:1752 Original product image path: data/images/product_1749519002295_5szwzhknd.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png
+admin.html:2621 [22:30:30] ✅ Produto "Mesa Bonacor 1,80 X 0,85" salvo com sucesso
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+admin.html:1752 Original product image path: data/images/product_1749515748135_77edzm9d2.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+admin.html:1752 Original product image path: data/images/product_1749515793116_llfars6sc.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+admin.html:1752 Original product image path: data/images/product_1749514738650_klus3daqr.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+admin.html:1752 Original product image path: data/images/product_1749514847355_eznlgf80h.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+admin.html:1752 Original product image path: data/images/product_1749515687207_syua1lz07.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+admin.html:1752 Original product image path: data/images/product_1749516289890_tj1gcowss.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+admin.html:1752 Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+admin.html:1752 Original product image path: data/images/product_1749517490130_a93f7xmua.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+admin.html:1752 Original product image path: data/images/product_1749518322906_l9699ha6q.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+admin.html:1752 Original product image path: data/images/product_1749519002295_5szwzhknd.png
+admin.html:1753 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1765 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:1788
+renderProducts @ admin.html:1718
+renderAllData @ admin.html:1689
+(anônimo) @ admin.html:2310
+setTimeout
+saveProduct @ admin.html:2309
+await in saveProduct
+onsubmit @ admin.html:943
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519031754 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519031753 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519031769 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519031782 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519031782 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519031861 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519034101 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519035412 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519035522 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519035862 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519035971 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519036793 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519036793 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519036808 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519036821 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519036821 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519036884 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519039126 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519040438 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519040545 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519040897 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519040994 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519041826 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519041826 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519041838 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519041854 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519041856 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519041916 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519044164 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519045474 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519045580 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519045922 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519046016 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519046855 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519046860 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519046871 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519046886 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519046891 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519046940 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:2212
+displayImageGallery @ admin.html:2195
+fillProductForm @ admin.html:2148
+openProductModal @ admin.html:2120
+editProduct @ admin.html:2320
+onclick @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:2212
+displayImageGallery @ admin.html:2195
+fillProductForm @ admin.html:2148
+openProductModal @ admin.html:2120
+editProduct @ admin.html:2320
+onclick @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:2212
+displayImageGallery @ admin.html:2195
+fillProductForm @ admin.html:2148
+openProductModal @ admin.html:2120
+editProduct @ admin.html:2320
+onclick @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png 404 (Not Found)
+Image
+(anônimo) @ admin.html:2212
+displayImageGallery @ admin.html:2195
+fillProductForm @ admin.html:2148
+openProductModal @ admin.html:2120
+editProduct @ admin.html:2320
+onclick @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519049188 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519050497 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519050606 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519050959 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519051054 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519051896 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519051895 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519051909 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519051923 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519051923 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519051971 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519015303_d3olitzch.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519015303_d3olitzch.png?retry=1749519052349 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519020883_y4auyqkfr.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519020883_y4auyqkfr.png?retry=1749519052349 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519002295_5szwzhknd.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519002295_5szwzhknd.png?retry=1749519052364 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1
+product_1749519008827_7bcukdiow.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519008827_7bcukdiow.png?retry=1749519052364 404 (Not Found)
+Image
+(anônimo) @ admin.html:2436
+setTimeout
+handleImageError @ admin.html:2434
+onerror @ admin.html:1

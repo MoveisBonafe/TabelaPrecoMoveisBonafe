@@ -40,63 +40,57 @@
         }
         
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #000000, #f59e0b, #000000);
-            background-size: 200% 200%;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease-in-out infinite;
-            cursor: pointer;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            color: #d4831e;
         }
         
-        .header-actions {
+        .user-info {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
         
-        .header-icon {
-            width: 24px;
-            height: 24px;
-            color: white;
-            background: #374151;
-            border-radius: 50%;
-            padding: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
+        .user-badge {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
-
-        .header-icon:hover {
-            background: #f59e0b;
-            transform: translateY(-2px);
-        }
-
-        .cart-icon {
-            position: relative;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
+        
+        .logout-btn {
+            padding: 8px 16px;
             background: #ef4444;
             color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .cart-btn {
+            padding: 8px 16px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin-right: 12px;
+        }
+
+        .cart-btn:hover {
+            background: #047857;
         }
         
         .container {
@@ -283,14 +277,13 @@
         }
         
         .category-card:hover {
-            border-color: #f59e0b;
+            border-color: #d4831e;
             background: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
         }
         
         .category-card.active {
-            border-color: #f59e0b;
+            border-color: #d4831e;
             background: #fef3e2;
         }
         
@@ -501,13 +494,11 @@
             position: relative;
         }
 
-        .ver-produto-btn-fixed {
+        .ver-produto-btn-overlay {
             position: absolute;
             bottom: 12px;
             right: 12px;
-            background: linear-gradient(45deg, #000000, #f59e0b, #000000);
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease-in-out infinite;
+            background: #f59e0b;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -517,16 +508,18 @@
             cursor: pointer;
             transition: all 0.2s;
             z-index: 10;
+            opacity: 0;
+            transform: translateY(10px);
         }
 
-        .ver-produto-btn-fixed:hover {
+        .product-card:hover .ver-produto-btn-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ver-produto-btn-overlay:hover {
+            background: #d97706;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        .product-info {
-            padding: 16px;
-            position: relative;
         }
         
         .product-image img {
@@ -992,33 +985,12 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">Móveis Bonafé</div>
-            <div class="header-actions">
-                <div class="header-icon" onclick="toggleSearch()" title="Buscar">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                </div>
-                <div class="header-icon" onclick="toggleFavorites()" title="Favoritos">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/>
-                    </svg>
-                </div>
-                <div class="header-icon cart-icon" onclick="openCartModal()" title="Carrinho">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
-                    </svg>
-                    <span class="cart-count" id="cart-count">0</span>
-                </div>
-                <div class="header-icon" onclick="openUserMenu()" title="Conta">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                </div>
-                <div class="header-icon" onclick="logout()" title="Sair">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
-                    </svg>
-                </div>
+            <div class="user-info">
+                <button class="cart-btn" onclick="openCartModal()">
+                    🛒 Carrinho (<span id="cart-count">0</span>)
+                </button>
+                <span class="user-badge" id="user-info">Carregando...</span>
+                <button class="logout-btn" onclick="logout()">Sair</button>
             </div>
         </div>
     </div>
@@ -1634,7 +1606,7 @@
                 return `
                     <div class="product-image">
                         ${productImage}
-                        <button class="ver-produto-btn-fixed" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
+                        <button class="ver-produto-btn-overlay" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
                     </div>
                     <div class="product-info">
                         <div class="product-category-badge">${categoryLabel}</div>
@@ -2839,13 +2811,6 @@
         });
 
         console.log('🛍️ MoveisBonafe Catálogo - GitHub Pages');
-        
-        // Closing brace for CatalogClient class
-        }
-        
-        // Initialize the catalog
-        const catalogClient = new CatalogClient();
-        catalogClient.init();
     </script>
 
     <!-- Product Detail Modal -->
@@ -5971,7 +5936,9 @@
                 }
             });
         }
-
+        </script>
+        
+        <script>
         // Data synchronization listener for cross-page updates
         function checkForDataUpdates() {
             const dataTypes = ['products', 'categories', 'colors', 'priceSettings'];
@@ -6017,28 +5984,6 @@
                     updateInterfaceBasedOnUser();
                 }
             }
-        }
-        
-        // Header icon functions
-        function toggleSearch() {
-            const searchBar = document.querySelector('.search-bar');
-            const searchInput = document.getElementById('search-input');
-            if (searchBar.style.display === 'none') {
-                searchBar.style.display = 'block';
-                searchInput.focus();
-            } else {
-                searchBar.style.display = 'none';
-            }
-        }
-
-        function toggleFavorites() {
-            // Toggle favorites view - placeholder for future implementation
-            console.log('Favorites toggle - feature coming soon');
-        }
-
-        function openUserMenu() {
-            // Show user menu - placeholder for future implementation
-            console.log('User menu - feature coming soon');
         }
         
         // Run sync checks

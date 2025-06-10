@@ -2027,6 +2027,11 @@
             
             document.getElementById(`${tabName}-tab`).classList.add('active');
             event.target.classList.add('active');
+            
+            // Load data for specific tabs
+            if (tabName === 'pedidos') {
+                loadOrders();
+            }
         }
 
         // Product management functions
@@ -3228,6 +3233,314 @@
                 addSystemLog(`📡 Dados sincronizados: ${dataType}`);
             } catch (error) {
                 console.warn('Erro ao sincronizar dados:', error);
+            }
+        }
+
+        // Order management functions
+        function renderOrders() {
+            const ordersGrid = document.getElementById('pedidos-grid');
+            
+            if (!orders || orders.length === 0) {
+                ordersGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <h3>Nenhum pedido registrado</h3>
+                        <p>Os pedidos finalizados aparecerão aqui</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            ordersGrid.innerHTML = '';
+            
+            orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'data-card';
+                orderCard.style.cursor = 'pointer';
+                orderCard.onclick = () => viewOrderDetails(order);
+                
+                const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+                const orderDate = new Date(order.createdAt).toLocaleDateString('pt-BR');
+                
+                orderCard.innerHTML = `
+                    <div class="order-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div>
+                            <h3 style="margin: 0; color: #1f2937;">${order.number}</h3>
+                            <p style="margin: 4px 0 0 0; color: #6b7280; font-size: 14px;">${order.customerName}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; margin-bottom: 4px;">
+                                ${order.status}
+                            </div>
+                            <div style="color: #374151; font-weight: 600;">
+                                R$ ${order.total.toFixed(2).replace('.', ',')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-summary" style="display: flex; justify-content: space-between; font-size: 14px; color: #6b7280;">
+                        <span>${totalItems} ${totalItems === 1 ? 'item' : 'itens'}</span>
+                        <span>${order.deliveryType}</span>
+                        <span>${orderDate}</span>
+                    </div>
+                `;
+                
+                ordersGrid.appendChild(orderCard);
+            });
+            
+            updateOrderStats();
+        }
+        
+        function updateOrderStats() {
+            const totalOrders = orders.length;
+            const today = new Date().toDateString();
+            const ordersToday = orders.filter(order => new Date(order.createdAt).toDateString() === today).length;
+            
+            const thisMonth = new Date().getMonth();
+            const thisYear = new Date().getFullYear();
+            const ordersThisMonth = orders.filter(order => {
+                const orderDate = new Date(order.createdAt);
+                return orderDate.getMonth() === thisMonth && orderDate.getFullYear() === thisYear;
+            }).length;
+            
+            const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+            
+            document.getElementById('total-orders').textContent = totalOrders;
+            document.getElementById('orders-today').textContent = ordersToday;
+            document.getElementById('orders-this-month').textContent = ordersThisMonth;
+            document.getElementById('total-revenue').textContent = `R$ ${totalRevenue.toFixed(2).replace('.', ',')}`;
+        }
+        
+        function viewOrderDetails(order) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.style.zIndex = '10000';
+            
+            const itemsHtml = order.items.map(item => `
+                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <div>
+                        <div style="font-weight: 600;">${item.name}</div>
+                        <div style="font-size: 14px; color: #6b7280;">Cor: ${item.color} | Qtd: ${item.quantity}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div>R$ ${item.unitPrice.toFixed(2).replace('.', ',')}</div>
+                        <div style="font-size: 14px; color: #6b7280;">Total: R$ ${(item.unitPrice * item.quantity).toFixed(2).replace('.', ',')}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+                    <div class="modal-header">
+                        <h3>Detalhes do Pedido ${order.number}</h3>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+                    </div>
+                    
+                    <div style="padding: 24px;">
+                        <div class="order-details-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                            <div>
+                                <h4 style="margin: 0 0 12px 0; color: #1f2937;">Dados do Cliente</h4>
+                                <p><strong>Nome:</strong> ${order.customerName}</p>
+                                <p><strong>Telefone:</strong> ${order.customerPhone}</p>
+                                <p><strong>Tipo:</strong> ${order.userType === 'restaurante' ? 'Restaurante' : 'Loja'}</p>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0 0 12px 0; color: #1f2937;">Entrega</h4>
+                                <p><strong>Tipo:</strong> ${order.deliveryType}</p>
+                                ${order.address ? `
+                                    <p><strong>Endereço:</strong> ${order.address.street}, ${order.address.number}</p>
+                                    <p><strong>Bairro:</strong> ${order.address.neighborhood}</p>
+                                    <p><strong>Cidade:</strong> ${order.address.city} - ${order.address.state}</p>
+                                    ${order.address.complement ? `<p><strong>Complemento:</strong> ${order.address.complement}</p>` : ''}
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 24px;">
+                            <h4 style="margin: 0 0 12px 0; color: #1f2937;">Produtos</h4>
+                            <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px;">
+                                ${itemsHtml}
+                            </div>
+                        </div>
+                        
+                        <div class="order-financial" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div>
+                                <h4 style="margin: 0 0 12px 0; color: #1f2937;">Pagamento</h4>
+                                <p><strong>Tabela:</strong> ${order.priceTable}</p>
+                                <p><strong>Método:</strong> ${order.paymentMethod}</p>
+                                <p><strong>Condição:</strong> ${order.paymentCondition}</p>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0 0 12px 0; color: #1f2937;">Resumo Financeiro</h4>
+                                <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; background: #f9fafb;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span>Subtotal:</span>
+                                        <span>R$ ${order.subtotal.toFixed(2).replace('.', ',')}</span>
+                                    </div>
+                                    ${order.promotionDiscount > 0 ? `
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #dc2626;">
+                                            <span>Desconto Promoção:</span>
+                                            <span>-R$ ${order.promotionDiscount.toFixed(2).replace('.', ',')}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${order.pickupDiscount > 0 ? `
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #dc2626;">
+                                            <span>Desconto Retirada:</span>
+                                            <span>-R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</span>
+                                        </div>
+                                    ` : ''}
+                                    <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 18px; border-top: 2px solid #374151; padding-top: 8px; margin-top: 8px;">
+                                        <span>Total:</span>
+                                        <span>R$ ${order.total.toFixed(2).replace('.', ',')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb; display: flex; gap: 12px;">
+                            <button class="btn btn-primary" onclick="printOrder('${order.id}')">🖨️ Imprimir</button>
+                            <button class="btn btn-secondary" onclick="emailOrder('${order.id}')">📧 Enviar Email</button>
+                            <button class="btn btn-secondary" onclick="exportOrderPDF('${order.id}')">📄 Exportar PDF</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function printOrder(orderId) {
+            const order = orders.find(o => o.id == orderId);
+            if (!order) return;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Pedido ${order.number}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            .header { text-align: center; margin-bottom: 30px; }
+                            .order-info { margin-bottom: 20px; }
+                            .items { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+                            .items th, .items td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                            .items th { background-color: #f2f2f2; }
+                            .total { text-align: right; font-weight: bold; font-size: 18px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h1>MoveisBonafe</h1>
+                            <h2>Pedido ${order.number}</h2>
+                            <p>Data: ${new Date(order.createdAt).toLocaleDateString('pt-BR')}</p>
+                        </div>
+                        
+                        <div class="order-info">
+                            <p><strong>Cliente:</strong> ${order.customerName}</p>
+                            <p><strong>Telefone:</strong> ${order.customerPhone}</p>
+                            <p><strong>Entrega:</strong> ${order.deliveryType}</p>
+                            ${order.address ? `<p><strong>Endereço:</strong> ${order.address.street}, ${order.address.number} - ${order.address.neighborhood}, ${order.address.city}</p>` : ''}
+                        </div>
+                        
+                        <table class="items">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Cor</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor Unitário</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${order.items.map(item => `
+                                    <tr>
+                                        <td>${item.name}</td>
+                                        <td>${item.color}</td>
+                                        <td>${item.quantity}</td>
+                                        <td>R$ ${item.unitPrice.toFixed(2).replace('.', ',')}</td>
+                                        <td>R$ ${(item.unitPrice * item.quantity).toFixed(2).replace('.', ',')}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        
+                        <div class="total">
+                            <p>Subtotal: R$ ${order.subtotal.toFixed(2).replace('.', ',')}</p>
+                            ${order.promotionDiscount > 0 ? `<p>Desconto Promoção: -R$ ${order.promotionDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            ${order.pickupDiscount > 0 ? `<p>Desconto Retirada: -R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            <p style="font-size: 20px;">TOTAL: R$ ${order.total.toFixed(2).replace('.', ',')}</p>
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <p><strong>Forma de Pagamento:</strong> ${order.paymentMethod}</p>
+                            <p><strong>Condição:</strong> ${order.paymentCondition}</p>
+                        </div>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        function emailOrder(orderId) {
+            alert('Funcionalidade de email será implementada em breve.');
+        }
+        
+        function exportOrderPDF(orderId) {
+            alert('Funcionalidade de exportação PDF será implementada em breve.');
+        }
+        
+        function exportOrders() {
+            if (!orders || orders.length === 0) {
+                alert('Nenhum pedido para exportar.');
+                return;
+            }
+            
+            const csvContent = [
+                ['Número', 'Cliente', 'Telefone', 'Data', 'Total', 'Status', 'Entrega'].join(','),
+                ...orders.map(order => [
+                    order.number,
+                    order.customerName,
+                    order.customerPhone,
+                    new Date(order.createdAt).toLocaleDateString('pt-BR'),
+                    order.total.toFixed(2),
+                    order.status,
+                    order.deliveryType
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `pedidos_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function refreshOrders() {
+            loadOrders();
+            addSystemLog('🔄 Lista de pedidos atualizada');
+        }
+        
+        async function loadOrders() {
+            try {
+                // Try to load from GitHub first
+                const response = await fetch(`${adminClient.baseUrl}/data/orders.json`);
+                if (response.ok) {
+                    orders = await response.json();
+                } else {
+                    // Fallback to localStorage
+                    const localOrders = localStorage.getItem('moveisbonafe_orders');
+                    orders = localOrders ? JSON.parse(localOrders) : [];
+                }
+                
+                renderOrders();
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                const localOrders = localStorage.getItem('moveisbonafe_orders');
+                orders = localOrders ? JSON.parse(localOrders) : [];
+                renderOrders();
             }
         }
 

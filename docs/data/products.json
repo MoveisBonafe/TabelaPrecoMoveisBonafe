@@ -190,10 +190,20 @@
     "comprimento": 40,
     "peso": 5.5,
     "description": "",
-    "images": [],
-    "colorVariations": [],
+    "images": [
+      "data/images/product_1749515593653_rxwfsbb7a.png",
+      "data/images/product_1749515602275_mfv2c5mtw.png",
+      "data/images/product_1749515609309_0a3l15sjp.png",
+      "data/images/product_1749515615402_ekihw41h7.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
-    "updatedAt": "2025-06-10T00:07:07.899Z",
+    "updatedAt": "2025-06-10T00:33:46.920Z",
     "id": 1749514027905,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

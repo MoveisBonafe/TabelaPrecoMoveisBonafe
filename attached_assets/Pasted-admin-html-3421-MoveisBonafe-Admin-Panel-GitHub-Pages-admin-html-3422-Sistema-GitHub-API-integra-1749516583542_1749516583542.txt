@@ -1,0 +1,55 @@
+admin.html:3421 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:3422 Sistema: GitHub API integrado com fallback localStorage
+admin.html:2683 [21:46:41] Inicializando sistema admin...
+admin.html:2683 [21:46:41] 🔄 Dados salvos recentemente - usando cache local para evitar problemas de sincronização GitHub Pages
+admin.html:2683 [21:46:41] 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:2683 [21:46:41] Carregando dados locais atualizados...
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" class=​"form-input" placeholder=​"Digite seu token GitHub">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"user-password" class=​"form-input">​
+admin.html:2683 [21:46:41] ✅ 25 produtos carregados localmente
+admin.html:2683 [21:46:41] ✅ 5 categorias carregadas localmente
+admin.html:2683 [21:46:41] ✅ Dados carregados: 25 produtos, 5 categorias, 4 cores, 3 usuários, 5 tabelas de preço, 1 promoções
+admin.html:2683 [21:46:42] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1738 Original product image path: data/images/product_1749515748135_77edzm9d2.png
+admin.html:1739 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1751 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+admin.html:1738 Original product image path: data/images/product_1749515793116_llfars6sc.png
+admin.html:1739 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1751 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+admin.html:1738 Original product image path: data/images/product_1749514738650_klus3daqr.png
+admin.html:1739 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1751 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+admin.html:1738 Original product image path: data/images/product_1749514847355_eznlgf80h.png
+admin.html:1739 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1751 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+admin.html:1738 Original product image path: data/images/product_1749515687207_syua1lz07.png
+admin.html:1739 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:1751 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+admin.html:2683 [21:46:42] Sistema admin inicializado com sucesso
+admin.html:2683 [21:49:21] 📤 Uploading image: imagem_2025-06-09_214921500.png
+admin.html:2683 [21:49:22] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1529 Uploading to GitHub: {url: 'https://api.github.com/repos/moveisbonafe/TabelaPr…s/data/images/product_1749516561508_skfma32t3.png', filename: 'product_1749516561508_skfma32t3.png', contentLength: 1322172}
+admin.html:1561 GitHub API Success: {content: {…}, commit: {…}}
+admin.html:2683 [21:49:23] ✅ Imagem salva no GitHub: docs/data/images/product_1749516561508_skfma32t3.png
+admin.html:2683 [21:49:23] 📸 Imagem uploaded: product_1749516561508_skfma32t3.png
+product_1749516561508_skfma32t3.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516561508_skfma32t3.png 404 (Not Found)
+admin.html:2440 🔄 Usando fallback base64 para: product_1749516561508_skfma32t3.png
+admin.html:2683 [21:49:34] 📤 Uploading image: imagem_2025-06-09_214934968.png
+admin.html:2683 [21:49:35] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:1529 Uploading to GitHub: {url: 'https://api.github.com/repos/moveisbonafe/TabelaPr…s/data/images/product_1749516574976_oo5ldxxq2.png', filename: 'product_1749516574976_oo5ldxxq2.png', contentLength: 1584448}
+admin.html:1561 GitHub API Success: {content: {…}, commit: {…}}
+admin.html:2683 [21:49:36] ✅ Imagem salva no GitHub: docs/data/images/product_1749516574976_oo5ldxxq2.png
+admin.html:2683 [21:49:36] 📸 Imagem uploaded: product_1749516574976_oo5ldxxq2.png
+product_1749516561508_skfma32t3.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516561508_skfma32t3.png 404 (Not Found)
+admin.html:2440 🔄 Usando fallback base64 para: product_1749516561508_skfma32t3.png
+product_1749516574976_oo5ldxxq2.png:1 
+            
+            
+           GET https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516574976_oo5ldxxq2.png 404 (Not Found)
+admin.html:2440 🔄 Usando fallback base64 para: product_1749516574976_oo5ldxxq2.png

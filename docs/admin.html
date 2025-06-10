@@ -1272,6 +1272,7 @@
         </div>
     </div>
 
+    <script src="./image-sync-fix.js"></script>
     <script>
         // Global application state
         const adminClient = {
@@ -1561,22 +1562,19 @@
                         console.log('GitHub API Success:', result);
                         addSystemLog(`✅ Imagem salva no GitHub: ${result.content?.path || filename}`);
                         
-                        // Store base64 for immediate display while GitHub Pages updates
+                        // Use the new ImageSyncManager for better handling
                         const base64Data = e.target.result;
+                        if (window.imageSyncManager) {
+                            window.imageSyncManager.storeUpload(filename, base64Data);
+                        }
                         
-                        // Clean cache first to prevent quota issues
+                        // Legacy fallback storage
                         cleanOldImageCache();
-                        
-                        // Initialize memory cache if not exists
                         if (!window.imageMemoryCache) window.imageMemoryCache = {};
-                        
-                        // Always store in memory cache first (more reliable)
                         window.imageMemoryCache[filename] = base64Data;
                         
-                        // Try localStorage as secondary storage
                         try {
                             localStorage.setItem(`image_base64_${filename}`, base64Data);
-                            // Store upload timestamp for immediate fallback
                             localStorage.setItem(`image_upload_time_${filename}`, Date.now().toString());
                         } catch (quotaError) {
                             console.warn('localStorage quota exceeded, using memory cache only');
@@ -1591,6 +1589,13 @@
                         }
                         
                         addSystemLog(`📸 Imagem uploaded: ${filename}`);
+                        
+                        // Show success notification with sync info
+                        showNotification(
+                            `Imagem ${filename} salva no GitHub. Usando cache local para exibição imediata.`, 
+                            'success'
+                        );
+                        
                         resolve(`data/images/${filename}`);
                     } catch (error) {
                         console.error('Upload error details:', error);
@@ -2412,10 +2417,34 @@
             }
         }
 
-        // Enhanced image loading with GitHub Pages cache handling and base64 fallback
+        // Enhanced image loading with immediate base64 fallback for new uploads
         function handleImageError(img) {
-            const maxRetries = 5;
-            const baseDelay = 3000; // Start with 3 seconds
+            const imageName = img.src.split('/').pop().split('?')[0];
+            
+            // Priority 1: Check if this is a recently uploaded image (use base64 immediately)
+            const recentImages = JSON.parse(localStorage.getItem('recent_uploaded_images') || '[]');
+            const recentImage = recentImages.find(item => item.filename === imageName);
+            const isRecentUpload = recentImage && (Date.now() - recentImage.uploadTime) < 24 * 60 * 60 * 1000; // 24 hours
+            
+            if (isRecentUpload) {
+                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
+                
+                // Check memory cache if localStorage fails
+                if (!base64Data && window.imageMemoryCache) {
+                    base64Data = window.imageMemoryCache[imageName];
+                }
+                
+                if (base64Data) {
+                    console.log(`Using base64 fallback for recent upload: ${imageName}`);
+                    img.src = base64Data;
+                    img.style.border = '2px solid #10b981'; // Green border to indicate base64 source
+                    return;
+                }
+            }
+            
+            // Priority 2: Retry mechanism for older images
+            const maxRetries = 3;
+            const baseDelay = 2000;
             
             if (!img.dataset.retryCount) {
                 img.dataset.retryCount = '0';
@@ -2425,34 +2454,16 @@
             
             if (retryCount < maxRetries) {
                 img.dataset.retryCount = (retryCount + 1).toString();
+                console.log(`Retry ${retryCount + 1}/${maxRetries} for: ${imageName}`);
                 
-                // Try to use base64 fallback immediately for newly uploaded images
-                const imageName = img.src.split('/').pop().split('?')[0];
-                let base64Data = localStorage.getItem(`image_base64_${imageName}`);
-                
-                // Check memory cache if localStorage fails
-                if (!base64Data && window.imageMemoryCache) {
-                    base64Data = window.imageMemoryCache[imageName];
-                }
-                
-                // Use base64 immediately if available (GitHub Pages CDN delay)
-                if (base64Data) {
-                    console.log(`🔄 Usando fallback base64 para: ${imageName}`);
-                    img.src = base64Data;
-                    return;
-                }
-                
-                console.log(`🔄 Tentativa ${retryCount + 1}/${maxRetries} de carregar imagem: ${img.src}`);
-                
-                // Exponential backoff with jitter for GitHub Pages
-                const delay = baseDelay * Math.pow(1.5, retryCount) + Math.random() * 1000;
+                const delay = baseDelay * Math.pow(2, retryCount);
                 
                 setTimeout(() => {
                     const originalSrc = img.src.split('?')[0];
-                    img.src = `${originalSrc}?v=${Date.now()}&retry=${retryCount + 1}&t=${Math.random()}`;
+                    img.src = `${originalSrc}?cache_bust=${Date.now()}`;
                 }, delay);
             } else {
-                // Final fallback - try base64 one more time
+                // Final fallback: try any available base64 data
                 const imageName = img.src.split('/').pop().split('?')[0];
                 let base64Data = localStorage.getItem(`image_base64_${imageName}`);
                 

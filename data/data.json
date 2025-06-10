@@ -1,0 +1,485 @@
+{
+  "products": [
+    {
+      "id": "product_1749514027898_uuqcw726j",
+      "name": "Banqueta 50 cm",
+      "category": "cat_1749514027886_nze3afahh",
+      "categoryName": "Banquetas",
+      "priceAVista": 44,
+      "description": "",
+      "dimensions": {
+        "height": 50,
+        "width": 30,
+        "length": 30,
+        "weight": 2
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.898Z"
+    },
+    {
+      "id": "product_1749514027899_52hqnjwrc",
+      "name": "Banqueta 70 cm",
+      "category": "cat_1749514027886_nze3afahh",
+      "categoryName": "Banquetas",
+      "priceAVista": 56,
+      "description": "",
+      "dimensions": {
+        "height": 70,
+        "width": 30,
+        "length": 30,
+        "weight": 3.5
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_t4kf5p9gh",
+      "name": "Cadeira Alta",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 99,
+      "description": "",
+      "dimensions": {
+        "height": 100,
+        "width": 45,
+        "length": 45,
+        "weight": 5.5
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_mjygx4o8g",
+      "name": "Cadeira Alta Estofada",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 119,
+      "description": "",
+      "dimensions": {
+        "height": 100,
+        "width": 45,
+        "length": 45,
+        "weight": 6
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_semvjlr9w",
+      "name": "Cadeira Comum",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 77,
+      "description": "",
+      "dimensions": {
+        "height": 90,
+        "width": 40,
+        "length": 40,
+        "weight": 5
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_aixgimmc5",
+      "name": "Cadeira Criança",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 44,
+      "description": "",
+      "dimensions": {
+        "height": 62,
+        "width": 35,
+        "length": 45,
+        "weight": 3
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_gkmrwmjzc",
+      "name": "Beliche Paris",
+      "category": "cat_1749514027898_oie9gpzq9",
+      "categoryName": "Beliches",
+      "priceAVista": 468,
+      "description": "",
+      "dimensions": {
+        "height": 164,
+        "width": 80,
+        "length": 190,
+        "weight": 46
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_iuz17vsgs",
+      "name": "Cadeira Restaurante",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 115,
+      "description": "",
+      "dimensions": {
+        "height": 95,
+        "width": 40,
+        "length": 40,
+        "weight": 5.5
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_6swpqqtuo",
+      "name": "Mesa Bonacor 1,60 X 0,80",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 372,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 80,
+        "length": 160,
+        "weight": 22
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_0ed1xo8gg",
+      "name": "Mesa Bonacor 1,80 X 0,85",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 430,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 85,
+        "length": 180,
+        "weight": 25
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_zzypiaaiw",
+      "name": "Mesa Bonacor 2,00 X 0,88",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 508,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 88,
+        "length": 200,
+        "weight": 26
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_flqp8966j",
+      "name": "Mesa Bonacor 2,20 X 0,88",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 535,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 88,
+        "length": 220,
+        "weight": 30
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_xp72v2ecd",
+      "name": "Agulha Cadeira Alta",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 8,
+      "description": "",
+      "dimensions": {
+        "height": 0,
+        "width": 0,
+        "length": 0,
+        "weight": 0
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_2l5rw1q2f",
+      "name": "Agulha Cadeira Comum",
+      "category": "cat_1749514027897_6u83bd0e3",
+      "categoryName": "Cadeiras",
+      "priceAVista": 8,
+      "description": "",
+      "dimensions": {
+        "height": 0,
+        "width": 0,
+        "length": 0,
+        "weight": 0
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_7zvcjjly5",
+      "name": "Mesa Bonacor 0,70 X 0,45 Criança",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 136,
+      "description": "",
+      "dimensions": {
+        "height": 60,
+        "width": 45,
+        "length": 70,
+        "weight": 9
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_2q58b1toc",
+      "name": "Mesa Bonacor 0,75 X 0,75 Criança",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 182,
+      "description": "",
+      "dimensions": {
+        "height": 60,
+        "width": 75,
+        "length": 75,
+        "weight": 15
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_wwzr37vbn",
+      "name": "Cama Paris Casal",
+      "category": "cat_1749514027898_i1dflgroy",
+      "categoryName": "Camas",
+      "priceAVista": 310,
+      "description": "",
+      "dimensions": {
+        "height": 94,
+        "width": 130,
+        "length": 190,
+        "weight": 23.5
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_v2ueh3x4x",
+      "name": "Cama Paris Solteiro",
+      "category": "cat_1749514027898_i1dflgroy",
+      "categoryName": "Camas",
+      "priceAVista": 258,
+      "description": "",
+      "dimensions": {
+        "height": 94,
+        "width": 80,
+        "length": 190,
+        "weight": 20
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_1fiwkaeqd",
+      "name": "Mesa Bonacor 0,70 X 0,45",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 136,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 45,
+        "length": 70,
+        "weight": 9
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_42cdh29x4",
+      "name": "Mesa Bonacor 0,75 X 0,75",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 182,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 75,
+        "length": 75,
+        "weight": 15
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_xxyfy6ysr",
+      "name": "Mesa Bonacor 0,80 X 0,80",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 212,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 80,
+        "length": 80,
+        "weight": 15
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_gttwhacx7",
+      "name": "Mesa Bonacor 1,10 X 0,45",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 169,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 45,
+        "length": 110,
+        "weight": 11
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_vmj4wj4sk",
+      "name": "Mesa Bonacor 1,15 X 0,75",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 252,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 75,
+        "length": 115,
+        "weight": 16
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_azq70ky5x",
+      "name": "Mesa Bonacor 1,20 X 0,80",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 284,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 80,
+        "length": 120,
+        "weight": 17
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    },
+    {
+      "id": "product_1749514027899_gzgyrsona",
+      "name": "Mesa Bonacor 1,50 X 0,80",
+      "category": "cat_1749514027898_uxw222nwk",
+      "categoryName": "Mesas",
+      "priceAVista": 359,
+      "description": "",
+      "dimensions": {
+        "height": 80,
+        "width": 80,
+        "length": 150,
+        "weight": 22
+      },
+      "colors": [],
+      "image": "",
+      "active": true,
+      "createdAt": "2025-06-10T00:07:07.899Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_1749514027886_nze3afahh",
+      "name": "Banquetas",
+      "description": "Categoria Banquetas"
+    },
+    {
+      "id": "cat_1749514027897_6u83bd0e3",
+      "name": "Cadeiras",
+      "description": "Categoria Cadeiras"
+    },
+    {
+      "id": "cat_1749514027898_oie9gpzq9",
+      "name": "Beliches",
+      "description": "Categoria Beliches"
+    },
+    {
+      "id": "cat_1749514027898_uxw222nwk",
+      "name": "Mesas",
+      "description": "Categoria Mesas"
+    },
+    {
+      "id": "cat_1749514027898_i1dflgroy",
+      "name": "Camas",
+      "description": "Categoria Camas"
+    }
+  ],
+  "colors": [],
+  "users": [],
+  "priceTables": [],
+  "promotions": []
+}

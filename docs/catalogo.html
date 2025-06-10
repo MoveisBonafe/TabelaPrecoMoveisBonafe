@@ -3145,6 +3145,9 @@ ${this.userType === 'restaurante' ? `
                             <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
                             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
                                 <div class="form-group" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" oninput="formatCNPJ(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-name" required placeholder="Nome Completo *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                                 <div class="form-group" style="margin-bottom: 16px;">
@@ -4994,18 +4997,19 @@ ${this.userType === 'restaurante' ? `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: white;
+            background: #ffffff;
             color: #000000;
-            padding: 16px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #059669;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 20px 24px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
             z-index: 10000;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
             transform: translateX(400px);
             transition: transform 0.3s ease-in-out;
-            max-width: 300px;
+            max-width: 320px;
+            min-width: 280px;
         }
 
         .success-message.show {
@@ -5629,6 +5633,16 @@ ${this.userType === 'restaurante' ? `
         }
 
         // Navigation functions for cart steps
+        // CNPJ formatting function
+        function formatCNPJ(input) {
+            let value = input.value.replace(/\D/g, '');
+            value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            input.value = value;
+        }
+
         function goToDeliveryStep() {
             // Hide cart step and show delivery step
             document.getElementById('cart-step-1').style.display = 'none';
@@ -5643,7 +5657,7 @@ ${this.userType === 'restaurante' ? `
             
             // Add event listeners for form validation
             setTimeout(() => {
-                const formFields = ['customer-name', 'customer-phone', 'customer-address', 'customer-cep', 'customer-neighborhood', 'customer-number', 'customer-city', 'customer-state'];
+                const formFields = ['customer-cnpj', 'customer-name', 'customer-phone', 'customer-address', 'customer-cep', 'customer-neighborhood', 'customer-number', 'customer-city', 'customer-state'];
                 formFields.forEach(fieldId => {
                     const field = document.getElementById(fieldId);
                     if (field) {
@@ -5964,6 +5978,7 @@ ${this.userType === 'restaurante' ? `
             
             const paymentMethod = document.getElementById('payment-method').value;
             const priceTable = document.getElementById('price-table').value;
+            const customerCnpj = document.getElementById('customer-cnpj').value;
             const customerName = document.getElementById('customer-name').value;
             const customerPhone = document.getElementById('customer-phone').value;
             const paymentCondition = document.getElementById('payment-condition').value.trim();
@@ -6498,8 +6513,11 @@ ${this.userType === 'restaurante' ? `
             console.log('🛒 Item adicionado. Carrinho atual:', shoppingCart);
             console.log('🛒 Total de itens após adição:', shoppingCart.length);
             
+            // Reset quantity to 1 after adding to cart
+            document.getElementById('modal-quantity').value = 1;
+            
             updateCartCount();
-            showSuccessMessage(`${currentModalProduct.name} adicionado ao carrinho!`);
+            showSuccessMessage(`✓ ${currentModalProduct.name} adicionado ao carrinho com sucesso!`);
         }
 
         document.addEventListener('DOMContentLoaded', function() {

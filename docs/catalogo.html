@@ -5745,7 +5745,9 @@ ${this.userType === 'restaurante' ? `
             const customerComplement = document.getElementById('customer-complement').value;
             
             // Build WhatsApp message with order details
-            let message = `🛒 *NOVO PEDIDO - ${customerName}*\n\n`;
+            let message = catalogClient.userType === 'restaurante' 
+                ? `🍽️ *Restaurante* 🍽️\n🛒 *NOVO PEDIDO - ${customerName}*\n\n`
+                : `🛒 *NOVO PEDIDO - ${customerName}*\n\n`;
             message += `📞 *Telefone:* ${customerPhone}\n`;
             
             // Add delivery option first

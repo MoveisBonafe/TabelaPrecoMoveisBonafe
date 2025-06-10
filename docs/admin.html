@@ -1272,7 +1272,7 @@
         </div>
     </div>
 
-    <script src="./simple-image-manager.js?v=2"></script>
+    <script src="./reliable-upload.js"></script>
     <script>
         // Force clear old cached data on page load
         if (typeof window.imageSyncManager !== 'undefined') {
@@ -2426,24 +2426,21 @@
             }
         }
 
-        // Simplified image error handling
+        // Simple image error handling
         function handleImageError(img) {
-            // Use the simple image manager first
-            if (window.simpleImageManager && window.simpleImageManager.handleError(img)) {
-                return;
-            }
+            const filename = img.src.split('/').pop().split('?')[0];
             
-            // Fallback to memory cache
-            const imageName = img.src.split('/').pop().split('?')[0];
-            if (window.imageMemoryCache && window.imageMemoryCache[imageName]) {
-                img.src = window.imageMemoryCache[imageName];
-                img.style.border = '2px solid #10b981';
-                return;
-            }
+            // For recently uploaded images, show loading state and retry
+            setTimeout(() => {
+                if (img.src.includes('data:image/svg+xml')) {
+                    img.src = `https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/${filename}?retry=${Date.now()}`;
+                }
+            }, 5000);
             
-            // Show loading state
-            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2IiBzdHJva2U9IiNkMWQ1ZGIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNmI3NDgxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Carregando...</dGV4dD48L3N2Zz4=';
-            img.title = 'Carregando imagem';
+            // Show loading placeholder
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNmNTk1MDIiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNDAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNkOTI1MjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNhcnJlZ2FuZG8uLi48L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iI2Q5MjUyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QWd1YXJkZSBzaW5jcm9uaXphw6fDo288L3RleHQ+PC9zdmc+';
+            img.title = `Processando: ${filename}`;
+            img.style.border = '2px solid #f59e0b';
         }
 
         function removeCategoryImage() {

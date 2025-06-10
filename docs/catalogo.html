@@ -5909,10 +5909,10 @@ ${this.userType === 'restaurante' ? `
             const priceTable = document.getElementById('price-table').value;
             const customerName = document.getElementById('customer-name').value;
             const customerPhone = document.getElementById('customer-phone').value;
-            const paymentCondition = document.getElementById('payment-condition').value;
+            const paymentCondition = document.getElementById('payment-condition').value.trim();
             
-            if (!paymentMethod || !priceTable || !customerName || !customerPhone) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
+            if (!paymentMethod || !priceTable || !customerName || !customerPhone || !paymentCondition) {
+                alert('Por favor, preencha todos os campos obrigatórios, incluindo a condição de pagamento.');
                 return;
             }
             
@@ -6011,6 +6011,54 @@ ${this.userType === 'restaurante' ? `
             message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_\n\n`;
             message += `📞 *Aguardo confirmação do pedido!*`;
             
+            // Save order to history before opening WhatsApp
+            const orderData = {
+                id: Date.now(),
+                number: `PED-${Date.now().toString().slice(-6)}`,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                items: shoppingCart.map(item => {
+                    const product = catalogClient.products.find(p => p.id === item.productId);
+                    const prices = catalogClient.calculatePrices(product);
+                    let unitPrice = prices.vista || 0;
+                    switch(priceTable) {
+                        case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
+                        case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
+                        case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
+                        case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
+                    }
+                    return {
+                        name: item.name,
+                        color: item.color,
+                        quantity: item.quantity,
+                        unitPrice: unitPrice
+                    };
+                }),
+                subtotal: subtotal,
+                promotionDiscount: promotionDiscount,
+                pickupDiscount: isPickup ? (subtotal - promotionDiscount) * 0.05 : 0,
+                total: total,
+                priceTable: priceTable,
+                paymentMethod: paymentMethod,
+                paymentCondition: paymentCondition,
+                deliveryType: isPickup ? 'Retirada no Local' : 'Entrega',
+                address: !isPickup ? {
+                    street: customerAddress,
+                    number: customerNumber,
+                    neighborhood: customerNeighborhood,
+                    city: customerCity,
+                    state: customerState,
+                    complement: customerComplement,
+                    cep: customerCep
+                } : null,
+                userType: catalogClient.userType,
+                createdAt: new Date().toISOString(),
+                status: 'Pendente'
+            };
+            
+            // Save order immediately (synchronous for instant availability in admin)
+            saveOrderToHistory(orderData);
+            
             // Open WhatsApp
             const phoneNumber = '5514997181108'; // MoveisBonafe WhatsApp number
             const encodedMessage = encodeURIComponent(message);
@@ -6021,6 +6069,80 @@ ${this.userType === 'restaurante' ? `
             // Clear cart and close modal
             clearCart();
             closeCartModal();
+        }
+
+        // Order saving functionality
+        function saveOrderToHistory(orderData) {
+            try {
+                // Get existing orders from localStorage
+                const existingOrders = localStorage.getItem('moveisbonafe_orders');
+                const orders = existingOrders ? JSON.parse(existingOrders) : [];
+                
+                // Add new order
+                orders.push(orderData);
+                
+                // Save to localStorage immediately
+                localStorage.setItem('moveisbonafe_orders', JSON.stringify(orders));
+                
+                console.log(`📋 Pedido ${orderData.number} salvo no histórico - disponível instantaneamente no admin`);
+                
+                // Try to sync to GitHub in background (don't wait for it)
+                setTimeout(() => {
+                    try {
+                        const token = localStorage.getItem('github_token');
+                        if (token) {
+                            syncOrdersToGitHub(orders, token);
+                        }
+                    } catch (error) {
+                        console.log('Background sync failed, order remains in localStorage');
+                    }
+                }, 100);
+                
+            } catch (error) {
+                console.error('Erro ao salvar pedido:', error);
+            }
+        }
+        
+        async function syncOrdersToGitHub(orders, token) {
+            try {
+                const repoOwner = 'moveisbonafe';
+                const repoName = 'moveisbonafe.github.io';
+                const filename = 'orders.json';
+                const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/${filename}`;
+                
+                // Get current SHA if file exists
+                let sha = null;
+                try {
+                    const getResp = await fetch(url, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (getResp.ok) {
+                        sha = (await getResp.json()).sha;
+                    }
+                } catch (e) {}
+                
+                // Save file
+                const payload = {
+                    message: `Update orders - ${new Date().toISOString()}`,
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(orders, null, 2))))
+                };
+                if (sha) payload.sha = sha;
+                
+                const resp = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (resp.ok) {
+                    console.log('📤 Pedidos sincronizados com GitHub - visível no admin após refresh');
+                }
+            } catch (error) {
+                console.error('Erro ao sincronizar pedidos:', error);
+            }
         }
 
         function renderCartItems() {

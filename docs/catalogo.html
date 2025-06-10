@@ -3201,7 +3201,7 @@ ${this.userType === 'restaurante' ? `
                         <!-- Payment Method -->
                         <div class="payment-method-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Método de Pagamento</h3>
-                            <select id="payment-method" required style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                            <select id="payment-method" required onchange="validatePaymentForm()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 <option value="">Selecione o método de pagamento</option>
                                 <option value="pix">PIX</option>
                                 <option value="cartao">Cartão de Crédito/Débito</option>
@@ -3215,7 +3215,7 @@ ${this.userType === 'restaurante' ? `
                         <!-- Price Table (hidden for restaurant users) -->
                         <div class="price-table-section" id="price-table-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Tabela de Preços</h3>
-                            <select id="price-table" required onchange="updatePaymentSummary()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                            <select id="price-table" required onchange="updatePaymentSummary(); validatePaymentForm()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 <option value="">Selecione a tabela de preços</option>
                                 <option value="avista">À Vista</option>
                                 <option value="30">30</option>
@@ -3227,8 +3227,9 @@ ${this.userType === 'restaurante' ? `
 
                         <!-- Payment Condition -->
                         <div class="payment-condition-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
-                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento</h3>
-                            <input type="text" id="payment-condition" placeholder="Ex: Entrada + 2x sem juros, À vista com desconto, etc." required style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento *</h3>
+                            <input type="text" id="payment-condition" placeholder="Ex: Entrada + 2x sem juros, À vista com desconto, etc." required oninput="validatePaymentForm()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                            <div id="payment-condition-error" style="color: #dc2626; font-size: 12px; margin-top: 4px; display: none;">Este campo é obrigatório</div>
                         </div>
 
                         <!-- Total Section -->
@@ -5661,6 +5662,32 @@ ${this.userType === 'restaurante' ? `
             }, 200);
         }
 
+        function validatePaymentForm() {
+            const paymentMethod = document.getElementById('payment-method').value;
+            const priceTable = document.getElementById('price-table').value;
+            const paymentCondition = document.getElementById('payment-condition').value.trim();
+            
+            const finalizeBtn = document.querySelector('.checkout-btn[onclick="finalizeOrder()"]');
+            const conditionError = document.getElementById('payment-condition-error');
+            
+            // Show/hide error message
+            if (!paymentCondition) {
+                conditionError.style.display = 'block';
+            } else {
+                conditionError.style.display = 'none';
+            }
+            
+            // Enable/disable finalize button
+            const isValid = paymentMethod && priceTable && paymentCondition;
+            if (finalizeBtn) {
+                finalizeBtn.disabled = !isValid;
+                finalizeBtn.style.opacity = isValid ? '1' : '0.5';
+                finalizeBtn.style.cursor = isValid ? 'pointer' : 'not-allowed';
+            }
+            
+            return isValid;
+        }
+        
         function goToPaymentStep() {
             if (!validateDeliveryForm()) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
@@ -5681,6 +5708,11 @@ ${this.userType === 'restaurante' ? `
             // Handle price table visibility based on user type
             const priceTableSection = document.getElementById('price-table-section');
             const priceTableSelect = document.getElementById('price-table');
+            
+            // Initialize payment form validation
+            setTimeout(() => {
+                validatePaymentForm();
+            }, 100);
             
             if (catalogClient.userType === 'restaurante') {
                 // Hide price table section for restaurant users
@@ -5905,16 +5937,23 @@ ${this.userType === 'restaurante' ? `
         }
 
         function finalizeOrder() {
+            // Validate payment form first
+            if (!validatePaymentForm()) {
+                const paymentCondition = document.getElementById('payment-condition').value.trim();
+                if (!paymentCondition) {
+                    alert('Por favor, preencha a condição de pagamento para finalizar o pedido.');
+                    document.getElementById('payment-condition').focus();
+                    return;
+                }
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
             const paymentMethod = document.getElementById('payment-method').value;
             const priceTable = document.getElementById('price-table').value;
             const customerName = document.getElementById('customer-name').value;
             const customerPhone = document.getElementById('customer-phone').value;
             const paymentCondition = document.getElementById('payment-condition').value.trim();
-            
-            if (!paymentMethod || !priceTable || !customerName || !customerPhone || !paymentCondition) {
-                alert('Por favor, preencha todos os campos obrigatórios, incluindo a condição de pagamento.');
-                return;
-            }
             
             // Get all customer data
             const customerAddress = document.getElementById('customer-address').value;

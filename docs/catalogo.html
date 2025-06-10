@@ -42,7 +42,21 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #d4831e;
+            background: linear-gradient(45deg, #000000, #f59e0b, #d97706, #000000);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
         }
         
         .user-info {
@@ -78,7 +92,7 @@
 
         .cart-btn {
             padding: 8px 16px;
-            background: #059669;
+            background: #f59e0b;
             color: white;
             border: none;
             border-radius: 6px;
@@ -90,7 +104,7 @@
         }
 
         .cart-btn:hover {
-            background: #047857;
+            background: #d97706;
         }
         
         .container {
@@ -277,13 +291,13 @@
         }
         
         .category-card:hover {
-            border-color: #d4831e;
-            background: white;
+            border-color: #f59e0b;
+            background: #fef3e2;
             transform: translateY(-2px);
         }
         
         .category-card.active {
-            border-color: #d4831e;
+            border-color: #f59e0b;
             background: #fef3e2;
         }
         
@@ -494,7 +508,7 @@
             position: relative;
         }
 
-        .ver-produto-btn-overlay {
+        .ver-produto-btn-fixed {
             position: absolute;
             bottom: 12px;
             right: 12px;
@@ -508,16 +522,9 @@
             cursor: pointer;
             transition: all 0.2s;
             z-index: 10;
-            opacity: 0;
-            transform: translateY(10px);
         }
 
-        .product-card:hover .ver-produto-btn-overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .ver-produto-btn-overlay:hover {
+        .ver-produto-btn-fixed:hover {
             background: #d97706;
             transform: translateY(-2px);
         }
@@ -1606,16 +1613,18 @@
                 return `
                     <div class="product-image">
                         ${productImage}
-                        <button class="ver-produto-btn-overlay" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
                     </div>
                     <div class="product-info">
                         <div class="product-category-badge">${categoryLabel}</div>
                         <div class="product-name">${product.name}</div>
-                        <div class="product-colors">
-                            <span class="colors-label">Cores:</span>
-                            <div class="color-circles">
-                                ${colorCircles}
+                        <div class="product-colors-row">
+                            <div class="product-colors">
+                                <span class="colors-label">Cores:</span>
+                                <div class="color-circles">
+                                    ${colorCircles}
+                                </div>
                             </div>
+                            <button class="ver-produto-btn-fixed" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
                         </div>
                         <div class="price-table-grid">
                             <div class="price-cell">

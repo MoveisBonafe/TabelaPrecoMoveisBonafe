@@ -911,10 +911,11 @@
 
         /* Footer Styles */
         .site-footer {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: white;
+            background: white;
+            color: #333;
             margin-top: 60px;
             padding: 40px 0 20px 0;
+            border-top: 1px solid #e5e7eb;
         }
 
         .footer-content {
@@ -946,7 +947,7 @@
 
         .footer-subtitle {
             font-size: 1rem;
-            color: #cccccc;
+            color: #666;
             margin: 0;
             font-weight: 400;
         }
@@ -962,6 +963,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+            background-size: 200% 200%;
+            animation: gradient-shift 3s ease infinite;
         }
 
         .footer-contact-btn:hover {
@@ -973,8 +976,14 @@
             transform: translateY(0);
         }
 
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .footer-bottom {
-            border-top: 1px solid #444;
+            border-top: 1px solid #e5e7eb;
             margin-top: 30px;
             padding-top: 20px;
             text-align: center;
@@ -2075,6 +2084,7 @@ ${this.userType === 'restaurante' ? `
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
                             finalPrice = finalPrice * (1 + (restaurantMarkup / 100));
+                            finalPrice = Math.round(finalPrice * 100) / 100; // Round to 2 decimal places
                         }
                     }
                     
@@ -2102,6 +2112,7 @@ ${this.userType === 'restaurante' ? `
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
                             vistaPrice = vistaPrice * (1 + (restaurantMarkup / 100));
+                            vistaPrice = Math.round(vistaPrice * 100) / 100; // Round to 2 decimal places
                         }
                     }
                     

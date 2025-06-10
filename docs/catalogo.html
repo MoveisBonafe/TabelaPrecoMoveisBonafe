@@ -4814,6 +4814,29 @@
             color: #111827;
             margin: 0 0 20px 0;
         }
+
+        /* Success message styling */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #059669;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #059669;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            font-size: 14px;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease-in-out;
+            max-width: 300px;
+        }
+
+        .success-message.show {
+            transform: translateX(0);
+        }
     </style>
 
     <script>
@@ -5975,6 +5998,70 @@
                     }
                 }
             }
+        }
+
+        // Success message function
+        function showSuccessMessage(message) {
+            // Remove existing success message if any
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Create new success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `🛒 ${message}`;
+            document.body.appendChild(successDiv);
+            
+            // Show the message
+            setTimeout(() => {
+                successDiv.classList.add('show');
+            }, 100);
+            
+            // Hide and remove after 3 seconds
+            setTimeout(() => {
+                successDiv.classList.remove('show');
+                setTimeout(() => {
+                    if (successDiv.parentNode) {
+                        successDiv.remove();
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Enhanced addToCart function
+        function addToCart() {
+            if (!currentModalProduct) return;
+            
+            const quantity = parseInt(document.getElementById('modal-quantity').value) || 1;
+            const selectedColorName = currentSelectedColor || (currentModalProduct.colorVariations && currentModalProduct.colorVariations[0]) || 'Padrão';
+            
+            console.log('🛒 Adicionando ao carrinho:', {
+                produto: currentModalProduct.name,
+                quantidade: quantity,
+                cor: selectedColorName,
+                carrinhoAntes: shoppingCart.length
+            });
+            
+            const cartItem = {
+                id: Date.now().toString(),
+                productId: currentModalProduct.id,
+                name: currentModalProduct.name,
+                color: selectedColorName,
+                quantity: quantity,
+                image: modalImages[currentModalImageIndex] || ''
+            };
+            
+            shoppingCart.push(cartItem);
+            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
+            
+            console.log('🛒 Item adicionado. Carrinho atual:', shoppingCart);
+            console.log('🛒 Total de itens após adição:', shoppingCart.length);
+            
+            updateCartCount();
+            showSuccessMessage(`${currentModalProduct.name} adicionado ao carrinho!`);
+            closeProductDetailModal();
         }
 
         document.addEventListener('DOMContentLoaded', function() {

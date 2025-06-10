@@ -504,10 +504,20 @@
     "comprimento": 80,
     "peso": 15,
     "description": "",
-    "images": [],
-    "colorVariations": [],
+    "images": [
+      "data/images/product_1749520305283_qx876qcb0.png",
+      "data/images/product_1749520310351_aurivn7v0.png",
+      "data/images/product_1749520315514_qoabc9bj8.png",
+      "data/images/product_1749520320671_ktfxcyc9m.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
     "active": true,
-    "updatedAt": "2025-06-10T00:07:07.899Z",
+    "updatedAt": "2025-06-10T01:52:10.080Z",
     "id": 1749514027918,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

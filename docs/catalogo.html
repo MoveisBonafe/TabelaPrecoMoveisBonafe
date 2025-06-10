@@ -935,14 +935,16 @@
         }
 
         .footer-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin: 0 0 8px 0;
-            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24, #000000);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shimmer 2s ease-in-out infinite alternate;
+            animation: gradientShift 3s ease-in-out infinite;
+            white-space: nowrap;
         }
 
         .footer-subtitle {
@@ -989,6 +991,7 @@
             margin: 0;
             color: #999;
             font-size: 0.9rem;
+            text-align: center;
         }
 
         @media (max-width: 768px) {

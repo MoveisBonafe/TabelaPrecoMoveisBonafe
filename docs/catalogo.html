@@ -1166,10 +1166,8 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 this.userType = urlParams.get('tipo') || this.mapUserRole(this.currentUser.role);
 
-                // Update user info display
-                document.getElementById('user-info').textContent = 
-                    `${this.currentUser.name} (${this.userType.charAt(0).toUpperCase() + this.userType.slice(1)})`;
-
+                // User info display removed from interface
+                
                 // Load data
                 await this.loadAllData();
                 this.setupEventListeners();

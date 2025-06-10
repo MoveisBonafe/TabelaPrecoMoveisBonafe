@@ -1747,16 +1747,16 @@
                         ` : ''}
                     </div>
                     <div class="product-info">
-                        <div class="product-category-badge">${categoryLabel}</div>
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-colors-row">
-                            <div class="product-colors">
-                                <span class="colors-label">Cores:</span>
-                                <div class="color-circles">
-                                    ${colorCircles}
-                                </div>
-                            </div>
+                        <div class="product-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div class="product-category-badge">${categoryLabel}</div>
                             <button class="ver-produto-btn-fixed" onclick="event.stopPropagation(); openProductDetailModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">Ver Produto</button>
+                        </div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-colors" style="margin-bottom: 12px;">
+                            <span class="colors-label">Cores:</span>
+                            <div class="color-circles">
+                                ${colorCircles}
+                            </div>
                         </div>
 ${this.userType === 'restaurante' ? `
                             <div class="restaurant-price-banner">
@@ -2600,9 +2600,12 @@ ${this.userType === 'restaurante' ? `
             const priceTable = document.getElementById('price-table-select').value;
             const paymentMethod = document.getElementById('payment-method-select').value;
 
+            // Get payment condition
+            const paymentCondition = document.getElementById('payment-condition').value.trim();
+            
             // Basic validation for all orders
-            if (!name || !phone || !priceTable || !paymentMethod) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
+            if (!name || !phone || !priceTable || !paymentMethod || !paymentCondition) {
+                alert('Por favor, preencha todos os campos obrigatórios, incluindo a condição de pagamento.');
                 return;
             }
 
@@ -3196,7 +3199,7 @@ ${this.userType === 'restaurante' ? `
                         <!-- Payment Condition -->
                         <div class="payment-condition-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento</h3>
-                            <input type="text" id="payment-condition" placeholder="Ex: Entrada + 2x sem juros, À vista com desconto, etc." style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                            <input type="text" id="payment-condition" placeholder="Ex: Entrada + 2x sem juros, À vista com desconto, etc." required style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                         </div>
 
                         <!-- Total Section -->
@@ -5923,24 +5926,24 @@ ${this.userType === 'restaurante' ? `
             // Total calculation (prices already include table adjustments)
             let total = subtotal;
             
+            message += `💰 *Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+            
+            // Apply promotion discount first
+            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
+                const activePromotion = catalogClient.promotions.find(p => p.active);
+                if (activePromotion && (activePromotion.discount || activePromotion.value)) {
+                    const discountPercent = activePromotion.discount || activePromotion.value;
+                    const promotionDiscount = subtotal * (discountPercent / 100);
+                    total -= promotionDiscount;
+                    message += `🎉 *Desconto Promoção (${discountPercent}%):* -R$ ${promotionDiscount.toFixed(2).replace('.', ',')}\n`;
+                }
+            }
+            
             // Apply pickup discount
             if (isPickup) {
                 const pickupDiscount = total * 0.05;
                 total -= pickupDiscount;
-                message += `💰 *Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
                 message += `🎯 *Desconto Retirada (5%):* -R$ ${pickupDiscount.toFixed(2).replace('.', ',')}\n`;
-            } else {
-                message += `💰 *Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
-            }
-            
-            // Apply promotion discount if exists
-            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
-                const activePromotion = catalogClient.promotions.find(p => p.active);
-                if (activePromotion && activePromotion.discount) {
-                    const promotionDiscount = total * (activePromotion.discount / 100);
-                    total -= promotionDiscount;
-                    message += `🎉 *Desconto Promoção (${activePromotion.discount}%):* -R$ ${promotionDiscount.toFixed(2).replace('.', ',')}\n`;
-                }
             }
             
             message += `\n💸 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;

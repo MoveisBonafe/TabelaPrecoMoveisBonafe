@@ -3651,11 +3651,24 @@
             border: none;
             color: #9ca3af;
             cursor: pointer;
-            padding: 4px;
+            padding: 8px;
             border-radius: 4px;
             transition: all 0.2s;
-            margin-left: auto;
+            position: absolute;
+            right: 0;
+            top: 8px;
             flex-shrink: 0;
+        }
+        
+        .cart-item {
+            position: relative;
+            padding-right: 40px;
+        }
+        
+        .cart-item-quantity-display {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 4px;
         }
 
         .cart-item-remove:hover {
@@ -3950,7 +3963,15 @@
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .product-modal {
-                padding: 10px;
+                padding: 20px;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .product-modal-content {
+                margin: auto;
+                max-width: 95vw;
+                width: 100%;
             }
 
             .product-modal-layout {
@@ -5544,7 +5565,7 @@
             message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_`;
             
             // Open WhatsApp
-            const phoneNumber = '5514998765432'; // Replace with your business WhatsApp number
+            const phoneNumber = '5514997181108'; // MoveisBonafe WhatsApp number
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             
@@ -5607,14 +5628,10 @@
                     <div class="cart-item-details">
                         <div class="cart-item-header">
                             <div class="cart-item-name">${item.name}</div>
-                            <button class="cart-item-remove" onclick="removeCartItem('${item.id}')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-color">Cor: ${item.color}</div>
+                            <div class="cart-item-quantity-display">Qtd: ${item.quantity}</div>
                         </div>
                         <div class="cart-item-controls">
                             <div class="cart-item-quantity">
@@ -5624,6 +5641,11 @@
                             </div>
                         </div>
                     </div>
+                    <button class="cart-item-remove" onclick="removeCartItem('${item.id}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 `;
                 
                 cartItemsContainer.appendChild(cartItemDiv);

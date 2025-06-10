@@ -201,22 +201,38 @@
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #f3f4f6;
+        }
+        
+        .search-input-container {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 16px;
+            z-index: 1;
         }
         
         .search-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 16px 12px 48px;
             border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 20px;
             font-size: 1rem;
-            background: #f9fafb;
+            transition: border-color 0.2s;
+            background: white;
         }
         
         .search-input:focus {
             outline: none;
-            border-color: #d4831e;
-            background: white;
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
         }
         
         .filter-row {
@@ -228,10 +244,17 @@
         
         .filter-select {
             padding: 8px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
             background: white;
             font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
         }
         
         .categories-section {
@@ -1022,13 +1045,13 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">Móveis Bonafé</div>
-            <div style="display: flex; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="logout-btn" onclick="logout()">Sair</button>
                 <button class="cart-btn" onclick="openCartModal()">
                     🛒 Carrinho (<span id="cart-count">0</span>)
                 </button>
                 <div class="user-info">
                     <span class="user-badge" id="user-info">Carregando...</span>
-                    <button class="logout-btn" onclick="logout()">Sair</button>
                 </div>
             </div>
         </div>
@@ -1039,12 +1062,15 @@
         <div id="promotion-banner" style="display: none;"></div>
 
         <div class="search-bar">
-            <input 
-                type="text" 
-                class="search-input" 
-                id="search-input"
-                placeholder="Buscar produtos..."
-            >
+            <div class="search-input-container">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="search-input"
+                    placeholder="Buscar produtos..."
+                >
+            </div>
             <div class="filter-row">
                 <select class="filter-select" id="category-filter">
                     <option value="">Todas as categorias</option>
@@ -2894,7 +2920,7 @@
                         </div>
                         
                         <div class="product-actions">
-                            <button class="add-to-cart-btn" onclick="addToCart()">Adicionar ao Carrinho</button>
+                            <button class="add-to-cart-btn" onclick="addToCart()">🛒 Adicionar ao Carrinho</button>
                         </div>
                         
                         <!-- Expandable sections -->

@@ -5,10 +5,10 @@
     "type": "percentage",
     "value": 5,
     "startDate": "2025-06-09T00:00:00.000Z",
-    "endDate": "2025-06-09T00:00:00.000Z",
+    "endDate": "2025-06-11T00:00:00.000Z",
     "categories": null,
     "active": true,
-    "updatedAt": "2025-06-10T21:59:07.207Z",
+    "updatedAt": "2025-06-10T22:11:11.219Z",
     "id": "4",
     "createdAt": "2025-05-25T20:50:06.944Z"
   }

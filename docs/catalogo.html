@@ -92,9 +92,10 @@
 
         .cart-btn {
             padding: 8px 16px;
-            background: white;
-            color: #374151;
-            border: 2px solid #e5e7eb;
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24, #000000);
+            background-size: 300% 300%;
+            color: white;
+            border: none;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.9rem;
@@ -103,12 +104,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            animation: gradientShift 3s ease-in-out infinite;
         }
 
         .cart-btn:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
         }
         
         .container {
@@ -538,9 +539,10 @@
         }
 
         .ver-produto-btn-fixed {
-            background: white;
-            color: #374151;
-            border: 2px solid #e5e7eb;
+            background: linear-gradient(45deg, #fbbf24, #000000, #fbbf24, #000000);
+            background-size: 300% 300%;
+            color: white;
+            border: none;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -548,12 +550,12 @@
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
+            animation: gradientShift 3s ease-in-out infinite;
         }
 
         .ver-produto-btn-fixed:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-color: #d1d5db;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
         }
         
         .product-image img {
@@ -1026,15 +1028,12 @@
     <div class="header">
         <div class="header-content">
             <div class="logo">Móveis Bonafé</div>
-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                <button class="logout-btn" onclick="logout()">Sair</button>
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <button class="cart-btn" onclick="openCartModal()">
-                        🛒 Carrinho (<span id="cart-count">0</span>)
-                    </button>
-                    <div class="user-info">
-                        <span class="user-badge" id="user-info">Carregando...</span>
-                    </div>
+            <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+                <button class="cart-btn" onclick="openCartModal()">
+                    🛒 Carrinho (<span id="cart-count">0</span>)
+                </button>
+                <div class="user-info">
+                    <span class="user-badge" id="user-info">Carregando...</span>
                 </div>
             </div>
         </div>
@@ -4823,7 +4822,11 @@
     </style>
 
     <script>
-        // Modal variables are already declared above
+        // Modal variables and global state
+        let currentModalProduct = null;
+        let modalImages = [];
+        let currentModalImageIndex = 0;
+        window.currentSelectedColor = null;
 
         function openProductDetailModal(product) {
             try {
@@ -5226,6 +5229,9 @@
         }
 
         function selectModalColor(colorData, colorElement, index) {
+            // Store selected color globally
+            window.currentSelectedColor = colorData.name;
+            
             // Update current color index for swipe functionality
             if (typeof index !== 'undefined') {
                 currentColorIndex = index;
@@ -6018,7 +6024,7 @@
             if (!currentModalProduct) return;
             
             const quantity = parseInt(document.getElementById('modal-quantity').value) || 1;
-            const selectedColorName = currentSelectedColor || (currentModalProduct.colorVariations && currentModalProduct.colorVariations[0]) || 'Padrão';
+            const selectedColorName = window.currentSelectedColor || (currentModalProduct.colorVariations && currentModalProduct.colorVariations[0]) || 'Padrão';
             
             console.log('🛒 Adicionando ao carrinho:', {
                 produto: currentModalProduct.name,

@@ -748,6 +748,7 @@
             <button class="tab" onclick="switchTab('usuarios')">👥 Usuários</button>
             <button class="tab" onclick="switchTab('precos')">💰 Preços</button>
             <button class="tab" onclick="switchTab('promocoes')">🎯 Promoções</button>
+            <button class="tab" onclick="switchTab('pedidos')">📋 Histórico</button>
             <button class="tab" onclick="switchTab('monitor')">📊 Monitor</button>
         </div>
 
@@ -870,6 +871,44 @@
                     <div class="empty-state-icon">🎯</div>
                     <h3>Nenhuma promoção ativa</h3>
                     <p>Crie promoções para destacar ofertas especiais</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pedidos Tab -->
+        <div id="pedidos-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Histórico de Pedidos</h2>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-secondary" onclick="exportOrders()">📥 Exportar</button>
+                    <button class="btn btn-secondary" onclick="refreshOrders()">🔄 Atualizar</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-orders">0</div>
+                    <div class="stat-label">Total de Pedidos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="orders-today">0</div>
+                    <div class="stat-label">Pedidos Hoje</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="orders-this-month">0</div>
+                    <div class="stat-label">Pedidos Este Mês</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-revenue">R$ 0,00</div>
+                    <div class="stat-label">Valor Total</div>
+                </div>
+            </div>
+
+            <div id="pedidos-grid" class="data-grid">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <h3>Nenhum pedido registrado</h3>
+                    <p>Os pedidos finalizados aparecerão aqui</p>
                 </div>
             </div>
         </div>

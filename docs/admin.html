@@ -1272,7 +1272,28 @@
         </div>
     </div>
 
-    <script src="./simple-image-manager.js"></script>
+    <script src="./simple-image-manager.js?v=2"></script>
+    <script>
+        // Force clear old cached data on page load
+        if (typeof window.imageSyncManager !== 'undefined') {
+            delete window.imageSyncManager;
+        }
+        
+        // Clear localStorage quota issues
+        try {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.startsWith('image_') || key.startsWith('recent_') || key.startsWith('img_'))) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+            console.log('Cleared localStorage image cache');
+        } catch (e) {
+            console.log('localStorage already clean');
+        }
+    </script>
     <script>
         // Global application state
         const adminClient = {
@@ -1562,15 +1583,19 @@
                         console.log('GitHub API Success:', result);
                         addSystemLog(`✅ Imagem salva no GitHub: ${result.content?.path || filename}`);
                         
-                        // Store using simple image manager
+                        // Store in memory cache only - no localStorage usage
                         const base64Data = e.target.result;
+                        
+                        // Initialize global memory cache
+                        if (!window.imageMemoryCache) window.imageMemoryCache = {};
+                        window.imageMemoryCache[filename] = base64Data;
+                        
+                        // Store using simple image manager
                         if (window.simpleImageManager) {
                             window.simpleImageManager.store(filename, base64Data);
                         }
                         
-                        // Backup memory cache
-                        if (!window.imageMemoryCache) window.imageMemoryCache = {};
-                        window.imageMemoryCache[filename] = base64Data;
+                        console.log(`Image stored in memory cache: ${filename}`);
                         
                         addSystemLog(`📸 Imagem uploaded: ${filename}`);
                         

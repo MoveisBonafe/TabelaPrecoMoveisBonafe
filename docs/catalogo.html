@@ -278,11 +278,11 @@
         .category-card {
             text-align: center;
             padding: 24px 16px;
-            border: 2px solid #f3f4f6;
-            border-radius: 8px;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            background: #fafafa;
+            background: white;
             min-height: 160px;
             display: flex;
             flex-direction: column;
@@ -292,13 +292,15 @@
         
         .category-card:hover {
             border-color: #f59e0b;
-            background: #fef3e2;
+            background: white;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .category-card.active {
             border-color: #f59e0b;
-            background: #fef3e2;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .category-icon {
@@ -477,8 +479,8 @@
         }
         
         .product-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
             overflow: hidden;
             background: white;
             transition: all 0.2s;
@@ -1000,8 +1002,6 @@
                 <button class="cart-btn" onclick="openCartModal()">
                     🛒 Carrinho (<span id="cart-count">0</span>)
                 </button>
-                <span class="user-badge" id="user-info">Carregando...</span>
-                <button class="logout-btn" onclick="logout()">Sair</button>
             </div>
         </div>
     </div>

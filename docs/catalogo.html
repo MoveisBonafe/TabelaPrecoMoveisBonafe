@@ -6631,6 +6631,25 @@ ${this.userType === 'restaurante' ? `
             window.open(whatsappUrl, '_blank');
         }
 
+        // Modal quantity control functions
+        function increaseModalQuantity() {
+            const quantityInput = document.getElementById('modal-quantity');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value) || 1;
+                quantityInput.value = currentValue + 1;
+            }
+        }
+
+        function decreaseModalQuantity() {
+            const quantityInput = document.getElementById('modal-quantity');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value) || 1;
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            }
+        }
+
         // Close modal with Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {

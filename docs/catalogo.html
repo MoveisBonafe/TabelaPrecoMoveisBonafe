@@ -2093,7 +2093,13 @@ ${this.userType === 'restaurante' ? `
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
                             finalPrice = finalPrice * (1 + (restaurantMarkup / 100));
-                            finalPrice = Math.round(finalPrice * 100) / 100; // Round to 2 decimal places
+                            // Custom rounding: >=0.50 round up, <0.50 round down
+                            const decimalPart = finalPrice - Math.floor(finalPrice);
+                            if (decimalPart >= 0.50) {
+                                finalPrice = Math.ceil(finalPrice);
+                            } else {
+                                finalPrice = Math.floor(finalPrice);
+                            }
                         }
                     }
                     
@@ -2121,7 +2127,13 @@ ${this.userType === 'restaurante' ? `
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
                             vistaPrice = vistaPrice * (1 + (restaurantMarkup / 100));
-                            vistaPrice = Math.round(vistaPrice * 100) / 100; // Round to 2 decimal places
+                            // Custom rounding: >=0.50 round up, <0.50 round down
+                            const decimalPart = vistaPrice - Math.floor(vistaPrice);
+                            if (decimalPart >= 0.50) {
+                                vistaPrice = Math.ceil(vistaPrice);
+                            } else {
+                                vistaPrice = Math.floor(vistaPrice);
+                            }
                         }
                     }
                     
@@ -6635,7 +6647,7 @@ ${this.userType === 'restaurante' ? `
         // WhatsApp contact function for footer
         function openWhatsAppContact() {
             const message = 'Olá! Gostaria de conversar com a Móveis Bonafé. Como posso ajudar?';
-            const whatsappNumber = '5511999999999'; // Same number as order finalization
+            const whatsappNumber = '5514997181108'; // +55 14 99718 1108
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }

@@ -2505,6 +2505,11 @@
                     });
                 }
             });
+            
+            // Trigger form validation after toggling fields
+            setTimeout(() => {
+                checkFormValidation();
+            }, 100);
         }
 
         function finalizeWhatsAppOrder() {
@@ -5544,12 +5549,22 @@
         function validateDeliveryForm() {
             const name = document.getElementById('customer-name').value.trim();
             const phone = document.getElementById('customer-phone').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
-            const cep = document.getElementById('customer-cep').value.trim();
-            const neighborhood = document.getElementById('customer-neighborhood').value.trim();
-            const number = document.getElementById('customer-number').value.trim();
+            const isPickup = document.getElementById('pickup').checked;
             
-            return name && phone && address && cep && neighborhood && number;
+            if (isPickup) {
+                // For pickup, only name and phone are required
+                return name && phone;
+            } else {
+                // For delivery, all address fields are required
+                const address = document.getElementById('customer-address').value.trim();
+                const cep = document.getElementById('customer-cep').value.trim();
+                const neighborhood = document.getElementById('customer-neighborhood').value.trim();
+                const number = document.getElementById('customer-number').value.trim();
+                const city = document.getElementById('customer-city').value.trim();
+                const state = document.getElementById('customer-state').value.trim();
+                
+                return name && phone && address && cep && neighborhood && number && city && state;
+            }
         }
 
         function checkFormValidation() {
@@ -5557,12 +5572,25 @@
             if (paymentBtn) {
                 const name = document.getElementById('customer-name')?.value?.trim() || '';
                 const phone = document.getElementById('customer-phone')?.value?.trim() || '';
-                const address = document.getElementById('customer-address')?.value?.trim() || '';
-                const cep = document.getElementById('customer-cep')?.value?.trim() || '';
-                const neighborhood = document.getElementById('customer-neighborhood')?.value?.trim() || '';
-                const number = document.getElementById('customer-number')?.value?.trim() || '';
+                const isPickup = document.getElementById('pickup')?.checked || false;
                 
-                const isValid = name && phone && address && cep && neighborhood && number;
+                let isValid = false;
+                
+                if (isPickup) {
+                    // For pickup, only name and phone are required
+                    isValid = name && phone;
+                } else {
+                    // For delivery, all address fields are required
+                    const address = document.getElementById('customer-address')?.value?.trim() || '';
+                    const cep = document.getElementById('customer-cep')?.value?.trim() || '';
+                    const neighborhood = document.getElementById('customer-neighborhood')?.value?.trim() || '';
+                    const number = document.getElementById('customer-number')?.value?.trim() || '';
+                    const city = document.getElementById('customer-city')?.value?.trim() || '';
+                    const state = document.getElementById('customer-state')?.value?.trim() || '';
+                    
+                    isValid = name && phone && address && cep && neighborhood && number && city && state;
+                }
+                
                 paymentBtn.disabled = !isValid;
                 
                 // Visual feedback

@@ -5779,33 +5779,28 @@
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
-                    const basePrice = product.priceAVista || 0;
-                    const itemTotal = basePrice * item.quantity;
+                    // Get price based on selected table
+                    let unitPrice = product.priceAVista || 0;
+                    switch(priceTable) {
+                        case '30': unitPrice = product.price30 || product.priceAVista || 0; break;
+                        case '30/60': unitPrice = product.price3060 || product.priceAVista || 0; break;
+                        case '30/60/90': unitPrice = product.price306090 || product.priceAVista || 0; break;
+                        case '30/60/90/120': unitPrice = product.price30609120 || product.priceAVista || 0; break;
+                        default: unitPrice = product.priceAVista || 0; break;
+                    }
+                    
+                    const itemTotal = unitPrice * item.quantity;
                     subtotal += itemTotal;
                     
                     message += `• ${item.name}\n`;
                     message += `  Cor: ${item.color}\n`;
                     message += `  Qtd: ${item.quantity}\n`;
-                    message += `  Valor unitário: R$ ${basePrice.toFixed(2).replace('.', ',')}\n\n`;
+                    message += `  Valor unitário: R$ ${unitPrice.toFixed(2).replace('.', ',')}\n\n`;
                 }
             });
             
-            // Calculate totals with markup
+            // Total calculation (prices already include table adjustments)
             let total = subtotal;
-            if (priceTable && priceTable !== 'avista') {
-                let markup = 0;
-                switch(priceTable) {
-                    case '30': markup = 0.02; break;
-                    case '30/60': markup = 0.04; break;
-                    case '30/60/90': markup = 0.06; break;
-                    case '30/60/90/120': markup = 0.08; break;
-                }
-                if (markup > 0) {
-                    const markupAmount = subtotal * markup;
-                    subtotal += markupAmount;
-                    total = subtotal;
-                }
-            }
             
             // Apply pickup discount
             if (isPickup) {
@@ -5828,7 +5823,8 @@
             }
             
             message += `\n💸 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;
-            message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_`;
+            message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_\n\n`;
+            message += `📞 *Aguardo confirmação do pedido!*`;
             
             // Open WhatsApp
             const phoneNumber = '5514997181108'; // MoveisBonafe WhatsApp number

@@ -2378,23 +2378,23 @@ ${this.userType === 'restaurante' ? `
 
     // Clear localStorage cache to force fresh data load
     localStorage.removeItem('moveisbonafe_products');
-        localStorage.removeItem('moveisbonafe_categories');
-        localStorage.removeItem('moveisbonafe_colors');
-        localStorage.removeItem('moveisbonafe_users');
-        localStorage.removeItem('moveisbonafe_priceSettings');
-        localStorage.removeItem('moveisbonafe_promotions');
+    localStorage.removeItem('moveisbonafe_categories');
+    localStorage.removeItem('moveisbonafe_colors');
+    localStorage.removeItem('moveisbonafe_users');
+    localStorage.removeItem('moveisbonafe_priceSettings');
+    localStorage.removeItem('moveisbonafe_promotions');
 
-        // Initialize application
-        const catalogClient = new CatalogClient();
-        document.addEventListener('DOMContentLoaded', () => {
-            catalogClient.init().then(() => {
-                console.log('✅ Catálogo inicializado');
-                loadCart(); // Carregar carrinho salvo
-            }).catch(error => {
-                console.error('❌ Erro na inicialização:', error);
-                alert('Erro ao carregar o catálogo. Tente novamente.');
-            });
+    // Initialize application
+    const catalogClient = new CatalogClient();
+    document.addEventListener('DOMContentLoaded', () => {
+        catalogClient.init().then(() => {
+            console.log('✅ Catálogo inicializado');
+            loadCart(); // Carregar carrinho salvo
+        }).catch(error => {
+            console.error('❌ Erro na inicialização:', error);
+            alert('Erro ao carregar o catálogo. Tente novamente.');
         });
+    });
 
         // Remove duplicate declarations - variables already declared earlier
 

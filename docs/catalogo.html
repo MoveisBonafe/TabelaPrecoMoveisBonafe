@@ -4421,9 +4421,9 @@ ${this.userType === 'restaurante' ? `
             border: 1px solid #d1d5db;
         }
 
-        .checkout-btn:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+        .checkout-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            transform: translateY(-1px);
         }
 
         .checkout-btn:disabled {

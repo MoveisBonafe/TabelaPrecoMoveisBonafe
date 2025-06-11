@@ -5295,6 +5295,9 @@ ${this.userType === 'restaurante' ? `
                 modalImages = [];
                 currentModalImageIndex = 0;
 
+                // Reset color selection state for new product
+                window.currentSelectedColor = null;
+
                 // Set product name
                 document.getElementById('modal-product-name').textContent = product.name || 'Produto';
                 
@@ -5497,11 +5500,12 @@ ${this.userType === 'restaurante' ? `
                             }
                         });
                         
-                        // Set initial selected color
+                        // Set initial selected color and store globally
                         if (product.colorVariations[0]) {
                             const firstColor = colors.find(c => c.name === product.colorVariations[0]);
                             if (firstColor) {
                                 selectedColorText.textContent = `Cor selecionada: ${firstColor.name}`;
+                                window.currentSelectedColor = firstColor.name;
                             }
                         }
                     } else {
@@ -5521,9 +5525,10 @@ ${this.userType === 'restaurante' ? `
                             colorOptions.appendChild(colorDiv);
                         });
                         
-                        // Set initial selected color to first available color
+                        // Set initial selected color to first available color and store globally
                         if (colors[0]) {
                             selectedColorText.textContent = `Cor selecionada: ${colors[0].name}`;
+                            window.currentSelectedColor = colors[0].name;
                         }
                         
                         console.log('Color options added to container:', colorOptions.children.length);
@@ -6825,7 +6830,7 @@ ${this.userType === 'restaurante' ? `
             }, 3000);
         }
 
-        // Enhanced addToCart function
+        // Enhanced addToCart function with grouping
         function addToCart() {
             if (!currentModalProduct) return;
             
@@ -6839,16 +6844,30 @@ ${this.userType === 'restaurante' ? `
                 carrinhoAntes: shoppingCart.length
             });
             
-            const cartItem = {
-                id: Date.now().toString(),
-                productId: currentModalProduct.id,
-                name: currentModalProduct.name,
-                color: selectedColorName,
-                quantity: quantity,
-                image: modalImages[currentModalImageIndex] || ''
-            };
+            // Check if item with same product and color already exists
+            const existingItemIndex = shoppingCart.findIndex(item => 
+                item.productId === currentModalProduct.id && item.color === selectedColorName
+            );
             
-            shoppingCart.push(cartItem);
+            if (existingItemIndex >= 0) {
+                // Item exists, increase quantity
+                shoppingCart[existingItemIndex].quantity += quantity;
+                console.log('🛒 Item existente atualizado. Nova quantidade:', shoppingCart[existingItemIndex].quantity);
+            } else {
+                // Create new item
+                const cartItem = {
+                    id: Date.now().toString(),
+                    productId: currentModalProduct.id,
+                    name: currentModalProduct.name,
+                    color: selectedColorName,
+                    quantity: quantity,
+                    image: modalImages[currentModalImageIndex] || ''
+                };
+                
+                shoppingCart.push(cartItem);
+                console.log('🛒 Novo item adicionado ao carrinho');
+            }
+            
             localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
             
             console.log('🛒 Item adicionado. Carrinho atual:', shoppingCart);

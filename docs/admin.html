@@ -748,6 +748,7 @@
             <button class="tab" onclick="switchTab('usuarios')">👥 Usuários</button>
             <button class="tab" onclick="switchTab('precos')">💰 Preços</button>
             <button class="tab" onclick="switchTab('promocoes')">🎯 Promoções</button>
+            <button class="tab" onclick="switchTab('avisos')">📢 Avisos</button>
             <button class="tab" onclick="switchTab('pedidos')">📋 Histórico</button>
             <button class="tab" onclick="switchTab('monitor')">📊 Monitor</button>
         </div>
@@ -892,6 +893,22 @@
                     <div class="empty-state-icon">🎯</div>
                     <h3>Nenhuma promoção ativa</h3>
                     <p>Crie promoções para destacar ofertas especiais</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avisos Tab -->
+        <div id="avisos-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Gerenciamento de Avisos</h2>
+                <button class="btn btn-primary" onclick="openNoticeModal()">➕ Criar Aviso</button>
+            </div>
+
+            <div id="avisos-grid" class="data-grid">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📢</div>
+                    <h3>Nenhum aviso criado</h3>
+                    <p>Crie avisos que aparecerão como banners acima do campo de busca</p>
                 </div>
             </div>
         </div>
@@ -1342,6 +1359,82 @@
         </div>
     </div>
 
+    <!-- Notice Modal -->
+    <div id="notice-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="notice-modal-title">Criar Aviso</h3>
+                <button class="modal-close" onclick="closeNoticeModal()">&times;</button>
+            </div>
+            
+            <form id="notice-form" onsubmit="saveNotice(event)">
+                <div class="form-group">
+                    <label class="form-label">Título do Aviso:</label>
+                    <input type="text" id="notice-title" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mensagem:</label>
+                    <textarea id="notice-message" class="form-textarea" rows="3" required placeholder="Digite a mensagem que aparecerá no banner"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Banner:</label>
+                        <select id="notice-type" class="form-select" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="info">Informativo (Azul)</option>
+                            <option value="warning">Aviso (Amarelo)</option>
+                            <option value="success">Sucesso (Verde)</option>
+                            <option value="error">Erro (Vermelho)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status:</label>
+                        <select id="notice-active" class="form-select" required>
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Data de Início (opcional):</label>
+                        <input type="date" id="notice-start" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data de Fim (opcional):</label>
+                        <input type="date" id="notice-end" class="form-input">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Visível para:</label>
+                    <div style="margin-top: 8px; display: flex; gap: 16px;">
+                        <label style="display: flex; align-items: center; gap: 6px;">
+                            <input type="checkbox" id="notice-show-shop" checked>
+                            Usuários Loja
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 6px;">
+                            <input type="checkbox" id="notice-show-restaurant" checked>
+                            Usuários Restaurante
+                        </label>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Aviso
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeNoticeModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="./reliable-upload.js"></script>
     <script>
         // Force clear old cached data on page load
@@ -1373,6 +1466,7 @@
             users: [],
             priceSettings: [],
             promotions: [],
+            notices: [],
             baseUrl: 'https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe',
             repoOwner: 'moveisbonafe',
             repoName: 'TabelaPrecoMoveisBonafe'
@@ -1381,6 +1475,7 @@
         let currentEditingProduct = null;
         let currentEditingCategory = null;
         let currentEditingColor = null;
+        let currentEditingNotice = null;
         let uploadedImages = [];
         let selectedColors = [];
         let categoryImage = null;
@@ -1484,13 +1579,14 @@
         async function loadAllData() {
             try {
                 // Always load fresh data from GitHub
-                const [products, categories, colors, users, priceSettings, promotions] = await Promise.all([
+                const [products, categories, colors, users, priceSettings, promotions, notices] = await Promise.all([
                     fetch(`${adminClient.baseUrl}/data/products.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/categories.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/colors.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/users.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/price_settings.json`).then(r => r.ok ? r.json() : []).catch(() => []),
-                    fetch(`${adminClient.baseUrl}/data/promotions.json`).then(r => r.ok ? r.json() : []).catch(() => [])
+                    fetch(`${adminClient.baseUrl}/data/promotions.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/notices.json`).then(r => r.ok ? r.json() : []).catch(() => [])
                 ]);
 
                 adminClient.products = products;
@@ -1499,8 +1595,9 @@
                 adminClient.users = users;
                 adminClient.priceSettings = priceSettings;
                 adminClient.promotions = promotions;
+                adminClient.notices = notices;
 
-                addSystemLog(`✅ Dados carregados: ${products.length} produtos, ${categories.length} categorias, ${colors.length} cores, ${users.length} usuários, ${priceSettings.length} tabelas de preço, ${promotions.length} promoções`);
+                addSystemLog(`✅ Dados carregados: ${products.length} produtos, ${categories.length} categorias, ${colors.length} cores, ${users.length} usuários, ${priceSettings.length} tabelas de preço, ${promotions.length} promoções, ${notices.length} avisos`);
             } catch (error) {
                 addSystemLog(`❌ Erro ao carregar dados: ${error.message}`);
             }
@@ -2596,6 +2693,196 @@
             updateStats();
             addSystemLog('✅ Dados atualizados');
             showNotification('Dados atualizados com sucesso!', 'success');
+        }
+
+        // Notice management functions
+        let currentEditingNotice = null;
+
+        function renderNotices() {
+            const grid = document.getElementById('avisos-grid');
+            if (!adminClient.notices || adminClient.notices.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📢</div>
+                        <h3>Nenhum aviso criado</h3>
+                        <p>Crie avisos que aparecerão como banners acima do campo de busca</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            adminClient.notices.forEach(notice => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                
+                const now = new Date();
+                const startDate = notice.startDate ? new Date(notice.startDate) : null;
+                const endDate = notice.endDate ? new Date(notice.endDate) : null;
+                
+                let statusColor = '#f56565';
+                let statusText = 'Inativo';
+                
+                if (notice.active) {
+                    if ((!startDate || now >= startDate) && (!endDate || now <= endDate)) {
+                        statusColor = '#48bb78';
+                        statusText = 'Ativo';
+                    } else if (startDate && now < startDate) {
+                        statusColor = '#ed8936';
+                        statusText = 'Programado';
+                    } else if (endDate && now > endDate) {
+                        statusColor = '#a0aec0';
+                        statusText = 'Expirado';
+                    }
+                }
+
+                const typeColors = {
+                    info: '#3b82f6',
+                    warning: '#f59e0b',
+                    success: '#10b981',
+                    error: '#ef4444'
+                };
+
+                const typeNames = {
+                    info: 'Informativo',
+                    warning: 'Aviso',
+                    success: 'Sucesso',
+                    error: 'Erro'
+                };
+                
+                const visibilityText = [];
+                if (notice.showShop) visibilityText.push('Loja');
+                if (notice.showRestaurant) visibilityText.push('Restaurante');
+                
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div class="card-title">${notice.title}</div>
+                        <div style="display: flex; gap: 8px;">
+                            <span style="background: ${typeColors[notice.type]}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                ${typeNames[notice.type]}
+                            </span>
+                            <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-info" style="margin-bottom: 8px;">${notice.message}</div>
+                    <div class="card-info"><strong>Visível para:</strong> ${visibilityText.join(', ')}</div>
+                    ${startDate ? `<div class="card-info"><strong>Início:</strong> ${startDate.toLocaleDateString('pt-BR')}</div>` : ''}
+                    ${endDate ? `<div class="card-info"><strong>Fim:</strong> ${endDate.toLocaleDateString('pt-BR')}</div>` : ''}
+                    <div class="card-info"><strong>Criado em:</strong> ${new Date(notice.createdAt).toLocaleDateString('pt-BR')}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editNotice('${notice.id}')">✏️ Editar</button>
+                        <button class="btn ${notice.active ? 'btn-warning' : 'btn-success'}" onclick="toggleNoticeStatus('${notice.id}')">
+                            ${notice.active ? '🚫 Desativar' : '✅ Ativar'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteNotice('${notice.id}')">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function openNoticeModal(noticeId = null) {
+            currentEditingNotice = noticeId ? adminClient.notices.find(n => n.id === noticeId) : null;
+            
+            document.getElementById('notice-modal-title').textContent = currentEditingNotice ? 'Editar Aviso' : 'Criar Aviso';
+            document.getElementById('notice-title').value = currentEditingNotice?.title || '';
+            document.getElementById('notice-message').value = currentEditingNotice?.message || '';
+            document.getElementById('notice-type').value = currentEditingNotice?.type || '';
+            document.getElementById('notice-active').value = currentEditingNotice?.active !== undefined ? currentEditingNotice.active.toString() : 'true';
+            document.getElementById('notice-start').value = currentEditingNotice?.startDate || '';
+            document.getElementById('notice-end').value = currentEditingNotice?.endDate || '';
+            document.getElementById('notice-show-shop').checked = currentEditingNotice?.showShop !== false;
+            document.getElementById('notice-show-restaurant').checked = currentEditingNotice?.showRestaurant !== false;
+            
+            document.getElementById('notice-modal').classList.add('active');
+        }
+
+        function closeNoticeModal() {
+            document.getElementById('notice-modal').classList.remove('active');
+            currentEditingNotice = null;
+        }
+
+        async function saveNotice(event) {
+            event.preventDefault();
+            
+            try {
+                addSystemLog('💾 Salvando aviso...');
+                
+                const noticeData = {
+                    id: currentEditingNotice?.id || Date.now().toString(),
+                    title: document.getElementById('notice-title').value,
+                    message: document.getElementById('notice-message').value,
+                    type: document.getElementById('notice-type').value,
+                    active: document.getElementById('notice-active').value === 'true',
+                    startDate: document.getElementById('notice-start').value || null,
+                    endDate: document.getElementById('notice-end').value || null,
+                    showShop: document.getElementById('notice-show-shop').checked,
+                    showRestaurant: document.getElementById('notice-show-restaurant').checked,
+                    createdAt: currentEditingNotice?.createdAt || new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (currentEditingNotice) {
+                    const index = adminClient.notices.findIndex(n => n.id === currentEditingNotice.id);
+                    if (index !== -1) {
+                        adminClient.notices[index] = noticeData;
+                    }
+                } else {
+                    adminClient.notices.push(noticeData);
+                }
+
+                await saveToGitHub('notices.json', adminClient.notices);
+                addSystemLog(`✅ Aviso "${noticeData.title}" salvo com sucesso`);
+                showNotification(`Aviso "${noticeData.title}" salvo com sucesso!`, 'success');
+                closeNoticeModal();
+                renderNotices();
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao salvar aviso: ${error.message}`);
+                showNotification('Erro ao salvar aviso. Verifique o token GitHub.', 'error');
+            }
+        }
+
+        function editNotice(noticeId) {
+            openNoticeModal(noticeId);
+        }
+
+        async function toggleNoticeStatus(noticeId) {
+            try {
+                const notice = adminClient.notices.find(n => n.id === noticeId);
+                if (!notice) return;
+
+                notice.active = !notice.active;
+                notice.updatedAt = new Date().toISOString();
+
+                await saveToGitHub('notices.json', adminClient.notices);
+                addSystemLog(`✅ Status do aviso "${notice.title}" alterado para ${notice.active ? 'ativo' : 'inativo'}`);
+                showNotification(`Aviso ${notice.active ? 'ativado' : 'desativado'} com sucesso!`, 'success');
+                renderNotices();
+            } catch (error) {
+                addSystemLog(`❌ Erro ao alterar status do aviso: ${error.message}`);
+                showNotification('Erro ao alterar status do aviso.', 'error');
+            }
+        }
+
+        async function deleteNotice(noticeId) {
+            const notice = adminClient.notices.find(n => n.id === noticeId);
+            if (!notice || !confirm(`Tem certeza que deseja excluir o aviso "${notice.title}"?`)) return;
+            
+            try {
+                adminClient.notices = adminClient.notices.filter(n => n.id !== noticeId);
+                await saveToGitHub('notices.json', adminClient.notices);
+                addSystemLog(`🗑️ Aviso "${notice.title}" excluído com sucesso`);
+                showNotification('Aviso excluído com sucesso!', 'success');
+                renderNotices();
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir aviso: ${error.message}`);
+                showNotification('Erro ao excluir aviso.', 'error');
+            }
         }
 
         // User management functions

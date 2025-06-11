@@ -6542,7 +6542,17 @@ ${this.userType === 'restaurante' ? `
                 const cartItemDiv = document.createElement('div');
                 cartItemDiv.className = 'cart-item';
                 
-                let imageSrc = item.image;
+                // Find the product to get color-specific image
+                const product = catalogClient.products.find(p => p.id === item.productId);
+                let imageSrc = item.image; // fallback to stored image
+                
+                // If product found and has color variations, get the correct image for the selected color
+                if (product && product.colorVariations && product.images) {
+                    const colorIndex = product.colorVariations.indexOf(item.color);
+                    if (colorIndex >= 0 && product.images[colorIndex]) {
+                        imageSrc = product.images[colorIndex];
+                    }
+                }
                 
                 // Check for immediate base64 fallback for recently uploaded images
                 if (imageSrc && !imageSrc.startsWith('data:') && !imageSrc.startsWith('http')) {

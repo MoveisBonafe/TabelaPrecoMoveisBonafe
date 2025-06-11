@@ -2256,7 +2256,7 @@ ${this.userType === 'restaurante' ? `
             document.getElementById('modal-product-name').textContent = product.name || 'Produto';
             
             // Set description
-            const description = product.description || 'Produto de alta qualidade disponível em nossa loja.';
+            const description = product.description || 'Produto de alta qualidade disponível em nossa fábrica.';
             document.getElementById('modal-product-description').textContent = description;
 
             // Setup images
@@ -5676,16 +5676,26 @@ ${this.userType === 'restaurante' ? `
         }
 
         function initializeExpandableSections() {
-            // Initialize all sections as collapsed
+            // Check if mobile device
+            const isMobile = window.innerWidth <= 768;
+            
             const sections = ['description', 'dimensions'];
             sections.forEach(sectionId => {
                 const content = document.getElementById(`${sectionId}-content`);
                 const icon = document.getElementById(`${sectionId}-icon`);
                 
                 if (content && icon) {
-                    content.classList.add('collapsed');
-                    content.classList.remove('expanded');
-                    icon.classList.remove('expanded');
+                    if (isMobile) {
+                        // On mobile, open sections by default
+                        content.classList.add('expanded');
+                        content.classList.remove('collapsed');
+                        icon.classList.add('expanded');
+                    } else {
+                        // On desktop, keep sections collapsed
+                        content.classList.add('collapsed');
+                        content.classList.remove('expanded');
+                        icon.classList.remove('expanded');
+                    }
                 }
             });
         }

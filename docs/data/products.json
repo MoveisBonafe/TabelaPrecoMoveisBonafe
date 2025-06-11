@@ -345,9 +345,11 @@
     "images": [
       "data/images/product_1749519815100_t4jwmmxn5.png"
     ],
-    "colorVariations": [],
+    "colorVariations": [
+      "Sem Cor"
+    ],
     "active": true,
-    "updatedAt": "2025-06-10T21:44:17.942Z",
+    "updatedAt": "2025-06-11T14:20:06.847Z",
     "id": 1749514027911,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

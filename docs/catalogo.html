@@ -3370,7 +3370,7 @@ ${this.userType === 'restaurante' ? `
                     <!-- Cart Actions -->
                     <div class="cart-actions-new">
                         <button class="clear-cart-btn" onclick="clearCart()" style="padding: 12px 20px; border-radius: 20px; font-size: 14px;">Limpar Carrinho</button>
-                        <button class="checkout-btn" onclick="goToDeliveryStep()" style="padding: 12px 20px; border-radius: 20px; font-size: 14px;">Ir Para Entrega</button>
+                        <button id="checkout-btn" class="checkout-btn" onclick="goToDeliveryStep()" style="padding: 12px 20px; border-radius: 20px; font-size: 14px;" disabled>Ir Para Entrega</button>
                     </div>
                 </div>
 
@@ -4416,8 +4416,8 @@ ${this.userType === 'restaurante' ? `
         }
 
         .checkout-btn {
-            background: white;
-            color: #374151;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
             border: 1px solid #d1d5db;
         }
 
@@ -5880,6 +5880,20 @@ ${this.userType === 'restaurante' ? `
         function updateCartCount() {
             const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cart-count').textContent = totalItems;
+            
+            // Enable/disable checkout button based on cart contents
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if (checkoutBtn) {
+                if (shoppingCart.length > 0) {
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.style.opacity = '1';
+                    checkoutBtn.style.cursor = 'pointer';
+                } else {
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.style.opacity = '0.5';
+                    checkoutBtn.style.cursor = 'not-allowed';
+                }
+            }
         }
 
 

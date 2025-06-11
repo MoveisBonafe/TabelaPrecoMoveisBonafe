@@ -3357,8 +3357,8 @@ ${this.userType === 'restaurante' ? `
                 </div>
 
                 <!-- Step 1: Cart Items Section -->
-                <div class="cart-items-section" id="cart-step-1" style="padding: 20px; max-width: 500px; margin: 0 auto;">
-                    <div class="cart-items">
+                <div class="cart-items-section" id="cart-step-1" style="display: flex; flex-direction: column; height: 100%; max-width: 500px; margin: 0 auto;">
+                    <div class="cart-items" style="flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 0;">
                         <div class="cart-items-header">
                             <h3 class="cart-items-title">Resumo (<span id="cart-total-items">0</span>)</h3>
                         </div>
@@ -3368,7 +3368,7 @@ ${this.userType === 'restaurante' ? `
                     </div>
 
                     <!-- Cart Actions -->
-                    <div class="cart-actions-new">
+                    <div class="cart-actions-new" style="flex-shrink: 0; padding: 20px;">
                         <button class="clear-cart-btn" onclick="clearCart()" style="padding: 12px 20px; border-radius: 20px; font-size: 14px;">Limpar Carrinho</button>
                         <button id="checkout-btn" class="checkout-btn" onclick="goToDeliveryStep()" style="padding: 12px 20px; border-radius: 20px; font-size: 14px;" disabled>Ir Para Entrega</button>
                     </div>
@@ -4091,18 +4091,19 @@ ${this.userType === 'restaurante' ? `
         /* Cart Modal Styles - Clean Design */
         .cart-modal-body {
             padding: 0;
-            max-height: 75vh;
-            overflow-y: auto;
+            height: 80vh;
+            max-height: 80vh;
+            overflow: hidden;
             background: white;
+            display: flex;
+            flex-direction: column;
         }
 
         .cart-header {
             background: white;
             padding: 20px 24px;
             border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            flex-shrink: 0;
         }
 
         .cart-steps {
@@ -5900,13 +5901,43 @@ ${this.userType === 'restaurante' ? `
 
         function openCartModal() {
             renderCartItems();
-            document.getElementById('cart-modal').classList.add('active');
+            const modal = document.getElementById('cart-modal');
+            modal.classList.add('active');
+            
+            // Prevent background scrolling
             document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            
+            // Add touch event prevention
+            modal.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
         }
 
         function closeCartModal() {
-            document.getElementById('cart-modal').classList.remove('active');
+            const modal = document.getElementById('cart-modal');
+            modal.classList.remove('active');
+            
+            // Restore background scrolling
             document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            
+            // Remove touch event prevention
+            modal.removeEventListener('touchmove', preventBackgroundScroll);
+        }
+
+        // Prevent background scrolling on touch devices
+        function preventBackgroundScroll(e) {
+            const modal = document.getElementById('cart-modal');
+            const target = e.target;
+            
+            // Allow scrolling within the cart items area
+            if (target.closest('.cart-items') || target.closest('#cart-items-list')) {
+                return;
+            }
+            
+            // Prevent all other scroll events
+            e.preventDefault();
         }
 
         // Navigation functions for cart steps

@@ -1825,7 +1825,7 @@
             grid.style.display = 'grid';
             grid.innerHTML = '';
 
-            adminClient.products.forEach(product => {
+            adminClient.products.forEach((product, index) => {
                 const card = document.createElement('div');
                 card.className = 'data-card';
 
@@ -4150,6 +4150,81 @@
 
         console.log('MoveisBonafe Admin Panel - GitHub Pages');
         console.log('Sistema: GitHub API integrado com fallback localStorage');
+        // Drag and Drop Variables
+        let draggedElement = null;
+        let draggedIndex = null;
+
+        // Drag and Drop Functions
+        function handleDragStart(e) {
+            draggedElement = this;
+            draggedIndex = parseInt(this.dataset.productIndex);
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            this.classList.add('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            if (draggedElement !== this) {
+                const dropIndex = parseInt(this.dataset.productIndex);
+                moveProduct(draggedIndex, dropIndex);
+            }
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.data-card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
+            draggedElement = null;
+            draggedIndex = null;
+        }
+
+        // Arrow-based reordering functions
+        async function moveProductUp(index) {
+            if (index > 0) {
+                await moveProduct(index, index - 1);
+            }
+        }
+
+        async function moveProductDown(index) {
+            if (index < adminClient.products.length - 1) {
+                await moveProduct(index, index + 1);
+            }
+        }
+
+        // Core move function
+        async function moveProduct(fromIndex, toIndex) {
+            try {
+                const products = [...adminClient.products];
+                const movedProduct = products.splice(fromIndex, 1)[0];
+                products.splice(toIndex, 0, movedProduct);
+                
+                adminClient.products = products;
+                await saveToGitHub('products.json', adminClient.products);
+                
+                addSystemLog(`📦 Produto "${movedProduct.name}" reordenado de posição ${fromIndex + 1} para ${toIndex + 1}`);
+                showNotification('Ordem dos produtos atualizada com sucesso!', 'success');
+                
+                renderProducts();
+                
+                // Broadcast the change to catalog pages
+                localStorage.setItem('moveisbonafe_products_updated', Date.now().toString());
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao reordenar produto: ${error.message}`);
+                showNotification('Erro ao reordenar produto. Verifique o token GitHub.', 'error');
+            }
+        }
+
     </script>
 </body>
 </html>

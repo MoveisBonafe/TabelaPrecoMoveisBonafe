@@ -2091,6 +2091,8 @@ ${this.userType === 'restaurante' ? `
                     // Map table names to price keys based on your actual configuration
                     const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
                     
+                    console.log(`Processing price table: "${tableName}", userType: ${this.currentUser.userType}, basePrice: ${basePrice}, finalPrice: ${finalPrice}`);
+                    
                     // Apply restaurant markup only to "À Vista" prices
                     if (this.currentUser.userType === 'restaurante' && (tableName.includes('vista') || tableName === 'à vista')) {
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');

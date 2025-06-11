@@ -2091,23 +2091,17 @@ ${this.userType === 'restaurante' ? `
                     // Map table names to price keys based on your actual configuration
                     const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
                     
-                    // Apply restaurant markup only to "À Vista" prices from admin config
+                    // Apply restaurant rounding only to "À Vista" prices
                     if (this.userType === 'restaurante' && (tableName.includes('vista') || tableName === 'à vista')) {
-                        const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
-                        if (restaurantMarkup > 0) {
-                            const originalPrice = finalPrice;
-                            finalPrice = finalPrice * (1 + (restaurantMarkup / 100));
-                            
-                            // Custom rounding: >=0.50 round up, <0.50 round down
-                            const decimalPart = finalPrice - Math.floor(finalPrice);
-                            if (decimalPart >= 0.50) {
-                                finalPrice = Math.ceil(finalPrice);
-                            } else {
-                                finalPrice = Math.floor(finalPrice);
-                            }
-                            
-                            console.log(`Restaurant À Vista: base ${basePrice} → table config ${originalPrice} + restaurant ${restaurantMarkup}% = ${originalPrice * (1 + (restaurantMarkup / 100))} → rounded to ${finalPrice}`);
+                        // Custom rounding: >=0.50 round up, <0.50 round down
+                        const decimalPart = finalPrice - Math.floor(finalPrice);
+                        if (decimalPart >= 0.50) {
+                            finalPrice = Math.ceil(finalPrice);
+                        } else {
+                            finalPrice = Math.floor(finalPrice);
                         }
+                        
+                        console.log(`Restaurant À Vista: base ${basePrice} → table config ${finalPrice} (rounded)`);
                     }
                     
                     if (tableName.includes('vista') || tableName === 'à vista') {
@@ -2130,23 +2124,17 @@ ${this.userType === 'restaurante' ? `
                 if (Object.keys(prices).length === 0) {
                     let vistaPrice = basePrice * multiplier;
                     
-                    // Apply restaurant markup to base À Vista price
+                    // Apply restaurant rounding to base À Vista price
                     if (this.userType === 'restaurante') {
-                        const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
-                        if (restaurantMarkup > 0) {
-                            const originalPrice = vistaPrice;
-                            vistaPrice = vistaPrice * (1 + (restaurantMarkup / 100));
-                            
-                            // Custom rounding: >=0.50 round up, <0.50 round down
-                            const decimalPart = vistaPrice - Math.floor(vistaPrice);
-                            if (decimalPart >= 0.50) {
-                                vistaPrice = Math.ceil(vistaPrice);
-                            } else {
-                                vistaPrice = Math.floor(vistaPrice);
-                            }
-                            
-                            console.log(`Restaurant fallback price: ${originalPrice} → ${originalPrice * (1 + (restaurantMarkup / 100))} → ${vistaPrice} (markup: ${restaurantMarkup}%)`);
+                        // Custom rounding: >=0.50 round up, <0.50 round down
+                        const decimalPart = vistaPrice - Math.floor(vistaPrice);
+                        if (decimalPart >= 0.50) {
+                            vistaPrice = Math.ceil(vistaPrice);
+                        } else {
+                            vistaPrice = Math.floor(vistaPrice);
                         }
+                        
+                        console.log(`Restaurant fallback price: ${vistaPrice} (rounded)`);
                     }
                     
                     return {

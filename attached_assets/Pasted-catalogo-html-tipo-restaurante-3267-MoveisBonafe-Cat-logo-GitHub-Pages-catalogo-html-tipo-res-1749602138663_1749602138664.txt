@@ -1,0 +1,26 @@
+catalogo.html?tipo=restaurante:3267 🛍️ MoveisBonafe Catálogo - GitHub Pages
+catalogo.html?tipo=restaurante:1447 ✅ Dados carregados: 25 produtos, 5 categorias, 5 tabelas de preços, 0 promoções ativas, 4 cores
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 44 → table config 46.64 + restaurant 6% = 49.4384 → rounded to 49
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 56 → table config 59.36 + restaurant 6% = 62.921600000000005 → rounded to 63
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 99 → table config 104.94000000000001 + restaurant 6% = 111.23640000000002 → rounded to 111
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 119 → table config 126.14 + restaurant 6% = 133.7084 → rounded to 134
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 77 → table config 81.62 + restaurant 6% = 86.5172 → rounded to 87
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 44 → table config 46.64 + restaurant 6% = 49.4384 → rounded to 49
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 468 → table config 496.08000000000004 + restaurant 6% = 525.8448000000001 → rounded to 526
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 115 → table config 121.9 + restaurant 6% = 129.214 → rounded to 129
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 372 → table config 394.32 + restaurant 6% = 417.9792 → rounded to 418
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 430 → table config 455.8 + restaurant 6% = 483.148 → rounded to 483
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 508 → table config 538.48 + restaurant 6% = 570.7888 → rounded to 571
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 535 → table config 567.1 + restaurant 6% = 601.1260000000001 → rounded to 601
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 136 → table config 144.16 + restaurant 6% = 152.80960000000002 → rounded to 153
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 182 → table config 192.92000000000002 + restaurant 6% = 204.49520000000004 → rounded to 204
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 310 → table config 328.6 + restaurant 6% = 348.31600000000003 → rounded to 348
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 258 → table config 273.48 + restaurant 6% = 289.88880000000006 → rounded to 290
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 136 → table config 144.16 + restaurant 6% = 152.80960000000002 → rounded to 153
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 182 → table config 192.92000000000002 + restaurant 6% = 204.49520000000004 → rounded to 204
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 212 → table config 224.72 + restaurant 6% = 238.2032 → rounded to 238
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 169 → table config 179.14000000000001 + restaurant 6% = 189.88840000000002 → rounded to 190
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 252 → table config 267.12 + restaurant 6% = 283.1472 → rounded to 283
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 284 → table config 301.04 + restaurant 6% = 319.10240000000005 → rounded to 319
+catalogo.html?tipo=restaurante:2109 Restaurant À Vista: base 359 → table config 380.54 + restaurant 6% = 403.3724 → rounded to 403
+catalogo.html?tipo=restaurante:2248 ✅ Catálogo inicializado

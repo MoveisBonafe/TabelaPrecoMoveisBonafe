@@ -1591,6 +1591,10 @@
                     this.priceSettings = data.filter(p => p.active !== false);
                     this.renderProducts(); // Re-render with new prices
                     this.showUpdateNotification('Preços atualizados!');
+                } else if (type === 'notices') {
+                    this.notices = data || [];
+                    this.renderNotices();
+                    this.showUpdateNotification('Avisos atualizados!');
                 }
             }
 
@@ -1640,6 +1644,18 @@
                             this.renderCategories();
                             hasChanges = true;
                             console.log(`🔄 Categorias sincronizadas: ${parsedCategories.length} categorias`);
+                        }
+                    }
+
+                    // Sync notices
+                    const localNotices = localStorage.getItem('moveisbonafe_notices');
+                    if (localNotices) {
+                        const parsedNotices = JSON.parse(localNotices);
+                        if (JSON.stringify(parsedNotices) !== JSON.stringify(this.notices)) {
+                            this.notices = parsedNotices;
+                            this.renderNotices();
+                            hasChanges = true;
+                            console.log(`🔄 Avisos sincronizados: ${parsedNotices.length} avisos`);
                         }
                     }
 

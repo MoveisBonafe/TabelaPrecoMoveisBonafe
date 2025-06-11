@@ -1485,7 +1485,7 @@
         // Smart cache clearing that respects recent saves
         function clearCache() {
             const keys = ['moveisbonafe_products', 'moveisbonafe_categories', 'moveisbonafe_colors', 
-                         'moveisbonafe_users', 'moveisbonafe_priceSettings', 'moveisbonafe_promotions'];
+                         'moveisbonafe_users', 'moveisbonafe_priceSettings', 'moveisbonafe_promotions', 'moveisbonafe_notices'];
             
             // Check if we recently saved data (within last 5 minutes)
             const lastSaveTime = localStorage.getItem('last_save_time');
@@ -1648,7 +1648,10 @@
             
             // Update localStorage with the fresh data
             const dataType = filename.replace('.json', '').replace('_', '');
-            const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+            let localKey = `moveisbonafe_${dataType}`;
+            if (dataType === 'pricesettings') {
+                localKey = 'moveisbonafe_priceSettings';
+            }
             localStorage.setItem(localKey, JSON.stringify(data));
             
             addSystemLog(`💾 Arquivo ${filename} salvo no GitHub`);
@@ -2838,6 +2841,13 @@
                 }
 
                 await saveToGitHub('notices.json', adminClient.notices);
+                
+                // Broadcast update to catalog
+                localStorage.setItem('moveisbonafe_broadcast_notices', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: adminClient.notices
+                }));
+                
                 addSystemLog(`✅ Aviso "${noticeData.title}" salvo com sucesso`);
                 showNotification(`Aviso "${noticeData.title}" salvo com sucesso!`, 'success');
                 closeNoticeModal();
@@ -2862,6 +2872,13 @@
                 notice.updatedAt = new Date().toISOString();
 
                 await saveToGitHub('notices.json', adminClient.notices);
+                
+                // Broadcast update to catalog
+                localStorage.setItem('moveisbonafe_broadcast_notices', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: adminClient.notices
+                }));
+                
                 addSystemLog(`✅ Status do aviso "${notice.title}" alterado para ${notice.active ? 'ativo' : 'inativo'}`);
                 showNotification(`Aviso ${notice.active ? 'ativado' : 'desativado'} com sucesso!`, 'success');
                 renderNotices();
@@ -2878,6 +2895,13 @@
             try {
                 adminClient.notices = adminClient.notices.filter(n => n.id !== noticeId);
                 await saveToGitHub('notices.json', adminClient.notices);
+                
+                // Broadcast update to catalog
+                localStorage.setItem('moveisbonafe_broadcast_notices', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: adminClient.notices
+                }));
+                
                 addSystemLog(`🗑️ Aviso "${notice.title}" excluído com sucesso`);
                 showNotification('Aviso excluído com sucesso!', 'success');
                 renderNotices();

@@ -200,11 +200,77 @@
             padding: 20px;
             transition: all 0.3s ease;
             position: relative;
+            cursor: move;
         }
 
         .data-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transform: translateY(-2px);
+        }
+
+        .data-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .data-card.drag-over {
+            border: 2px dashed #fbbf24;
+            background-color: #fef3c7;
+        }
+
+        .drag-handle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: grab;
+            color: #6b7280;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .drag-handle:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .reorder-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .reorder-btn {
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 8px;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .reorder-btn:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .reorder-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .card-image {

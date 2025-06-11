@@ -2068,9 +2068,9 @@ ${this.userType === 'restaurante' ? `
                 const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
                 const multiplier = this.currentUser.priceMultiplier || 1.0;
 
-                // If product has fixed price, return same price for all tables
-                if (product.fixedPrice) {
-                    const fixedPrice = basePrice * multiplier;
+                // If product has fixed price (preço único), return same price for all tables and users
+                if (product.fixedPrice || product.precoUnico) {
+                    const fixedPrice = basePrice; // No multiplier applied for fixed price products
                     return {
                         vista: fixedPrice,
                         prazo30: fixedPrice,

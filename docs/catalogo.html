@@ -914,6 +914,84 @@
             font-size: 0.8rem;
         }
 
+        /* Notice Banner Styles */
+        .notice-banner {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .notice-banner.info {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .notice-banner.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .notice-banner.success {
+            background: linear-gradient(135deg, #10b981, #047857);
+            color: white;
+        }
+
+        .notice-banner.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .notice-banner-icon {
+            font-size: 1.2rem;
+        }
+
+        .notice-banner-content {
+            flex: 1;
+        }
+
+        .notice-banner-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notice-banner-message {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Restaurant layout notice banner styling */
+        .restaurant-layout .notice-banner {
+            background: white !important;
+            color: #000000 !important;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .restaurant-layout .notice-banner-title {
+            color: #000000;
+        }
+
+        .restaurant-layout .notice-banner-message {
+            color: #374151;
+        }
+
         /* Footer Styles */
         .site-footer {
             background: white;
@@ -1255,6 +1333,9 @@
     <div class="container">
         <!-- Promotion Banner -->
         <div id="promotion-banner" style="display: none;"></div>
+        
+        <!-- Notice Banner -->
+        <div id="notice-banner" style="display: none;"></div>
 
         <div class="search-bar">
             <div class="search-input-container">

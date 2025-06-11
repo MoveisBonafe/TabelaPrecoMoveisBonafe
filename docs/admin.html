@@ -1732,6 +1732,7 @@
             renderUsers();
             renderPriceSettings();
             renderPromotions();
+            renderNotices();
             populateSelects();
         }
 
@@ -2149,6 +2150,8 @@
             // Load data for specific tabs
             if (tabName === 'pedidos') {
                 loadOrders();
+            } else if (tabName === 'avisos') {
+                renderNotices();
             }
         }
 
@@ -2696,7 +2699,6 @@
         }
 
         // Notice management functions
-        let currentEditingNotice = null;
 
         function renderNotices() {
             const grid = document.getElementById('avisos-grid');

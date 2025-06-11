@@ -2092,7 +2092,9 @@ ${this.userType === 'restaurante' ? `
                     if (this.currentUser.userType === 'restaurante') {
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
+                            const originalPrice = finalPrice;
                             finalPrice = finalPrice * (1 + (restaurantMarkup / 100));
+                            
                             // Custom rounding: >=0.50 round up, <0.50 round down
                             const decimalPart = finalPrice - Math.floor(finalPrice);
                             if (decimalPart >= 0.50) {
@@ -2100,6 +2102,8 @@ ${this.userType === 'restaurante' ? `
                             } else {
                                 finalPrice = Math.floor(finalPrice);
                             }
+                            
+                            console.log(`Restaurant price calculation: ${originalPrice} → ${originalPrice * (1 + (restaurantMarkup / 100))} → ${finalPrice} (markup: ${restaurantMarkup}%)`);
                         }
                     }
                     
@@ -2126,7 +2130,9 @@ ${this.userType === 'restaurante' ? `
                     if (this.currentUser.userType === 'restaurante') {
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
+                            const originalPrice = vistaPrice;
                             vistaPrice = vistaPrice * (1 + (restaurantMarkup / 100));
+                            
                             // Custom rounding: >=0.50 round up, <0.50 round down
                             const decimalPart = vistaPrice - Math.floor(vistaPrice);
                             if (decimalPart >= 0.50) {
@@ -2134,6 +2140,8 @@ ${this.userType === 'restaurante' ? `
                             } else {
                                 vistaPrice = Math.floor(vistaPrice);
                             }
+                            
+                            console.log(`Restaurant fallback price: ${originalPrice} → ${originalPrice * (1 + (restaurantMarkup / 100))} → ${vistaPrice} (markup: ${restaurantMarkup}%)`);
                         }
                     }
                     
@@ -3288,9 +3296,9 @@ ${this.userType === 'restaurante' ? `
                         <div class="product-quantity">
                             <h3>Quantidade</h3>
                             <div class="quantity-controls">
-                                <button onclick="decreaseModalQuantity()" ontouchstart="event.preventDefault()">-</button>
+                                <button onclick="decreaseModalQuantity()">-</button>
                                 <input type="number" id="modal-quantity" value="1" min="1" style="user-select: none;">
-                                <button onclick="increaseModalQuantity()" ontouchstart="event.preventDefault()">+</button>
+                                <button onclick="increaseModalQuantity()">+</button>
                             </div>
                         </div>
                         
@@ -6703,13 +6711,7 @@ ${this.userType === 'restaurante' ? `
                 }
             });
 
-            // Handle touch events for mobile
-            document.addEventListener('touchstart', function(e) {
-                if (e.target.closest('[onclick*="increaseModalQuantity"]') || 
-                    e.target.closest('[onclick*="decreaseModalQuantity"]')) {
-                    e.preventDefault();
-                }
-            });
+            // Remove interfering touch event prevention for quantity buttons
         });
 
         // Close modal with Escape key

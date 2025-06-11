@@ -17,12 +17,12 @@
     "title": "Pedidos para retirada no local contém 5% de desconto.",
     "message": " ",
     "type": "info",
-    "active": true,
+    "active": false,
     "startDate": null,
     "endDate": null,
     "showShop": true,
     "showRestaurant": true,
     "createdAt": "2025-06-11T23:32:14.214Z",
-    "updatedAt": "2025-06-11T23:32:14.214Z"
+    "updatedAt": "2025-06-11T23:32:34.187Z"
   }
 ]

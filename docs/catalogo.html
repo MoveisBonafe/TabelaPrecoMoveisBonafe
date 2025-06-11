@@ -2082,40 +2082,39 @@ ${this.userType === 'restaurante' ? `
 
                 const prices = {};
                 
-                // For restaurant users, only show À Vista price with restaurant markup
-                if (this.userType === 'restaurante') {
-                    let vistaPrice = basePrice * multiplier;
-                    const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
+                // Use price settings configuration with proper mapping
+                this.priceSettings.forEach(setting => {
+                    const percentage = setting.percentage || 0;
+                    const priceMultiplier = 1 + (percentage / 100);
+                    let finalPrice = basePrice * priceMultiplier * multiplier;
                     
-                    if (restaurantMarkup > 0) {
-                        const originalPrice = vistaPrice;
-                        vistaPrice = vistaPrice * (1 + (restaurantMarkup / 100));
-                        
-                        // Custom rounding: >=0.50 round up, <0.50 round down
-                        const decimalPart = vistaPrice - Math.floor(vistaPrice);
-                        if (decimalPart >= 0.50) {
-                            vistaPrice = Math.ceil(vistaPrice);
-                        } else {
-                            vistaPrice = Math.floor(vistaPrice);
+                    // Map table names to price keys based on your actual configuration
+                    const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
+                    
+                    // Apply restaurant markup only to "À Vista" prices from admin config
+                    if (this.userType === 'restaurante' && (tableName.includes('vista') || tableName === 'à vista')) {
+                        const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
+                        if (restaurantMarkup > 0) {
+                            const originalPrice = finalPrice;
+                            finalPrice = finalPrice * (1 + (restaurantMarkup / 100));
+                            
+                            // Custom rounding: >=0.50 round up, <0.50 round down
+                            const decimalPart = finalPrice - Math.floor(finalPrice);
+                            if (decimalPart >= 0.50) {
+                                finalPrice = Math.ceil(finalPrice);
+                            } else {
+                                finalPrice = Math.floor(finalPrice);
+                            }
+                            
+                            console.log(`Restaurant À Vista: base ${basePrice} → table config ${originalPrice} + restaurant ${restaurantMarkup}% = ${originalPrice * (1 + (restaurantMarkup / 100))} → rounded to ${finalPrice}`);
                         }
-                        
-                        console.log(`Restaurant À Vista price: ${originalPrice} + ${restaurantMarkup}% = ${originalPrice * (1 + (restaurantMarkup / 100))} → rounded to ${vistaPrice}`);
                     }
                     
-                    prices.vista = vistaPrice;
-                } else {
-                    // Use price settings configuration with proper mapping for non-restaurant users
-                    this.priceSettings.forEach(setting => {
-                        const percentage = setting.percentage || 0;
-                        const priceMultiplier = 1 + (percentage / 100);
-                        let finalPrice = basePrice * priceMultiplier * multiplier;
-                        
-                        // Map table names to price keys based on your actual configuration
-                        const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
-                        
-                        if (tableName.includes('vista') || tableName === 'à vista') {
-                            prices.vista = finalPrice;
-                        } else if (tableName === '30' || tableName === '30d') {
+                    if (tableName.includes('vista') || tableName === 'à vista') {
+                        prices.vista = finalPrice;
+                    } else if (this.userType !== 'restaurante') {
+                        // Only show other payment options for non-restaurant users
+                        if (tableName === '30' || tableName === '30d') {
                             prices.prazo30 = finalPrice;
                         } else if (tableName === '30/60' || tableName === '30/60d') {
                             prices.prazo3060 = finalPrice;
@@ -2124,8 +2123,8 @@ ${this.userType === 'restaurante' ? `
                         } else if (tableName === '30/60/90/120' || tableName === '30/60/90/120d') {
                             prices.prazo30606090120 = finalPrice;
                         }
-                    });
-                }
+                    }
+                });
 
                 // Fallback to default calculation if no price settings
                 if (Object.keys(prices).length === 0) {

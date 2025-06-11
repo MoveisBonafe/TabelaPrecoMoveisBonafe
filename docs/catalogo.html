@@ -1510,12 +1510,13 @@
 
             async loadAllData() {
                 try {
-                    const [products, categories, priceSettings, promotions, colors] = await Promise.all([
+                    const [products, categories, priceSettings, promotions, colors, notices] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
                         this.loadData('price_settings.json'),
                         this.loadData('promotions.json'),
-                        this.loadData('colors.json')
+                        this.loadData('colors.json'),
+                        this.loadData('notices.json')
                     ]);
 
                     this.products = products.filter(p => p.active !== false);
@@ -1523,9 +1524,13 @@
                     this.priceSettings = priceSettings.filter(p => p.active !== false);
                     this.promotions = promotions.filter(p => p.active === true);
                     this.colors = colors || [];
+                    this.notices = notices || [];
                     this.filteredProducts = [...this.products];
 
-                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas, ${this.colors.length} cores`);
+                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas, ${this.colors.length} cores, ${this.notices.length} avisos`);
+                    
+                    // Render notices after loading data
+                    this.renderNotices();
                     
                     // Verificar atualizações automáticas a cada 30 segundos
                     this.startAutoSync();
@@ -2291,6 +2296,58 @@ ${this.userType === 'restaurante' ? `
                 }
 
                 this.renderProducts();
+            }
+
+            renderNotices() {
+                const noticeBanner = document.getElementById('notice-banner');
+                
+                if (!this.notices || this.notices.length === 0) {
+                    noticeBanner.style.display = 'none';
+                    return;
+                }
+
+                // Filter active notices based on user type and date range
+                const activeNotices = this.notices.filter(notice => {
+                    if (!notice.active) return false;
+
+                    // Check user type visibility
+                    if (this.userType === 'loja' && !notice.showShop) return false;
+                    if (this.userType === 'restaurante' && !notice.showRestaurant) return false;
+
+                    // Check date range
+                    const now = new Date();
+                    if (notice.startDate && new Date(notice.startDate) > now) return false;
+                    if (notice.endDate && new Date(notice.endDate) < now) return false;
+
+                    return true;
+                });
+
+                if (activeNotices.length === 0) {
+                    noticeBanner.style.display = 'none';
+                    return;
+                }
+
+                // Display the first active notice
+                const notice = activeNotices[0];
+                const typeIcons = {
+                    info: '📢',
+                    warning: '⚠️',
+                    success: '✅',
+                    error: '❌'
+                };
+
+                noticeBanner.innerHTML = `
+                    <div class="notice-banner ${notice.type}">
+                        <div class="notice-banner-icon">${typeIcons[notice.type] || '📢'}</div>
+                        <div class="notice-banner-content">
+                            <div class="notice-banner-title">${notice.title}</div>
+                            <div class="notice-banner-message">${notice.message}</div>
+                        </div>
+                    </div>
+                `;
+                
+                noticeBanner.style.display = 'block';
+                console.log(`📢 Aviso exibido: ${notice.title}`);
             }
         }
 

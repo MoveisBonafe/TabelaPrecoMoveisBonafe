@@ -2981,7 +2981,8 @@ ${this.userType === 'restaurante' ? `
             totalContainer.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
         }
 
-        function toggleAddressFields() {
+        // Make toggleAddressFields available globally
+        window.toggleAddressFields = function() {
             const isPickup = document.getElementById('pickup').checked;
             const addressFields = document.querySelectorAll('.address-field');
             
@@ -3007,8 +3008,14 @@ ${this.userType === 'restaurante' ? `
             
             // Trigger form validation after toggling fields
             setTimeout(() => {
-                checkFormValidation();
+                if (typeof checkFormValidation === 'function') {
+                    checkFormValidation();
+                }
             }, 100);
+        };
+
+        function toggleAddressFields() {
+            return window.toggleAddressFields();
         }
 
         function finalizeWhatsAppOrder() {

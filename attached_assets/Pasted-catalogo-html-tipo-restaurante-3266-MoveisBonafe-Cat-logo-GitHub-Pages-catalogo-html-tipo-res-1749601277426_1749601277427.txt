@@ -1,0 +1,118 @@
+catalogo.html?tipo=restaurante:3266 🛍️ MoveisBonafe Catálogo - GitHub Pages
+catalogo.html?tipo=restaurante:1447 ✅ Dados carregados: 25 produtos, 5 categorias, 5 tabelas de preços, 0 promoções ativas, 4 cores
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 44, finalPrice: 46.64
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 44, finalPrice: 47.57280000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 44, finalPrice: 48.50560000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 44, finalPrice: 49.4384
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 44, finalPrice: 50.37120000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 56, finalPrice: 59.36
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 56, finalPrice: 60.54720000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 56, finalPrice: 61.73440000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 56, finalPrice: 62.921600000000005
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 56, finalPrice: 64.1088
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 99, finalPrice: 104.94000000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 99, finalPrice: 107.03880000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 99, finalPrice: 109.13760000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 99, finalPrice: 111.23640000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 99, finalPrice: 113.33520000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 119, finalPrice: 126.14
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 119, finalPrice: 128.6628
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 119, finalPrice: 131.18560000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 119, finalPrice: 133.7084
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 119, finalPrice: 136.23120000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 77, finalPrice: 81.62
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 77, finalPrice: 83.25240000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 77, finalPrice: 84.8848
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 77, finalPrice: 86.5172
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 77, finalPrice: 88.14960000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 44, finalPrice: 46.64
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 44, finalPrice: 47.57280000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 44, finalPrice: 48.50560000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 44, finalPrice: 49.4384
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 44, finalPrice: 50.37120000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 468, finalPrice: 496.08000000000004
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 468, finalPrice: 506.00160000000005
+ Processing price table: "30/60", userType: undefined, basePrice: 468, finalPrice: 515.9232000000001
+ Processing price table: "30/60/90", userType: undefined, basePrice: 468, finalPrice: 525.8448000000001
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 468, finalPrice: 535.7664000000001
+ Processing price table: "a vista", userType: undefined, basePrice: 115, finalPrice: 121.9
+ Processing price table: "30", userType: undefined, basePrice: 115, finalPrice: 124.33800000000001
+ Processing price table: "30/60", userType: undefined, basePrice: 115, finalPrice: 126.77600000000001
+ Processing price table: "30/60/90", userType: undefined, basePrice: 115, finalPrice: 129.214
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 115, finalPrice: 131.65200000000002
+ Processing price table: "a vista", userType: undefined, basePrice: 372, finalPrice: 394.32
+ Processing price table: "30", userType: undefined, basePrice: 372, finalPrice: 402.20640000000003
+ Processing price table: "30/60", userType: undefined, basePrice: 372, finalPrice: 410.0928
+ Processing price table: "30/60/90", userType: undefined, basePrice: 372, finalPrice: 417.9792
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 372, finalPrice: 425.8656000000001
+ Processing price table: "a vista", userType: undefined, basePrice: 430, finalPrice: 455.8
+ Processing price table: "30", userType: undefined, basePrice: 430, finalPrice: 464.91600000000005
+ Processing price table: "30/60", userType: undefined, basePrice: 430, finalPrice: 474.03200000000004
+ Processing price table: "30/60/90", userType: undefined, basePrice: 430, finalPrice: 483.148
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 430, finalPrice: 492.26400000000007
+ Processing price table: "a vista", userType: undefined, basePrice: 508, finalPrice: 538.48
+ Processing price table: "30", userType: undefined, basePrice: 508, finalPrice: 549.2496
+ Processing price table: "30/60", userType: undefined, basePrice: 508, finalPrice: 560.0192000000001
+ Processing price table: "30/60/90", userType: undefined, basePrice: 508, finalPrice: 570.7888
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 508, finalPrice: 581.5584
+ Processing price table: "a vista", userType: undefined, basePrice: 535, finalPrice: 567.1
+ Processing price table: "30", userType: undefined, basePrice: 535, finalPrice: 578.4420000000001
+ Processing price table: "30/60", userType: undefined, basePrice: 535, finalPrice: 589.784
+ Processing price table: "30/60/90", userType: undefined, basePrice: 535, finalPrice: 601.1260000000001
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 535, finalPrice: 612.4680000000001
+ Processing price table: "a vista", userType: undefined, basePrice: 136, finalPrice: 144.16
+ Processing price table: "30", userType: undefined, basePrice: 136, finalPrice: 147.0432
+ Processing price table: "30/60", userType: undefined, basePrice: 136, finalPrice: 149.9264
+ Processing price table: "30/60/90", userType: undefined, basePrice: 136, finalPrice: 152.80960000000002
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 136, finalPrice: 155.6928
+ Processing price table: "a vista", userType: undefined, basePrice: 182, finalPrice: 192.92000000000002
+ Processing price table: "30", userType: undefined, basePrice: 182, finalPrice: 196.77840000000003
+ Processing price table: "30/60", userType: undefined, basePrice: 182, finalPrice: 200.63680000000002
+ Processing price table: "30/60/90", userType: undefined, basePrice: 182, finalPrice: 204.49520000000004
+ Processing price table: "30/60/90/120", userType: undefined, basePrice: 182, finalPrice: 208.3536
+ Processing price table: "a vista", userType: undefined, basePrice: 310, finalPrice: 328.6
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 310, finalPrice: 335.172
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 310, finalPrice: 341.744
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 310, finalPrice: 348.31600000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 310, finalPrice: 354.88800000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 258, finalPrice: 273.48
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 258, finalPrice: 278.94960000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 258, finalPrice: 284.4192
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 258, finalPrice: 289.88880000000006
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 258, finalPrice: 295.3584000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 136, finalPrice: 144.16
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 136, finalPrice: 147.0432
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 136, finalPrice: 149.9264
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 136, finalPrice: 152.80960000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 136, finalPrice: 155.6928
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 182, finalPrice: 192.92000000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 182, finalPrice: 196.77840000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 182, finalPrice: 200.63680000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 182, finalPrice: 204.49520000000004
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 182, finalPrice: 208.3536
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 212, finalPrice: 224.72
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 212, finalPrice: 229.2144
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 212, finalPrice: 233.70880000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 212, finalPrice: 238.2032
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 212, finalPrice: 242.69760000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 169, finalPrice: 179.14000000000001
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 169, finalPrice: 182.7228
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 169, finalPrice: 186.30560000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 169, finalPrice: 189.88840000000002
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 169, finalPrice: 193.4712
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 252, finalPrice: 267.12
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 252, finalPrice: 272.46240000000006
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 252, finalPrice: 277.8048
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 252, finalPrice: 283.1472
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 252, finalPrice: 288.48960000000005
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 284, finalPrice: 301.04
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 284, finalPrice: 307.06080000000003
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 284, finalPrice: 313.08160000000004
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 284, finalPrice: 319.10240000000005
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 284, finalPrice: 325.12320000000005
+catalogo.html?tipo=restaurante:2094 Processing price table: "a vista", userType: undefined, basePrice: 359, finalPrice: 380.54
+catalogo.html?tipo=restaurante:2094 Processing price table: "30", userType: undefined, basePrice: 359, finalPrice: 388.1508
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60", userType: undefined, basePrice: 359, finalPrice: 395.76160000000004
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90", userType: undefined, basePrice: 359, finalPrice: 403.3724
+catalogo.html?tipo=restaurante:2094 Processing price table: "30/60/90/120", userType: undefined, basePrice: 359, finalPrice: 410.98320000000007
+catalogo.html?tipo=restaurante:2247 ✅ Catálogo inicializado

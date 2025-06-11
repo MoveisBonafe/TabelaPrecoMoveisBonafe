@@ -921,10 +921,12 @@
             border-radius: 12px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             font-weight: 500;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             animation: slideDown 0.3s ease-out;
+            text-align: center;
         }
 
         .notice-banner.info {
@@ -2366,17 +2368,16 @@ ${this.userType === 'restaurante' ? `
                 console.log(`📢 Aviso exibido: ${notice.title}`);
             }
         }
+    }
 
-        // Global functions
-        function logout() {
-            sessionStorage.removeItem('currentUser');
-            window.location.href = 'login.html';
-        }
+    // Global functions
+    function logout() {
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    }
 
-
-
-        // Clear localStorage cache to force fresh data load
-        localStorage.removeItem('moveisbonafe_products');
+    // Clear localStorage cache to force fresh data load
+    localStorage.removeItem('moveisbonafe_products');
         localStorage.removeItem('moveisbonafe_categories');
         localStorage.removeItem('moveisbonafe_colors');
         localStorage.removeItem('moveisbonafe_users');

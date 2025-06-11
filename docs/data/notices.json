@@ -1,8 +1,8 @@
 [
   {
     "id": "1749683735344",
-    "title": "Pedidos feito pelo site sujeito a aprovação, ao finalizar enviar para o whatsapp e aguarde o retorno.",
-    "message": "\n",
+    "title": "Pedidos sujeito a aprovação ",
+    "message": "\nAo finalizar enviar para o whatsapp e aguarde o retorno.",
     "type": "warning",
     "active": true,
     "startDate": null,
@@ -10,6 +10,6 @@
     "showShop": true,
     "showRestaurant": true,
     "createdAt": "2025-06-11T23:15:35.344Z",
-    "updatedAt": "2025-06-11T23:28:58.700Z"
+    "updatedAt": "2025-06-11T23:30:19.373Z"
   }
 ]

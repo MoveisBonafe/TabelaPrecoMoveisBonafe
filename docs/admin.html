@@ -3660,6 +3660,11 @@
                 localStorage.removeItem('admin_user');
                 localStorage.removeItem('isAuthenticated');
                 
+                // Clear session data to prevent automatic re-login
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('userType');
+                sessionStorage.removeItem('isAuthenticated');
+                
                 // Clear cache to force fresh login
                 try {
                     clearCache();

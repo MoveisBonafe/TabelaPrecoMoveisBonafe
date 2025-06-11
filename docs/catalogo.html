@@ -2088,8 +2088,11 @@ ${this.userType === 'restaurante' ? `
                     const priceMultiplier = 1 + (percentage / 100);
                     let finalPrice = basePrice * priceMultiplier * multiplier;
                     
-                    // Apply restaurant markup if user is restaurant type
-                    if (this.currentUser.userType === 'restaurante') {
+                    // Map table names to price keys based on your actual configuration
+                    const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
+                    
+                    // Apply restaurant markup only to "À Vista" prices
+                    if (this.currentUser.userType === 'restaurante' && (tableName.includes('vista') || tableName === 'à vista')) {
                         const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage') || '0');
                         if (restaurantMarkup > 0) {
                             const originalPrice = finalPrice;
@@ -2103,12 +2106,10 @@ ${this.userType === 'restaurante' ? `
                                 finalPrice = Math.floor(finalPrice);
                             }
                             
-                            console.log(`Restaurant price calculation: ${originalPrice} → ${originalPrice * (1 + (restaurantMarkup / 100))} → ${finalPrice} (markup: ${restaurantMarkup}%)`);
+                            console.log(`Restaurant À Vista price: ${originalPrice} + ${restaurantMarkup}% = ${originalPrice * (1 + (restaurantMarkup / 100))} → rounded to ${finalPrice}`);
                         }
                     }
                     
-                    // Map table names to price keys based on your actual configuration
-                    const tableName = (setting.tableName || setting.name || '').toLowerCase().trim();
                     if (tableName.includes('vista') || tableName === 'à vista') {
                         prices.vista = finalPrice;
                     } else if (tableName === '30' || tableName === '30d') {
@@ -6696,22 +6697,9 @@ ${this.userType === 'restaurante' ? `
             }
         }
 
-        // Add event delegation for better button responsiveness
+        // Initialize on DOM ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle quantity button clicks with event delegation
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('[onclick*="increaseModalQuantity"]')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    increaseModalQuantity();
-                } else if (e.target.closest('[onclick*="decreaseModalQuantity"]')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    decreaseModalQuantity();
-                }
-            });
-
-            // Remove interfering touch event prevention for quantity buttons
+            // Quantity buttons work via onclick attributes only
         });
 
         // Close modal with Escape key

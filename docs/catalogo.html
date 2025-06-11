@@ -2376,6 +2376,36 @@ ${this.userType === 'restaurante' ? `
         window.location.href = 'login.html';
     }
 
+    // Global toggleAddressFields function
+    function toggleAddressFields() {
+        const isPickup = document.getElementById('pickup');
+        const addressFields = document.querySelectorAll('.address-field');
+        
+        if (!isPickup) return;
+        
+        const isPickupChecked = isPickup.checked;
+        
+        addressFields.forEach(field => {
+            if (isPickupChecked) {
+                field.style.display = 'none';
+                // Remove required attribute from address fields
+                const inputs = field.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.removeAttribute('required');
+                });
+            } else {
+                field.style.display = 'grid';
+                // Add required attribute back to address fields (except complement)
+                const inputs = field.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (input.id !== 'customer-complement') {
+                        input.setAttribute('required', 'required');
+                    }
+                });
+            }
+        });
+    }
+
     // Clear localStorage cache to force fresh data load
     localStorage.removeItem('moveisbonafe_products');
     localStorage.removeItem('moveisbonafe_categories');
@@ -2981,42 +3011,7 @@ ${this.userType === 'restaurante' ? `
             totalContainer.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
         }
 
-        // Make toggleAddressFields available globally
-        window.toggleAddressFields = function() {
-            const isPickup = document.getElementById('pickup').checked;
-            const addressFields = document.querySelectorAll('.address-field');
-            
-            addressFields.forEach(field => {
-                if (isPickup) {
-                    field.style.display = 'none';
-                    // Remove required attribute from address fields
-                    const inputs = field.querySelectorAll('input');
-                    inputs.forEach(input => {
-                        input.removeAttribute('required');
-                    });
-                } else {
-                    field.style.display = 'grid';
-                    // Add required attribute back to address fields (except complement)
-                    const inputs = field.querySelectorAll('input');
-                    inputs.forEach(input => {
-                        if (input.id !== 'customer-complement') {
-                            input.setAttribute('required', 'required');
-                        }
-                    });
-                }
-            });
-            
-            // Trigger form validation after toggling fields
-            setTimeout(() => {
-                if (typeof checkFormValidation === 'function') {
-                    checkFormValidation();
-                }
-            }, 100);
-        };
 
-        function toggleAddressFields() {
-            return window.toggleAddressFields();
-        }
 
         function finalizeWhatsAppOrder() {
             // Get delivery option

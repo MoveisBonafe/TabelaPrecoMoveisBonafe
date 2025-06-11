@@ -4,13 +4,13 @@
     "title": "Pedidos sujeito a aprovação ",
     "message": "\nAo finalizar enviar para o whatsapp e aguarde o retorno.",
     "type": "warning",
-    "active": false,
+    "active": true,
     "startDate": null,
     "endDate": null,
     "showShop": true,
     "showRestaurant": true,
     "createdAt": "2025-06-11T23:15:35.344Z",
-    "updatedAt": "2025-06-11T23:32:25.712Z"
+    "updatedAt": "2025-06-11T23:32:37.471Z"
   },
   {
     "id": "1749684734213",

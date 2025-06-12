@@ -1381,13 +1381,13 @@
 
 
     <script>
-        // Catalog Client - Always uses local server
+        // Catalog Client - Uses GitHub Pages for shop/restaurant users
         class CatalogClient {
             constructor() {
-                // Force local server URL - never use GitHub Pages for data loading
-                this.baseUrl = window.location.protocol + '//' + window.location.host;
-                console.log(`🔧 CatalogClient FORÇADO para servidor local: ${this.baseUrl}`);
-                console.log(`🚫 GitHub Pages desabilitado para usuários finais`);
+                // Always use GitHub Pages URL for product data
+                this.baseUrl = 'https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe';
+                console.log(`🔧 CatalogClient inicializado com baseUrl: ${this.baseUrl}`);
+                console.log(`📡 Carregando dados do GitHub Pages para usuários finais`);
                 this.currentUser = null;
                 this.userType = null;
                 this.products = [];
@@ -1424,11 +1424,11 @@
                     }
                 }
                 
-                // For non-payment files, ALWAYS try local server FIRST
-                console.log(`📁 PRODUCT FILE: Tentando carregar ${filename} do servidor local...`);
+                // For non-payment files, ALWAYS try GitHub Pages FIRST
+                console.log(`📁 PRODUCT FILE: Tentando carregar ${filename} do GitHub Pages (docs/data/)...`);
                 try {
-                    const url = `${this.baseUrl}/data/${filename}`;
-                    console.log(`🌐 URL do servidor: ${url}`);
+                    const url = `${this.baseUrl}/docs/data/${filename}`;
+                    console.log(`🌐 URL do GitHub: ${url}`);
                     const response = await fetch(url);
                     console.log(`📡 Status da resposta: ${response.status}`);
                     
@@ -1436,15 +1436,15 @@
                         const rawText = await response.text();
                         console.log(`📝 Texto bruto recebido (primeiros 200 chars):`, rawText.substring(0, 200));
                         const data = JSON.parse(rawText);
-                        console.log(`✅ SERVIDOR: ${filename} carregado com sucesso: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                        console.log(`✅ GITHUB: ${filename} carregado com sucesso: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
                         console.log(`📊 Primeira entrada:`, data[0]);
                         return this.fixObjectUtf8(data);
                     } else {
-                        console.log(`❌ SERVIDOR: HTTP ${response.status} para ${filename}`);
+                        console.log(`❌ GITHUB: HTTP ${response.status} para ${filename}`);
                     }
                 } catch (error) {
-                    console.log(`❌ SERVIDOR: Erro ao carregar ${filename}:`, error.message);
-                    console.log(`❌ SERVIDOR: Stack trace:`, error.stack);
+                    console.log(`❌ GITHUB: Erro ao carregar ${filename}:`, error.message);
+                    console.log(`❌ GITHUB: Stack trace:`, error.stack);
                 }
 
                 // Try localStorage as final fallback
@@ -2580,7 +2580,7 @@ ${this.userType === 'restaurante' ? `
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 console.log('🚀 Iniciando catálogo para usuários');
-                console.log('📡 Usando servidor local para dados de produtos');
+                console.log('📡 Carregando dados do GitHub Pages (docs/data/)');
                 
                 await catalogClient.init();
                 console.log('✅ Catálogo inicializado');

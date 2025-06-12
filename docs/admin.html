@@ -2444,28 +2444,12 @@
                 adminClient.products[currentIndex] = adminClient.products[currentIndex - 1];
                 adminClient.products[currentIndex - 1] = temp;
                 
-                // Save locally first for immediate sync
-                localStorage.setItem('moveisbonafe_products', JSON.stringify(adminClient.products));
-                localStorage.setItem('last_save_time', Date.now().toString());
-                
-                // Broadcast update to other pages
-                localStorage.setItem('moveisbonafe_broadcast_products', JSON.stringify({
-                    timestamp: Date.now(),
-                    data: adminClient.products
-                }));
+                await saveToGitHub('products.json', adminClient.products);
                 
                 const productName = adminClient.products[currentIndex - 1].name;
                 addSystemLog(`⬆️ Produto "${productName}" movido para cima`);
                 showNotification(`Produto "${productName}" movido para cima!`, 'success');
                 renderProducts();
-                
-                // Try to sync to GitHub in background
-                try {
-                    await saveToGitHub('products.json', adminClient.products);
-                    addSystemLog(`✅ Ordem sincronizada com GitHub`);
-                } catch (githubError) {
-                    addSystemLog(`⚠️ Ordem salva localmente - sync GitHub pendente: ${githubError.message}`);
-                }
                 
             } catch (error) {
                 addSystemLog(`❌ Erro ao reordenar produto: ${error.message}`);
@@ -2483,28 +2467,12 @@
                 adminClient.products[currentIndex] = adminClient.products[currentIndex + 1];
                 adminClient.products[currentIndex + 1] = temp;
                 
-                // Save locally first for immediate sync
-                localStorage.setItem('moveisbonafe_products', JSON.stringify(adminClient.products));
-                localStorage.setItem('last_save_time', Date.now().toString());
-                
-                // Broadcast update to other pages
-                localStorage.setItem('moveisbonafe_broadcast_products', JSON.stringify({
-                    timestamp: Date.now(),
-                    data: adminClient.products
-                }));
+                await saveToGitHub('products.json', adminClient.products);
                 
                 const productName = adminClient.products[currentIndex + 1].name;
                 addSystemLog(`⬇️ Produto "${productName}" movido para baixo`);
                 showNotification(`Produto "${productName}" movido para baixo!`, 'success');
                 renderProducts();
-                
-                // Try to sync to GitHub in background
-                try {
-                    await saveToGitHub('products.json', adminClient.products);
-                    addSystemLog(`✅ Ordem sincronizada com GitHub`);
-                } catch (githubError) {
-                    addSystemLog(`⚠️ Ordem salva localmente - sync GitHub pendente: ${githubError.message}`);
-                }
                 
             } catch (error) {
                 addSystemLog(`❌ Erro ao reordenar produto: ${error.message}`);

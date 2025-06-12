@@ -156,32 +156,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Cadeira Restaurante",
-    "category": "Cadeiras",
-    "priceAVista": 115,
-    "altura": 95,
-    "largura": 40,
-    "comprimento": 40,
-    "peso": 5.5,
-    "description": "",
-    "images": [
-      "data/images/product_1749517490130_a93f7xmua.png",
-      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570555058_w55nazg41.png_1749570555083_imagem_2025-06-10_124915051.png",
-      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570560436_lx9ruwbdn.png_1749570560460_imagem_2025-06-10_124920431.png",
-      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570565808_c1onk9l25.png_1749570565833_imagem_2025-06-10_124925796.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T15:51:47.150Z",
-    "id": 1749514027905,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Beliche Paris",
     "category": "Beliches",
     "priceAVista": 468,
@@ -205,6 +179,32 @@
     "active": true,
     "updatedAt": "2025-06-10T00:45:54.947Z",
     "id": 1749514027904,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Cadeira Restaurante",
+    "category": "Cadeiras",
+    "priceAVista": 115,
+    "altura": 95,
+    "largura": 40,
+    "comprimento": 40,
+    "peso": 5.5,
+    "description": "",
+    "images": [
+      "data/images/product_1749517490130_a93f7xmua.png",
+      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570555058_w55nazg41.png_1749570555083_imagem_2025-06-10_124915051.png",
+      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570560436_lx9ruwbdn.png_1749570560460_imagem_2025-06-10_124920431.png",
+      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570565808_c1onk9l25.png_1749570565833_imagem_2025-06-10_124925796.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T15:51:47.150Z",
+    "id": 1749514027905,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

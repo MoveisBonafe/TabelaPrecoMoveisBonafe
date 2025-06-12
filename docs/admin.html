@@ -4431,11 +4431,18 @@
             const loading = document.getElementById('payment-methods-loading');
             const empty = document.getElementById('payment-methods-empty');
             
-            if (!grid) return;
+            console.log('🔍 renderPaymentMethods called');
+            console.log('📊 adminClient.paymentMethods:', adminClient.paymentMethods);
+            
+            if (!grid) {
+                console.log('❌ payment-methods-grid element not found');
+                return;
+            }
 
             if (loading) loading.style.display = 'none';
             
             if (!adminClient.paymentMethods || adminClient.paymentMethods.length === 0) {
+                console.log('⚠️ No payment methods to display');
                 if (grid) grid.style.display = 'none';
                 if (empty) empty.style.display = 'block';
                 return;
@@ -4830,6 +4837,43 @@
             // Set default user access
             document.querySelector('#user-access-checkboxes input[value="all"]').checked = true;
             document.querySelector('#payment-rule-form button[type="submit"]').textContent = 'Criar Regra';
+        }
+
+        // Function to load payment data from localStorage when GitHub token is not configured
+        function loadPaymentDataFromLocalStorage() {
+            try {
+                // Load payment methods
+                const paymentMethodsData = localStorage.getItem('payment_methods.json');
+                if (paymentMethodsData) {
+                    adminClient.paymentMethods = JSON.parse(paymentMethodsData);
+                    console.log('💾 Payment methods loaded from localStorage:', adminClient.paymentMethods.length);
+                } else {
+                    adminClient.paymentMethods = [];
+                }
+
+                // Load payment conditions
+                const paymentConditionsData = localStorage.getItem('payment_conditions.json');
+                if (paymentConditionsData) {
+                    adminClient.paymentConditions = JSON.parse(paymentConditionsData);
+                    console.log('💾 Payment conditions loaded from localStorage:', adminClient.paymentConditions.length);
+                } else {
+                    adminClient.paymentConditions = [];
+                }
+
+                // Load payment rules
+                const paymentRulesData = localStorage.getItem('payment_rules.json');
+                if (paymentRulesData) {
+                    adminClient.paymentRules = JSON.parse(paymentRulesData);
+                    console.log('💾 Payment rules loaded from localStorage:', adminClient.paymentRules.length);
+                } else {
+                    adminClient.paymentRules = [];
+                }
+
+                addSystemLog('📥 Dados de pagamento carregados do localStorage');
+            } catch (error) {
+                console.error('Error loading payment data from localStorage:', error);
+                addSystemLog('❌ Erro ao carregar dados de pagamento do localStorage');
+            }
         }
         
         async function deletePaymentRule(ruleId) {
@@ -5331,7 +5375,17 @@
                 await loadDataWithGitHubPriority();
             } else {
                 addSystemLog('💾 Carregando dados do localStorage');
+                // Load payment data from localStorage if no GitHub token
+                loadPaymentDataFromLocalStorage();
             }
+            
+            // Ensure rendering happens after data is loaded
+            setTimeout(() => {
+                console.log('🔄 Force rendering all payment data...');
+                renderPaymentMethods();
+                renderPaymentConditions();
+                renderPaymentRules();
+            }, 500);
             
             // Load restaurant markup after DOM is ready
             setTimeout(loadRestaurantMarkup, 100);

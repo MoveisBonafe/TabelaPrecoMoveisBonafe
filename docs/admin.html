@@ -4651,6 +4651,10 @@
 
         function openPaymentRulesModal() {
             const modal = document.getElementById('payment-rules-modal');
+            
+            // Clear editing state to ensure we're creating a new rule
+            clearRuleForm();
+            
             populateRuleSelects();
             populateUserCheckboxes();
             renderExistingRules();
@@ -4826,6 +4830,7 @@
         }
         
         function clearRuleForm() {
+            console.log('🔄 Clearing rule form, editingRuleId was:', editingRuleId);
             editingRuleId = null;
             document.getElementById('payment-rule-form').reset();
             
@@ -4837,6 +4842,7 @@
             // Set default user access
             document.querySelector('#user-access-checkboxes input[value="all"]').checked = true;
             document.querySelector('#payment-rule-form button[type="submit"]').textContent = 'Criar Regra';
+            console.log('✅ Rule form cleared, editingRuleId is now:', editingRuleId);
         }
 
         // Function to load payment data from localStorage when GitHub token is not configured
@@ -5221,6 +5227,10 @@
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
                 const userAccess = Array.from(userCheckboxes).map(cb => cb.value);
                 
+                console.log('📝 Payment rule form submitted');
+                console.log('🔍 editingRuleId:', editingRuleId);
+                console.log('📋 Form data:', { methodId, conditionIds, userAccess });
+                
                 if (!methodId) {
                     showNotification('Selecione uma forma de pagamento', 'error');
                     return;
@@ -5228,6 +5238,7 @@
                 
                 try {
                     if (editingRuleId) {
+                        console.log('✏️ Updating existing rule:', editingRuleId);
                         // Update existing rule
                         const ruleIndex = adminClient.paymentRules.findIndex(r => r.id === editingRuleId);
                         if (ruleIndex !== -1) {
@@ -5241,6 +5252,7 @@
                             showNotification('Regra atualizada com sucesso!', 'success');
                         }
                     } else {
+                        console.log('➕ Creating new rule');
                         // Create new rule
                         const formData = {
                             id: Date.now(),
@@ -5250,6 +5262,7 @@
                             createdAt: new Date().toISOString()
                         };
                         adminClient.paymentRules.push(formData);
+                        console.log('✅ New rule created:', formData);
                         addSystemLog('⚙️ Regra de pagamento criada');
                         showNotification('Regra criada com sucesso!', 'success');
                     }

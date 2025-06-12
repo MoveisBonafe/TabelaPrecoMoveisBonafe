@@ -1,0 +1,106 @@
+admin.html:1680 Cleared localStorage image cache
+admin.html:5394 MoveisBonafe Admin Panel - GitHub Pages
+admin.html:5395 Sistema: GitHub API integrado com fallback localStorage
+admin.html:2935 [13:13:22] Inicializando sistema admin...
+admin.html:2935 [13:13:22] Cache localStorage limpo - forçando dados frescos
+admin.html:2935 [13:13:22] 🔗 Detectado repositório: moveisbonafe/TabelaPrecoMoveisBonafe
+admin.html:2935 [13:13:22] 🔗 Token GitHub detectado - priorizando dados do GitHub
+admin.html:2935 [13:13:22] 🔄 Token GitHub configurado - carregando dados do GitHub...
+admin.html:2935 [13:13:22] Carregando dados locais atualizados...
+admin.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"github-token-input" class=​"form-input" placeholder=​"Digite seu token GitHub">​
+admin.html:1 [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) <input type=​"password" id=​"user-password" class=​"form-input">​
+admin.html:2935 [13:13:22] ✅ Formas de pagamento carregadas do GitHub
+admin.html:2935 [13:13:22] ✅ Condições de pagamento carregadas do GitHub
+admin.html:2935 [13:13:22] ✅ 25 produtos carregados localmente
+admin.html:2935 [13:13:22] ✅ Regras de pagamento carregadas do GitHub
+admin.html:4434 🔍 renderPaymentMethods called
+admin.html:4435 📊 adminClient.paymentMethods: Array(0)
+admin.html:4445 ⚠️ No payment methods to display
+admin.html:2935 [13:13:22] 🎯 GitHub agora tem prioridade sobre localStorage
+admin.html:2935 [13:13:22] ✅ 5 categorias carregadas localmente
+admin.html:4425 Product order applied successfully
+admin.html:2935 [13:13:22] ✅ Dados carregados: 25 produtos, 5 categorias, 5 cores, 3 usuários, 5 tabelas de preço, 1 promoções, 1 avisos
+admin.html:2935 [13:13:22] 🔐 Token GitHub válido para usuário: MoveisBonafe com permissões de escrita
+admin.html:2042 Original product image path: data/images/product_1749515748135_77edzm9d2.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515748135_77edzm9d2.png
+admin.html:2042 Original product image path: data/images/product_1749515793116_llfars6sc.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515793116_llfars6sc.png
+admin.html:2042 Original product image path: data/images/product_1749514738650_klus3daqr.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514738650_klus3daqr.png
+admin.html:2042 Original product image path: data/images/product_1749514847355_eznlgf80h.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749514847355_eznlgf80h.png
+admin.html:2042 Original product image path: data/images/product_1749515687207_syua1lz07.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749515687207_syua1lz07.png
+admin.html:2042 Original product image path: data/images/product_1749516289890_tj1gcowss.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516289890_tj1gcowss.png
+admin.html:2042 Original product image path: data/images/product_1749517490130_a93f7xmua.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749517490130_a93f7xmua.png
+admin.html:2042 Original product image path: data/images/product_1749516330562_t6ipkjc72.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749516330562_t6ipkjc72.png
+admin.html:2042 Original product image path: data/images/product_1749518322906_l9699ha6q.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749518322906_l9699ha6q.png
+admin.html:2042 Original product image path: data/images/product_1749519327404_yguweh8q2.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519327404_yguweh8q2.png
+admin.html:2042 Original product image path: data/images/product_1749519655456_fapc9fdwc.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519655456_fapc9fdwc.png
+admin.html:2042 Original product image path: data/images/product_1749519702008_9bndqsb2a.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519702008_9bndqsb2a.png
+admin.html:2042 Original product image path: data/images/product_1749519805032_qaicnp7ga.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519805032_qaicnp7ga.png
+admin.html:2042 Original product image path: data/images/product_1749519815100_t4jwmmxn5.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749519815100_t4jwmmxn5.png
+admin.html:2042 Original product image path: data/images/product_1749520025603_e9ihmowmk.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520025603_e9ihmowmk.png
+admin.html:2042 Original product image path: data/images/product_1749520101916_6pbwx0hcr.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520101916_6pbwx0hcr.png
+admin.html:2042 Original product image path: data/images/product_1749520142866_n40ygta0i.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520142866_n40ygta0i.png
+admin.html:2042 Original product image path: data/images/product_1749520189280_kxvcfhr2d.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520189280_kxvcfhr2d.png
+admin.html:2042 Original product image path: data/images/product_1749520235411_u00w056vm.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520235411_u00w056vm.png
+admin.html:2042 Original product image path: data/images/product_1749520271577_5n7p9m7co.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520271577_5n7p9m7co.png
+admin.html:2042 Original product image path: data/images/product_1749520305283_qx876qcb0.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520305283_qx876qcb0.png
+admin.html:2042 Original product image path: data/images/product_1749520430867_7bn7llwhy.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520430867_7bn7llwhy.png
+admin.html:2042 Original product image path: data/images/product_1749520470450_qszuglnme.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520470450_qszuglnme.png
+admin.html:2042 Original product image path: data/images/product_1749520512529_ofm6i4j6t.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520512529_ofm6i4j6t.png
+admin.html:2042 Original product image path: data/images/product_1749520548661_b8peqm8g9.png
+admin.html:2043 Base URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+admin.html:2055 Final product image URL: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749520548661_b8peqm8g9.png
+admin.html:4434 🔍 renderPaymentMethods called
+admin.html:4435 📊 adminClient.paymentMethods: Array(0)
+admin.html:4445 ⚠️ No payment methods to display
+admin.html:2935 [13:13:22] Sistema admin inicializado com sucesso
+admin.html:5384 🔄 Force rendering all payment data...
+admin.html:4434 🔍 renderPaymentMethods called
+admin.html:4435 📊 adminClient.paymentMethods: Array(0)
+admin.html:4445 ⚠️ No payment methods to display

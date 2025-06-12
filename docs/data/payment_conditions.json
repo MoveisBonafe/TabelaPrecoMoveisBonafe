@@ -8,5 +8,15 @@
     "active": true,
     "id": 1749745061250,
     "createdAt": "2025-06-12T16:17:41.250Z"
+  },
+  {
+    "name": "2x sem juros",
+    "description": "",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749745071113,
+    "createdAt": "2025-06-12T16:17:51.113Z"
   }
 ]

@@ -887,9 +887,9 @@
             <div class="content-header">
                 <h2 class="content-title">Formas e Condições de Pagamento</h2>
                 <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-primary" onclick="openPaymentMethodModal()">➕ Nova Forma de Pagamento</button>
-                    <button class="btn btn-primary" onclick="openPaymentConditionModal()">➕ Nova Condição</button>
-                    <button class="btn btn-secondary" onclick="openPaymentRulesModal()">⚙️ Configurar Regras</button>
+                    <button class="btn btn-primary" onclick="openPaymentMethodModal()">&#10133; Nova Forma de Pagamento</button>
+                    <button class="btn btn-primary" onclick="openPaymentConditionModal()">&#10133; Nova Condição</button>
+                    <button class="btn btn-secondary" onclick="openPaymentRulesModal()">&#9881; Configurar Regras</button>
                 </div>
             </div>
 
@@ -4472,9 +4472,29 @@
                     return '&#128176;'; // 💰
                 };
 
-                // Ensure proper encoding for text display
-                const safeName = method.name ? method.name.normalize('NFC') : '';
-                const safeDescription = method.description ? method.description.normalize('NFC') : 'Sem descrição';
+                // Fix encoding issues automatically
+                const fixEncoding = (text) => {
+                    if (!text) return '';
+                    return text
+                        .replace(/Ã¡/g, 'á')
+                        .replace(/Ã©/g, 'é')
+                        .replace(/Ã­/g, 'í')
+                        .replace(/Ã³/g, 'ó')
+                        .replace(/Ãº/g, 'ú')
+                        .replace(/Ã /g, 'à')
+                        .replace(/Ã¢/g, 'â')
+                        .replace(/Ãª/g, 'ê')
+                        .replace(/Ã´/g, 'ô')
+                        .replace(/Ã§/g, 'ç')
+                        .replace(/Ã£/g, 'ã')
+                        .replace(/Ãµ/g, 'õ')
+                        .replace(/Ã‰/g, 'É')
+                        .replace(/Ã/g, 'Á')
+                        .normalize('NFC');
+                };
+                
+                const safeName = fixEncoding(method.name) || '';
+                const safeDescription = fixEncoding(method.description) || 'Sem descrição';
                 
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
@@ -4537,9 +4557,29 @@
                     return '&#128203;'; // 📋
                 };
 
-                // Ensure proper encoding for condition text display
-                const safeName = condition.name ? condition.name.normalize('NFC') : '';
-                const safeDescription = condition.description ? condition.description.normalize('NFC') : 'Sem descrição';
+                // Fix encoding issues automatically
+                const fixEncoding = (text) => {
+                    if (!text) return '';
+                    return text
+                        .replace(/Ã¡/g, 'á')
+                        .replace(/Ã©/g, 'é')
+                        .replace(/Ã­/g, 'í')
+                        .replace(/Ã³/g, 'ó')
+                        .replace(/Ãº/g, 'ú')
+                        .replace(/Ã /g, 'à')
+                        .replace(/Ã¢/g, 'â')
+                        .replace(/Ãª/g, 'ê')
+                        .replace(/Ã´/g, 'ô')
+                        .replace(/Ã§/g, 'ç')
+                        .replace(/Ã£/g, 'ã')
+                        .replace(/Ãµ/g, 'õ')
+                        .replace(/Ã‰/g, 'É')
+                        .replace(/Ã/g, 'Á')
+                        .normalize('NFC');
+                };
+                
+                const safeName = fixEncoding(condition.name) || '';
+                const safeDescription = fixEncoding(condition.description) || 'Sem descrição';
                 
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">

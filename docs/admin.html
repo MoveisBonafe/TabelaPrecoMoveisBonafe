@@ -1615,9 +1615,10 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Condições Permitidas:</label>
-                                <select id="rule-payment-conditions" class="form-select" multiple style="height: 120px;" required>
-                                </select>
-                                <small style="color: #6b7280;">Segure Ctrl para selecionar múltiplas condições</small>
+                                <div id="rule-payment-conditions" style="max-height: 120px; overflow-y: auto; border: 1px solid #d1d5db; border-radius: 6px; padding: 12px; background: white;">
+                                    <p style="color: #6b7280; margin: 0; text-align: center;">Carregando condições...</p>
+                                </div>
+                                <small style="color: #6b7280;">Selecione uma ou mais condições de pagamento</small>
                             </div>
                         </div>
 
@@ -4635,11 +4636,29 @@
                     index === self.findIndex(c => c.id === condition.id)
                 );
                 
+                if (uniqueConditions.length === 0) {
+                    conditionsSelect.innerHTML = '<p style="color: #6b7280; margin: 0; text-align: center;">Nenhuma condição disponível</p>';
+                    return;
+                }
+                
                 uniqueConditions.forEach(condition => {
-                    const option = document.createElement('option');
-                    option.value = condition.id;
-                    option.textContent = condition.name;
-                    conditionsSelect.appendChild(option);
+                    const checkboxDiv = document.createElement('div');
+                    checkboxDiv.style.cssText = 'display: flex; align-items: center; gap: 8px; margin-bottom: 8px;';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = condition.id;
+                    checkbox.id = `condition-${condition.id}`;
+                    checkbox.style.cssText = 'margin: 0;';
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `condition-${condition.id}`;
+                    label.textContent = condition.name;
+                    label.style.cssText = 'margin: 0; cursor: pointer; flex: 1;';
+                    
+                    checkboxDiv.appendChild(checkbox);
+                    checkboxDiv.appendChild(label);
+                    conditionsSelect.appendChild(checkboxDiv);
                 });
             }
         }
@@ -4707,10 +4726,10 @@
             // Populate form with rule data
             document.getElementById('rule-payment-method').value = rule.paymentMethodId;
             
-            // Select multiple conditions
-            const conditionsSelect = document.getElementById('rule-payment-conditions');
-            Array.from(conditionsSelect.options).forEach(option => {
-                option.selected = rule.conditionIds.includes(parseInt(option.value));
+            // Check the appropriate condition checkboxes
+            const conditionCheckboxes = document.querySelectorAll('#rule-payment-conditions input[type="checkbox"]');
+            conditionCheckboxes.forEach(checkbox => {
+                checkbox.checked = rule.conditionIds.includes(parseInt(checkbox.value));
             });
             
             // Clear all checkboxes first
@@ -4736,6 +4755,13 @@
         function clearRuleForm() {
             editingRuleId = null;
             document.getElementById('payment-rule-form').reset();
+            
+            // Clear all condition checkboxes
+            document.querySelectorAll('#rule-payment-conditions input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            // Set default user access
             document.querySelector('#user-access-checkboxes input[value="all"]').checked = true;
             document.querySelector('#payment-rule-form button[type="submit"]').textContent = 'Criar Regra';
         }
@@ -4848,8 +4874,8 @@
                 e.preventDefault();
                 
                 const methodId = document.getElementById('rule-payment-method').value;
-                const conditionIds = Array.from(document.getElementById('rule-payment-conditions').selectedOptions)
-                    .map(option => parseInt(option.value));
+                const conditionCheckboxes = document.querySelectorAll('#rule-payment-conditions input[type="checkbox"]:checked');
+                const conditionIds = Array.from(conditionCheckboxes).map(cb => parseInt(cb.value));
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
                 const userAccess = Array.from(userCheckboxes).map(cb => cb.value);
                 

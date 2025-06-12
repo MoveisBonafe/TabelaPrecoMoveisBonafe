@@ -7292,10 +7292,11 @@ ${this.userType === 'restaurante' ? `
             // Clear existing options except the first one
             paymentMethodSelect.innerHTML = '<option value="">Selecione o método de pagamento</option>';
 
-            // Get current user type
+            // Get current user
             const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+            const userId = currentUser.id;
             const userRole = currentUser.role || 'all';
-            console.log('👤 User role:', userRole);
+            console.log('👤 User ID:', userId, 'Role:', userRole);
 
             // Filter payment methods based on user permissions
             const availablePaymentMethods = catalogClient.paymentMethods.filter(method => {
@@ -7310,12 +7311,20 @@ ${this.userType === 'restaurante' ? `
                     return false;
                 }
 
-                // Check user access
-                const hasAccess = rule.userAccess === 'all' || 
-                       (Array.isArray(rule.userAccess) && rule.userAccess.includes(userRole)) ||
-                       rule.userAccess === userRole;
+                // Check user access - can be 'all', user ID, or role
+                let hasAccess = false;
+                
+                if (rule.userAccess === 'all') {
+                    hasAccess = true;
+                } else if (Array.isArray(rule.userAccess)) {
+                    // Check if user ID or role is in the access list
+                    hasAccess = rule.userAccess.includes(userId) || rule.userAccess.includes(userRole);
+                } else {
+                    // Single value - check if it matches user ID or role
+                    hasAccess = rule.userAccess === userId || rule.userAccess === userRole;
+                }
                        
-                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)})`);
+                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, user: ${userId}/${userRole})`);
                 return hasAccess;
             });
 

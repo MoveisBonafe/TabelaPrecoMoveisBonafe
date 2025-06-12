@@ -7348,6 +7348,7 @@ ${this.userType === 'restaurante' ? `
             const userId = currentUser.id;
             const userRole = currentUser.role || 'all';
             console.log('👤 User ID:', userId, 'Role:', userRole);
+            console.log('👤 User Type from catalog:', catalogClient.userType);
 
             // Filter payment methods based on user permissions
             const availablePaymentMethods = catalogClient.paymentMethods.filter(method => {
@@ -7368,14 +7369,18 @@ ${this.userType === 'restaurante' ? `
                 if (rule.userAccess === 'all') {
                     hasAccess = true;
                 } else if (Array.isArray(rule.userAccess)) {
-                    // Check if user ID or role is in the access list (convert both to strings for comparison)
-                    hasAccess = rule.userAccess.includes(String(userId)) || rule.userAccess.includes(userRole);
+                    // For restaurant users, check against 'restaurante' role
+                    // For shop users, check against 'loja' role or specific user ID
+                    const userTypeToCheck = catalogClient.userType || userRole;
+                    hasAccess = rule.userAccess.includes(String(userId)) || rule.userAccess.includes(userTypeToCheck);
                 } else {
-                    // Single value - check if it matches user ID or role (convert to string for comparison)
-                    hasAccess = rule.userAccess === String(userId) || rule.userAccess === userRole;
+                    // Single value - check if it matches user ID or user type
+                    const userTypeToCheck = catalogClient.userType || userRole;
+                    hasAccess = rule.userAccess === String(userId) || rule.userAccess === userTypeToCheck;
                 }
                        
-                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, user: ${userId}/${userRole})`);
+                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, user: ${userId}/${userRole}, userType: ${catalogClient.userType})`);
+                console.log(`🔍 Rule details:`, rule);
                 return hasAccess;
             });
 

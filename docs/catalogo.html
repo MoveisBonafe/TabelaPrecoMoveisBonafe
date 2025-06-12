@@ -6561,6 +6561,20 @@ ${this.userType === 'restaurante' ? `
                 }
             }
             
+            // Apply payment condition interest
+            const selectedPaymentCondition = getSelectedPaymentCondition();
+            if (selectedPaymentCondition && selectedPaymentCondition.interest > 0) {
+                const interestAmount = total * (selectedPaymentCondition.interest / 100);
+                total += interestAmount;
+                
+                totalHTML += `
+                    <div class="total-line interest-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                        <span style="font-size: 14px; color: #dc2626;">Juros (${selectedPaymentCondition.interest}%):</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #111827;">+R$ ${interestAmount.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                `;
+            }
+            
             // Final total
             totalHTML += `
                 <div class="total-line final" style="display: flex; justify-content: space-between; padding: 12px 0; margin-top: 8px; border-top: 2px solid #374151; background: #f9fafb;">
@@ -6586,8 +6600,8 @@ ${this.userType === 'restaurante' ? `
             const customerPhone = document.getElementById('customer-phone').value;
             
             // Get payment method name
-            const paymentMethod = catalogClient.paymentMethods.find(m => m.id === paymentMethodId);
-            const paymentMethodName = paymentMethod ? paymentMethod.name : paymentMethodId;
+            const paymentMethod = catalogClient.paymentMethods.find(m => m.id == paymentMethodId);
+            const paymentMethodName = paymentMethod ? paymentMethod.name : 'Não informado';
             
             // Get selected payment condition
             const selectedPaymentCondition = getSelectedPaymentCondition();
@@ -6715,6 +6729,14 @@ ${this.userType === 'restaurante' ? `
                 pickupDiscount = (subtotal - promotionDiscount) * 0.05;
                 total -= pickupDiscount;
                 message += `🎯 *Desconto Retirada (5%):* -R$ ${pickupDiscount.toFixed(2).replace('.', ',')}\n`;
+            }
+            
+            // Apply payment condition interest
+            let interestAmount = 0;
+            if (selectedPaymentCondition && selectedPaymentCondition.interest > 0) {
+                interestAmount = total * (selectedPaymentCondition.interest / 100);
+                total += interestAmount;
+                message += `📈 *Juros (${selectedPaymentCondition.interest}%):* +R$ ${interestAmount.toFixed(2).replace('.', ',')}\n`;
             }
             
             message += `\n💸 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;

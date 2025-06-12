@@ -1039,11 +1039,22 @@
                 <div class="form-group">
                     <label class="form-label">Token GitHub (para upload de imagens):</label>
                     <input type="password" id="github-token-input" class="form-input" placeholder="Digite seu token GitHub">
-                    <button class="btn btn-primary" onclick="saveGitHubToken()" style="margin-top: 12px;">
-                        Salvar Token
-                    </button>
+                    <div style="display: flex; gap: 12px; margin-top: 12px;">
+                        <button class="btn btn-primary" onclick="saveGitHubToken()">
+                            Salvar Token
+                        </button>
+                        <button class="btn btn-secondary" onclick="forceSyncAllData()" id="force-sync-btn">
+                            🔄 Sincronizar Agora
+                        </button>
+                    </div>
                 </div>
                 <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; margin-top: 16px;">
+                    <h4 style="margin-bottom: 8px;">Tempo de Sincronização entre Dispositivos:</h4>
+                    <ul style="margin-left: 20px; color: #666; margin-bottom: 16px;">
+                        <li><strong>GitHub API:</strong> Imediato (quando salva com sucesso)</li>
+                        <li><strong>GitHub Pages:</strong> 1-10 minutos para propagar</li>
+                        <li><strong>Cache do navegador:</strong> Pode precisar de refresh (Ctrl+F5)</li>
+                    </ul>
                     <h4 style="margin-bottom: 8px;">Como obter um token GitHub:</h4>
                     <ol style="margin-left: 20px; color: #666;">
                         <li>Acesse GitHub → Settings → Developer settings</li>
@@ -4866,6 +4877,39 @@
             showNotification('Cache limpo! O catálogo agora carregará dados atualizados do servidor.', 'success');
         }
 
+        // Function to force sync all data immediately
+        async function forceSyncAllData() {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                showNotification('Configure o token GitHub primeiro', 'error');
+                return;
+            }
+
+            const syncBtn = document.getElementById('force-sync-btn');
+            const originalText = syncBtn.textContent;
+            syncBtn.textContent = '⏳ Sincronizando...';
+            syncBtn.disabled = true;
+
+            try {
+                addSystemLog('🔄 Iniciando sincronização forçada com GitHub...');
+                
+                // First, load latest data from GitHub
+                await loadDataWithGitHubPriority();
+                
+                // Then sync all local data to GitHub
+                await syncAllPaymentData();
+                
+                addSystemLog('✅ Sincronização forçada concluída');
+                showNotification('Dados sincronizados! Aguarde 1-10 minutos para propagação no GitHub Pages.', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro na sincronização forçada: ${error.message}`);
+                showNotification('Erro ao sincronizar dados', 'error');
+            } finally {
+                syncBtn.textContent = originalText;
+                syncBtn.disabled = false;
+            }
+        }
+
         // Function to sync all pending payment data to GitHub when token is configured
         async function syncAllPaymentData() {
             const token = localStorage.getItem('github_token');
@@ -4902,6 +4946,38 @@
             } catch (error) {
                 addSystemLog(`❌ Erro na sincronização: ${error.message}`);
                 showNotification('Erro ao sincronizar com GitHub', 'error');
+            }
+        }
+
+        // Function to load specific file from GitHub
+        async function loadFromGitHub(filename) {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                throw new Error('Token GitHub não configurado');
+            }
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${adminClient.repoOwner}/${adminClient.repoName}/contents/docs/data/${filename}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        // File doesn't exist yet, return empty array
+                        return [];
+                    }
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const content = atob(data.content.replace(/\s/g, ''));
+                return JSON.parse(content);
+            } catch (error) {
+                console.error(`Erro ao carregar ${filename} do GitHub:`, error);
+                throw error;
             }
         }
 

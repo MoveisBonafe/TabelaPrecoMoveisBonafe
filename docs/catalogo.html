@@ -7290,7 +7290,7 @@ ${this.userType === 'restaurante' ? `
             console.log('📋 Payment rules disponíveis:', catalogClient.paymentRules.length);
 
             // Clear existing options except the first one
-            paymentMethodSelect.innerHTML = '<option value="">Selecione o método de pagamento</option>';
+            paymentMethodSelect.innerHTML = '<option value="">Selecione a forma de pagamento</option>';
 
             // Get current user
             const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
@@ -7348,39 +7348,40 @@ ${this.userType === 'restaurante' ? `
             const priceTableSection = document.getElementById('price-table-section');
             const paymentConditionsList = document.getElementById('payment-conditions-list');
 
-            const selectedMethodId = paymentMethodSelect.value;
+            const selectedMethodId = parseInt(paymentMethodSelect.value);
+
+            // Always hide price table section when we have payment methods configured
+            priceTableSection.style.display = 'none';
 
             if (!selectedMethodId) {
-                // Hide payment conditions and show price table
+                // Hide payment conditions if no method selected
                 paymentConditionsSection.style.display = 'none';
-                if (catalogClient.userType !== 'restaurante') {
-                    priceTableSection.style.display = 'block';
-                }
                 validatePaymentForm();
                 return;
             }
 
             // Find the rule for the selected payment method
             const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === selectedMethodId);
-            if (!rule || !rule.paymentConditionIds || rule.paymentConditionIds.length === 0) {
-                // No conditions for this method, show price table
+            console.log('🔍 Regra encontrada para método selecionado:', rule);
+            
+            if (!rule || !rule.conditionIds || rule.conditionIds.length === 0) {
+                console.log('⚠️ Nenhuma condição encontrada para este método');
                 paymentConditionsSection.style.display = 'none';
-                if (catalogClient.userType !== 'restaurante') {
-                    priceTableSection.style.display = 'block';
-                }
                 validatePaymentForm();
                 return;
             }
 
-            // Hide price table and show payment conditions
-            priceTableSection.style.display = 'none';
+            // Show payment conditions section
             paymentConditionsSection.style.display = 'block';
 
             // Load payment conditions for this method
             paymentConditionsList.innerHTML = '';
+            console.log('📋 Carregando condições:', rule.conditionIds);
 
-            rule.paymentConditionIds.forEach(conditionId => {
+            rule.conditionIds.forEach(conditionId => {
                 const condition = catalogClient.paymentConditions.find(c => c.id === conditionId);
+                console.log(`🔍 Condição ${conditionId}:`, condition);
+                
                 if (!condition) return;
 
                 const conditionDiv = document.createElement('div');
@@ -7415,6 +7416,7 @@ ${this.userType === 'restaurante' ? `
                 paymentConditionsList.appendChild(conditionDiv);
             });
 
+            console.log('✅ Condições de pagamento carregadas');
             validatePaymentForm();
         }
 

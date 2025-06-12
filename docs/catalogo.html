@@ -1384,8 +1384,10 @@
         // Catalog Client - Always uses local server
         class CatalogClient {
             constructor() {
-                this.baseUrl = window.location.origin;
-                console.log(`🔧 CatalogClient inicializado com baseUrl: ${this.baseUrl}`);
+                // Force local server URL - never use GitHub Pages for data loading
+                this.baseUrl = window.location.protocol + '//' + window.location.host;
+                console.log(`🔧 CatalogClient FORÇADO para servidor local: ${this.baseUrl}`);
+                console.log(`🚫 GitHub Pages desabilitado para usuários finais`);
                 this.currentUser = null;
                 this.userType = null;
                 this.products = [];

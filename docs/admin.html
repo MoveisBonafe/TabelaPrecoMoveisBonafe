@@ -1573,6 +1573,14 @@
                     <textarea id="payment-condition-description" class="form-textarea" rows="2" placeholder="Descrição detalhada da condição"></textarea>
                 </div>
                 
+                <div class="form-group">
+                    <label class="form-label">Tabela de Preço:</label>
+                    <select id="payment-condition-price-table" class="form-select" required>
+                        <option value="">Selecione uma tabela</option>
+                    </select>
+                    <small style="color: #6b7280;">Ex: "À Vista" usa tabela à vista, "Parcelado" usa tabela com prazos</small>
+                </div>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Parcelas:</label>
@@ -5429,6 +5437,7 @@
                 e.preventDefault();
                 
                 const methodId = document.getElementById('rule-payment-method').value;
+                const priceTableId = document.getElementById('rule-price-table').value;
                 const conditionCheckboxes = document.querySelectorAll('#rule-payment-conditions input[type="checkbox"]:checked');
                 const conditionIds = Array.from(conditionCheckboxes).map(cb => parseInt(cb.value));
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
@@ -5436,10 +5445,15 @@
                 
                 console.log('📝 Payment rule form submitted');
                 console.log('🔍 editingRuleId:', editingRuleId);
-                console.log('📋 Form data:', { methodId, conditionIds, userAccess });
+                console.log('📋 Form data:', { methodId, priceTableId, conditionIds, userAccess });
                 
                 if (!methodId) {
                     showNotification('Selecione uma forma de pagamento', 'error');
+                    return;
+                }
+                
+                if (!priceTableId) {
+                    showNotification('Selecione uma tabela de preço', 'error');
                     return;
                 }
                 
@@ -5452,6 +5466,7 @@
                             adminClient.paymentRules[ruleIndex] = {
                                 ...adminClient.paymentRules[ruleIndex],
                                 paymentMethodId: parseInt(methodId),
+                                priceTableId: priceTableId,
                                 conditionIds: conditionIds,
                                 userAccess: userAccess
                             };
@@ -5464,6 +5479,7 @@
                         const formData = {
                             id: Date.now(),
                             paymentMethodId: parseInt(methodId),
+                            priceTableId: priceTableId,
                             conditionIds: conditionIds,
                             userAccess: userAccess,
                             createdAt: new Date().toISOString()

@@ -1597,6 +1597,9 @@
                 adminClient.promotions = promotions;
                 adminClient.notices = notices;
 
+                // Load product order after loading products
+                await loadProductOrder();
+
                 addSystemLog(`✅ Dados carregados: ${products.length} produtos, ${categories.length} categorias, ${colors.length} cores, ${users.length} usuários, ${priceSettings.length} tabelas de preço, ${promotions.length} promoções, ${notices.length} avisos`);
             } catch (error) {
                 addSystemLog(`❌ Erro ao carregar dados: ${error.message}`);
@@ -1829,6 +1832,8 @@
                     colorsHtml += '</div>';
                 }
 
+                const productIndex = adminClient.products.findIndex(p => p.id === product.id);
+                
                 card.innerHTML = `
                     <div class="card-image">${imageHtml}</div>
                     <div class="card-title">${product.name}</div>
@@ -1837,6 +1842,10 @@
                     <div class="card-info"><strong>Dimensões:</strong> ${product.altura || 0} x ${product.largura || 0} x ${product.comprimento || 0} cm</div>
                     ${colorsHtml}
                     <div class="card-actions">
+                        <div class="reorder-controls" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                            <button class="btn btn-secondary" onclick="moveProductUp(${productIndex})" title="Mover para cima" ${productIndex === 0 ? 'disabled' : ''}>↑</button>
+                            <button class="btn btn-secondary" onclick="moveProductDown(${productIndex})" title="Mover para baixo" ${productIndex === adminClient.products.length - 1 ? 'disabled' : ''}>↓</button>
+                        </div>
                         <button class="btn btn-primary" onclick="editProduct(${product.id})">✏️ Editar</button>
                         <button class="btn btn-danger" onclick="deleteProduct(${product.id})">🗑️ Excluir</button>
                     </div>
@@ -4060,6 +4069,101 @@
             } catch (error) {
                 console.log('GitHub sync error:', error);
             }
+        }
+
+        // Product reordering functions
+        async function moveProductUp(index) {
+            if (index <= 0) return;
+            
+            // Swap products
+            const temp = adminClient.products[index];
+            adminClient.products[index] = adminClient.products[index - 1];
+            adminClient.products[index - 1] = temp;
+            
+            await saveProductOrder();
+            renderProducts();
+            addSystemLog(`📦 Produto "${temp.name}" movido para cima`);
+        }
+
+        async function moveProductDown(index) {
+            if (index >= adminClient.products.length - 1) return;
+            
+            // Swap products
+            const temp = adminClient.products[index];
+            adminClient.products[index] = adminClient.products[index + 1];
+            adminClient.products[index + 1] = temp;
+            
+            await saveProductOrder();
+            renderProducts();
+            addSystemLog(`📦 Produto "${temp.name}" movido para baixo`);
+        }
+
+        async function saveProductOrder() {
+            try {
+                // Create product order array with just IDs
+                const productOrder = adminClient.products.map(product => product.id);
+                
+                // Save to GitHub
+                await saveToGitHub('product-order.json', productOrder);
+                
+                // Sync to other pages via localStorage
+                localStorage.setItem('moveisbonafe_product_order', JSON.stringify(productOrder));
+                localStorage.setItem('moveisbonafe_broadcast_product_order', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: productOrder
+                }));
+                
+                addSystemLog('✅ Nova ordem de produtos salva e sincronizada');
+                showNotification('Ordem dos produtos atualizada!', 'success');
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao salvar ordem dos produtos: ${error.message}`);
+                showNotification('Erro ao salvar ordem dos produtos', 'error');
+            }
+        }
+
+        async function loadProductOrder() {
+            try {
+                // Try to load from GitHub first
+                const response = await fetch(`${adminClient.baseUrl}/data/product-order.json`);
+                if (response.ok) {
+                    const productOrder = await response.json();
+                    applyProductOrder(productOrder);
+                    return;
+                }
+            } catch (error) {
+                console.log('Product order not found on GitHub, using default order');
+            }
+            
+            // Try localStorage fallback
+            const localOrder = localStorage.getItem('moveisbonafe_product_order');
+            if (localOrder) {
+                try {
+                    const productOrder = JSON.parse(localOrder);
+                    applyProductOrder(productOrder);
+                } catch (error) {
+                    console.log('Error parsing local product order');
+                }
+            }
+        }
+
+        function applyProductOrder(productOrder) {
+            if (!productOrder || !Array.isArray(productOrder)) return;
+            
+            // Create a map for quick lookup
+            const orderMap = {};
+            productOrder.forEach((id, index) => {
+                orderMap[id] = index;
+            });
+            
+            // Sort products according to the saved order
+            adminClient.products.sort((a, b) => {
+                const orderA = orderMap[a.id] !== undefined ? orderMap[a.id] : 999999;
+                const orderB = orderMap[b.id] !== undefined ? orderMap[b.id] : 999999;
+                return orderA - orderB;
+            });
+            
+            console.log('Product order applied successfully');
         }
 
         // Initialize on page load

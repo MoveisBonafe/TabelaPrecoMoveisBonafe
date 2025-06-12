@@ -1816,9 +1816,15 @@
                 adminClient.priceSettings = priceSettings;
                 adminClient.promotions = promotions;
                 adminClient.notices = notices;
-                adminClient.paymentMethods = paymentMethods;
-                adminClient.paymentConditions = paymentConditions;
-                adminClient.paymentRules = paymentRules;
+                
+                // For payment data, prioritize localStorage over server data
+                const localPaymentMethods = localStorage.getItem('payment_methods.json');
+                const localPaymentConditions = localStorage.getItem('payment_conditions.json');
+                const localPaymentRules = localStorage.getItem('payment_rules.json');
+                
+                adminClient.paymentMethods = localPaymentMethods ? JSON.parse(localPaymentMethods) : paymentMethods;
+                adminClient.paymentConditions = localPaymentConditions ? JSON.parse(localPaymentConditions) : paymentConditions;
+                adminClient.paymentRules = localPaymentRules ? JSON.parse(localPaymentRules) : paymentRules;
 
                 // Load product order after loading products
                 await loadProductOrder();

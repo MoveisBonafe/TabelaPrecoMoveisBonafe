@@ -7339,6 +7339,15 @@ ${this.userType === 'restaurante' ? `
                 paymentMethodSelect.appendChild(option);
             });
 
+            // Hide price table section when payment methods are available
+            const priceTableSection = document.getElementById('price-table-section');
+            if (priceTableSection) {
+                priceTableSection.style.display = 'none';
+                console.log('🚫 Tabela de preços ocultada - usando sistema de pagamento do admin');
+            } else {
+                console.log('⚠️ Elemento price-table-section não encontrado');
+            }
+
             console.log('🎯 LoadPaymentMethods concluído!');
         }
 

@@ -203,6 +203,27 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
+    "name": "Agulha Cadeira Comum",
+    "category": "Cadeiras",
+    "priceAVista": 8,
+    "fixedPrice": true,
+    "altura": 0,
+    "largura": 0,
+    "comprimento": 0,
+    "peso": 0,
+    "description": "",
+    "images": [
+      "data/images/product_1749519815100_t4jwmmxn5.png"
+    ],
+    "colorVariations": [
+      "Única"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-11T14:22:07.939Z",
+    "id": 1749514027911,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
     "name": "Beliche Paris",
     "category": "Beliches",
     "priceAVista": 468,
@@ -226,27 +247,6 @@
     "active": true,
     "updatedAt": "2025-06-10T00:45:54.947Z",
     "id": 1749514027904,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Agulha Cadeira Comum",
-    "category": "Cadeiras",
-    "priceAVista": 8,
-    "fixedPrice": true,
-    "altura": 0,
-    "largura": 0,
-    "comprimento": 0,
-    "peso": 0,
-    "description": "",
-    "images": [
-      "data/images/product_1749519815100_t4jwmmxn5.png"
-    ],
-    "colorVariations": [
-      "Única"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-11T14:22:07.939Z",
-    "id": 1749514027911,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

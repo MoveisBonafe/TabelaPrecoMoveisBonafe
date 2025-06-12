@@ -921,12 +921,10 @@
             border-radius: 12px;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 12px;
             font-weight: 500;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             animation: slideDown 0.3s ease-out;
-            text-align: center;
         }
 
         .notice-banner.info {
@@ -2368,64 +2366,34 @@ ${this.userType === 'restaurante' ? `
                 console.log(`📢 Aviso exibido: ${notice.title}`);
             }
         }
-    }
-}
 
-    // Global functions  
-    function logout() {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
-    }
+        // Global functions
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
 
-    // Global toggleAddressFields function
-    function toggleAddressFields() {
-        const isPickup = document.getElementById('pickup');
-        const addressFields = document.querySelectorAll('.address-field');
-        
-        if (!isPickup) return;
-        
-        const isPickupChecked = isPickup.checked;
-        
-        addressFields.forEach(field => {
-            if (isPickupChecked) {
-                field.style.display = 'none';
-                // Remove required attribute from address fields
-                const inputs = field.querySelectorAll('input');
-                inputs.forEach(input => {
-                    input.removeAttribute('required');
-                });
-            } else {
-                field.style.display = 'grid';
-                // Add required attribute back to address fields (except complement)
-                const inputs = field.querySelectorAll('input');
-                inputs.forEach(input => {
-                    if (input.id !== 'customer-complement') {
-                        input.setAttribute('required', 'required');
-                    }
-                });
-            }
+
+
+        // Clear localStorage cache to force fresh data load
+        localStorage.removeItem('moveisbonafe_products');
+        localStorage.removeItem('moveisbonafe_categories');
+        localStorage.removeItem('moveisbonafe_colors');
+        localStorage.removeItem('moveisbonafe_users');
+        localStorage.removeItem('moveisbonafe_priceSettings');
+        localStorage.removeItem('moveisbonafe_promotions');
+
+        // Initialize application
+        const catalogClient = new CatalogClient();
+        document.addEventListener('DOMContentLoaded', () => {
+            catalogClient.init().then(() => {
+                console.log('✅ Catálogo inicializado');
+                loadCart(); // Carregar carrinho salvo
+            }).catch(error => {
+                console.error('❌ Erro na inicialização:', error);
+                alert('Erro ao carregar o catálogo. Tente novamente.');
+            });
         });
-    }
-
-    // Clear localStorage cache to force fresh data load
-    localStorage.removeItem('moveisbonafe_products');
-    localStorage.removeItem('moveisbonafe_categories');
-    localStorage.removeItem('moveisbonafe_colors');
-    localStorage.removeItem('moveisbonafe_users');
-    localStorage.removeItem('moveisbonafe_priceSettings');
-    localStorage.removeItem('moveisbonafe_promotions');
-
-    // Initialize application
-    const catalogClient = new CatalogClient();
-    document.addEventListener('DOMContentLoaded', () => {
-        catalogClient.init().then(() => {
-            console.log('✅ Catálogo inicializado');
-            loadCart(); // Carregar carrinho salvo
-        }).catch(error => {
-            console.error('❌ Erro na inicialização:', error);
-            alert('Erro ao carregar o catálogo. Tente novamente.');
-        });
-    });
 
         // Remove duplicate declarations - variables already declared earlier
 
@@ -3012,7 +2980,35 @@ ${this.userType === 'restaurante' ? `
             totalContainer.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
         }
 
-
+        function toggleAddressFields() {
+            const isPickup = document.getElementById('pickup').checked;
+            const addressFields = document.querySelectorAll('.address-field');
+            
+            addressFields.forEach(field => {
+                if (isPickup) {
+                    field.style.display = 'none';
+                    // Remove required attribute from address fields
+                    const inputs = field.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        input.removeAttribute('required');
+                    });
+                } else {
+                    field.style.display = 'grid';
+                    // Add required attribute back to address fields (except complement)
+                    const inputs = field.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        if (input.id !== 'customer-complement') {
+                            input.setAttribute('required', 'required');
+                        }
+                    });
+                }
+            });
+            
+            // Trigger form validation after toggling fields
+            setTimeout(() => {
+                checkFormValidation();
+            }, 100);
+        }
 
         function finalizeWhatsAppOrder() {
             // Get delivery option
@@ -7128,7 +7124,6 @@ ${this.userType === 'restaurante' ? `
         }
         checkForDataUpdates();
         setInterval(checkForDataUpdates, 10000);
-        }
         </script>
 
         <!-- Footer -->

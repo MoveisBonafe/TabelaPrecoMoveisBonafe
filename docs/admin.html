@@ -200,77 +200,11 @@
             padding: 20px;
             transition: all 0.3s ease;
             position: relative;
-            cursor: move;
         }
 
         .data-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transform: translateY(-2px);
-        }
-
-        .data-card.dragging {
-            opacity: 0.5;
-            transform: rotate(5deg);
-        }
-
-        .data-card.drag-over {
-            border: 2px dashed #fbbf24;
-            background-color: #fef3c7;
-        }
-
-        .drag-handle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #f3f4f6;
-            border: none;
-            border-radius: 8px;
-            padding: 8px;
-            cursor: grab;
-            color: #6b7280;
-            font-size: 16px;
-            transition: all 0.2s ease;
-            z-index: 10;
-        }
-
-        .drag-handle:hover {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .drag-handle:active {
-            cursor: grabbing;
-        }
-
-        .reorder-controls {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            z-index: 10;
-        }
-
-        .reorder-btn {
-            background: #f3f4f6;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 8px;
-            cursor: pointer;
-            color: #6b7280;
-            font-size: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .reorder-btn:hover {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .reorder-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .card-image {
@@ -1825,7 +1759,7 @@
             grid.style.display = 'grid';
             grid.innerHTML = '';
 
-            adminClient.products.forEach((product, index) => {
+            adminClient.products.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'data-card';
 
@@ -1906,20 +1840,7 @@
                         <button class="btn btn-primary" onclick="editProduct(${product.id})">✏️ Editar</button>
                         <button class="btn btn-danger" onclick="deleteProduct(${product.id})">🗑️ Excluir</button>
                     </div>
-                    <div class="reorder-controls">
-                        <button type="button" class="reorder-btn" onclick="moveProductUp(${index})" title="Mover para cima" ${index === 0 ? 'disabled' : ''}>↑</button>
-                        <button type="button" class="reorder-btn" onclick="moveProductDown(${index})" title="Mover para baixo" ${index === adminClient.products.length - 1 ? 'disabled' : ''}>↓</button>
-                    </div>
-                    <button class="drag-handle" title="Arrastar para reordenar">⋮⋮</button>
                 `;
-                
-                // Add drag and drop event listeners
-                card.draggable = true;
-                card.dataset.productIndex = index;
-                card.addEventListener('dragstart', handleDragStart);
-                card.addEventListener('dragover', handleDragOver);
-                card.addEventListener('drop', handleDrop);
-                card.addEventListener('dragend', handleDragEnd);
                 
                 grid.appendChild(card);
             });
@@ -4150,81 +4071,6 @@
 
         console.log('MoveisBonafe Admin Panel - GitHub Pages');
         console.log('Sistema: GitHub API integrado com fallback localStorage');
-        // Drag and Drop Variables
-        let draggedElement = null;
-        let draggedIndex = null;
-
-        // Drag and Drop Functions
-        function handleDragStart(e) {
-            draggedElement = this;
-            draggedIndex = parseInt(this.dataset.productIndex);
-            this.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.outerHTML);
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-            this.classList.add('drag-over');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            this.classList.remove('drag-over');
-            
-            if (draggedElement !== this) {
-                const dropIndex = parseInt(this.dataset.productIndex);
-                moveProduct(draggedIndex, dropIndex);
-            }
-        }
-
-        function handleDragEnd(e) {
-            this.classList.remove('dragging');
-            document.querySelectorAll('.data-card').forEach(card => {
-                card.classList.remove('drag-over');
-            });
-            draggedElement = null;
-            draggedIndex = null;
-        }
-
-        // Arrow-based reordering functions
-        async function moveProductUp(index) {
-            if (index > 0) {
-                await moveProduct(index, index - 1);
-            }
-        }
-
-        async function moveProductDown(index) {
-            if (index < adminClient.products.length - 1) {
-                await moveProduct(index, index + 1);
-            }
-        }
-
-        // Core move function
-        async function moveProduct(fromIndex, toIndex) {
-            try {
-                const products = [...adminClient.products];
-                const movedProduct = products.splice(fromIndex, 1)[0];
-                products.splice(toIndex, 0, movedProduct);
-                
-                adminClient.products = products;
-                await saveToGitHub('products.json', adminClient.products);
-                
-                addSystemLog(`📦 Produto "${movedProduct.name}" reordenado de posição ${fromIndex + 1} para ${toIndex + 1}`);
-                showNotification('Ordem dos produtos atualizada com sucesso!', 'success');
-                
-                renderProducts();
-                
-                // Broadcast the change to catalog pages
-                localStorage.setItem('moveisbonafe_products_updated', Date.now().toString());
-                
-            } catch (error) {
-                addSystemLog(`❌ Erro ao reordenar produto: ${error.message}`);
-                showNotification('Erro ao reordenar produto. Verifique o token GitHub.', 'error');
-            }
-        }
-
     </script>
 </body>
 </html>

@@ -1399,15 +1399,38 @@
                 if (isPaymentFile) {
                     console.log(`🔒 Carregando ${filename} prioritariamente do localStorage (dados do admin)...`);
                     
+                    // Debug localStorage contents
+                    console.log('🔍 Chaves no localStorage:', Object.keys(localStorage));
+                    console.log(`🔍 Procurando chave: ${filename}`);
+                    
                     // Use exact filename as key (admin panel saves with this format)
                     const localData = localStorage.getItem(filename);
                     
                     if (localData) {
                         console.log(`✅ Carregado ${filename} do localStorage (admin)`);
+                        console.log(`📄 Dados brutos:`, localData.substring(0, 200) + '...');
                         const data = JSON.parse(localData);
+                        console.log(`📊 Dados parseados:`, data);
                         return this.fixObjectUtf8(data);
                     } else {
                         console.log(`⚠️ Dados de pagamento não encontrados no localStorage para ${filename}`);
+                        
+                        // Try alternative keys
+                        const altKey1 = filename.replace('.json', '');
+                        const altKey2 = `moveisbonafe_${filename.replace('.json', '').replace('_', '')}`;
+                        console.log(`🔍 Tentando chaves alternativas: ${altKey1}, ${altKey2}`);
+                        
+                        const altData1 = localStorage.getItem(altKey1);
+                        const altData2 = localStorage.getItem(altKey2);
+                        
+                        if (altData1) {
+                            console.log(`✅ Encontrado em ${altKey1}`);
+                            return this.fixObjectUtf8(JSON.parse(altData1));
+                        } else if (altData2) {
+                            console.log(`✅ Encontrado em ${altKey2}`);
+                            return this.fixObjectUtf8(JSON.parse(altData2));
+                        }
+                        
                         return [];
                     }
                 }

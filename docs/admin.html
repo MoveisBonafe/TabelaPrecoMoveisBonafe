@@ -4817,10 +4817,25 @@
             
             try {
                 adminClient.paymentRules = adminClient.paymentRules.filter(r => r.id !== parseInt(ruleId));
-                await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                
+                // Save to localStorage immediately
+                localStorage.setItem('payment_rules.json', JSON.stringify(adminClient.paymentRules));
+                
+                // Trigger a custom event to notify catalog of data changes
+                window.dispatchEvent(new CustomEvent('paymentDataUpdated', {
+                    detail: { type: 'payment_rules', data: adminClient.paymentRules }
+                }));
+                
+                // Try to save to GitHub but don't fail if token not configured
+                try {
+                    await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                    addSystemLog('🗑️ Regra de pagamento excluída e sincronizada');
+                } catch (githubError) {
+                    addSystemLog('🗑️ Regra de pagamento excluída (salvo localmente)');
+                }
+                
                 renderExistingRules();
                 renderPaymentRules();
-                addSystemLog('🗑️ Regra de pagamento excluída');
                 showNotification('Regra excluída com sucesso!', 'success');
             } catch (error) {
                 addSystemLog(`❌ Erro ao excluir regra: ${error.message}`);
@@ -5038,9 +5053,19 @@
             try {
                 const method = adminClient.paymentMethods.find(m => m.id === parseInt(id));
                 adminClient.paymentMethods = adminClient.paymentMethods.filter(m => m.id !== parseInt(id));
-                await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                
+                // Save to localStorage immediately
+                localStorage.setItem('payment_methods.json', JSON.stringify(adminClient.paymentMethods));
+                
+                // Try to save to GitHub but don't fail if token not configured
+                try {
+                    await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                    addSystemLog(`💳 Forma de pagamento excluída e sincronizada`);
+                } catch (githubError) {
+                    addSystemLog(`💳 Forma de pagamento excluída (salvo localmente)`);
+                }
+                
                 renderPaymentMethods();
-                addSystemLog(`💳 Forma de pagamento excluída`);
                 showNotification('Forma de pagamento excluída com sucesso!', 'success');
             } catch (error) {
                 addSystemLog(`❌ Erro ao excluir forma de pagamento: ${error.message}`);
@@ -5054,9 +5079,19 @@
             try {
                 const condition = adminClient.paymentConditions.find(c => c.id === parseInt(id));
                 adminClient.paymentConditions = adminClient.paymentConditions.filter(c => c.id !== parseInt(id));
-                await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                
+                // Save to localStorage immediately
+                localStorage.setItem('payment_conditions.json', JSON.stringify(adminClient.paymentConditions));
+                
+                // Try to save to GitHub but don't fail if token not configured
+                try {
+                    await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                    addSystemLog(`📋 Condição de pagamento excluída e sincronizada`);
+                } catch (githubError) {
+                    addSystemLog(`📋 Condição de pagamento excluída (salvo localmente)`);
+                }
+                
                 renderPaymentConditions();
-                addSystemLog(`📋 Condição de pagamento excluída`);
                 showNotification('Condição de pagamento excluída com sucesso!', 'success');
             } catch (error) {
                 addSystemLog(`❌ Erro ao excluir condição: ${error.message}`);

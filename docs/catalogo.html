@@ -1559,6 +1559,9 @@
                     this.paymentConditions = paymentConditions || [];
                     this.paymentRules = paymentRules || [];
                     
+                    // Debug payment methods loaded
+                    console.log('💳 Debug payment methods loaded:', this.paymentMethods.map(m => `${m.name} (ID: ${m.id})`));
+                    
                     // Apply product order
                     await this.loadProductOrder();
                     

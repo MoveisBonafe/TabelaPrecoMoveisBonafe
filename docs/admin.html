@@ -4522,12 +4522,27 @@
                     adminClient.paymentConditions.find(c => c.id === id)?.name
                 ).filter(Boolean);
                 
+                // Convert user access to readable labels
+                let userAccessDisplay = 'Todos';
+                if (rule.userAccess && Array.isArray(rule.userAccess) && rule.userAccess.length > 0) {
+                    const accessLabels = rule.userAccess.map(access => {
+                        if (access === 'loja') return 'Loja';
+                        if (access === 'restaurante') return 'Restaurante';
+                        if (access === 'admin') return 'Administrador';
+                        if (access === 'all') return 'Todos';
+                        // For numeric IDs, try to find the user
+                        const user = adminClient.users?.find(u => u.id === parseInt(access));
+                        return user ? `${user.name} (${user.role})` : access;
+                    });
+                    userAccessDisplay = accessLabels.join(', ');
+                }
+                
                 ruleDiv.innerHTML = `
                     <div style="display: flex; justify-content: between; align-items: flex-start;">
                         <div>
                             <h4 style="margin: 0 0 8px 0; color: #374151;">${method?.name || 'Forma removida'}</h4>
                             <p style="margin: 0 0 8px 0; color: #6b7280;">Condições: ${conditions.join(', ') || 'Nenhuma'}</p>
-                            <p style="margin: 0; color: #6b7280; font-size: 14px;">Usuários: ${rule.userAccess?.join(', ') || 'Todos'}</p>
+                            <p style="margin: 0; color: #6b7280; font-size: 14px;">Usuários: ${userAccessDisplay}</p>
                         </div>
                         <button class="btn btn-danger" style="margin-left: auto;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
                     </div>
@@ -4705,11 +4720,26 @@
                 
                 const ruleDiv = document.createElement('div');
                 ruleDiv.style.cssText = 'background: #f9fafb; padding: 12px; border-radius: 6px; margin-bottom: 8px; border: 1px solid #e5e7eb;';
+                // Convert user access to readable labels
+                let userAccessDisplay = 'Todos';
+                if (rule.userAccess && Array.isArray(rule.userAccess) && rule.userAccess.length > 0) {
+                    const accessLabels = rule.userAccess.map(access => {
+                        if (access === 'loja') return 'Loja';
+                        if (access === 'restaurante') return 'Restaurante';
+                        if (access === 'admin') return 'Administrador';
+                        if (access === 'all') return 'Todos';
+                        // For numeric IDs, try to find the user
+                        const user = adminClient.users?.find(u => u.id === parseInt(access));
+                        return user ? `${user.name} (${user.role})` : access;
+                    });
+                    userAccessDisplay = accessLabels.join(', ');
+                }
+                
                 ruleDiv.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <strong>${method?.name || 'Método removido'}</strong> → ${conditions.join(', ') || 'Nenhuma condição'}
-                            <br><small>Usuários: ${rule.userAccess?.join(', ') || 'Todos'}</small>
+                            <br><small>Usuários: ${userAccessDisplay}</small>
                         </div>
                         <div style="display: flex; gap: 8px;">
                             <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;" onclick="editPaymentRule('${rule.id}')">✏️</button>

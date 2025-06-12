@@ -1435,11 +1435,29 @@
                     }
                 }
                 
-                // For non-payment files, check for GitHub token and prioritize GitHub API if available
+                // For non-payment files, try local server first to ensure users always see products
+                try {
+                    const url = `${this.baseUrl}/data/${filename}`;
+                    console.log(`Carregando ${filename} de: ${url}`);
+                    const response = await fetch(url);
+                    
+                    if (response.ok) {
+                        const rawText = await response.text();
+                        const data = JSON.parse(rawText);
+                        console.log(`✅ Carregado ${filename} do servidor: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                        return this.fixObjectUtf8(data);
+                    } else {
+                        console.log(`HTTP ${response.status} para ${filename}`);
+                    }
+                } catch (error) {
+                    console.log(`Erro ao carregar ${filename} do servidor:`, error.message);
+                }
+
+                // Try GitHub API as secondary option (only if server fails)
                 const githubToken = localStorage.getItem('github_token');
                 if (githubToken && githubToken.trim()) {
                     try {
-                        console.log(`🔗 Token GitHub detectado - tentando carregar ${filename} do GitHub API...`);
+                        console.log(`🔗 Tentando GitHub API para ${filename}...`);
                         const githubUrl = `https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/${filename}`;
                         const githubResponse = await fetch(githubUrl, {
                             headers: {
@@ -1455,46 +1473,27 @@
                             console.log(`✅ Carregado ${filename} do GitHub API: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
                             return this.fixObjectUtf8(data);
                         } else {
-                            console.log(`❌ Falha ao carregar ${filename} do GitHub API (${githubResponse.status})`);
+                            console.log(`❌ GitHub API retornou ${githubResponse.status} para ${filename}`);
                         }
                     } catch (error) {
-                        console.log(`❌ Erro ao carregar ${filename} do GitHub API:`, error.message);
+                        console.log(`❌ Erro no GitHub API para ${filename}:`, error.message);
                     }
                 }
                 
-                // Fallback to server data
-                try {
-                    const url = `${this.baseUrl}/data/${filename}`;
-                    console.log(`Carregando ${filename} de: ${url}`);
-                    const response = await fetch(url);
-                    
-                    if (!response.ok) {
-                        console.log(`HTTP ${response.status} para ${filename}`);
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-                    
-                    const rawText = await response.text();
-                    const data = JSON.parse(rawText);
-                    console.log(`✅ Carregado ${filename} do servidor: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                // Final fallback to localStorage
+                console.log(`Verificando localStorage para ${filename}...`);
+                const dataType = filename.replace('.json', '').replace('_', '');
+                const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+                const localData = localStorage.getItem(localKey);
+                
+                if (localData) {
+                    console.log(`✅ Carregado ${filename} do localStorage`);
+                    const data = JSON.parse(localData);
                     return this.fixObjectUtf8(data);
-                } catch (error) {
-                    console.log(`Erro ao carregar ${filename} do servidor:`, error.message);
-                    console.log(`Verificando localStorage para ${filename}...`);
-                    
-                    // Fallback para localStorage
-                    const dataType = filename.replace('.json', '').replace('_', '');
-                    const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
-                    const localData = localStorage.getItem(localKey);
-                    
-                    if (localData) {
-                        console.log(`✅ Carregado ${filename} do localStorage`);
-                        const data = JSON.parse(localData);
-                        return this.fixObjectUtf8(data);
-                    }
-                    
-                    console.log(`⚠️ Nenhum dado encontrado para ${filename}`);
-                    return [];
                 }
+                
+                console.log(`⚠️ Nenhum dado encontrado para ${filename}`);
+                return [];
             }
 
             // Fix UTF-8 encoding issues

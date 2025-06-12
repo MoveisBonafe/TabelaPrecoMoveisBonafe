@@ -406,32 +406,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Mesa Bonacor 1,80 X 0,85",
-    "category": "Mesas",
-    "priceAVista": 430,
-    "altura": 80,
-    "largura": 85,
-    "comprimento": 180,
-    "peso": 25,
-    "description": "",
-    "images": [
-      "data/images/product_1749519327404_yguweh8q2.png",
-      "data/images/product_1749519607424_mg0mp51hg.png",
-      "data/images/product_1749519620037_2wy24a4kw.png",
-      "data/images/product_1749519625083_2eo3093t3.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:40:33.636Z",
-    "id": 1749514027907,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Mesa Bonacor 0,75 X 0,75 Criança",
     "category": "Mesas",
     "priceAVista": 182,
@@ -455,6 +429,32 @@
     "active": true,
     "updatedAt": "2025-06-10T01:48:48.202Z",
     "id": 1749514027913,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 1,80 X 0,85",
+    "category": "Mesas",
+    "priceAVista": 430,
+    "altura": 80,
+    "largura": 85,
+    "comprimento": 180,
+    "peso": 25,
+    "description": "",
+    "images": [
+      "data/images/product_1749519327404_yguweh8q2.png",
+      "data/images/product_1749519607424_mg0mp51hg.png",
+      "data/images/product_1749519620037_2wy24a4kw.png",
+      "data/images/product_1749519625083_2eo3093t3.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:40:33.636Z",
+    "id": 1749514027907,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

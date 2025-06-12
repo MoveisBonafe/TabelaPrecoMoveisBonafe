@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "PIX",
+    "description": "",
+    "icon": "📱",
+    "active": true,
+    "fee": 0,
+    "id": 1749737846203,
+    "createdAt": "2025-06-12T14:17:26.203Z"
+  }
+]

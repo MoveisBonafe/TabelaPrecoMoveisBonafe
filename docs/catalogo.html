@@ -1395,6 +1395,24 @@
                 this.filteredProducts = [];
             }
 
+            // Function to normalize text data and fix encoding issues
+            normalizeTextData(obj) {
+                if (typeof obj === 'string') {
+                    return obj.normalize('NFC');
+                }
+                if (Array.isArray(obj)) {
+                    return obj.map(item => this.normalizeTextData(item));
+                }
+                if (obj && typeof obj === 'object') {
+                    const normalized = {};
+                    for (const [key, value] of Object.entries(obj)) {
+                        normalized[key] = this.normalizeTextData(value);
+                    }
+                    return normalized;
+                }
+                return obj;
+            }
+
             async loadData(filename) {
                 console.log(`🔍 INÍCIO loadData: ${filename}`);
                 console.log(`🔍 BaseURL atual: ${this.baseUrl}`);
@@ -1428,7 +1446,7 @@
                             // Cache payment data locally for faster subsequent loads
                             localStorage.setItem(filename, JSON.stringify(data));
                         }
-                        return this.fixObjectUtf8(data);
+                        return this.normalizeTextData(data);
                     } else {
                         console.log(`❌ GITHUB: HTTP ${response.status} para ${filename}`);
                     }

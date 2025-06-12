@@ -5044,6 +5044,24 @@
             }
         }
 
+        // Function to normalize text data and fix encoding issues
+        function normalizeTextData(obj) {
+            if (typeof obj === 'string') {
+                return obj.normalize('NFC');
+            }
+            if (Array.isArray(obj)) {
+                return obj.map(item => normalizeTextData(item));
+            }
+            if (obj && typeof obj === 'object') {
+                const normalized = {};
+                for (const [key, value] of Object.entries(obj)) {
+                    normalized[key] = normalizeTextData(value);
+                }
+                return normalized;
+            }
+            return obj;
+        }
+
         // Function to load specific file from GitHub
         async function loadFromGitHub(filename) {
             const token = localStorage.getItem('github_token');
@@ -5069,7 +5087,10 @@
 
                 const data = await response.json();
                 const content = atob(data.content.replace(/\s/g, ''));
-                return JSON.parse(content);
+                const parsedData = JSON.parse(content);
+                
+                // Normalize text data to fix encoding issues
+                return normalizeTextData(parsedData);
             } catch (error) {
                 console.error(`Erro ao carregar ${filename} do GitHub:`, error);
                 throw error;

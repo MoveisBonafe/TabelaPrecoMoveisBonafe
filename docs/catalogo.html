@@ -2497,14 +2497,24 @@ ${this.userType === 'restaurante' ? `
 
         // Initialize application
         const catalogClient = new CatalogClient();
-        document.addEventListener('DOMContentLoaded', () => {
-            catalogClient.init().then(() => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Check if GitHub token is configured and prioritize GitHub data
+                const token = localStorage.getItem('github_token');
+                if (token) {
+                    console.log('🔗 Token GitHub detectado - priorizando dados do GitHub');
+                    await loadPaymentDataFromGitHub();
+                } else {
+                    console.log('💾 Carregando dados do localStorage');
+                }
+                
+                await catalogClient.init();
                 console.log('✅ Catálogo inicializado');
                 loadCart(); // Carregar carrinho salvo
-            }).catch(error => {
+            } catch (error) {
                 console.error('❌ Erro na inicialização:', error);
                 alert('Erro ao carregar o catálogo. Tente novamente.');
-            });
+            }
         });
 
         // Remove duplicate declarations - variables already declared earlier

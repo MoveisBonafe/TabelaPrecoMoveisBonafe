@@ -2900,7 +2900,16 @@
             if (token) {
                 localStorage.setItem('github_token', token);
                 addSystemLog('🔐 Token GitHub salvo');
-                await checkGitHubToken();
+                
+                // Check token validity and sync automatically if valid
+                const tokenValid = await checkGitHubToken();
+                if (tokenValid) {
+                    addSystemLog('🔄 Iniciando sincronização automática...');
+                    await syncAllPaymentData();
+                    await loadDataWithGitHubPriority();
+                    addSystemLog('✅ Dados sincronizados com GitHub - GitHub agora tem prioridade');
+                }
+                
                 document.getElementById('github-token-input').value = '';
                 showNotification('Token GitHub salvo com sucesso!', 'success');
             }
@@ -4852,6 +4861,104 @@
             showNotification('Cache limpo! O catálogo agora carregará dados atualizados do servidor.', 'success');
         }
 
+        // Function to sync all pending payment data to GitHub when token is configured
+        async function syncAllPaymentData() {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                addSystemLog('⚠️ Token GitHub não configurado - dados salvos apenas localmente');
+                return;
+            }
+
+            try {
+                addSystemLog('🔄 Iniciando sincronização com GitHub...');
+                
+                // Sync payment methods
+                const paymentMethods = localStorage.getItem('payment_methods.json');
+                if (paymentMethods) {
+                    await saveToGitHub('payment_methods.json', JSON.parse(paymentMethods));
+                    addSystemLog('✅ Formas de pagamento sincronizadas');
+                }
+
+                // Sync payment conditions
+                const paymentConditions = localStorage.getItem('payment_conditions.json');
+                if (paymentConditions) {
+                    await saveToGitHub('payment_conditions.json', JSON.parse(paymentConditions));
+                    addSystemLog('✅ Condições de pagamento sincronizadas');
+                }
+
+                // Sync payment rules
+                const paymentRules = localStorage.getItem('payment_rules.json');
+                if (paymentRules) {
+                    await saveToGitHub('payment_rules.json', JSON.parse(paymentRules));
+                    addSystemLog('✅ Regras de pagamento sincronizadas');
+                }
+
+                showNotification('Todos os dados de pagamento foram sincronizados com GitHub!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro na sincronização: ${error.message}`);
+                showNotification('Erro ao sincronizar com GitHub', 'error');
+            }
+        }
+
+        // Function to load data with GitHub priority when token is configured
+        async function loadDataWithGitHubPriority() {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                addSystemLog('💾 Carregando dados do localStorage (GitHub não configurado)');
+                return;
+            }
+
+            try {
+                addSystemLog('🔄 Token GitHub configurado - carregando dados do GitHub...');
+                
+                // Load payment methods from GitHub
+                try {
+                    const paymentMethods = await loadFromGitHub('payment_methods.json');
+                    if (paymentMethods) {
+                        adminClient.paymentMethods = paymentMethods;
+                        localStorage.setItem('payment_methods.json', JSON.stringify(paymentMethods));
+                        addSystemLog('✅ Formas de pagamento carregadas do GitHub');
+                    }
+                } catch (error) {
+                    addSystemLog('⚠️ Falha ao carregar formas de pagamento do GitHub - usando localStorage');
+                }
+
+                // Load payment conditions from GitHub
+                try {
+                    const paymentConditions = await loadFromGitHub('payment_conditions.json');
+                    if (paymentConditions) {
+                        adminClient.paymentConditions = paymentConditions;
+                        localStorage.setItem('payment_conditions.json', JSON.stringify(paymentConditions));
+                        addSystemLog('✅ Condições de pagamento carregadas do GitHub');
+                    }
+                } catch (error) {
+                    addSystemLog('⚠️ Falha ao carregar condições de pagamento do GitHub - usando localStorage');
+                }
+
+                // Load payment rules from GitHub
+                try {
+                    const paymentRules = await loadFromGitHub('payment_rules.json');
+                    if (paymentRules) {
+                        adminClient.paymentRules = paymentRules;
+                        localStorage.setItem('payment_rules.json', JSON.stringify(paymentRules));
+                        addSystemLog('✅ Regras de pagamento carregadas do GitHub');
+                    }
+                } catch (error) {
+                    addSystemLog('⚠️ Falha ao carregar regras de pagamento do GitHub - usando localStorage');
+                }
+
+                // Refresh the UI with GitHub data
+                renderPaymentMethods();
+                renderPaymentConditions();
+                renderPaymentRules();
+                
+                addSystemLog('🎯 GitHub agora tem prioridade sobre localStorage');
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao carregar dados do GitHub: ${error.message}`);
+            }
+        }
+
         // Form submission handlers
         document.addEventListener('DOMContentLoaded', () => {
             // Payment Method Form
@@ -5153,8 +5260,18 @@
         }
 
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             initAdmin();
+            
+            // Check if GitHub token is configured and prioritize GitHub data
+            const token = localStorage.getItem('github_token');
+            if (token) {
+                addSystemLog('🔗 Token GitHub detectado - priorizando dados do GitHub');
+                await loadDataWithGitHubPriority();
+            } else {
+                addSystemLog('💾 Carregando dados do localStorage');
+            }
+            
             // Load restaurant markup after DOM is ready
             setTimeout(loadRestaurantMarkup, 100);
         });

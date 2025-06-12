@@ -1795,14 +1795,17 @@
         async function loadAllData() {
             try {
                 // Always load fresh data from GitHub
-                const [products, categories, colors, users, priceSettings, promotions, notices] = await Promise.all([
+                const [products, categories, colors, users, priceSettings, promotions, notices, paymentMethods, paymentConditions, paymentRules] = await Promise.all([
                     fetch(`${adminClient.baseUrl}/data/products.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/categories.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/colors.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/users.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/price_settings.json`).then(r => r.ok ? r.json() : []).catch(() => []),
                     fetch(`${adminClient.baseUrl}/data/promotions.json`).then(r => r.ok ? r.json() : []).catch(() => []),
-                    fetch(`${adminClient.baseUrl}/data/notices.json`).then(r => r.ok ? r.json() : []).catch(() => [])
+                    fetch(`${adminClient.baseUrl}/data/notices.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/payment_methods.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/payment_conditions.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+                    fetch(`${adminClient.baseUrl}/data/payment_rules.json`).then(r => r.ok ? r.json() : []).catch(() => [])
                 ]);
 
                 adminClient.products = products;
@@ -1812,6 +1815,9 @@
                 adminClient.priceSettings = priceSettings;
                 adminClient.promotions = promotions;
                 adminClient.notices = notices;
+                adminClient.paymentMethods = paymentMethods;
+                adminClient.paymentConditions = paymentConditions;
+                adminClient.paymentRules = paymentRules;
 
                 // Load product order after loading products
                 await loadProductOrder();
@@ -1955,6 +1961,9 @@
             renderPriceSettings();
             renderPromotions();
             renderNotices();
+            renderPaymentMethods();
+            renderPaymentConditions();
+            renderPaymentRules();
             populateSelects();
         }
 
@@ -4380,6 +4389,426 @@
             });
             
             console.log('Product order applied successfully');
+        }
+
+        // Payment Methods Management Functions
+        function renderPaymentMethods() {
+            const grid = document.getElementById('payment-methods-grid');
+            const loading = document.getElementById('payment-methods-loading');
+            const empty = document.getElementById('payment-methods-empty');
+            
+            if (!grid) return;
+
+            loading.style.display = 'none';
+            
+            if (adminClient.paymentMethods.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+
+            adminClient.paymentMethods.forEach(method => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                
+                const statusColor = method.active ? '#48bb78' : '#f56565';
+                const statusText = method.active ? 'Ativo' : 'Inativo';
+                
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                        <div style="font-size: 32px;">${method.icon || '💳'}</div>
+                        <div>
+                            <div class="card-title">${method.name}</div>
+                            <div class="card-info">${method.description || 'Sem descrição'}</div>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-info"><strong>Taxa:</strong> ${method.fee || 0}%</div>
+                    <div class="card-info"><strong>ID:</strong> ${method.id}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editPaymentMethod('${method.id}')">✏️ Editar</button>
+                        <button class="btn btn-danger" onclick="deletePaymentMethod('${method.id}')">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function renderPaymentConditions() {
+            const grid = document.getElementById('payment-conditions-grid');
+            const loading = document.getElementById('payment-conditions-loading');
+            const empty = document.getElementById('payment-conditions-empty');
+            
+            if (!grid) return;
+
+            loading.style.display = 'none';
+            
+            if (adminClient.paymentConditions.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+
+            adminClient.paymentConditions.forEach(condition => {
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                
+                const statusColor = condition.active ? '#48bb78' : '#f56565';
+                const statusText = condition.active ? 'Ativo' : 'Inativo';
+                
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                        <div style="font-size: 32px;">📋</div>
+                        <div>
+                            <div class="card-title">${condition.name}</div>
+                            <div class="card-info">${condition.description || 'Sem descrição'}</div>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-info"><strong>Parcelas:</strong> ${condition.installments}x</div>
+                    <div class="card-info"><strong>Juros:</strong> ${condition.interest || 0}% a.m.</div>
+                    <div class="card-info"><strong>Desconto:</strong> ${condition.discount || 0}%</div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="editPaymentCondition('${condition.id}')">✏️ Editar</button>
+                        <button class="btn btn-danger" onclick="deletePaymentCondition('${condition.id}')">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function renderPaymentRules() {
+            const rulesList = document.getElementById('payment-rules-list');
+            if (!rulesList) return;
+
+            if (adminClient.paymentRules.length === 0) {
+                rulesList.innerHTML = '<p style="color: #6b7280;">Nenhuma regra configurada. Use o botão "Configurar Regras" para criar relacionamentos entre formas e condições de pagamento.</p>';
+                return;
+            }
+
+            rulesList.innerHTML = '';
+            adminClient.paymentRules.forEach(rule => {
+                const ruleDiv = document.createElement('div');
+                ruleDiv.style.cssText = 'background: white; padding: 16px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 12px;';
+                
+                const method = adminClient.paymentMethods.find(m => m.id === rule.paymentMethodId);
+                const conditions = rule.conditionIds.map(id => 
+                    adminClient.paymentConditions.find(c => c.id === id)?.name
+                ).filter(Boolean);
+                
+                ruleDiv.innerHTML = `
+                    <div style="display: flex; justify-content: between; align-items: flex-start;">
+                        <div>
+                            <h4 style="margin: 0 0 8px 0; color: #374151;">${method?.name || 'Forma removida'}</h4>
+                            <p style="margin: 0 0 8px 0; color: #6b7280;">Condições: ${conditions.join(', ') || 'Nenhuma'}</p>
+                            <p style="margin: 0; color: #6b7280; font-size: 14px;">Usuários: ${rule.userAccess?.join(', ') || 'Todos'}</p>
+                        </div>
+                        <button class="btn btn-danger" style="margin-left: auto;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                    </div>
+                `;
+                
+                rulesList.appendChild(ruleDiv);
+            });
+        }
+
+        // Modal functions for payment methods
+        function openPaymentMethodModal(methodId = null) {
+            const modal = document.getElementById('payment-method-modal');
+            const form = document.getElementById('payment-method-form');
+            
+            if (methodId) {
+                const method = adminClient.paymentMethods.find(m => m.id === methodId);
+                if (method) {
+                    document.getElementById('payment-method-name').value = method.name;
+                    document.getElementById('payment-method-description').value = method.description || '';
+                    document.getElementById('payment-method-icon').value = method.icon || '💳';
+                    document.getElementById('payment-method-active').value = method.active ? 'true' : 'false';
+                    document.getElementById('payment-method-fee').value = method.fee || 0;
+                }
+            } else {
+                form.reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closePaymentMethodModal() {
+            document.getElementById('payment-method-modal').classList.remove('active');
+        }
+
+        function openPaymentConditionModal(conditionId = null) {
+            const modal = document.getElementById('payment-condition-modal');
+            const form = document.getElementById('payment-condition-form');
+            
+            if (conditionId) {
+                const condition = adminClient.paymentConditions.find(c => c.id === conditionId);
+                if (condition) {
+                    document.getElementById('payment-condition-name').value = condition.name;
+                    document.getElementById('payment-condition-description').value = condition.description || '';
+                    document.getElementById('payment-condition-installments').value = condition.installments || 1;
+                    document.getElementById('payment-condition-interest').value = condition.interest || 0;
+                    document.getElementById('payment-condition-discount').value = condition.discount || 0;
+                    document.getElementById('payment-condition-active').value = condition.active ? 'true' : 'false';
+                }
+            } else {
+                form.reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closePaymentConditionModal() {
+            document.getElementById('payment-condition-modal').classList.remove('active');
+        }
+
+        function openPaymentRulesModal() {
+            const modal = document.getElementById('payment-rules-modal');
+            populateRuleSelects();
+            populateUserCheckboxes();
+            renderExistingRules();
+            modal.classList.add('active');
+        }
+
+        function closePaymentRulesModal() {
+            document.getElementById('payment-rules-modal').classList.remove('active');
+        }
+
+        function populateRuleSelects() {
+            const methodSelect = document.getElementById('rule-payment-method');
+            const conditionsSelect = document.getElementById('rule-payment-conditions');
+            
+            methodSelect.innerHTML = '<option value="">Selecione uma forma</option>';
+            adminClient.paymentMethods.forEach(method => {
+                methodSelect.innerHTML += `<option value="${method.id}">${method.name}</option>`;
+            });
+            
+            conditionsSelect.innerHTML = '';
+            adminClient.paymentConditions.forEach(condition => {
+                conditionsSelect.innerHTML += `<option value="${condition.id}">${condition.name}</option>`;
+            });
+        }
+
+        function populateUserCheckboxes() {
+            const container = document.getElementById('user-access-checkboxes');
+            container.innerHTML = `
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" value="all" checked>
+                    Todos os usuários
+                </label>
+            `;
+            
+            adminClient.users.forEach(user => {
+                container.innerHTML += `
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" value="${user.id}">
+                        ${user.name} (${user.role})
+                    </label>
+                `;
+            });
+        }
+
+        function renderExistingRules() {
+            const container = document.getElementById('existing-rules-list');
+            if (adminClient.paymentRules.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">Nenhuma regra criada ainda.</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            adminClient.paymentRules.forEach(rule => {
+                const method = adminClient.paymentMethods.find(m => m.id === rule.paymentMethodId);
+                const conditions = rule.conditionIds.map(id => 
+                    adminClient.paymentConditions.find(c => c.id === id)?.name
+                ).filter(Boolean);
+                
+                const ruleDiv = document.createElement('div');
+                ruleDiv.style.cssText = 'background: #f9fafb; padding: 12px; border-radius: 6px; margin-bottom: 8px; border: 1px solid #e5e7eb;';
+                ruleDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${method?.name || 'Método removido'}</strong> → ${conditions.join(', ') || 'Nenhuma condição'}
+                            <br><small>Usuários: ${rule.userAccess?.join(', ') || 'Todos'}</small>
+                        </div>
+                        <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(ruleDiv);
+            });
+        }
+
+        // Form submission handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            // Payment Method Form
+            document.getElementById('payment-method-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    id: Date.now(),
+                    name: document.getElementById('payment-method-name').value,
+                    description: document.getElementById('payment-method-description').value,
+                    icon: document.getElementById('payment-method-icon').value,
+                    active: document.getElementById('payment-method-active').value === 'true',
+                    fee: parseFloat(document.getElementById('payment-method-fee').value) || 0,
+                    createdAt: new Date().toISOString()
+                };
+                
+                try {
+                    adminClient.paymentMethods.push(formData);
+                    await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                    renderPaymentMethods();
+                    closePaymentMethodModal();
+                    addSystemLog(`💳 Forma de pagamento "${formData.name}" criada`);
+                    showNotification('Forma de pagamento criada com sucesso!', 'success');
+                } catch (error) {
+                    addSystemLog(`❌ Erro ao criar forma de pagamento: ${error.message}`);
+                    showNotification('Erro ao criar forma de pagamento', 'error');
+                }
+            });
+
+            // Payment Condition Form
+            document.getElementById('payment-condition-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    id: Date.now(),
+                    name: document.getElementById('payment-condition-name').value,
+                    description: document.getElementById('payment-condition-description').value,
+                    installments: parseInt(document.getElementById('payment-condition-installments').value) || 1,
+                    interest: parseFloat(document.getElementById('payment-condition-interest').value) || 0,
+                    discount: parseFloat(document.getElementById('payment-condition-discount').value) || 0,
+                    active: document.getElementById('payment-condition-active').value === 'true',
+                    createdAt: new Date().toISOString()
+                };
+                
+                try {
+                    adminClient.paymentConditions.push(formData);
+                    await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                    renderPaymentConditions();
+                    closePaymentConditionModal();
+                    addSystemLog(`📋 Condição "${formData.name}" criada`);
+                    showNotification('Condição de pagamento criada com sucesso!', 'success');
+                } catch (error) {
+                    addSystemLog(`❌ Erro ao criar condição: ${error.message}`);
+                    showNotification('Erro ao criar condição de pagamento', 'error');
+                }
+            });
+
+            // Payment Rule Form
+            document.getElementById('payment-rule-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const methodId = document.getElementById('rule-payment-method').value;
+                const conditionIds = Array.from(document.getElementById('rule-payment-conditions').selectedOptions)
+                    .map(option => option.value);
+                const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
+                const userAccess = Array.from(userCheckboxes).map(cb => cb.value);
+                
+                if (!methodId || conditionIds.length === 0) {
+                    showNotification('Selecione uma forma de pagamento e pelo menos uma condição', 'error');
+                    return;
+                }
+                
+                const formData = {
+                    id: Date.now(),
+                    paymentMethodId: methodId,
+                    conditionIds: conditionIds,
+                    userAccess: userAccess,
+                    createdAt: new Date().toISOString()
+                };
+                
+                try {
+                    adminClient.paymentRules.push(formData);
+                    await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                    renderPaymentRules();
+                    renderExistingRules();
+                    document.getElementById('payment-rule-form').reset();
+                    addSystemLog(`⚙️ Regra de pagamento criada`);
+                    showNotification('Regra criada com sucesso!', 'success');
+                } catch (error) {
+                    addSystemLog(`❌ Erro ao criar regra: ${error.message}`);
+                    showNotification('Erro ao criar regra', 'error');
+                }
+            });
+        });
+
+        // Edit and Delete functions
+        function editPaymentMethod(id) {
+            openPaymentMethodModal(id);
+        }
+
+        function editPaymentCondition(id) {
+            openPaymentConditionModal(id);
+        }
+
+        async function deletePaymentMethod(id) {
+            if (!confirm('Tem certeza que deseja excluir esta forma de pagamento?')) return;
+            
+            try {
+                adminClient.paymentMethods = adminClient.paymentMethods.filter(m => m.id !== parseInt(id));
+                await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                renderPaymentMethods();
+                addSystemLog(`💳 Forma de pagamento excluída`);
+                showNotification('Forma de pagamento excluída com sucesso!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir forma de pagamento: ${error.message}`);
+                showNotification('Erro ao excluir forma de pagamento', 'error');
+            }
+        }
+
+        async function deletePaymentCondition(id) {
+            if (!confirm('Tem certeza que deseja excluir esta condição de pagamento?')) return;
+            
+            try {
+                adminClient.paymentConditions = adminClient.paymentConditions.filter(c => c.id !== parseInt(id));
+                await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                renderPaymentConditions();
+                addSystemLog(`📋 Condição de pagamento excluída`);
+                showNotification('Condição excluída com sucesso!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir condição: ${error.message}`);
+                showNotification('Erro ao excluir condição', 'error');
+            }
+        }
+
+        async function deletePaymentRule(id) {
+            if (!confirm('Tem certeza que deseja excluir esta regra?')) return;
+            
+            try {
+                adminClient.paymentRules = adminClient.paymentRules.filter(r => r.id !== parseInt(id));
+                await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                renderPaymentRules();
+                renderExistingRules();
+                addSystemLog(`⚙️ Regra de pagamento excluída`);
+                showNotification('Regra excluída com sucesso!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir regra: ${error.message}`);
+                showNotification('Erro ao excluir regra', 'error');
+            }
+        }
+
+        function clearRuleForm() {
+            document.getElementById('payment-rule-form').reset();
+            document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = cb.value === 'all';
+            });
         }
 
         // Initialize on page load

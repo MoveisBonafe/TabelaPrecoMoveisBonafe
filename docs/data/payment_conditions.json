@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "name": "1x",
+    "description": "1x",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749701105862,
+    "createdAt": "2025-06-12T04:05:05.862Z"
+  }
+]

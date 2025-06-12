@@ -8,7 +8,9 @@
       1749745082474
     ],
     "userAccess": [
-      "all"
+      "all",
+      "loja",
+      "restaurante"
     ],
     "createdAt": "2025-06-12T16:14:54.321Z"
   },

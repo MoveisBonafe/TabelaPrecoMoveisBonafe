@@ -3615,10 +3615,11 @@
         }
 
         // Order management functions
-        function renderOrders() {
+        function renderOrders(ordersToRender = null) {
             const ordersGrid = document.getElementById('pedidos-grid');
+            const ordersData = ordersToRender || orders;
             
-            if (!orders || orders.length === 0) {
+            if (!ordersData || ordersData.length === 0) {
                 ordersGrid.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📋</div>
@@ -3631,7 +3632,7 @@
             
             ordersGrid.innerHTML = '';
             
-            orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(order => {
+            ordersData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(order => {
                 const orderCard = document.createElement('div');
                 orderCard.className = 'data-card';
                 orderCard.style.cursor = 'pointer';

@@ -7187,8 +7187,31 @@ ${this.userType === 'restaurante' ? `
                 });
             }, 1000);
         });
-        
-        // Close the CatalogClient class
+
+        // Global functions for cart and UI interactions
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('moveisbonafe_cart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        function openWhatsAppContact() {
+            const phoneNumber = '+5514997181108';
+            const message = 'Olá! Gostaria de mais informações sobre os produtos.';
+            const url = `https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function openCartModal() {
+            const cart = JSON.parse(localStorage.getItem('moveisbonafe_cart') || '[]');
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            window.location.href = './checkout.html';
         }
 
         // Data synchronization listener for cross-page updates

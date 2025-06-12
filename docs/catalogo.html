@@ -1399,9 +1399,8 @@
                 if (isPaymentFile) {
                     console.log(`🔒 Carregando ${filename} prioritariamente do localStorage (dados do admin)...`);
                     
-                    const dataType = filename.replace('.json', '').replace('_', '');
-                    const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
-                    const localData = localStorage.getItem(localKey);
+                    // Use exact filename as key (admin panel saves with this format)
+                    const localData = localStorage.getItem(filename);
                     
                     if (localData) {
                         console.log(`✅ Carregado ${filename} do localStorage (admin)`);

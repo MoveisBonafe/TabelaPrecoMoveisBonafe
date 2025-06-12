@@ -1525,6 +1525,10 @@
                     this.promotions = promotions.filter(p => p.active === true);
                     this.colors = colors || [];
                     this.notices = notices || [];
+                    
+                    // Apply product order
+                    await this.loadProductOrder();
+                    
                     this.filteredProducts = [...this.products];
 
                     console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas, ${this.colors.length} cores, ${this.notices.length} avisos`);
@@ -1538,6 +1542,50 @@
                     console.error('❌ Erro ao carregar dados:', error);
                     throw error;
                 }
+            }
+
+            async loadProductOrder() {
+                try {
+                    // Try to load from GitHub first
+                    const response = await fetch(`${this.baseUrl}/data/product-order.json`);
+                    if (response.ok) {
+                        const productOrder = await response.json();
+                        this.applyProductOrder(productOrder);
+                        return;
+                    }
+                } catch (error) {
+                    console.log('Product order not found on GitHub, checking localStorage...');
+                }
+                
+                // Try localStorage fallback
+                const localOrder = localStorage.getItem('moveisbonafe_product_order');
+                if (localOrder) {
+                    try {
+                        const productOrder = JSON.parse(localOrder);
+                        this.applyProductOrder(productOrder);
+                    } catch (error) {
+                        console.log('Error parsing local product order');
+                    }
+                }
+            }
+
+            applyProductOrder(productOrder) {
+                if (!productOrder || !Array.isArray(productOrder)) return;
+                
+                // Create a map for quick lookup
+                const orderMap = {};
+                productOrder.forEach((id, index) => {
+                    orderMap[id] = index;
+                });
+                
+                // Sort products according to the saved order
+                this.products.sort((a, b) => {
+                    const orderA = orderMap[a.id] !== undefined ? orderMap[a.id] : 999999;
+                    const orderB = orderMap[b.id] !== undefined ? orderMap[b.id] : 999999;
+                    return orderA - orderB;
+                });
+                
+                console.log('Product order applied successfully');
             }
 
             startAutoSync() {
@@ -1595,6 +1643,11 @@
                     this.notices = data || [];
                     this.renderNotices();
                     this.showUpdateNotification('Avisos atualizados!');
+                } else if (type === 'product_order') {
+                    this.applyProductOrder(data);
+                    this.filteredProducts = [...this.products];
+                    this.renderProducts();
+                    this.showUpdateNotification('Ordem dos produtos atualizada!');
                 }
             }
 
@@ -7124,6 +7177,7 @@ ${this.userType === 'restaurante' ? `
         }
         checkForDataUpdates();
         setInterval(checkForDataUpdates, 10000);
+        }
         </script>
 
         <!-- Footer -->

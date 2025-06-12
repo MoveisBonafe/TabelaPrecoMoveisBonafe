@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": 1749698800001,
+    "name": "PIX",
+    "description": "Pagamento instantâneo via PIX",
+    "icon": "📱",
+    "active": true,
+    "fee": 0,
+    "createdAt": "2025-06-12T00:30:00.000Z"
+  },
+  {
+    "id": 1749698800002,
+    "name": "Cartão de Crédito",
+    "description": "Pagamento com cartão de crédito",
+    "icon": "💳",
+    "active": true,
+    "fee": 3.5,
+    "createdAt": "2025-06-12T00:30:00.000Z"
+  },
+  {
+    "id": 1749698800003,
+    "name": "Boleto Bancário",
+    "description": "Pagamento via boleto bancário",
+    "icon": "📄",
+    "active": true,
+    "fee": 2.0,
+    "createdAt": "2025-06-12T00:30:00.000Z"
+  },
+  {
+    "id": 1749698800004,
+    "name": "Dinheiro",
+    "description": "Pagamento em espécie",
+    "icon": "💰",
+    "active": true,
+    "fee": 0,
+    "createdAt": "2025-06-12T00:30:00.000Z"
+  }
+]

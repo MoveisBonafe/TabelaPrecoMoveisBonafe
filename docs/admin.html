@@ -4399,16 +4399,16 @@
             
             if (!grid) return;
 
-            loading.style.display = 'none';
+            if (loading) loading.style.display = 'none';
             
-            if (adminClient.paymentMethods.length === 0) {
-                grid.style.display = 'none';
-                empty.style.display = 'block';
+            if (!adminClient.paymentMethods || adminClient.paymentMethods.length === 0) {
+                if (grid) grid.style.display = 'none';
+                if (empty) empty.style.display = 'block';
                 return;
             }
 
-            empty.style.display = 'none';
-            grid.style.display = 'grid';
+            if (empty) empty.style.display = 'none';
+            if (grid) grid.style.display = 'grid';
             grid.innerHTML = '';
 
             adminClient.paymentMethods.forEach(method => {
@@ -4450,16 +4450,16 @@
             
             if (!grid) return;
 
-            loading.style.display = 'none';
+            if (loading) loading.style.display = 'none';
             
-            if (adminClient.paymentConditions.length === 0) {
-                grid.style.display = 'none';
-                empty.style.display = 'block';
+            if (!adminClient.paymentConditions || adminClient.paymentConditions.length === 0) {
+                if (grid) grid.style.display = 'none';
+                if (empty) empty.style.display = 'block';
                 return;
             }
 
-            empty.style.display = 'none';
-            grid.style.display = 'grid';
+            if (empty) empty.style.display = 'none';
+            if (grid) grid.style.display = 'grid';
             grid.innerHTML = '';
 
             adminClient.paymentConditions.forEach(condition => {
@@ -4595,15 +4595,39 @@
             const methodSelect = document.getElementById('rule-payment-method');
             const conditionsSelect = document.getElementById('rule-payment-conditions');
             
-            methodSelect.innerHTML = '<option value="">Selecione uma forma</option>';
-            adminClient.paymentMethods.forEach(method => {
-                methodSelect.innerHTML += `<option value="${method.id}">${method.name}</option>`;
-            });
+            if (methodSelect) {
+                methodSelect.innerHTML = '<option value="">Selecione uma forma</option>';
+                
+                // Remove duplicates and invalid entries
+                const uniqueMethods = adminClient.paymentMethods.filter((method, index, self) => 
+                    method && method.id && method.name && 
+                    index === self.findIndex(m => m.id === method.id)
+                );
+                
+                uniqueMethods.forEach(method => {
+                    const option = document.createElement('option');
+                    option.value = method.id;
+                    option.textContent = method.name;
+                    methodSelect.appendChild(option);
+                });
+            }
             
-            conditionsSelect.innerHTML = '';
-            adminClient.paymentConditions.forEach(condition => {
-                conditionsSelect.innerHTML += `<option value="${condition.id}">${condition.name}</option>`;
-            });
+            if (conditionsSelect) {
+                conditionsSelect.innerHTML = '';
+                
+                // Remove duplicates and invalid entries
+                const uniqueConditions = adminClient.paymentConditions.filter((condition, index, self) => 
+                    condition && condition.id && condition.name &&
+                    index === self.findIndex(c => c.id === condition.id)
+                );
+                
+                uniqueConditions.forEach(condition => {
+                    const option = document.createElement('option');
+                    option.value = condition.id;
+                    option.textContent = condition.name;
+                    conditionsSelect.appendChild(option);
+                });
+            }
         }
 
         function populateUserCheckboxes() {

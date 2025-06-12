@@ -7369,14 +7369,18 @@ ${this.userType === 'restaurante' ? `
                 if (rule.userAccess === 'all') {
                     hasAccess = true;
                 } else if (Array.isArray(rule.userAccess)) {
-                    // For restaurant users, check against 'restaurante' role
-                    // For shop users, check against 'loja' role or specific user ID
-                    const userTypeToCheck = catalogClient.userType || userRole;
-                    hasAccess = rule.userAccess.includes(String(userId)) || rule.userAccess.includes(userTypeToCheck);
+                    // Check if the rule includes the current user's type
+                    const userTypeToCheck = catalogClient.userType; // Use catalog user type
+                    
+                    // For numeric user IDs in rules, they should match specific users, not user types
+                    // For role-based access, check if user type is in the access list
+                    hasAccess = rule.userAccess.includes(userTypeToCheck) || 
+                               (rule.userAccess.includes(String(userId)) && userRole === 'loja'); // Only allow user ID match if user is actually 'loja'
                 } else {
-                    // Single value - check if it matches user ID or user type
-                    const userTypeToCheck = catalogClient.userType || userRole;
-                    hasAccess = rule.userAccess === String(userId) || rule.userAccess === userTypeToCheck;
+                    // Single value - check if it matches user type or specific user ID
+                    const userTypeToCheck = catalogClient.userType;
+                    hasAccess = rule.userAccess === userTypeToCheck || 
+                               (rule.userAccess === String(userId) && userRole === 'loja');
                 }
                        
                 console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, user: ${userId}/${userRole}, userType: ${catalogClient.userType})`);

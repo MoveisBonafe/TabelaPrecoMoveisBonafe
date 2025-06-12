@@ -4689,19 +4689,22 @@
             const container = document.getElementById('user-access-checkboxes');
             container.innerHTML = `
                 <label style="display: flex; align-items: center; gap: 8px;">
-                    <input type="checkbox" value="all" checked>
+                    <input type="checkbox" value="all">
                     Todos os usuários
                 </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" value="loja">
+                    Lojas Moveis Bonafe (loja)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" value="restaurante">
+                    Restaurantes Moveis Bonafe (restaurante)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" value="admin">
+                    Administrador (admin)
+                </label>
             `;
-            
-            adminClient.users.forEach(user => {
-                container.innerHTML += `
-                    <label style="display: flex; align-items: center; gap: 8px;">
-                        <input type="checkbox" value="${user.id}">
-                        ${user.name} (${user.role})
-                    </label>
-                `;
-            });
         }
 
         function renderExistingRules() {
@@ -4817,6 +4820,15 @@
                 addSystemLog(`❌ Erro ao excluir regra: ${error.message}`);
                 showNotification('Erro ao excluir regra', 'error');
             }
+        }
+
+        // Function to clear payment cache and reload from server
+        function clearPaymentCache() {
+            localStorage.removeItem('payment_methods.json');
+            localStorage.removeItem('payment_conditions.json'); 
+            localStorage.removeItem('payment_rules.json');
+            addSystemLog('🗑️ Cache de pagamento limpo');
+            showNotification('Cache limpo! O catálogo agora carregará dados atualizados do servidor.', 'success');
         }
 
         // Form submission handlers

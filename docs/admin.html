@@ -747,6 +747,7 @@
             <button class="tab" onclick="switchTab('cores')">🎨 Cores</button>
             <button class="tab" onclick="switchTab('usuarios')">👥 Usuários</button>
             <button class="tab" onclick="switchTab('precos')">💰 Preços</button>
+            <button class="tab" onclick="switchTab('pagamentos')">💳 Formas e Condições de Pagamento</button>
             <button class="tab" onclick="switchTab('promocoes')">🎯 Promoções</button>
             <button class="tab" onclick="switchTab('avisos')">📢 Avisos</button>
             <button class="tab" onclick="switchTab('pedidos')">📋 Histórico</button>
@@ -877,6 +878,62 @@
                     <div class="empty-state-icon">💰</div>
                     <h3>Configurar tabelas de preço</h3>
                     <p>Defina margens e percentuais para diferentes tipos de cliente</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagamentos Tab -->
+        <div id="pagamentos-tab" class="tab-content">
+            <div class="content-header">
+                <h2 class="content-title">Formas e Condições de Pagamento</h2>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-primary" onclick="openPaymentMethodModal()">➕ Nova Forma de Pagamento</button>
+                    <button class="btn btn-primary" onclick="openPaymentConditionModal()">➕ Nova Condição</button>
+                    <button class="btn btn-secondary" onclick="openPaymentRulesModal()">⚙️ Configurar Regras</button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                <!-- Formas de Pagamento -->
+                <div>
+                    <h3 style="margin-bottom: 16px; color: #2d3748; font-size: 1.2rem;">Formas de Pagamento</h3>
+                    <div id="payment-methods-grid" class="data-grid">
+                        <div id="payment-methods-loading" class="loading">Carregando formas de pagamento...</div>
+                        <div id="payment-methods-empty" class="empty-state" style="display: none;">
+                            <div class="empty-state-icon">💳</div>
+                            <h3>Nenhuma forma de pagamento cadastrada</h3>
+                            <p>Crie formas de pagamento para oferecer aos clientes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Condições de Pagamento -->
+                <div>
+                    <h3 style="margin-bottom: 16px; color: #2d3748; font-size: 1.2rem;">Condições de Pagamento</h3>
+                    <div id="payment-conditions-grid" class="data-grid">
+                        <div id="payment-conditions-loading" class="loading">Carregando condições de pagamento...</div>
+                        <div id="payment-conditions-empty" class="empty-state" style="display: none;">
+                            <div class="empty-state-icon">📋</div>
+                            <h3>Nenhuma condição cadastrada</h3>
+                            <p>Crie condições de pagamento personalizadas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regras de Combinação -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                <h3 style="margin-bottom: 16px; color: #2d3748; font-size: 1.2rem;">Regras de Combinação Ativas</h3>
+                <div id="payment-rules-list">
+                    <p style="color: #6b7280;">Nenhuma regra configurada. Use o botão "Configurar Regras" para criar relacionamentos entre formas e condições de pagamento.</p>
+                </div>
+            </div>
+
+            <!-- Visibilidade por Usuário -->
+            <div style="background: #f0f9ff; padding: 20px; border-radius: 12px;">
+                <h3 style="margin-bottom: 16px; color: #2d3748; font-size: 1.2rem;">Configurações de Visibilidade</h3>
+                <div id="payment-visibility-settings">
+                    <p style="color: #6b7280;">Configure quais usuários podem ver cada forma e condição de pagamento na seção de regras.</p>
                 </div>
             </div>
         </div>
@@ -1435,6 +1492,162 @@
         </div>
     </div>
 
+    <!-- Payment Method Modal -->
+    <div id="payment-method-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nova Forma de Pagamento</h3>
+                <button class="modal-close" onclick="closePaymentMethodModal()">&times;</button>
+            </div>
+            <form id="payment-method-form">
+                <div class="form-group">
+                    <label class="form-label">Nome da Forma de Pagamento:</label>
+                    <input type="text" id="payment-method-name" class="form-input" required placeholder="Ex: Cartão de Crédito, PIX, Boleto">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descrição:</label>
+                    <textarea id="payment-method-description" class="form-textarea" rows="2" placeholder="Descrição opcional da forma de pagamento"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Ícone:</label>
+                        <select id="payment-method-icon" class="form-select">
+                            <option value="💳">💳 Cartão</option>
+                            <option value="📱">📱 PIX</option>
+                            <option value="📄">📄 Boleto</option>
+                            <option value="💰">💰 Dinheiro</option>
+                            <option value="🏦">🏦 Transferência</option>
+                            <option value="💸">💸 Débito</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status:</label>
+                        <select id="payment-method-active" class="form-select">
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Taxa (%):</label>
+                    <input type="number" id="payment-method-fee" class="form-input" step="0.01" min="0" placeholder="0.00">
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                    <button type="submit" class="btn btn-primary">Salvar Forma de Pagamento</button>
+                    <button type="button" class="btn btn-secondary" onclick="closePaymentMethodModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Condition Modal -->
+    <div id="payment-condition-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nova Condição de Pagamento</h3>
+                <button class="modal-close" onclick="closePaymentConditionModal()">&times;</button>
+            </div>
+            <form id="payment-condition-form">
+                <div class="form-group">
+                    <label class="form-label">Nome da Condição:</label>
+                    <input type="text" id="payment-condition-name" class="form-input" required placeholder="Ex: À Vista, 2x sem juros, 10x com juros">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descrição:</label>
+                    <textarea id="payment-condition-description" class="form-textarea" rows="2" placeholder="Descrição detalhada da condição"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Parcelas:</label>
+                        <input type="number" id="payment-condition-installments" class="form-input" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Juros (% ao mês):</label>
+                        <input type="number" id="payment-condition-interest" class="form-input" step="0.01" min="0" value="0" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Desconto (%):</label>
+                        <input type="number" id="payment-condition-discount" class="form-input" step="0.01" min="0" max="100" value="0" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status:</label>
+                        <select id="payment-condition-active" class="form-select">
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                    <button type="submit" class="btn btn-primary">Salvar Condição</button>
+                    <button type="button" class="btn btn-secondary" onclick="closePaymentConditionModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Rules Modal -->
+    <div id="payment-rules-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Configurar Regras de Pagamento</h3>
+                <button class="modal-close" onclick="closePaymentRulesModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 24px;">
+                    <h4 style="margin-bottom: 12px;">Criar Nova Regra</h4>
+                    <form id="payment-rule-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Forma de Pagamento:</label>
+                                <select id="rule-payment-method" class="form-select" required>
+                                    <option value="">Selecione uma forma</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Condições Permitidas:</label>
+                                <select id="rule-payment-conditions" class="form-select" multiple style="height: 120px;">
+                                </select>
+                                <small style="color: #6b7280;">Segure Ctrl para selecionar múltiplas condições</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Usuários com Acesso:</label>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 8px;" id="user-access-checkboxes">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" value="all" checked>
+                                    Todos os usuários
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="submit" class="btn btn-primary">Criar Regra</button>
+                            <button type="button" class="btn btn-secondary" onclick="clearRuleForm()">Limpar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 24px;">
+                    <h4 style="margin-bottom: 16px;">Regras Existentes</h4>
+                    <div id="existing-rules-list">
+                        <p style="color: #6b7280;">Nenhuma regra criada ainda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="./reliable-upload.js"></script>
     <script>
         // Force clear old cached data on page load
@@ -1467,6 +1680,9 @@
             priceSettings: [],
             promotions: [],
             notices: [],
+            paymentMethods: [],
+            paymentConditions: [],
+            paymentRules: [],
             baseUrl: 'https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe',
             repoOwner: 'moveisbonafe',
             repoName: 'TabelaPrecoMoveisBonafe'

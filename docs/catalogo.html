@@ -1399,53 +1399,51 @@
                 console.log(`🔍 INÍCIO loadData: ${filename}`);
                 console.log(`🔍 BaseURL atual: ${this.baseUrl}`);
                 
-                // For payment-related files, prioritize localStorage (admin data)
+                // All files now load from GitHub to ensure synchronization between devices
                 const isPaymentFile = filename.includes('payment_');
                 
                 if (isPaymentFile) {
-                    console.log(`🔒 PAYMENT FILE: Carregando ${filename} do localStorage (dados do admin)...`);
-                    
-                    // Debug localStorage contents
-                    console.log('🔍 Chaves no localStorage:', Object.keys(localStorage));
-                    console.log(`🔍 Procurando chave: ${filename}`);
-                    
-                    // Use exact filename as key (admin panel saves with this format)
-                    const localData = localStorage.getItem(filename);
-                    
-                    if (localData) {
-                        console.log(`✅ PAYMENT: Carregado ${filename} do localStorage (admin)`);
-                        console.log(`📄 Dados brutos:`, localData.substring(0, 200) + '...');
-                        const data = JSON.parse(localData);
-                        console.log(`📊 Dados parseados:`, data);
-                        return this.fixObjectUtf8(data);
-                    } else {
-                        console.log(`⚠️ PAYMENT: Dados não encontrados no localStorage para ${filename}`);
-                        return [];
-                    }
+                    console.log(`💳 PAYMENT FILE: Carregando ${filename} do GitHub (sincronização entre dispositivos)...`);
+                } else {
+                    console.log(`📁 DATA FILE: Carregando ${filename} do GitHub...`);
                 }
                 
-                // For non-payment files, use GitHub raw content URL to access docs/data/ files
-                console.log(`📁 PRODUCT FILE: Tentando carregar ${filename} do GitHub (docs/data/)...`);
+                // Use GitHub raw content URL to access docs/data/ files
                 try {
                     // Use GitHub raw content URL to directly access files in docs/data/
-                    const rawUrl = `https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/${filename}`;
-                    console.log(`🌐 URL raw GitHub: ${rawUrl}`);
-                    const response = await fetch(rawUrl);
-                    console.log(`📡 Status da resposta: ${response.status}`);
+                    // Add cache-busting for payment files to ensure fresh data
+                    const cacheBuster = isPaymentFile ? `?t=${Date.now()}` : '';
+                    const rawUrl = `https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/${filename}${cacheBuster}`;
+                    console.log(`🌐 URL GitHub: ${rawUrl}`);
+                    const response = await fetch(rawUrl, {
+                        cache: isPaymentFile ? 'no-cache' : 'default'
+                    });
+                    console.log(`📡 Status: ${response.status}`);
                     
                     if (response.ok) {
                         const rawText = await response.text();
-                        console.log(`📝 Texto bruto recebido (primeiros 200 chars):`, rawText.substring(0, 200));
                         const data = JSON.parse(rawText);
-                        console.log(`✅ GITHUB: ${filename} carregado com sucesso: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
-                        console.log(`📊 Primeira entrada:`, data[0]);
+                        console.log(`✅ GITHUB: ${filename} carregado - ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                        if (isPaymentFile) {
+                            // Cache payment data locally for faster subsequent loads
+                            localStorage.setItem(filename, JSON.stringify(data));
+                        }
                         return this.fixObjectUtf8(data);
                     } else {
                         console.log(`❌ GITHUB: HTTP ${response.status} para ${filename}`);
                     }
                 } catch (error) {
                     console.log(`❌ GITHUB: Erro ao carregar ${filename}:`, error.message);
-                    console.log(`❌ GITHUB: Stack trace:`, error.stack);
+                }
+                
+                // Fallback to localStorage for payment files if GitHub fails
+                if (isPaymentFile) {
+                    console.log(`🔄 FALLBACK: Tentando carregar ${filename} do localStorage...`);
+                    const localData = localStorage.getItem(filename);
+                    if (localData) {
+                        console.log(`✅ FALLBACK: ${filename} carregado do localStorage`);
+                        return this.fixObjectUtf8(JSON.parse(localData));
+                    }
                 }
 
                 // Try localStorage as final fallback
@@ -2519,7 +2517,7 @@ ${this.userType === 'restaurante' ? `
                 return;
             }
 
-            const baseUrl = 'https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/';
+            const baseUrl = 'https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/docs/data/';
             
             try {
                 console.log('🔄 Carregando dados de pagamento do GitHub...');

@@ -562,32 +562,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Mesa Bonacor 2,20 X 0,88",
-    "category": "Mesas",
-    "priceAVista": 535,
-    "altura": 80,
-    "largura": 88,
-    "comprimento": 220,
-    "peso": 30,
-    "description": "",
-    "images": [
-      "data/images/product_1749519702008_9bndqsb2a.png",
-      "data/images/product_1749519707941_4sggivalz.png",
-      "data/images/product_1749519712561_zn18yyh8f.png",
-      "data/images/product_1749519717895_tcioct7rx.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:42:06.820Z",
-    "id": 1749514027909,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Mesa Bonacor 1,20 X 0,80",
     "category": "Mesas",
     "priceAVista": 284,
@@ -611,6 +585,32 @@
     "active": true,
     "updatedAt": "2025-06-10T01:55:35.828Z",
     "id": 1749514027921,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 2,20 X 0,88",
+    "category": "Mesas",
+    "priceAVista": 535,
+    "altura": 80,
+    "largura": 88,
+    "comprimento": 220,
+    "peso": 30,
+    "description": "",
+    "images": [
+      "data/images/product_1749519702008_9bndqsb2a.png",
+      "data/images/product_1749519707941_4sggivalz.png",
+      "data/images/product_1749519712561_zn18yyh8f.png",
+      "data/images/product_1749519717895_tcioct7rx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:42:06.820Z",
+    "id": 1749514027909,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

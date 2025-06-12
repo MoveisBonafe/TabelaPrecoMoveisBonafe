@@ -7437,17 +7437,17 @@ ${this.userType === 'restaurante' ? `
             
             // Check conditions based on what's visible
             if (paymentConditionsSection.style.display !== 'none') {
-                // Payment conditions are visible, check if one is selected
-                const selectedCondition = document.querySelector('input[name="payment-condition"]:checked');
-                if (!selectedCondition) {
+                // Payment conditions are visible, check if one is selected from dropdown
+                const paymentCondition = document.getElementById('payment-condition').value;
+                if (!paymentCondition) {
                     isValid = false;
                 }
-            } else if (priceTableSection.style.display !== 'none') {
-                // Price table is visible, check if one is selected
-                const priceTable = document.getElementById('price-table').value;
-                if (!priceTable) {
-                    isValid = false;
-                }
+            }
+            
+            // Always check price table since it's always visible now
+            const priceTable = document.getElementById('price-table').value;
+            if (!priceTable) {
+                isValid = false;
             }
             
             // Update finalize button

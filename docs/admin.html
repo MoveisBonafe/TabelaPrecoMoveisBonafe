@@ -747,7 +747,7 @@
             <button class="tab" onclick="switchTab('cores')">🎨 Cores</button>
             <button class="tab" onclick="switchTab('usuarios')">👥 Usuários</button>
             <button class="tab" onclick="switchTab('precos')">💰 Preços</button>
-            <button class="tab" onclick="switchTab('pagamentos')">💳 Formas e Condições de Pagamento</button>
+            <button class="tab" onclick="switchTab('pagamentos')">💳 Pagamentos</button>
             <button class="tab" onclick="switchTab('promocoes')">🎯 Promoções</button>
             <button class="tab" onclick="switchTab('avisos')">📢 Avisos</button>
             <button class="tab" onclick="switchTab('pedidos')">📋 Histórico</button>
@@ -4530,9 +4530,13 @@
         }
 
         // Modal functions for payment methods
+        let editingMethodId = null;
+        
         function openPaymentMethodModal(methodId = null) {
             const modal = document.getElementById('payment-method-modal');
             const form = document.getElementById('payment-method-form');
+            
+            editingMethodId = methodId;
             
             if (methodId) {
                 const method = adminClient.paymentMethods.find(m => m.id === methodId);
@@ -4554,12 +4558,16 @@
             document.getElementById('payment-method-modal').classList.remove('active');
         }
 
+        let editingConditionId = null;
+        
         function openPaymentConditionModal(conditionId = null) {
             const modal = document.getElementById('payment-condition-modal');
             const form = document.getElementById('payment-condition-form');
             
+            editingConditionId = conditionId;
+            
             if (conditionId) {
-                const condition = adminClient.paymentConditions.find(c => c.id === conditionId);
+                const condition = adminClient.paymentConditions.find(c => c.id === parseInt(conditionId));
                 if (condition) {
                     document.getElementById('payment-condition-name').value = condition.name;
                     document.getElementById('payment-condition-description').value = condition.description || '';
@@ -4685,25 +4693,40 @@
                 e.preventDefault();
                 
                 const formData = {
-                    id: Date.now(),
                     name: document.getElementById('payment-method-name').value,
                     description: document.getElementById('payment-method-description').value,
                     icon: document.getElementById('payment-method-icon').value,
                     active: document.getElementById('payment-method-active').value === 'true',
-                    fee: parseFloat(document.getElementById('payment-method-fee').value) || 0,
-                    createdAt: new Date().toISOString()
+                    fee: parseFloat(document.getElementById('payment-method-fee').value) || 0
                 };
                 
                 try {
-                    adminClient.paymentMethods.push(formData);
+                    if (editingMethodId) {
+                        // Update existing method
+                        const methodIndex = adminClient.paymentMethods.findIndex(m => m.id === editingMethodId);
+                        if (methodIndex !== -1) {
+                            adminClient.paymentMethods[methodIndex] = {
+                                ...adminClient.paymentMethods[methodIndex],
+                                ...formData
+                            };
+                            addSystemLog(`💳 Forma de pagamento "${formData.name}" atualizada`);
+                            showNotification('Forma de pagamento atualizada com sucesso!', 'success');
+                        }
+                    } else {
+                        // Create new method
+                        formData.id = Date.now();
+                        formData.createdAt = new Date().toISOString();
+                        adminClient.paymentMethods.push(formData);
+                        addSystemLog(`💳 Forma de pagamento "${formData.name}" criada`);
+                        showNotification('Forma de pagamento criada com sucesso!', 'success');
+                    }
+                    
                     await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
                     renderPaymentMethods();
                     closePaymentMethodModal();
-                    addSystemLog(`💳 Forma de pagamento "${formData.name}" criada`);
-                    showNotification('Forma de pagamento criada com sucesso!', 'success');
                 } catch (error) {
-                    addSystemLog(`❌ Erro ao criar forma de pagamento: ${error.message}`);
-                    showNotification('Erro ao criar forma de pagamento', 'error');
+                    addSystemLog(`❌ Erro ao salvar forma de pagamento: ${error.message}`);
+                    showNotification('Erro ao salvar forma de pagamento', 'error');
                 }
             });
 
@@ -4712,26 +4735,41 @@
                 e.preventDefault();
                 
                 const formData = {
-                    id: Date.now(),
                     name: document.getElementById('payment-condition-name').value,
                     description: document.getElementById('payment-condition-description').value,
                     installments: parseInt(document.getElementById('payment-condition-installments').value) || 1,
                     interest: parseFloat(document.getElementById('payment-condition-interest').value) || 0,
                     discount: parseFloat(document.getElementById('payment-condition-discount').value) || 0,
-                    active: document.getElementById('payment-condition-active').value === 'true',
-                    createdAt: new Date().toISOString()
+                    active: document.getElementById('payment-condition-active').value === 'true'
                 };
                 
                 try {
-                    adminClient.paymentConditions.push(formData);
+                    if (editingConditionId) {
+                        // Update existing condition
+                        const conditionIndex = adminClient.paymentConditions.findIndex(c => c.id === parseInt(editingConditionId));
+                        if (conditionIndex !== -1) {
+                            adminClient.paymentConditions[conditionIndex] = {
+                                ...adminClient.paymentConditions[conditionIndex],
+                                ...formData
+                            };
+                            addSystemLog(`📋 Condição "${formData.name}" atualizada`);
+                            showNotification('Condição de pagamento atualizada com sucesso!', 'success');
+                        }
+                    } else {
+                        // Create new condition
+                        formData.id = Date.now();
+                        formData.createdAt = new Date().toISOString();
+                        adminClient.paymentConditions.push(formData);
+                        addSystemLog(`📋 Condição "${formData.name}" criada`);
+                        showNotification('Condição de pagamento criada com sucesso!', 'success');
+                    }
+                    
                     await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
                     renderPaymentConditions();
                     closePaymentConditionModal();
-                    addSystemLog(`📋 Condição "${formData.name}" criada`);
-                    showNotification('Condição de pagamento criada com sucesso!', 'success');
                 } catch (error) {
-                    addSystemLog(`❌ Erro ao criar condição: ${error.message}`);
-                    showNotification('Erro ao criar condição de pagamento', 'error');
+                    addSystemLog(`❌ Erro ao salvar condição: ${error.message}`);
+                    showNotification('Erro ao salvar condição de pagamento', 'error');
                 }
             });
 

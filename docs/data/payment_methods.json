@@ -7,5 +7,14 @@
     "active": true,
     "fee": 0,
     "createdAt": "2025-06-12T03:37:25.129Z"
+  },
+  {
+    "id": 1749699810299,
+    "name": "Cartão Pedro",
+    "description": "",
+    "icon": "💳",
+    "active": true,
+    "fee": 0,
+    "createdAt": "2025-06-12T03:43:30.299Z"
   }
 ]

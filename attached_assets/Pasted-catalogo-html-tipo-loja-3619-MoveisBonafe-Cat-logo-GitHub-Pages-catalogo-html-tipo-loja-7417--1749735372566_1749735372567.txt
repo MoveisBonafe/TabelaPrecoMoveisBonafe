@@ -1,0 +1,192 @@
+catalogo.html?tipo=loja:3619 🛍️ MoveisBonafe Catálogo - GitHub Pages
+catalogo.html?tipo=loja:7417 ✅ Catálogo inicializado
+catalogo.html?tipo=loja:2596 🔗 Token GitHub detectado - priorizando dados do GitHub
+catalogo.html?tipo=loja:2535 🔄 Carregando dados de pagamento do GitHub...
+catalogo.html?tipo=loja:2539 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/payment_methods.json 404 (Not Found)
+loadPaymentDataFromGitHub @ catalogo.html?tipo=loja:2539
+(anônimo) @ catalogo.html?tipo=loja:2597
+catalogo.html?tipo=loja:2554 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/payment_conditions.json 404 (Not Found)
+loadPaymentDataFromGitHub @ catalogo.html?tipo=loja:2554
+await in loadPaymentDataFromGitHub
+(anônimo) @ catalogo.html?tipo=loja:2597
+catalogo.html?tipo=loja:2569 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/payment_rules.json 404 (Not Found)
+loadPaymentDataFromGitHub @ catalogo.html?tipo=loja:2569
+await in loadPaymentDataFromGitHub
+(anônimo) @ catalogo.html?tipo=loja:2597
+catalogo.html?tipo=loja:2582 🎯 GitHub agora tem prioridade sobre localStorage no catálogo
+catalogo.html?tipo=loja:1441 Carregando products.json de: https://moveisbonafe.github.io/data/products.json
+catalogo.html?tipo=loja:1441 Carregando categories.json de: https://moveisbonafe.github.io/data/categories.json
+catalogo.html?tipo=loja:1441 Carregando price_settings.json de: https://moveisbonafe.github.io/data/price_settings.json
+catalogo.html?tipo=loja:1441 Carregando promotions.json de: https://moveisbonafe.github.io/data/promotions.json
+catalogo.html?tipo=loja:1441 Carregando colors.json de: https://moveisbonafe.github.io/data/colors.json
+catalogo.html?tipo=loja:1441 Carregando notices.json de: https://moveisbonafe.github.io/data/notices.json
+catalogo.html?tipo=loja:1400 🔒 Carregando payment_methods.json prioritariamente do localStorage (dados do admin)...
+catalogo.html?tipo=loja:1403 🔍 Chaves no localStorage: (17) ['github_token', 'catalogProducts', 'last_save_time', 'moveisbonafe_paymentrules', 'lastUpdate', 'moveisbonafe_paymentmethods', 'catalog-users', 'currentUser', 'catalogUpdate', 'moveisbonafe_cart_TW96aWxsYS81LjAg', 'catalog-categories', 'payment_methods.json', 'payment_rules.json', 'products', 'catalog-products', 'catalog-auth', 'githubToken']
+catalogo.html?tipo=loja:1404 🔍 Procurando chave: payment_methods.json
+catalogo.html?tipo=loja:1410 ✅ Carregado payment_methods.json do localStorage (admin)
+catalogo.html?tipo=loja:1411 📄 Dados brutos: []...
+catalogo.html?tipo=loja:1413 📊 Dados parseados: []
+catalogo.html?tipo=loja:1400 🔒 Carregando payment_conditions.json prioritariamente do localStorage (dados do admin)...
+catalogo.html?tipo=loja:1403 🔍 Chaves no localStorage: (17) ['github_token', 'catalogProducts', 'last_save_time', 'moveisbonafe_paymentrules', 'lastUpdate', 'moveisbonafe_paymentmethods', 'catalog-users', 'currentUser', 'catalogUpdate', 'moveisbonafe_cart_TW96aWxsYS81LjAg', 'catalog-categories', 'payment_methods.json', 'payment_rules.json', 'products', 'catalog-products', 'catalog-auth', 'githubToken']
+catalogo.html?tipo=loja:1404 🔍 Procurando chave: payment_conditions.json
+catalogo.html?tipo=loja:1416 ⚠️ Dados de pagamento não encontrados no localStorage para payment_conditions.json
+catalogo.html?tipo=loja:1421 🔍 Tentando chaves alternativas: payment_conditions, moveisbonafe_paymentconditions
+catalogo.html?tipo=loja:1400 🔒 Carregando payment_rules.json prioritariamente do localStorage (dados do admin)...
+catalogo.html?tipo=loja:1403 🔍 Chaves no localStorage: (17) ['github_token', 'catalogProducts', 'last_save_time', 'moveisbonafe_paymentrules', 'lastUpdate', 'moveisbonafe_paymentmethods', 'catalog-users', 'currentUser', 'catalogUpdate', 'moveisbonafe_cart_TW96aWxsYS81LjAg', 'catalog-categories', 'payment_methods.json', 'payment_rules.json', 'products', 'catalog-products', 'catalog-auth', 'githubToken']
+catalogo.html?tipo=loja:1404 🔍 Procurando chave: payment_rules.json
+catalogo.html?tipo=loja:1410 ✅ Carregado payment_rules.json do localStorage (admin)
+catalogo.html?tipo=loja:1411 📄 Dados brutos: []...
+catalogo.html?tipo=loja:1413 📊 Dados parseados: []
+catalogo.html?tipo=loja:1442 
+            
+            
+           GET https://moveisbonafe.github.io/data/products.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1442
+loadAllData @ catalogo.html?tipo=loja:1590
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1450 HTTP 404 para products.json
+catalogo.html?tipo=loja:1460 🔗 Tentando GitHub API para products.json...
+catalogo.html?tipo=loja:1442 
+            
+            
+           GET https://moveisbonafe.github.io/data/colors.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1442
+loadAllData @ catalogo.html?tipo=loja:1594
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1450 HTTP 404 para colors.json
+catalogo.html?tipo=loja:1460 🔗 Tentando GitHub API para colors.json...
+catalogo.html?tipo=loja:1442 
+            
+            
+           GET https://moveisbonafe.github.io/data/notices.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1442
+loadAllData @ catalogo.html?tipo=loja:1595
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1450 HTTP 404 para notices.json
+catalogo.html?tipo=loja:1460 🔗 Tentando GitHub API para notices.json...
+catalogo.html?tipo=loja:1442 
+            
+            
+           GET https://moveisbonafe.github.io/data/categories.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1442
+loadAllData @ catalogo.html?tipo=loja:1591
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1450 HTTP 404 para categories.json
+catalogo.html?tipo=loja:1460 🔗 Tentando GitHub API para categories.json...
+catalogo.html?tipo=loja:1442 
+            
+            
+           GET https://moveisbonafe.github.io/data/promotions.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1442
+loadAllData @ catalogo.html?tipo=loja:1593
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1450 HTTP 404 para promotions.json
+catalogo.html?tipo=loja:1460 🔗 Tentando GitHub API para promotions.json...
+catalogo.html?tipo=loja:1442 
+            
+            
+           GET https://moveisbonafe.github.io/data/price_settings.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1442
+loadAllData @ catalogo.html?tipo=loja:1592
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1450 HTTP 404 para price_settings.json
+catalogo.html?tipo=loja:1460 🔗 Tentando GitHub API para price_settings.json...
+catalogo.html?tipo=loja:1462 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/promotions.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1462
+await in loadData
+loadAllData @ catalogo.html?tipo=loja:1593
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1476 ❌ GitHub API retornou 404 para promotions.json
+catalogo.html?tipo=loja:1484 Verificando localStorage para promotions.json...
+catalogo.html?tipo=loja:1495 ⚠️ Nenhum dado encontrado para promotions.json
+catalogo.html?tipo=loja:1462 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/notices.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1462
+await in loadData
+loadAllData @ catalogo.html?tipo=loja:1595
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1476 ❌ GitHub API retornou 404 para notices.json
+catalogo.html?tipo=loja:1484 Verificando localStorage para notices.json...
+catalogo.html?tipo=loja:1495 ⚠️ Nenhum dado encontrado para notices.json
+catalogo.html?tipo=loja:1462 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/price_settings.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1462
+await in loadData
+loadAllData @ catalogo.html?tipo=loja:1592
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1476 ❌ GitHub API retornou 404 para price_settings.json
+catalogo.html?tipo=loja:1484 Verificando localStorage para price_settings.json...
+catalogo.html?tipo=loja:1495 ⚠️ Nenhum dado encontrado para price_settings.json
+catalogo.html?tipo=loja:1462 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/categories.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1462
+await in loadData
+loadAllData @ catalogo.html?tipo=loja:1591
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1476 ❌ GitHub API retornou 404 para categories.json
+catalogo.html?tipo=loja:1484 Verificando localStorage para categories.json...
+catalogo.html?tipo=loja:1495 ⚠️ Nenhum dado encontrado para categories.json
+catalogo.html?tipo=loja:1462 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/products.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1462
+await in loadData
+loadAllData @ catalogo.html?tipo=loja:1590
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1476 ❌ GitHub API retornou 404 para products.json
+catalogo.html?tipo=loja:1484 Verificando localStorage para products.json...
+catalogo.html?tipo=loja:1495 ⚠️ Nenhum dado encontrado para products.json
+catalogo.html?tipo=loja:1462 
+            
+            
+           GET https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/colors.json 404 (Not Found)
+loadData @ catalogo.html?tipo=loja:1462
+await in loadData
+loadAllData @ catalogo.html?tipo=loja:1594
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1476 ❌ GitHub API retornou 404 para colors.json
+catalogo.html?tipo=loja:1484 Verificando localStorage para colors.json...
+catalogo.html?tipo=loja:1495 ⚠️ Nenhum dado encontrado para colors.json
+catalogo.html?tipo=loja:1612 💳 Debug payment methods loaded: []
+catalogo.html?tipo=loja:1635 
+            
+            
+           GET https://moveisbonafe.github.io/data/product-order.json 404 (Not Found)
+loadProductOrder @ catalogo.html?tipo=loja:1635
+loadAllData @ catalogo.html?tipo=loja:1615
+await in loadAllData
+init @ catalogo.html?tipo=loja:1580
+(anônimo) @ catalogo.html?tipo=loja:2602
+catalogo.html?tipo=loja:1619 ✅ Dados carregados: 0 produtos, 0 categorias, 0 tabelas de preços, 0 promoções ativas, 0 cores, 0 avisos
+catalogo.html?tipo=loja:2603 ✅ Catálogo inicializado

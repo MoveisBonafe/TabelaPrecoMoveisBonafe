@@ -6770,6 +6770,8 @@ ${this.userType === 'restaurante' ? `
                 subtotal: subtotal,
                 promotionDiscount: promotionDiscount,
                 pickupDiscount: isPickup ? (subtotal - promotionDiscount) * 0.05 : 0,
+                interestAmount: interestAmount,
+                interestPercent: selectedPaymentCondition ? selectedPaymentCondition.interest : 0,
                 total: total,
                 priceTable: priceTable,
                 paymentMethod: paymentMethodName,
@@ -7366,11 +7368,11 @@ ${this.userType === 'restaurante' ? `
                 if (rule.userAccess === 'all') {
                     hasAccess = true;
                 } else if (Array.isArray(rule.userAccess)) {
-                    // Check if user ID or role is in the access list
-                    hasAccess = rule.userAccess.includes(userId) || rule.userAccess.includes(userRole);
+                    // Check if user ID or role is in the access list (convert both to strings for comparison)
+                    hasAccess = rule.userAccess.includes(String(userId)) || rule.userAccess.includes(userRole);
                 } else {
-                    // Single value - check if it matches user ID or role
-                    hasAccess = rule.userAccess === userId || rule.userAccess === userRole;
+                    // Single value - check if it matches user ID or role (convert to string for comparison)
+                    hasAccess = rule.userAccess === String(userId) || rule.userAccess === userRole;
                 }
                        
                 console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, user: ${userId}/${userRole})`);

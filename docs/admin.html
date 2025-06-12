@@ -3958,6 +3958,12 @@
                                             <span>-R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</span>
                                         </div>
                                     ` : ''}
+                                    ${order.interestAmount > 0 ? `
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #dc2626;">
+                                            <span>Juros (${order.interestPercent}%):</span>
+                                            <span>+R$ ${order.interestAmount.toFixed(2).replace('.', ',')}</span>
+                                        </div>
+                                    ` : ''}
                                     <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 18px; border-top: 2px solid #374151; padding-top: 8px; margin-top: 8px;">
                                         <span>Total:</span>
                                         <span>R$ ${order.total.toFixed(2).replace('.', ',')}</span>
@@ -4052,6 +4058,7 @@
                             <p>Subtotal: R$ ${order.subtotal.toFixed(2).replace('.', ',')}</p>
                             ${order.promotionDiscount > 0 ? `<p>Desconto Promoção: -R$ ${order.promotionDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
                             ${order.pickupDiscount > 0 ? `<p>Desconto Retirada: -R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            ${order.interestAmount > 0 ? `<p>Juros (${order.interestPercent}%): +R$ ${order.interestAmount.toFixed(2).replace('.', ',')}</p>` : ''}
                             <p style="font-size: 20px;">TOTAL: R$ ${order.total.toFixed(2).replace('.', ',')}</p>
                         </div>
                         

@@ -5231,51 +5231,11 @@
             }
         }
 
-        async function deletePaymentMethod(id) {
-            if (!confirm('Tem certeza que deseja excluir esta forma de pagamento?')) return;
-            
-            try {
-                adminClient.paymentMethods = adminClient.paymentMethods.filter(m => m.id !== parseInt(id));
-                await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
-                renderPaymentMethods();
-                addSystemLog(`💳 Forma de pagamento excluída`);
-                showNotification('Forma de pagamento excluída com sucesso!', 'success');
-            } catch (error) {
-                addSystemLog(`❌ Erro ao excluir forma de pagamento: ${error.message}`);
-                showNotification('Erro ao excluir forma de pagamento', 'error');
-            }
-        }
 
-        async function deletePaymentCondition(id) {
-            if (!confirm('Tem certeza que deseja excluir esta condição de pagamento?')) return;
-            
-            try {
-                adminClient.paymentConditions = adminClient.paymentConditions.filter(c => c.id !== parseInt(id));
-                await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
-                renderPaymentConditions();
-                addSystemLog(`📋 Condição de pagamento excluída`);
-                showNotification('Condição excluída com sucesso!', 'success');
-            } catch (error) {
-                addSystemLog(`❌ Erro ao excluir condição: ${error.message}`);
-                showNotification('Erro ao excluir condição', 'error');
-            }
-        }
 
-        async function deletePaymentRule(id) {
-            if (!confirm('Tem certeza que deseja excluir esta regra?')) return;
-            
-            try {
-                adminClient.paymentRules = adminClient.paymentRules.filter(r => r.id !== parseInt(id));
-                await saveToGitHub('payment_rules.json', adminClient.paymentRules);
-                renderPaymentRules();
-                renderExistingRules();
-                addSystemLog(`⚙️ Regra de pagamento excluída`);
-                showNotification('Regra excluída com sucesso!', 'success');
-            } catch (error) {
-                addSystemLog(`❌ Erro ao excluir regra: ${error.message}`);
-                showNotification('Erro ao excluir regra', 'error');
-            }
-        }
+
+
+
 
         function clearRuleForm() {
             document.getElementById('payment-rule-form').reset();

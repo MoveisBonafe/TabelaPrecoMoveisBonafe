@@ -6100,7 +6100,10 @@ ${this.userType === 'restaurante' ? `
 
         function updateCartCount() {
             const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').textContent = totalItems;
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
             
             // Enable/disable checkout button based on cart contents
             const checkoutBtn = document.getElementById('checkout-btn');
@@ -6115,6 +6118,66 @@ ${this.userType === 'restaurante' ? `
                     checkoutBtn.style.cursor = 'not-allowed';
                 }
             }
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (!cartItemsContainer) return;
+            
+            cartItemsContainer.innerHTML = '';
+            
+            if (shoppingCart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: #666; margin: 20px 0;">Carrinho vazio</p>';
+                if (cartTotal) cartTotal.textContent = 'R$ 0,00';
+                return;
+            }
+            
+            let total = 0;
+            
+            shoppingCart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>Cor: ${item.color}</p>
+                        <p>Preço: R$ ${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button onclick="updateCartItemQuantity(${index}, ${item.quantity - 1})">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateCartItemQuantity(${index}, ${item.quantity + 1})">+</button>
+                        <button onclick="removeFromCart(${index})" style="margin-left: 10px; color: red;">🗑️</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemDiv);
+                total += item.price * item.quantity;
+            });
+            
+            if (cartTotal) {
+                cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+            }
+        }
+
+        function updateCartItemQuantity(index, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(index);
+                return;
+            }
+            
+            shoppingCart[index].quantity = newQuantity;
+            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
+            renderCartItems();
+            updateCartCount();
+        }
+
+        function removeFromCart(index) {
+            shoppingCart.splice(index, 1);
+            localStorage.setItem(getDeviceCartKey(), JSON.stringify(shoppingCart));
+            renderCartItems();
+            updateCartCount();
         }
 
 
@@ -7177,7 +7240,11 @@ ${this.userType === 'restaurante' ? `
         }
         checkForDataUpdates();
         setInterval(checkForDataUpdates, 10000);
-        }
+        
+        // Initialize cart count on page load
+        updateCartCount();
+        
+        console.log('✅ Catálogo inicializado');
         </script>
 
         <!-- Footer -->

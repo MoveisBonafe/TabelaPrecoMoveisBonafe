@@ -4759,11 +4759,15 @@
                     .normalize('NFC');
             };
             
+            // Populate price table dropdown
+            populatePriceTableDropdown();
+            
             if (conditionId) {
                 const condition = adminClient.paymentConditions.find(c => c.id === parseInt(conditionId));
                 if (condition) {
                     document.getElementById('payment-condition-name').value = fixEncoding(condition.name) || '';
                     document.getElementById('payment-condition-description').value = fixEncoding(condition.description) || '';
+                    document.getElementById('payment-condition-price-table').value = condition.priceTableId || '';
                     document.getElementById('payment-condition-installments').value = condition.installments || 1;
                     document.getElementById('payment-condition-interest').value = condition.interest || 0;
                     document.getElementById('payment-condition-discount').value = condition.discount || 0;
@@ -4781,6 +4785,26 @@
         function closePaymentConditionModal() {
             editingConditionId = null;
             document.getElementById('payment-condition-modal').classList.remove('active');
+        }
+
+        function populatePriceTableDropdown() {
+            const select = document.getElementById('payment-condition-price-table');
+            if (!select) return;
+            
+            // Clear existing options except the first one
+            select.innerHTML = '<option value="">Selecione uma tabela</option>';
+            
+            // Populate with price settings (tables)
+            if (adminClient.priceSettings && adminClient.priceSettings.length > 0) {
+                adminClient.priceSettings.forEach(setting => {
+                    if (setting.active) {
+                        const option = document.createElement('option');
+                        option.value = setting.name; // Use name as ID for price tables
+                        option.textContent = setting.name;
+                        select.appendChild(option);
+                    }
+                });
+            }
         }
 
         function openPaymentRulesModal() {
@@ -5376,11 +5400,17 @@
                 const formData = {
                     name: document.getElementById('payment-condition-name').value,
                     description: document.getElementById('payment-condition-description').value,
+                    priceTableId: document.getElementById('payment-condition-price-table').value,
                     installments: parseInt(document.getElementById('payment-condition-installments').value) || 1,
                     interest: parseFloat(document.getElementById('payment-condition-interest').value) || 0,
                     discount: parseFloat(document.getElementById('payment-condition-discount').value) || 0,
                     active: document.getElementById('payment-condition-active').value === 'true'
                 };
+                
+                if (!formData.priceTableId) {
+                    showNotification('Selecione uma tabela de preço', 'error');
+                    return;
+                }
                 
                 try {
                     if (editingConditionId) {
@@ -5437,7 +5467,6 @@
                 e.preventDefault();
                 
                 const methodId = document.getElementById('rule-payment-method').value;
-                const priceTableId = document.getElementById('rule-price-table').value;
                 const conditionCheckboxes = document.querySelectorAll('#rule-payment-conditions input[type="checkbox"]:checked');
                 const conditionIds = Array.from(conditionCheckboxes).map(cb => parseInt(cb.value));
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
@@ -5445,15 +5474,10 @@
                 
                 console.log('📝 Payment rule form submitted');
                 console.log('🔍 editingRuleId:', editingRuleId);
-                console.log('📋 Form data:', { methodId, priceTableId, conditionIds, userAccess });
+                console.log('📋 Form data:', { methodId, conditionIds, userAccess });
                 
                 if (!methodId) {
                     showNotification('Selecione uma forma de pagamento', 'error');
-                    return;
-                }
-                
-                if (!priceTableId) {
-                    showNotification('Selecione uma tabela de preço', 'error');
                     return;
                 }
                 
@@ -5466,7 +5490,6 @@
                             adminClient.paymentRules[ruleIndex] = {
                                 ...adminClient.paymentRules[ruleIndex],
                                 paymentMethodId: parseInt(methodId),
-                                priceTableId: priceTableId,
                                 conditionIds: conditionIds,
                                 userAccess: userAccess
                             };
@@ -5479,7 +5502,6 @@
                         const formData = {
                             id: Date.now(),
                             paymentMethodId: parseInt(methodId),
-                            priceTableId: priceTableId,
                             conditionIds: conditionIds,
                             userAccess: userAccess,
                             createdAt: new Date().toISOString()

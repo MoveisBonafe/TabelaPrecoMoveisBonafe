@@ -3688,9 +3688,10 @@ ${this.userType === 'restaurante' ? `
                         <!-- Payment Conditions (hidden by default) -->
                         <div class="payment-conditions-section" id="payment-conditions-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); display: none;">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento</h3>
-                            <div id="payment-conditions-list" style="display: flex; flex-direction: column; gap: 12px;">
-                                <!-- Conditions will be loaded dynamically -->
-                            </div>
+                            <select id="payment-condition" required onchange="validatePaymentForm(); updatePaymentSummary()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                                <option value="">Selecione a condição de pagamento</option>
+                                <!-- Options will be loaded dynamically from admin configuration -->
+                            </select>
                         </div>
                         
                         <!-- Price Table (hidden for restaurant users) -->
@@ -7376,8 +7377,9 @@ ${this.userType === 'restaurante' ? `
             // Show payment conditions section
             paymentConditionsSection.style.display = 'block';
 
-            // Load payment conditions for this method
-            paymentConditionsList.innerHTML = '';
+            // Load payment conditions for this method into the dropdown
+            const paymentConditionSelect = document.getElementById('payment-condition');
+            paymentConditionSelect.innerHTML = '<option value="">Selecione a condição de pagamento</option>';
             console.log('📋 Carregando condições:', rule.conditionIds);
 
             rule.conditionIds.forEach(conditionId => {
@@ -7386,36 +7388,10 @@ ${this.userType === 'restaurante' ? `
                 
                 if (!condition) return;
 
-                const conditionDiv = document.createElement('div');
-                conditionDiv.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 12px; border: 1px solid #e5e7eb; cursor: pointer; transition: all 0.2s;';
-                
-                conditionDiv.innerHTML = `
-                    <input type="radio" name="payment-condition" value="${condition.id}" id="condition-${condition.id}" 
-                           style="width: 18px; height: 18px; accent-color: #f59e0b;">
-                    <label for="condition-${condition.id}" style="flex: 1; cursor: pointer; font-size: 14px; color: #374151;">
-                        <strong>${condition.name}</strong>
-                        ${condition.description ? `<br><small style="color: #6b7280;">${condition.description}</small>` : ''}
-                    </label>
-                `;
-
-                // Add click handler for the entire div
-                conditionDiv.addEventListener('click', function(e) {
-                    if (e.target.type !== 'radio') {
-                        const radio = conditionDiv.querySelector('input[type="radio"]');
-                        radio.checked = true;
-                        validatePaymentForm();
-                        updatePaymentSummary();
-                    }
-                });
-
-                // Add change handler for the radio button
-                const radio = conditionDiv.querySelector('input[type="radio"]');
-                radio.addEventListener('change', function() {
-                    validatePaymentForm();
-                    updatePaymentSummary();
-                });
-
-                paymentConditionsList.appendChild(conditionDiv);
+                const option = document.createElement('option');
+                option.value = condition.id;
+                option.textContent = condition.name;
+                paymentConditionSelect.appendChild(option);
             });
 
             console.log('✅ Condições de pagamento carregadas');
@@ -7423,10 +7399,10 @@ ${this.userType === 'restaurante' ? `
         }
 
         function getSelectedPaymentCondition() {
-            const selectedRadio = document.querySelector('input[name="payment-condition"]:checked');
-            if (!selectedRadio) return null;
+            const paymentConditionSelect = document.getElementById('payment-condition');
+            if (!paymentConditionSelect || !paymentConditionSelect.value) return null;
 
-            const conditionId = selectedRadio.value;
+            const conditionId = parseInt(paymentConditionSelect.value);
             return catalogClient.paymentConditions.find(c => c.id === conditionId);
         }
 

@@ -7473,12 +7473,11 @@ ${this.userType === 'restaurante' ? `
                 catalogClient.paymentRules = event.detail.data;
             }
             
-            // Refresh payment methods in the UI if payment step is currently visible
-            const paymentStep = document.querySelector('[data-step="3"]');
-            if (paymentStep && paymentStep.style.display !== 'none') {
-                console.log('🔄 Reloading payment methods in UI...');
+            // Force refresh payment methods in the UI regardless of current step
+            console.log('🔄 Force reloading payment methods...');
+            setTimeout(() => {
                 loadPaymentMethods();
-            }
+            }, 100);
         });
 
         // Listen for storage events from other tabs/windows
@@ -7486,23 +7485,42 @@ ${this.userType === 'restaurante' ? `
             if (event.key && event.key.includes('payment_') && event.key.includes('.json')) {
                 console.log('🔄 Payment data changed in localStorage:', event.key);
                 
-                // Reload the specific data that changed
-                if (event.key === 'payment_methods.json' && event.newValue) {
-                    catalogClient.paymentMethods = JSON.parse(event.newValue);
-                } else if (event.key === 'payment_conditions.json' && event.newValue) {
-                    catalogClient.paymentConditions = JSON.parse(event.newValue);
-                } else if (event.key === 'payment_rules.json' && event.newValue) {
-                    catalogClient.paymentRules = JSON.parse(event.newValue);
-                }
-                
-                // Refresh payment methods in the UI if payment step is currently visible
-                const paymentStep = document.querySelector('[data-step="3"]');
-                if (paymentStep && paymentStep.style.display !== 'none') {
-                    console.log('🔄 Reloading payment methods due to storage change...');
-                    loadPaymentMethods();
-                }
+                // Force page reload to ensure fresh data
+                console.log('🔄 Reloading page to sync with admin changes...');
+                location.reload();
             }
         });
+
+        // Periodically check for localStorage changes (fallback for same-tab updates)
+        let lastPaymentUpdate = Date.now();
+        setInterval(() => {
+            const paymentMethodsData = localStorage.getItem('payment_methods.json');
+            const paymentConditionsData = localStorage.getItem('payment_conditions.json');
+            const paymentRulesData = localStorage.getItem('payment_rules.json');
+            
+            if (paymentMethodsData || paymentConditionsData || paymentRulesData) {
+                // Check if data has been modified recently (within last 5 seconds)
+                const now = Date.now();
+                const isRecentUpdate = (now - lastPaymentUpdate) > 2000; // Check every 2 seconds
+                
+                if (isRecentUpdate) {
+                    try {
+                        // Parse and compare data to detect changes
+                        const newPaymentMethods = paymentMethodsData ? JSON.parse(paymentMethodsData) : [];
+                        const currentMethodsStr = JSON.stringify(catalogClient.paymentMethods);
+                        const newMethodsStr = JSON.stringify(newPaymentMethods);
+                        
+                        if (currentMethodsStr !== newMethodsStr && newPaymentMethods.length > 0) {
+                            console.log('🔄 Detected payment data changes, reloading page...');
+                            location.reload();
+                        }
+                    } catch (e) {
+                        // Ignore parsing errors
+                    }
+                }
+                lastPaymentUpdate = now;
+            }
+        }, 2000); // Check every 2 seconds
 
         </script>
 

@@ -16,5 +16,14 @@
     "active": true,
     "fee": 0,
     "createdAt": "2025-06-12T03:37:04.229Z"
+  },
+  {
+    "id": 1749699428693,
+    "name": "Teste",
+    "description": "",
+    "icon": "💳",
+    "active": true,
+    "fee": 0,
+    "createdAt": "2025-06-12T03:37:08.693Z"
   }
 ]

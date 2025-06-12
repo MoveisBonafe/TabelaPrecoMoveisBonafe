@@ -4461,7 +4461,17 @@
                 
                 // Function to get appropriate icon for payment method using HTML entities
                 const getPaymentIcon = (name, providedIcon) => {
-                    if (providedIcon) return providedIcon;
+                    if (providedIcon) {
+                        // Convert stored emoji to HTML entity
+                        if (providedIcon === '💳') return '&#128179;';
+                        if (providedIcon === '📱') return '&#128241;';
+                        if (providedIcon === '💴') return '&#128180;';
+                        if (providedIcon === '💵') return '&#128181;';
+                        if (providedIcon === '📄') return '&#128196;';
+                        if (providedIcon === '🏦') return '&#127970;';
+                        if (providedIcon === '💰') return '&#128176;';
+                        return providedIcon;
+                    }
                     const lowerName = name.toLowerCase();
                     if (lowerName.includes('pix')) return '&#128241;'; // 📱
                     if (lowerName.includes('cartao') || lowerName.includes('credito')) return '&#128179;'; // 💳
@@ -4668,11 +4678,32 @@
             
             editingMethodId = methodId ? parseInt(methodId) : null;
             
+            // Fix encoding function for form fields
+            const fixEncoding = (text) => {
+                if (!text) return '';
+                return text
+                    .replace(/Ã¡/g, 'á')
+                    .replace(/Ã©/g, 'é')
+                    .replace(/Ã­/g, 'í')
+                    .replace(/Ã³/g, 'ó')
+                    .replace(/Ãº/g, 'ú')
+                    .replace(/Ã /g, 'à')
+                    .replace(/Ã¢/g, 'â')
+                    .replace(/Ãª/g, 'ê')
+                    .replace(/Ã´/g, 'ô')
+                    .replace(/Ã§/g, 'ç')
+                    .replace(/Ã£/g, 'ã')
+                    .replace(/Ãµ/g, 'õ')
+                    .replace(/Ã‰/g, 'É')
+                    .replace(/Ã/g, 'Á')
+                    .normalize('NFC');
+            };
+            
             if (methodId) {
                 const method = adminClient.paymentMethods.find(m => m.id === parseInt(methodId));
                 if (method) {
-                    document.getElementById('payment-method-name').value = method.name || '';
-                    document.getElementById('payment-method-description').value = method.description || '';
+                    document.getElementById('payment-method-name').value = fixEncoding(method.name) || '';
+                    document.getElementById('payment-method-description').value = fixEncoding(method.description) || '';
                     document.getElementById('payment-method-icon').value = method.icon || '💳';
                     document.getElementById('payment-method-active').value = method.active ? 'true' : 'false';
                     document.getElementById('payment-method-fee').value = method.fee || 0;
@@ -4699,11 +4730,32 @@
             
             editingConditionId = conditionId ? parseInt(conditionId) : null;
             
+            // Fix encoding function for form fields
+            const fixEncoding = (text) => {
+                if (!text) return '';
+                return text
+                    .replace(/Ã¡/g, 'á')
+                    .replace(/Ã©/g, 'é')
+                    .replace(/Ã­/g, 'í')
+                    .replace(/Ã³/g, 'ó')
+                    .replace(/Ãº/g, 'ú')
+                    .replace(/Ã /g, 'à')
+                    .replace(/Ã¢/g, 'â')
+                    .replace(/Ãª/g, 'ê')
+                    .replace(/Ã´/g, 'ô')
+                    .replace(/Ã§/g, 'ç')
+                    .replace(/Ã£/g, 'ã')
+                    .replace(/Ãµ/g, 'õ')
+                    .replace(/Ã‰/g, 'É')
+                    .replace(/Ã/g, 'Á')
+                    .normalize('NFC');
+            };
+            
             if (conditionId) {
                 const condition = adminClient.paymentConditions.find(c => c.id === parseInt(conditionId));
                 if (condition) {
-                    document.getElementById('payment-condition-name').value = condition.name || '';
-                    document.getElementById('payment-condition-description').value = condition.description || '';
+                    document.getElementById('payment-condition-name').value = fixEncoding(condition.name) || '';
+                    document.getElementById('payment-condition-description').value = fixEncoding(condition.description) || '';
                     document.getElementById('payment-condition-installments').value = condition.installments || 1;
                     document.getElementById('payment-condition-interest').value = condition.interest || 0;
                     document.getElementById('payment-condition-discount').value = condition.discount || 0;

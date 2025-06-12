@@ -156,6 +156,74 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
+    "name": "Cadeira Restaurante",
+    "category": "Cadeiras",
+    "priceAVista": 115,
+    "altura": 95,
+    "largura": 40,
+    "comprimento": 40,
+    "peso": 5.5,
+    "description": "",
+    "images": [
+      "data/images/product_1749517490130_a93f7xmua.png",
+      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570555058_w55nazg41.png_1749570555083_imagem_2025-06-10_124915051.png",
+      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570560436_lx9ruwbdn.png_1749570560460_imagem_2025-06-10_124920431.png",
+      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570565808_c1onk9l25.png_1749570565833_imagem_2025-06-10_124925796.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T15:51:47.150Z",
+    "id": 1749514027905,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Agulha Cadeira Alta",
+    "category": "Cadeiras",
+    "priceAVista": 8,
+    "fixedPrice": true,
+    "altura": 0,
+    "largura": 0,
+    "comprimento": 0,
+    "peso": 0,
+    "description": "",
+    "images": [
+      "data/images/product_1749519805032_qaicnp7ga.png"
+    ],
+    "colorVariations": [
+      "Única"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-11T14:22:01.647Z",
+    "id": 1749514027910,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Agulha Cadeira Comum",
+    "category": "Cadeiras",
+    "priceAVista": 8,
+    "fixedPrice": true,
+    "altura": 0,
+    "largura": 0,
+    "comprimento": 0,
+    "peso": 0,
+    "description": "",
+    "images": [
+      "data/images/product_1749519815100_t4jwmmxn5.png"
+    ],
+    "colorVariations": [
+      "Única"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-11T14:22:07.939Z",
+    "id": 1749514027911,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
     "name": "Beliche Paris",
     "category": "Beliches",
     "priceAVista": 468,
@@ -182,19 +250,19 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Cadeira Restaurante",
-    "category": "Cadeiras",
-    "priceAVista": 115,
-    "altura": 95,
-    "largura": 40,
-    "comprimento": 40,
-    "peso": 5.5,
+    "name": "Cama Paris Casal",
+    "category": "Camas",
+    "priceAVista": 310,
+    "altura": 94,
+    "largura": 130,
+    "comprimento": 190,
+    "peso": 23.5,
     "description": "",
     "images": [
-      "data/images/product_1749517490130_a93f7xmua.png",
-      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570555058_w55nazg41.png_1749570555083_imagem_2025-06-10_124915051.png",
-      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570560436_lx9ruwbdn.png_1749570560460_imagem_2025-06-10_124920431.png",
-      "https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/images/product_1749570565808_c1onk9l25.png_1749570565833_imagem_2025-06-10_124925796.png"
+      "data/images/product_1749520142866_n40ygta0i.png",
+      "data/images/product_1749520149359_pqhd5c7yu.png",
+      "data/images/product_1749520153760_yntd5a1y1.png",
+      "data/images/product_1749520157985_0ju7uny3g.png"
     ],
     "colorVariations": [
       "Imbuia",
@@ -203,8 +271,87 @@
       "Mogno"
     ],
     "active": true,
-    "updatedAt": "2025-06-10T15:51:47.150Z",
-    "id": 1749514027905,
+    "updatedAt": "2025-06-10T01:49:30.338Z",
+    "id": 1749514027914,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Cama Paris Solteiro",
+    "category": "Camas",
+    "priceAVista": 258,
+    "altura": 94,
+    "largura": 80,
+    "comprimento": 190,
+    "peso": 20,
+    "description": "",
+    "images": [
+      "data/images/product_1749520189280_kxvcfhr2d.png",
+      "data/images/product_1749520193767_ppn72ewal.png",
+      "data/images/product_1749520197899_pggjxlt1b.png",
+      "data/images/product_1749520202177_vqzritbku.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:50:22.693Z",
+    "id": 1749514027915,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 0,70 X 0,45",
+    "category": "Mesas",
+    "priceAVista": 136,
+    "altura": 80,
+    "largura": 45,
+    "comprimento": 70,
+    "peso": 9,
+    "description": "",
+    "images": [
+      "data/images/product_1749520235411_u00w056vm.png",
+      "data/images/product_1749520239594_3ko74b3fd.png",
+      "data/images/product_1749520243447_7bgmi4kei.png",
+      "data/images/product_1749520247339_0aec1b4km.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:50:57.837Z",
+    "id": 1749514027916,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 0,70 X 0,45 Infantil",
+    "category": "Mesas",
+    "priceAVista": 136,
+    "fixedPrice": false,
+    "altura": 60,
+    "largura": 45,
+    "comprimento": 70,
+    "peso": 9,
+    "description": "",
+    "images": [
+      "data/images/product_1749520025603_e9ihmowmk.png",
+      "data/images/product_1749520033423_snv6l1ddv.png",
+      "data/images/product_1749520041912_bo36uowuu.png",
+      "data/images/product_1749520046768_pkclxqlb1.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-12T01:51:11.665Z",
+    "id": 1749514027912,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
@@ -312,74 +459,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Agulha Cadeira Alta",
-    "category": "Cadeiras",
-    "priceAVista": 8,
-    "fixedPrice": true,
-    "altura": 0,
-    "largura": 0,
-    "comprimento": 0,
-    "peso": 0,
-    "description": "",
-    "images": [
-      "data/images/product_1749519805032_qaicnp7ga.png"
-    ],
-    "colorVariations": [
-      "Única"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-11T14:22:01.647Z",
-    "id": 1749514027910,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Agulha Cadeira Comum",
-    "category": "Cadeiras",
-    "priceAVista": 8,
-    "fixedPrice": true,
-    "altura": 0,
-    "largura": 0,
-    "comprimento": 0,
-    "peso": 0,
-    "description": "",
-    "images": [
-      "data/images/product_1749519815100_t4jwmmxn5.png"
-    ],
-    "colorVariations": [
-      "Única"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-11T14:22:07.939Z",
-    "id": 1749514027911,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 0,70 X 0,45 Criança",
-    "category": "Mesas",
-    "priceAVista": 136,
-    "altura": 60,
-    "largura": 45,
-    "comprimento": 70,
-    "peso": 9,
-    "description": "",
-    "images": [
-      "data/images/product_1749520025603_e9ihmowmk.png",
-      "data/images/product_1749520033423_snv6l1ddv.png",
-      "data/images/product_1749520041912_bo36uowuu.png",
-      "data/images/product_1749520046768_pkclxqlb1.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:47:40.505Z",
-    "id": 1749514027912,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Mesa Bonacor 0,75 X 0,75 Criança",
     "category": "Mesas",
     "priceAVista": 182,
@@ -403,84 +482,6 @@
     "active": true,
     "updatedAt": "2025-06-10T01:48:48.202Z",
     "id": 1749514027913,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Cama Paris Casal",
-    "category": "Camas",
-    "priceAVista": 310,
-    "altura": 94,
-    "largura": 130,
-    "comprimento": 190,
-    "peso": 23.5,
-    "description": "",
-    "images": [
-      "data/images/product_1749520142866_n40ygta0i.png",
-      "data/images/product_1749520149359_pqhd5c7yu.png",
-      "data/images/product_1749520153760_yntd5a1y1.png",
-      "data/images/product_1749520157985_0ju7uny3g.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:49:30.338Z",
-    "id": 1749514027914,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Cama Paris Solteiro",
-    "category": "Camas",
-    "priceAVista": 258,
-    "altura": 94,
-    "largura": 80,
-    "comprimento": 190,
-    "peso": 20,
-    "description": "",
-    "images": [
-      "data/images/product_1749520189280_kxvcfhr2d.png",
-      "data/images/product_1749520193767_ppn72ewal.png",
-      "data/images/product_1749520197899_pggjxlt1b.png",
-      "data/images/product_1749520202177_vqzritbku.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:50:22.693Z",
-    "id": 1749514027915,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 0,70 X 0,45",
-    "category": "Mesas",
-    "priceAVista": 136,
-    "altura": 80,
-    "largura": 45,
-    "comprimento": 70,
-    "peso": 9,
-    "description": "",
-    "images": [
-      "data/images/product_1749520235411_u00w056vm.png",
-      "data/images/product_1749520239594_3ko74b3fd.png",
-      "data/images/product_1749520243447_7bgmi4kei.png",
-      "data/images/product_1749520247339_0aec1b4km.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:50:57.837Z",
-    "id": 1749514027916,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

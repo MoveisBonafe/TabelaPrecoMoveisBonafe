@@ -11,7 +11,7 @@
   {
     "name": "Cartão de Crédito",
     "description": "",
-    "icon": "💳",
+    "icon": "💸",
     "active": true,
     "fee": 0,
     "id": 1749744960496,
@@ -20,7 +20,7 @@
   {
     "name": "Dinheiro",
     "description": "",
-    "icon": "💰",
+    "icon": "ð°",
     "active": true,
     "fee": 0,
     "id": 1749751695822,

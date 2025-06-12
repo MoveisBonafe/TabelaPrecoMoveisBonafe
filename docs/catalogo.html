@@ -1510,13 +1510,16 @@
 
             async loadAllData() {
                 try {
-                    const [products, categories, priceSettings, promotions, colors, notices] = await Promise.all([
+                    const [products, categories, priceSettings, promotions, colors, notices, paymentMethods, paymentConditions, paymentRules] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
                         this.loadData('price_settings.json'),
                         this.loadData('promotions.json'),
                         this.loadData('colors.json'),
-                        this.loadData('notices.json')
+                        this.loadData('notices.json'),
+                        this.loadData('payment_methods.json'),
+                        this.loadData('payment_conditions.json'),
+                        this.loadData('payment_rules.json')
                     ]);
 
                     this.products = products.filter(p => p.active !== false);
@@ -1525,6 +1528,9 @@
                     this.promotions = promotions.filter(p => p.active === true);
                     this.colors = colors || [];
                     this.notices = notices || [];
+                    this.paymentMethods = paymentMethods || [];
+                    this.paymentConditions = paymentConditions || [];
+                    this.paymentRules = paymentRules || [];
                     
                     // Apply product order
                     await this.loadProductOrder();
@@ -3648,15 +3654,18 @@ ${this.userType === 'restaurante' ? `
                         <!-- Payment Method -->
                         <div class="payment-method-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Método de Pagamento</h3>
-                            <select id="payment-method" required onchange="validatePaymentForm()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                            <select id="payment-method" required onchange="onPaymentMethodChange()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 <option value="">Selecione o método de pagamento</option>
-                                <option value="pix">PIX</option>
-                                <option value="cartao">Cartão de Crédito/Débito</option>
-                                <option value="boleto">Boleto Bancário</option>
-                                <option value="dinheiro">Dinheiro</option>
-                                <option value="duplicata">Duplicata</option>
-                                <option value="cheque">Cheque</option>
+                                <!-- Options will be loaded dynamically from admin configuration -->
                             </select>
+                        </div>
+                        
+                        <!-- Payment Conditions (hidden by default) -->
+                        <div class="payment-conditions-section" id="payment-conditions-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); display: none;">
+                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento</h3>
+                            <div id="payment-conditions-list" style="display: flex; flex-direction: column; gap: 12px;">
+                                <!-- Conditions will be loaded dynamically -->
+                            </div>
                         </div>
                         
                         <!-- Price Table (hidden for restaurant users) -->
@@ -3672,12 +3681,7 @@ ${this.userType === 'restaurante' ? `
                             </select>
                         </div>
 
-                        <!-- Payment Condition -->
-                        <div class="payment-condition-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
-                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento *</h3>
-                            <input type="text" id="payment-condition" placeholder="Ex: Entrada + 2x sem juros, À vista com desconto, etc." required oninput="validatePaymentForm()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
-                            <div id="payment-condition-error" style="color: #dc2626; font-size: 12px; margin-top: 4px; display: none;">Este campo é obrigatório</div>
-                        </div>
+
 
                         <!-- Total Section -->
                         <div class="total-section-payment" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
@@ -7245,6 +7249,175 @@ ${this.userType === 'restaurante' ? `
         updateCartCount();
         
         console.log('✅ Catálogo inicializado');
+
+        // Payment System Integration Functions
+        function loadPaymentMethods() {
+            const paymentMethodSelect = document.getElementById('payment-method');
+            if (!paymentMethodSelect || !catalogClient.paymentMethods || !catalogClient.paymentRules) return;
+
+            // Clear existing options except the first one
+            paymentMethodSelect.innerHTML = '<option value="">Selecione o método de pagamento</option>';
+
+            // Get current user type
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+            const userRole = currentUser.role || 'all';
+
+            // Filter payment methods based on user permissions
+            const availablePaymentMethods = catalogClient.paymentMethods.filter(method => {
+                // Find rule for this payment method
+                const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === method.id);
+                if (!rule) return false;
+
+                // Check user access
+                return rule.userAccess === 'all' || 
+                       (Array.isArray(rule.userAccess) && rule.userAccess.includes(userRole)) ||
+                       rule.userAccess === userRole;
+            });
+
+            // Add available payment methods to select
+            availablePaymentMethods.forEach(method => {
+                const option = document.createElement('option');
+                option.value = method.id;
+                option.textContent = method.name;
+                paymentMethodSelect.appendChild(option);
+            });
+        }
+
+        function onPaymentMethodChange() {
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const paymentConditionsSection = document.getElementById('payment-conditions-section');
+            const priceTableSection = document.getElementById('price-table-section');
+            const paymentConditionsList = document.getElementById('payment-conditions-list');
+
+            const selectedMethodId = paymentMethodSelect.value;
+
+            if (!selectedMethodId) {
+                // Hide payment conditions and show price table
+                paymentConditionsSection.style.display = 'none';
+                if (catalogClient.userType !== 'restaurante') {
+                    priceTableSection.style.display = 'block';
+                }
+                validatePaymentForm();
+                return;
+            }
+
+            // Find the rule for the selected payment method
+            const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === selectedMethodId);
+            if (!rule || !rule.paymentConditionIds || rule.paymentConditionIds.length === 0) {
+                // No conditions for this method, show price table
+                paymentConditionsSection.style.display = 'none';
+                if (catalogClient.userType !== 'restaurante') {
+                    priceTableSection.style.display = 'block';
+                }
+                validatePaymentForm();
+                return;
+            }
+
+            // Hide price table and show payment conditions
+            priceTableSection.style.display = 'none';
+            paymentConditionsSection.style.display = 'block';
+
+            // Load payment conditions for this method
+            paymentConditionsList.innerHTML = '';
+
+            rule.paymentConditionIds.forEach(conditionId => {
+                const condition = catalogClient.paymentConditions.find(c => c.id === conditionId);
+                if (!condition) return;
+
+                const conditionDiv = document.createElement('div');
+                conditionDiv.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 12px; border: 1px solid #e5e7eb; cursor: pointer; transition: all 0.2s;';
+                
+                conditionDiv.innerHTML = `
+                    <input type="radio" name="payment-condition" value="${condition.id}" id="condition-${condition.id}" 
+                           style="width: 18px; height: 18px; accent-color: #f59e0b;">
+                    <label for="condition-${condition.id}" style="flex: 1; cursor: pointer; font-size: 14px; color: #374151;">
+                        <strong>${condition.name}</strong>
+                        ${condition.description ? `<br><small style="color: #6b7280;">${condition.description}</small>` : ''}
+                    </label>
+                `;
+
+                // Add click handler for the entire div
+                conditionDiv.addEventListener('click', function(e) {
+                    if (e.target.type !== 'radio') {
+                        const radio = conditionDiv.querySelector('input[type="radio"]');
+                        radio.checked = true;
+                        validatePaymentForm();
+                        updatePaymentSummary();
+                    }
+                });
+
+                // Add change handler for the radio button
+                const radio = conditionDiv.querySelector('input[type="radio"]');
+                radio.addEventListener('change', function() {
+                    validatePaymentForm();
+                    updatePaymentSummary();
+                });
+
+                paymentConditionsList.appendChild(conditionDiv);
+            });
+
+            validatePaymentForm();
+        }
+
+        function getSelectedPaymentCondition() {
+            const selectedRadio = document.querySelector('input[name="payment-condition"]:checked');
+            if (!selectedRadio) return null;
+
+            const conditionId = selectedRadio.value;
+            return catalogClient.paymentConditions.find(c => c.id === conditionId);
+        }
+
+        // Override the existing goToPaymentStep function to load payment methods
+        const originalGoToPaymentStep = window.goToPaymentStep;
+        window.goToPaymentStep = function() {
+            if (originalGoToPaymentStep) {
+                originalGoToPaymentStep();
+            }
+            
+            // Load payment methods after payment step is shown
+            setTimeout(() => {
+                loadPaymentMethods();
+            }, 100);
+        };
+
+        // Override validatePaymentForm to handle new payment conditions
+        function validatePaymentForm() {
+            const paymentMethod = document.getElementById('payment-method').value;
+            const priceTableSection = document.getElementById('price-table-section');
+            const paymentConditionsSection = document.getElementById('payment-conditions-section');
+            
+            let isValid = true;
+            
+            // Check payment method
+            if (!paymentMethod) {
+                isValid = false;
+            }
+            
+            // Check conditions based on what's visible
+            if (paymentConditionsSection.style.display !== 'none') {
+                // Payment conditions are visible, check if one is selected
+                const selectedCondition = document.querySelector('input[name="payment-condition"]:checked');
+                if (!selectedCondition) {
+                    isValid = false;
+                }
+            } else if (priceTableSection.style.display !== 'none') {
+                // Price table is visible, check if one is selected
+                const priceTable = document.getElementById('price-table').value;
+                if (!priceTable) {
+                    isValid = false;
+                }
+            }
+            
+            // Update finalize button
+            const finalizeBtn = document.querySelector('button[onclick="finalizeOrder()"]');
+            if (finalizeBtn) {
+                finalizeBtn.disabled = !isValid;
+                finalizeBtn.style.opacity = isValid ? '1' : '0.5';
+            }
+            
+            return isValid;
+        }
+
         </script>
 
         <!-- Footer -->

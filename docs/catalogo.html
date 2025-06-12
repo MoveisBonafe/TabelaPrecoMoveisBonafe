@@ -6566,6 +6566,7 @@ ${this.userType === 'restaurante' ? `
             
             // Get selected payment condition
             const selectedPaymentCondition = getSelectedPaymentCondition();
+            const paymentCondition = selectedPaymentCondition; // Define variable used later in orderData
             const paymentConditionText = selectedPaymentCondition ? selectedPaymentCondition.name : '';
             
             // Get all customer data

@@ -7187,6 +7187,9 @@ ${this.userType === 'restaurante' ? `
                 });
             }, 1000);
         });
+        
+        // Close the CatalogClient class
+        }
 
         // Data synchronization listener for cross-page updates
         function checkForDataUpdates() {
@@ -7246,11 +7249,9 @@ ${this.userType === 'restaurante' ? `
         
         console.log('✅ Catálogo inicializado');
         
-        }
-        
         // Initialize catalog
-        const catalogClient = new CatalogClient();
-        catalogClient.init().catch(error => {
+        const catalog = new CatalogClient();
+        catalog.init().catch(error => {
             console.error('Erro ao inicializar catálogo:', error);
         });
         </script>

@@ -156,32 +156,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Beliche Paris",
-    "category": "Beliches",
-    "priceAVista": 468,
-    "altura": 164,
-    "largura": 80,
-    "comprimento": 190,
-    "peso": 46,
-    "description": "",
-    "images": [
-      "data/images/product_1749516330562_t6ipkjc72.png",
-      "data/images/product_1749516334613_j6mard76z.png",
-      "data/images/product_1749516339908_b3hvk90yn.png",
-      "data/images/product_1749516344141_mo1npvhlx.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T00:45:54.947Z",
-    "id": 1749514027904,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Cadeira Restaurante",
     "category": "Cadeiras",
     "priceAVista": 115,
@@ -205,6 +179,32 @@
     "active": true,
     "updatedAt": "2025-06-10T15:51:47.150Z",
     "id": 1749514027905,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Beliche Paris",
+    "category": "Beliches",
+    "priceAVista": 468,
+    "altura": 164,
+    "largura": 80,
+    "comprimento": 190,
+    "peso": 46,
+    "description": "",
+    "images": [
+      "data/images/product_1749516330562_t6ipkjc72.png",
+      "data/images/product_1749516334613_j6mard76z.png",
+      "data/images/product_1749516339908_b3hvk90yn.png",
+      "data/images/product_1749516344141_mo1npvhlx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T00:45:54.947Z",
+    "id": 1749514027904,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

@@ -4817,7 +4817,17 @@
                         showNotification('Forma de pagamento criada com sucesso!', 'success');
                     }
                     
-                    await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                    // Save to localStorage immediately for catalog integration
+                    localStorage.setItem('payment_methods.json', JSON.stringify(adminClient.paymentMethods));
+                    
+                    // Try to save to GitHub but don't fail if token not configured
+                    try {
+                        await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                        addSystemLog('✅ Sincronizado com GitHub');
+                    } catch (githubError) {
+                        addSystemLog('⚠️ Salvo localmente - Token GitHub não configurado');
+                    }
+                    
                     renderPaymentMethods();
                     closePaymentMethodModal();
                 } catch (error) {
@@ -4860,7 +4870,17 @@
                         showNotification('Condição de pagamento criada com sucesso!', 'success');
                     }
                     
-                    await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                    // Save to localStorage immediately for catalog integration
+                    localStorage.setItem('payment_conditions.json', JSON.stringify(adminClient.paymentConditions));
+                    
+                    // Try to save to GitHub but don't fail if token not configured
+                    try {
+                        await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                        addSystemLog('✅ Sincronizado com GitHub');
+                    } catch (githubError) {
+                        addSystemLog('⚠️ Salvo localmente - Token GitHub não configurado');
+                    }
+                    
                     renderPaymentConditions();
                     closePaymentConditionModal();
                 } catch (error) {
@@ -4912,7 +4932,17 @@
                         showNotification('Regra criada com sucesso!', 'success');
                     }
                     
-                    await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                    // Save to localStorage immediately for catalog integration
+                    localStorage.setItem('payment_rules.json', JSON.stringify(adminClient.paymentRules));
+                    
+                    // Try to save to GitHub but don't fail if token not configured
+                    try {
+                        await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                        addSystemLog('✅ Sincronizado com GitHub');
+                    } catch (githubError) {
+                        addSystemLog('⚠️ Salvo localmente - Token GitHub não configurado');
+                    }
+                    
                     renderPaymentRules();
                     renderExistingRules();
                     clearRuleForm();

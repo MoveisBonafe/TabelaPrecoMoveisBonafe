@@ -7245,6 +7245,14 @@ ${this.userType === 'restaurante' ? `
         updateCartCount();
         
         console.log('✅ Catálogo inicializado');
+        
+        }
+        
+        // Initialize catalog
+        const catalogClient = new CatalogClient();
+        catalogClient.init().catch(error => {
+            console.error('Erro ao inicializar catálogo:', error);
+        });
         </script>
 
         <!-- Footer -->

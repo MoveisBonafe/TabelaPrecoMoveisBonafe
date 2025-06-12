@@ -4459,12 +4459,29 @@
                 const statusColor = method.active ? '#48bb78' : '#f56565';
                 const statusText = method.active ? 'Ativo' : 'Inativo';
                 
+                // Function to get appropriate icon for payment method
+                const getPaymentIcon = (name, providedIcon) => {
+                    if (providedIcon) return providedIcon;
+                    const lowerName = name.toLowerCase();
+                    if (lowerName.includes('pix')) return '📱';
+                    if (lowerName.includes('cartão') || lowerName.includes('cartao') || lowerName.includes('crédito') || lowerName.includes('credito')) return '💳';
+                    if (lowerName.includes('débito') || lowerName.includes('debito')) return '💴';
+                    if (lowerName.includes('dinheiro') || lowerName.includes('espécie') || lowerName.includes('especie')) return '💵';
+                    if (lowerName.includes('boleto')) return '📄';
+                    if (lowerName.includes('transferência') || lowerName.includes('transferencia')) return '🏦';
+                    return '💰';
+                };
+
+                // Ensure proper encoding for text display
+                const safeName = method.name || '';
+                const safeDescription = method.description || 'Sem descrição';
+                
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                        <div style="font-size: 32px;">${method.icon || '💳'}</div>
+                        <div style="font-size: 32px;">${getPaymentIcon(safeName, method.icon)}</div>
                         <div>
-                            <div class="card-title">${method.name}</div>
-                            <div class="card-info">${method.description || 'Sem descrição'}</div>
+                            <div class="card-title">${safeName}</div>
+                            <div class="card-info">${safeDescription}</div>
                         </div>
                         <div style="margin-left: auto;">
                             <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
@@ -4510,9 +4527,19 @@
                 const statusColor = condition.active ? '#48bb78' : '#f56565';
                 const statusText = condition.active ? 'Ativo' : 'Inativo';
                 
+                // Function to get appropriate icon for payment condition
+                const getConditionIcon = (name, installments) => {
+                    const lowerName = name.toLowerCase();
+                    if (lowerName.includes('vista') || lowerName.includes('à vista') || installments === 1) return '💸';
+                    if (lowerName.includes('parcela') || installments > 1) return '📊';
+                    if (lowerName.includes('juros') || lowerName.includes('financiamento')) return '📈';
+                    if (lowerName.includes('desconto') || lowerName.includes('promoção')) return '🏷️';
+                    return '📋';
+                };
+
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                        <div style="font-size: 32px;">📋</div>
+                        <div style="font-size: 32px;">${getConditionIcon(condition.name, condition.installments)}</div>
                         <div>
                             <div class="card-title">${condition.name}</div>
                             <div class="card-info">${condition.description || 'Sem descrição'}</div>
@@ -4571,13 +4598,16 @@
                 }
                 
                 ruleDiv.innerHTML = `
-                    <div style="display: flex; justify-content: between; align-items: flex-start;">
-                        <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
                             <h4 style="margin: 0 0 8px 0; color: #374151;">${method?.name || 'Forma removida'}</h4>
                             <p style="margin: 0 0 8px 0; color: #6b7280;">Condições: ${conditions.join(', ') || 'Nenhuma'}</p>
                             <p style="margin: 0; color: #6b7280; font-size: 14px;">Usuários: ${userAccessDisplay}</p>
                         </div>
-                        <button class="btn btn-danger" style="margin-left: auto;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                        <div style="display: flex; gap: 8px; margin-left: 16px;">
+                            <button class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;" onclick="editPaymentRuleFromList('${rule.id}')">✏️ Editar</button>
+                            <button class="btn btn-danger" style="padding: 6px 10px; font-size: 12px;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                        </div>
                     </div>
                 `;
                 
@@ -4827,6 +4857,17 @@
             submitBtn.textContent = 'Atualizar Regra';
             
             showNotification('Editando regra. Modifique os campos e clique em "Atualizar Regra"', 'info');
+        }
+
+        // Function to edit payment rule directly from the active rules list
+        function editPaymentRuleFromList(ruleId) {
+            // First, open the payment rules modal
+            openPaymentRulesModal();
+            
+            // Then, populate the form with the rule data for editing
+            setTimeout(() => {
+                editPaymentRule(ruleId);
+            }, 100); // Small delay to ensure modal is fully opened
         }
         
         function clearRuleForm() {

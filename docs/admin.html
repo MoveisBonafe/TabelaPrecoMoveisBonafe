@@ -5204,9 +5204,23 @@
                 try {
                     const paymentMethods = await loadFromGitHub('payment_methods.json');
                     if (paymentMethods) {
-                        adminClient.paymentMethods = paymentMethods;
-                        localStorage.setItem('payment_methods.json', JSON.stringify(paymentMethods));
-                        addSystemLog('✅ Formas de pagamento carregadas do GitHub');
+                        // Apply encoding fix and save corrected data back
+                        adminClient.paymentMethods = normalizeTextData(paymentMethods);
+                        localStorage.setItem('payment_methods.json', JSON.stringify(adminClient.paymentMethods));
+                        
+                        // Save corrected data back to GitHub if changes were made
+                        const originalData = JSON.stringify(paymentMethods);
+                        const correctedData = JSON.stringify(adminClient.paymentMethods);
+                        if (originalData !== correctedData) {
+                            try {
+                                await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                                addSystemLog('✅ Formas de pagamento carregadas e acentuação corrigida');
+                            } catch (saveError) {
+                                addSystemLog('✅ Formas de pagamento carregadas (erro ao salvar correção)');
+                            }
+                        } else {
+                            addSystemLog('✅ Formas de pagamento carregadas do GitHub');
+                        }
                     }
                 } catch (error) {
                     addSystemLog('⚠️ Falha ao carregar formas de pagamento do GitHub - usando localStorage');
@@ -5216,9 +5230,23 @@
                 try {
                     const paymentConditions = await loadFromGitHub('payment_conditions.json');
                     if (paymentConditions) {
-                        adminClient.paymentConditions = paymentConditions;
-                        localStorage.setItem('payment_conditions.json', JSON.stringify(paymentConditions));
-                        addSystemLog('✅ Condições de pagamento carregadas do GitHub');
+                        // Apply encoding fix and save corrected data back
+                        adminClient.paymentConditions = normalizeTextData(paymentConditions);
+                        localStorage.setItem('payment_conditions.json', JSON.stringify(adminClient.paymentConditions));
+                        
+                        // Save corrected data back to GitHub if changes were made
+                        const originalData = JSON.stringify(paymentConditions);
+                        const correctedData = JSON.stringify(adminClient.paymentConditions);
+                        if (originalData !== correctedData) {
+                            try {
+                                await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                                addSystemLog('✅ Condições de pagamento carregadas e acentuação corrigida');
+                            } catch (saveError) {
+                                addSystemLog('✅ Condições de pagamento carregadas (erro ao salvar correção)');
+                            }
+                        } else {
+                            addSystemLog('✅ Condições de pagamento carregadas do GitHub');
+                        }
                     }
                 } catch (error) {
                     addSystemLog('⚠️ Falha ao carregar condições de pagamento do GitHub - usando localStorage');

@@ -1393,8 +1393,28 @@
             }
 
             async loadData(filename) {
+                // For payment-related files, prioritize localStorage (admin data)
+                const isPaymentFile = filename.includes('payment_');
+                
+                if (isPaymentFile) {
+                    console.log(`🔒 Carregando ${filename} prioritariamente do localStorage (dados do admin)...`);
+                    
+                    const dataType = filename.replace('.json', '').replace('_', '');
+                    const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+                    const localData = localStorage.getItem(localKey);
+                    
+                    if (localData) {
+                        console.log(`✅ Carregado ${filename} do localStorage (admin)`);
+                        const data = JSON.parse(localData);
+                        return this.fixObjectUtf8(data);
+                    } else {
+                        console.log(`⚠️ Dados de pagamento não encontrados no localStorage para ${filename}`);
+                        return [];
+                    }
+                }
+                
+                // For non-payment files, try server first, then localStorage
                 try {
-                    // Load from local server
                     const url = `${this.baseUrl}/data/${filename}`;
                     console.log(`Carregando ${filename} de: ${url}`);
                     const response = await fetch(url);
@@ -1412,7 +1432,7 @@
                     console.log(`Erro ao carregar ${filename} do servidor:`, error.message);
                     console.log(`Verificando localStorage para ${filename}...`);
                     
-                    // Fallback para localStorage (dados do admin)
+                    // Fallback para localStorage
                     const dataType = filename.replace('.json', '').replace('_', '');
                     const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
                     const localData = localStorage.getItem(localKey);

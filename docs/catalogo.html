@@ -7339,14 +7339,8 @@ ${this.userType === 'restaurante' ? `
                 paymentMethodSelect.appendChild(option);
             });
 
-            // Hide price table section when payment methods are available
-            const priceTableSection = document.getElementById('price-table-section');
-            if (priceTableSection) {
-                priceTableSection.style.display = 'none';
-                console.log('🚫 Tabela de preços ocultada - usando sistema de pagamento do admin');
-            } else {
-                console.log('⚠️ Elemento price-table-section não encontrado');
-            }
+            // Keep price table section visible - don't hide it
+            console.log('💰 Mantendo tabela de preços visível junto com condições de pagamento');
 
             console.log('🎯 LoadPaymentMethods concluído!');
         }
@@ -7359,8 +7353,7 @@ ${this.userType === 'restaurante' ? `
 
             const selectedMethodId = parseInt(paymentMethodSelect.value);
 
-            // Always hide price table section when we have payment methods configured
-            priceTableSection.style.display = 'none';
+            // Keep price table section visible - don't hide it
 
             if (!selectedMethodId) {
                 // Hide payment conditions if no method selected

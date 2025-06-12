@@ -4459,22 +4459,22 @@
                 const statusColor = method.active ? '#48bb78' : '#f56565';
                 const statusText = method.active ? 'Ativo' : 'Inativo';
                 
-                // Function to get appropriate icon for payment method
+                // Function to get appropriate icon for payment method using HTML entities
                 const getPaymentIcon = (name, providedIcon) => {
                     if (providedIcon) return providedIcon;
                     const lowerName = name.toLowerCase();
-                    if (lowerName.includes('pix')) return '📱';
-                    if (lowerName.includes('cartão') || lowerName.includes('cartao') || lowerName.includes('crédito') || lowerName.includes('credito')) return '💳';
-                    if (lowerName.includes('débito') || lowerName.includes('debito')) return '💴';
-                    if (lowerName.includes('dinheiro') || lowerName.includes('espécie') || lowerName.includes('especie')) return '💵';
-                    if (lowerName.includes('boleto')) return '📄';
-                    if (lowerName.includes('transferência') || lowerName.includes('transferencia')) return '🏦';
-                    return '💰';
+                    if (lowerName.includes('pix')) return '&#128241;'; // 📱
+                    if (lowerName.includes('cartao') || lowerName.includes('credito')) return '&#128179;'; // 💳
+                    if (lowerName.includes('debito')) return '&#128180;'; // 💴
+                    if (lowerName.includes('dinheiro') || lowerName.includes('especie')) return '&#128181;'; // 💵
+                    if (lowerName.includes('boleto')) return '&#128196;'; // 📄
+                    if (lowerName.includes('transferencia')) return '&#127970;'; // 🏦
+                    return '&#128176;'; // 💰
                 };
 
                 // Ensure proper encoding for text display
-                const safeName = method.name || '';
-                const safeDescription = method.description || 'Sem descrição';
+                const safeName = method.name ? method.name.normalize('NFC') : '';
+                const safeDescription = method.description ? method.description.normalize('NFC') : 'Sem descrição';
                 
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
@@ -4492,8 +4492,8 @@
                     <div class="card-info"><strong>Taxa:</strong> ${method.fee || 0}%</div>
                     <div class="card-info"><strong>ID:</strong> ${method.id}</div>
                     <div class="card-actions">
-                        <button class="btn btn-primary" onclick="editPaymentMethod('${method.id}')">✏️ Editar</button>
-                        <button class="btn btn-danger" onclick="deletePaymentMethod('${method.id}')">🗑️ Excluir</button>
+                        <button class="btn btn-primary" onclick="editPaymentMethod('${method.id}')">&#9998; Editar</button>
+                        <button class="btn btn-danger" onclick="deletePaymentMethod('${method.id}')">&#128465; Excluir</button>
                     </div>
                 `;
                 
@@ -4527,22 +4527,26 @@
                 const statusColor = condition.active ? '#48bb78' : '#f56565';
                 const statusText = condition.active ? 'Ativo' : 'Inativo';
                 
-                // Function to get appropriate icon for payment condition
+                // Function to get appropriate icon for payment condition using HTML entities
                 const getConditionIcon = (name, installments) => {
                     const lowerName = name.toLowerCase();
-                    if (lowerName.includes('vista') || lowerName.includes('à vista') || installments === 1) return '💸';
-                    if (lowerName.includes('parcela') || installments > 1) return '📊';
-                    if (lowerName.includes('juros') || lowerName.includes('financiamento')) return '📈';
-                    if (lowerName.includes('desconto') || lowerName.includes('promoção')) return '🏷️';
-                    return '📋';
+                    if (lowerName.includes('vista') || installments === 1) return '&#128184;'; // 💸
+                    if (lowerName.includes('parcela') || installments > 1) return '&#128202;'; // 📊
+                    if (lowerName.includes('juros') || lowerName.includes('financiamento')) return '&#128201;'; // 📈
+                    if (lowerName.includes('desconto') || lowerName.includes('promocao')) return '&#127991;'; // 🏷️
+                    return '&#128203;'; // 📋
                 };
 
+                // Ensure proper encoding for condition text display
+                const safeName = condition.name ? condition.name.normalize('NFC') : '';
+                const safeDescription = condition.description ? condition.description.normalize('NFC') : 'Sem descrição';
+                
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                        <div style="font-size: 32px;">${getConditionIcon(condition.name, condition.installments)}</div>
+                        <div style="font-size: 32px;">${getConditionIcon(safeName, condition.installments)}</div>
                         <div>
-                            <div class="card-title">${condition.name}</div>
-                            <div class="card-info">${condition.description || 'Sem descrição'}</div>
+                            <div class="card-title">${safeName}</div>
+                            <div class="card-info">${safeDescription}</div>
                         </div>
                         <div style="margin-left: auto;">
                             <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
@@ -4554,8 +4558,8 @@
                     <div class="card-info"><strong>Juros:</strong> ${condition.interest || 0}% a.m.</div>
                     <div class="card-info"><strong>Desconto:</strong> ${condition.discount || 0}%</div>
                     <div class="card-actions">
-                        <button class="btn btn-primary" onclick="editPaymentCondition('${condition.id}')">✏️ Editar</button>
-                        <button class="btn btn-danger" onclick="deletePaymentCondition('${condition.id}')">🗑️ Excluir</button>
+                        <button class="btn btn-primary" onclick="editPaymentCondition('${condition.id}')">&#9998; Editar</button>
+                        <button class="btn btn-danger" onclick="deletePaymentCondition('${condition.id}')">&#128465; Excluir</button>
                     </div>
                 `;
                 
@@ -4605,8 +4609,8 @@
                             <p style="margin: 0; color: #6b7280; font-size: 14px;">Usuários: ${userAccessDisplay}</p>
                         </div>
                         <div style="display: flex; gap: 8px; margin-left: 16px;">
-                            <button class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;" onclick="editPaymentRuleFromList('${rule.id}')">✏️ Editar</button>
-                            <button class="btn btn-danger" style="padding: 6px 10px; font-size: 12px;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                            <button class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;" onclick="editPaymentRuleFromList('${rule.id}')">&#9998; Editar</button>
+                            <button class="btn btn-danger" style="padding: 6px 10px; font-size: 12px;" onclick="deletePaymentRule('${rule.id}')">&#128465;</button>
                         </div>
                     </div>
                 `;

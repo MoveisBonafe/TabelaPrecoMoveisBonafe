@@ -406,32 +406,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Mesa Bonacor 2,00 X 0,88",
-    "category": "Mesas",
-    "priceAVista": 508,
-    "altura": 80,
-    "largura": 88,
-    "comprimento": 200,
-    "peso": 26,
-    "description": "",
-    "images": [
-      "data/images/product_1749519655456_fapc9fdwc.png",
-      "data/images/product_1749519662058_x9rgbex68.png",
-      "data/images/product_1749519667380_j0pwvofez.png",
-      "data/images/product_1749519672563_be4sqzayv.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:41:22.286Z",
-    "id": 1749514027908,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Mesa Bonacor 0,75 X 0,75",
     "category": "Mesas",
     "priceAVista": 182,
@@ -455,6 +429,32 @@
     "active": true,
     "updatedAt": "2025-06-10T01:51:35.913Z",
     "id": 1749514027917,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 2,00 X 0,88",
+    "category": "Mesas",
+    "priceAVista": 508,
+    "altura": 80,
+    "largura": 88,
+    "comprimento": 200,
+    "peso": 26,
+    "description": "",
+    "images": [
+      "data/images/product_1749519655456_fapc9fdwc.png",
+      "data/images/product_1749519662058_x9rgbex68.png",
+      "data/images/product_1749519667380_j0pwvofez.png",
+      "data/images/product_1749519672563_be4sqzayv.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:41:22.286Z",
+    "id": 1749514027908,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {

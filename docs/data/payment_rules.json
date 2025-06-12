@@ -11,5 +11,14 @@
       "all"
     ],
     "createdAt": "2025-06-12T16:14:54.321Z"
+  },
+  {
+    "id": 1749745430201,
+    "paymentMethodId": 1749744873713,
+    "conditionIds": [],
+    "userAccess": [
+      "all"
+    ],
+    "createdAt": "2025-06-12T16:23:50.201Z"
   }
 ]

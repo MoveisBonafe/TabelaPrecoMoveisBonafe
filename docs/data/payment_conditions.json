@@ -38,5 +38,15 @@
     "active": true,
     "id": 1749753273904,
     "createdAt": "2025-06-12T18:34:33.904Z"
+  },
+  {
+    "name": "30/60",
+    "description": "",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749753305518,
+    "createdAt": "2025-06-12T18:35:05.518Z"
   }
 ]

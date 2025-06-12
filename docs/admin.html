@@ -4820,6 +4820,11 @@
                     // Save to localStorage immediately for catalog integration
                     localStorage.setItem('payment_methods.json', JSON.stringify(adminClient.paymentMethods));
                     
+                    // Trigger a custom event to notify catalog of data changes
+                    window.dispatchEvent(new CustomEvent('paymentDataUpdated', {
+                        detail: { type: 'payment_methods', data: adminClient.paymentMethods }
+                    }));
+                    
                     // Try to save to GitHub but don't fail if token not configured
                     try {
                         await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
@@ -4872,6 +4877,11 @@
                     
                     // Save to localStorage immediately for catalog integration
                     localStorage.setItem('payment_conditions.json', JSON.stringify(adminClient.paymentConditions));
+                    
+                    // Trigger a custom event to notify catalog of data changes
+                    window.dispatchEvent(new CustomEvent('paymentDataUpdated', {
+                        detail: { type: 'payment_conditions', data: adminClient.paymentConditions }
+                    }));
                     
                     // Try to save to GitHub but don't fail if token not configured
                     try {
@@ -4934,6 +4944,11 @@
                     
                     // Save to localStorage immediately for catalog integration
                     localStorage.setItem('payment_rules.json', JSON.stringify(adminClient.paymentRules));
+                    
+                    // Trigger a custom event to notify catalog of data changes
+                    window.dispatchEvent(new CustomEvent('paymentDataUpdated', {
+                        detail: { type: 'payment_rules', data: adminClient.paymentRules }
+                    }));
                     
                     // Try to save to GitHub but don't fail if token not configured
                     try {

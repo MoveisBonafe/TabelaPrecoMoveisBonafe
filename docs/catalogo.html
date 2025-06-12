@@ -7461,6 +7461,50 @@ ${this.userType === 'restaurante' ? `
             return isValid;
         }
 
+        // Listen for payment data updates from admin panel
+        window.addEventListener('paymentDataUpdated', async function(event) {
+            console.log('🔄 Payment data updated from admin panel:', event.detail.type);
+            
+            // Update the relevant data in catalogClient
+            if (event.detail.type === 'payment_methods') {
+                catalogClient.paymentMethods = event.detail.data;
+            } else if (event.detail.type === 'payment_conditions') {
+                catalogClient.paymentConditions = event.detail.data;
+            } else if (event.detail.type === 'payment_rules') {
+                catalogClient.paymentRules = event.detail.data;
+            }
+            
+            // Refresh payment methods in the UI if payment step is currently visible
+            const paymentStep = document.querySelector('[data-step="3"]');
+            if (paymentStep && paymentStep.style.display !== 'none') {
+                console.log('🔄 Reloading payment methods in UI...');
+                loadPaymentMethods();
+            }
+        });
+
+        // Listen for storage events from other tabs/windows
+        window.addEventListener('storage', function(event) {
+            if (event.key && event.key.includes('payment_') && event.key.includes('.json')) {
+                console.log('🔄 Payment data changed in localStorage:', event.key);
+                
+                // Reload the specific data that changed
+                if (event.key === 'payment_methods.json' && event.newValue) {
+                    catalogClient.paymentMethods = JSON.parse(event.newValue);
+                } else if (event.key === 'payment_conditions.json' && event.newValue) {
+                    catalogClient.paymentConditions = JSON.parse(event.newValue);
+                } else if (event.key === 'payment_rules.json' && event.newValue) {
+                    catalogClient.paymentRules = JSON.parse(event.newValue);
+                }
+                
+                // Refresh payment methods in the UI if payment step is currently visible
+                const paymentStep = document.querySelector('[data-step="3"]');
+                if (paymentStep && paymentStep.style.display !== 'none') {
+                    console.log('🔄 Reloading payment methods due to storage change...');
+                    loadPaymentMethods();
+                }
+            }
+        });
+
         </script>
 
         <!-- Footer -->

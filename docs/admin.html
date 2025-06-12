@@ -1614,11 +1614,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Condições Permitidas:</label>
+                                <label class="form-label">Condições Permitidas (Opcional):</label>
                                 <div id="rule-payment-conditions" style="max-height: 120px; overflow-y: auto; border: 1px solid #d1d5db; border-radius: 6px; padding: 12px; background: white;">
                                     <p style="color: #6b7280; margin: 0; text-align: center;">Carregando condições...</p>
                                 </div>
-                                <small style="color: #6b7280;">Selecione uma ou mais condições de pagamento</small>
+                                <small style="color: #6b7280;">Deixe vazio para formas de pagamento que não requerem condições (ex: PIX à vista)</small>
                             </div>
                         </div>
 
@@ -5101,8 +5101,8 @@
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
                 const userAccess = Array.from(userCheckboxes).map(cb => cb.value);
                 
-                if (!methodId || conditionIds.length === 0) {
-                    showNotification('Selecione uma forma de pagamento e pelo menos uma condição', 'error');
+                if (!methodId) {
+                    showNotification('Selecione uma forma de pagamento', 'error');
                     return;
                 }
                 

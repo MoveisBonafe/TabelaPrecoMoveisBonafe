@@ -1393,11 +1393,14 @@
             }
 
             async loadData(filename) {
+                console.log(`🔍 INÍCIO loadData: ${filename}`);
+                console.log(`🔍 BaseURL atual: ${this.baseUrl}`);
+                
                 // For payment-related files, prioritize localStorage (admin data)
                 const isPaymentFile = filename.includes('payment_');
                 
                 if (isPaymentFile) {
-                    console.log(`🔒 Carregando ${filename} prioritariamente do localStorage (dados do admin)...`);
+                    console.log(`🔒 PAYMENT FILE: Carregando ${filename} do localStorage (dados do admin)...`);
                     
                     // Debug localStorage contents
                     console.log('🔍 Chaves no localStorage:', Object.keys(localStorage));
@@ -1407,92 +1410,55 @@
                     const localData = localStorage.getItem(filename);
                     
                     if (localData) {
-                        console.log(`✅ Carregado ${filename} do localStorage (admin)`);
+                        console.log(`✅ PAYMENT: Carregado ${filename} do localStorage (admin)`);
                         console.log(`📄 Dados brutos:`, localData.substring(0, 200) + '...');
                         const data = JSON.parse(localData);
                         console.log(`📊 Dados parseados:`, data);
                         return this.fixObjectUtf8(data);
                     } else {
-                        console.log(`⚠️ Dados de pagamento não encontrados no localStorage para ${filename}`);
-                        
-                        // Try alternative keys
-                        const altKey1 = filename.replace('.json', '');
-                        const altKey2 = `moveisbonafe_${filename.replace('.json', '').replace('_', '')}`;
-                        console.log(`🔍 Tentando chaves alternativas: ${altKey1}, ${altKey2}`);
-                        
-                        const altData1 = localStorage.getItem(altKey1);
-                        const altData2 = localStorage.getItem(altKey2);
-                        
-                        if (altData1) {
-                            console.log(`✅ Encontrado em ${altKey1}`);
-                            return this.fixObjectUtf8(JSON.parse(altData1));
-                        } else if (altData2) {
-                            console.log(`✅ Encontrado em ${altKey2}`);
-                            return this.fixObjectUtf8(JSON.parse(altData2));
-                        }
-                        
+                        console.log(`⚠️ PAYMENT: Dados não encontrados no localStorage para ${filename}`);
                         return [];
                     }
                 }
                 
-                // For non-payment files, try local server first to ensure users always see products
+                // For non-payment files, ALWAYS try local server FIRST
+                console.log(`📁 PRODUCT FILE: Tentando carregar ${filename} do servidor local...`);
                 try {
                     const url = `${this.baseUrl}/data/${filename}`;
-                    console.log(`Carregando ${filename} de: ${url}`);
+                    console.log(`🌐 URL do servidor: ${url}`);
                     const response = await fetch(url);
+                    console.log(`📡 Status da resposta: ${response.status}`);
                     
                     if (response.ok) {
                         const rawText = await response.text();
+                        console.log(`📝 Texto bruto recebido (primeiros 200 chars):`, rawText.substring(0, 200));
                         const data = JSON.parse(rawText);
-                        console.log(`✅ Carregado ${filename} do servidor: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                        console.log(`✅ SERVIDOR: ${filename} carregado com sucesso: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                        console.log(`📊 Primeira entrada:`, data[0]);
                         return this.fixObjectUtf8(data);
                     } else {
-                        console.log(`HTTP ${response.status} para ${filename}`);
+                        console.log(`❌ SERVIDOR: HTTP ${response.status} para ${filename}`);
                     }
                 } catch (error) {
-                    console.log(`Erro ao carregar ${filename} do servidor:`, error.message);
+                    console.log(`❌ SERVIDOR: Erro ao carregar ${filename}:`, error.message);
+                    console.log(`❌ SERVIDOR: Stack trace:`, error.stack);
                 }
 
-                // Try GitHub API as secondary option (only if server fails)
-                const githubToken = localStorage.getItem('github_token');
-                if (githubToken && githubToken.trim()) {
-                    try {
-                        console.log(`🔗 Tentando GitHub API para ${filename}...`);
-                        const githubUrl = `https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/${filename}`;
-                        const githubResponse = await fetch(githubUrl, {
-                            headers: {
-                                'Authorization': `token ${githubToken}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (githubResponse.ok) {
-                            const githubData = await githubResponse.json();
-                            const content = atob(githubData.content);
-                            const data = JSON.parse(content);
-                            console.log(`✅ Carregado ${filename} do GitHub API: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
-                            return this.fixObjectUtf8(data);
-                        } else {
-                            console.log(`❌ GitHub API retornou ${githubResponse.status} para ${filename}`);
-                        }
-                    } catch (error) {
-                        console.log(`❌ Erro no GitHub API para ${filename}:`, error.message);
-                    }
-                }
-                
-                // Final fallback to localStorage
-                console.log(`Verificando localStorage para ${filename}...`);
+                // Try localStorage as final fallback
+                console.log(`💾 FALLBACK: Verificando localStorage para ${filename}...`);
                 const dataType = filename.replace('.json', '').replace('_', '');
                 const localKey = `moveisbonafe_${dataType === 'pricesettings' ? 'priceSettings' : dataType}`;
+                console.log(`🔍 Tentando chave localStorage: ${localKey}`);
                 const localData = localStorage.getItem(localKey);
                 
                 if (localData) {
-                    console.log(`✅ Carregado ${filename} do localStorage`);
+                    console.log(`✅ FALLBACK: Carregado ${filename} do localStorage`);
                     const data = JSON.parse(localData);
+                    console.log(`📊 FALLBACK: ${Array.isArray(data) ? data.length : 'objeto'} itens encontrados`);
                     return this.fixObjectUtf8(data);
                 }
                 
-                console.log(`⚠️ Nenhum dado encontrado para ${filename}`);
+                console.log(`❌ FINAL: Nenhum dado encontrado para ${filename} em nenhuma fonte`);
                 return [];
             }
 
@@ -1586,6 +1552,10 @@
 
             async loadAllData() {
                 try {
+                    console.log('🚀 INÍCIO loadAllData - Carregando todos os dados...');
+                    console.log('🔍 BaseURL do cliente:', this.baseUrl);
+                    
+                    console.log('📥 Iniciando carregamento paralelo de dados...');
                     const [products, categories, priceSettings, promotions, colors, notices, paymentMethods, paymentConditions, paymentRules] = await Promise.all([
                         this.loadData('products.json'),
                         this.loadData('categories.json'),
@@ -1598,6 +1568,14 @@
                         this.loadData('payment_rules.json')
                     ]);
 
+                    console.log('📊 RESULTADOS DO CARREGAMENTO:');
+                    console.log(`  Products: ${Array.isArray(products) ? products.length : 'não é array'} itens`);
+                    console.log(`  Categories: ${Array.isArray(categories) ? categories.length : 'não é array'} itens`);
+                    console.log(`  Price Settings: ${Array.isArray(priceSettings) ? priceSettings.length : 'não é array'} itens`);
+                    console.log(`  Promotions: ${Array.isArray(promotions) ? promotions.length : 'não é array'} itens`);
+                    console.log(`  Colors: ${Array.isArray(colors) ? colors.length : 'não é array'} itens`);
+                    console.log(`  Notices: ${Array.isArray(notices) ? notices.length : 'não é array'} itens`);
+
                     this.products = products.filter(p => p.active !== false);
                     this.categories = categories.filter(c => c.active !== false);
                     this.priceSettings = priceSettings.filter(p => p.active !== false);
@@ -1608,15 +1586,22 @@
                     this.paymentConditions = paymentConditions || [];
                     this.paymentRules = paymentRules || [];
                     
+                    console.log('🔍 APÓS FILTROS:');
+                    console.log(`  Products ativos: ${this.products.length}`);
+                    console.log(`  Categories ativas: ${this.categories.length}`);
+                    console.log(`  Price Settings ativos: ${this.priceSettings.length}`);
+                    console.log(`  Promotions ativas: ${this.promotions.length}`);
+                    
                     // Debug payment methods loaded
-                    console.log('💳 Debug payment methods loaded:', this.paymentMethods.map(m => `${m.name} (ID: ${m.id})`));
+                    console.log('💳 Payment methods loaded:', this.paymentMethods.map(m => `${m.name} (ID: ${m.id})`));
                     
                     // Apply product order
                     await this.loadProductOrder();
                     
                     this.filteredProducts = [...this.products];
+                    console.log(`🎯 Filtered products inicializado com: ${this.filteredProducts.length} produtos`);
 
-                    console.log(`✅ Dados carregados: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas, ${this.colors.length} cores, ${this.notices.length} avisos`);
+                    console.log(`✅ DADOS FINAIS: ${this.products.length} produtos, ${this.categories.length} categorias, ${this.priceSettings.length} tabelas de preços, ${this.promotions.length} promoções ativas, ${this.colors.length} cores, ${this.notices.length} avisos`);
                     
                     // Render notices after loading data
                     this.renderNotices();
@@ -1624,7 +1609,8 @@
                     // Verificar atualizações automáticas a cada 30 segundos
                     this.startAutoSync();
                 } catch (error) {
-                    console.error('❌ Erro ao carregar dados:', error);
+                    console.error('❌ ERRO CRÍTICO em loadAllData:', error);
+                    console.error('❌ Stack trace:', error.stack);
                     throw error;
                 }
             }

@@ -16,5 +16,14 @@
     "active": true,
     "fee": 0,
     "createdAt": "2025-06-12T03:37:08.693Z"
+  },
+  {
+    "id": 1749699445129,
+    "name": "Cartão Teste",
+    "description": "",
+    "icon": "💳",
+    "active": true,
+    "fee": 0,
+    "createdAt": "2025-06-12T03:37:25.129Z"
   }
 ]

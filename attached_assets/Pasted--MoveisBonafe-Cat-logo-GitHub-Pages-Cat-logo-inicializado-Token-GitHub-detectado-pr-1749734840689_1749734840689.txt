@@ -1,0 +1,86 @@
+ 🛍️ MoveisBonafe Catálogo - GitHub Pages
+ ✅ Catálogo inicializado
+ 🔗 Token GitHub detectado - priorizando dados do GitHub
+ 🔄 Carregando dados de pagamento do GitHub...
+api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/payment_methods.json:1  Failed to load resource: the server responded with a status of 404 ()
+api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/payment_conditions.json:1  Failed to load resource: the server responded with a status of 404 ()
+api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/payment_rules.json:1  Failed to load resource: the server responded with a status of 404 ()
+ 🎯 GitHub agora tem prioridade sobre localStorage no catálogo
+ Carregando products.json de: https://moveisbonafe.github.io/data/products.json
+ Carregando categories.json de: https://moveisbonafe.github.io/data/categories.json
+ Carregando price_settings.json de: https://moveisbonafe.github.io/data/price_settings.json
+ Carregando promotions.json de: https://moveisbonafe.github.io/data/promotions.json
+ Carregando colors.json de: https://moveisbonafe.github.io/data/colors.json
+ Carregando notices.json de: https://moveisbonafe.github.io/data/notices.json
+ 🔒 Carregando payment_methods.json prioritariamente do localStorage (dados do admin)...
+ 🔍 Chaves no localStorage: Array(17)
+ 🔍 Procurando chave: payment_methods.json
+ ✅ Carregado payment_methods.json do localStorage (admin)
+ 📄 Dados brutos: []...
+catalogo.html?tipo=loja:1413 📊 Dados parseados: Array(0)
+catalogo.html?tipo=loja:1400 🔒 Carregando payment_conditions.json prioritariamente do localStorage (dados do admin)...
+catalogo.html?tipo=loja:1403 🔍 Chaves no localStorage: Array(17)
+catalogo.html?tipo=loja:1404 🔍 Procurando chave: payment_conditions.json
+catalogo.html?tipo=loja:1416 ⚠️ Dados de pagamento não encontrados no localStorage para payment_conditions.json
+catalogo.html?tipo=loja:1421 🔍 Tentando chaves alternativas: payment_conditions, moveisbonafe_paymentconditions
+catalogo.html?tipo=loja:1400 🔒 Carregando payment_rules.json prioritariamente do localStorage (dados do admin)...
+catalogo.html?tipo=loja:1403 🔍 Chaves no localStorage: Array(17)
+catalogo.html?tipo=loja:1404 🔍 Procurando chave: payment_rules.json
+catalogo.html?tipo=loja:1410 ✅ Carregado payment_rules.json do localStorage (admin)
+catalogo.html?tipo=loja:1411 📄 Dados brutos: []...
+catalogo.html?tipo=loja:1413 📊 Dados parseados: Array(0)
+/data/categories.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1445 HTTP 404 para categories.json
+catalogo.html?tipo=loja:1454 Erro ao carregar categories.json do servidor: HTTP 404
+catalogo.html?tipo=loja:1455 Verificando localStorage para categories.json...
+catalogo.html?tipo=loja:1468 ⚠️ Nenhum dado encontrado para categories.json
+/data/price_settings.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1445 HTTP 404 para price_settings.json
+catalogo.html?tipo=loja:1454 Erro ao carregar price_settings.json do servidor: HTTP 404
+catalogo.html?tipo=loja:1455 Verificando localStorage para price_settings.json...
+catalogo.html?tipo=loja:1468 ⚠️ Nenhum dado encontrado para price_settings.json
+/data/products.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1445 HTTP 404 para products.json
+catalogo.html?tipo=loja:1454 Erro ao carregar products.json do servidor: HTTP 404
+catalogo.html?tipo=loja:1455 Verificando localStorage para products.json...
+catalogo.html?tipo=loja:1468 ⚠️ Nenhum dado encontrado para products.json
+/data/colors.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1445 HTTP 404 para colors.json
+catalogo.html?tipo=loja:1454 Erro ao carregar colors.json do servidor: HTTP 404
+catalogo.html?tipo=loja:1455 Verificando localStorage para colors.json...
+catalogo.html?tipo=loja:1468 ⚠️ Nenhum dado encontrado para colors.json
+/data/promotions.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1445 HTTP 404 para promotions.json
+catalogo.html?tipo=loja:1454 Erro ao carregar promotions.json do servidor: HTTP 404
+catalogo.html?tipo=loja:1455 Verificando localStorage para promotions.json...
+catalogo.html?tipo=loja:1468 ⚠️ Nenhum dado encontrado para promotions.json
+/data/notices.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1445 HTTP 404 para notices.json
+catalogo.html?tipo=loja:1454 Erro ao carregar notices.json do servidor: HTTP 404
+catalogo.html?tipo=loja:1455 Verificando localStorage para notices.json...
+catalogo.html?tipo=loja:1468 ⚠️ Nenhum dado encontrado para notices.json
+catalogo.html?tipo=loja:1586 💳 Debug payment methods loaded: Array(0)
+/data/product-order.json:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 ()
+catalogo.html?tipo=loja:1593 ✅ Dados carregados: 0 produtos, 0 categorias, 0 tabelas de preços, 0 promoções ativas, 0 cores, 0 avisos
+catalogo.html?tipo=loja:2577 ✅ Catálogo inicializado

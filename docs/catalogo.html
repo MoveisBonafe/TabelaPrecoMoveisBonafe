@@ -3197,15 +3197,12 @@ ${this.userType === 'restaurante' ? `
         }
 
         function getPaymentMethodName(method) {
-            const methods = {
-                'pix': 'PIX',
-                'cartao': 'Cartão de Crédito/Débito',
-                'boleto': 'Boleto Bancário',
-                'dinheiro': 'Dinheiro',
-                'duplicata': 'Duplicata',
-                'cheque': 'Cheque'
-            };
-            return methods[method] || method;
+            // Get payment method name from dynamic admin configuration
+            if (catalogClient.paymentMethods) {
+                const paymentMethod = catalogClient.paymentMethods.find(m => m.id === method || m.name === method);
+                return paymentMethod ? paymentMethod.name : method;
+            }
+            return method;
         }
 
         // Formatting functions for phone and CEP
@@ -3772,21 +3769,7 @@ ${this.userType === 'restaurante' ? `
                         </div>
                     </div>
 
-                    <!-- Payment Method -->
-                    <div class="checkout-section">
-                        <h3>Método de Pagamento</h3>
-                        <div class="payment-method-selection">
-                            <select id="payment-method-select" required>
-                                <option value="">Selecione o método de pagamento</option>
-                                <option value="pix">PIX</option>
-                                <option value="cartao">Cartão de Crédito/Débito</option>
-                                <option value="boleto">Boleto Bancário</option>
-                                <option value="dinheiro">Dinheiro</option>
-                                <option value="duplicata">Duplicata</option>
-                                <option value="cheque">Cheque</option>
-                            </select>
-                        </div>
-                    </div>
+
 
                     <!-- Checkout Actions -->
                     <div class="checkout-actions">
@@ -7263,8 +7246,28 @@ ${this.userType === 'restaurante' ? `
 
         // Payment System Integration Functions
         function loadPaymentMethods() {
+            console.log('🔄 Iniciando loadPaymentMethods...');
+            
             const paymentMethodSelect = document.getElementById('payment-method');
-            if (!paymentMethodSelect || !catalogClient.paymentMethods || !catalogClient.paymentRules) return;
+            console.log('Payment method select element:', paymentMethodSelect);
+            
+            if (!paymentMethodSelect) {
+                console.error('❌ Elemento payment-method não encontrado!');
+                return;
+            }
+            
+            if (!catalogClient.paymentMethods) {
+                console.error('❌ catalogClient.paymentMethods não está disponível:', catalogClient.paymentMethods);
+                return;
+            }
+            
+            if (!catalogClient.paymentRules) {
+                console.error('❌ catalogClient.paymentRules não está disponível:', catalogClient.paymentRules);
+                return;
+            }
+
+            console.log('📋 Payment methods disponíveis:', catalogClient.paymentMethods.length);
+            console.log('📋 Payment rules disponíveis:', catalogClient.paymentRules.length);
 
             // Clear existing options except the first one
             paymentMethodSelect.innerHTML = '<option value="">Selecione o método de pagamento</option>';
@@ -7272,26 +7275,42 @@ ${this.userType === 'restaurante' ? `
             // Get current user type
             const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
             const userRole = currentUser.role || 'all';
+            console.log('👤 User role:', userRole);
 
             // Filter payment methods based on user permissions
             const availablePaymentMethods = catalogClient.paymentMethods.filter(method => {
+                console.log(`🔍 Verificando método ${method.name} (ID: ${method.id})`);
+                
                 // Find rule for this payment method
                 const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === method.id);
-                if (!rule) return false;
+                console.log(`📏 Regra encontrada para ${method.name}:`, rule);
+                
+                if (!rule) {
+                    console.log(`❌ Nenhuma regra encontrada para ${method.name}`);
+                    return false;
+                }
 
                 // Check user access
-                return rule.userAccess === 'all' || 
+                const hasAccess = rule.userAccess === 'all' || 
                        (Array.isArray(rule.userAccess) && rule.userAccess.includes(userRole)) ||
                        rule.userAccess === userRole;
+                       
+                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)})`);
+                return hasAccess;
             });
+
+            console.log('✅ Métodos de pagamento disponíveis para o usuário:', availablePaymentMethods.length);
 
             // Add available payment methods to select
             availablePaymentMethods.forEach(method => {
+                console.log(`➕ Adicionando método: ${method.name}`);
                 const option = document.createElement('option');
                 option.value = method.id;
                 option.textContent = method.name;
                 paymentMethodSelect.appendChild(option);
             });
+
+            console.log('🎯 LoadPaymentMethods concluído!');
         }
 
         function onPaymentMethodChange() {
@@ -7387,6 +7406,9 @@ ${this.userType === 'restaurante' ? `
             
             // Load payment methods after payment step is shown
             setTimeout(() => {
+                console.log('Loading payment methods from goToPaymentStep...');
+                console.log('Available payment methods:', catalogClient.paymentMethods);
+                console.log('Available payment rules:', catalogClient.paymentRules);
                 loadPaymentMethods();
             }, 100);
         };

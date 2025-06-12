@@ -18,5 +18,15 @@
     "active": true,
     "id": 1749701113482,
     "createdAt": "2025-06-12T04:05:13.482Z"
+  },
+  {
+    "name": "3x",
+    "description": "",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749701118322,
+    "createdAt": "2025-06-12T04:05:18.322Z"
   }
 ]

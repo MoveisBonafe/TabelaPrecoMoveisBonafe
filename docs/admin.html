@@ -1614,10 +1614,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Condições Permitidas:</label>
-                                <select id="rule-payment-conditions" class="form-select" multiple style="height: 120px;">
+                                <label class="form-label">Condição de Pagamento:</label>
+                                <select id="rule-payment-conditions" class="form-select" required>
+                                    <option value="">Selecione uma condição</option>
                                 </select>
-                                <small style="color: #6b7280;">Segure Ctrl para selecionar múltiplas condições</small>
                             </div>
                         </div>
 
@@ -4679,11 +4679,70 @@
                             <strong>${method?.name || 'Método removido'}</strong> → ${conditions.join(', ') || 'Nenhuma condição'}
                             <br><small>Usuários: ${rule.userAccess?.join(', ') || 'Todos'}</small>
                         </div>
-                        <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;" onclick="editPaymentRule('${rule.id}')">✏️</button>
+                            <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="deletePaymentRule('${rule.id}')">🗑️</button>
+                        </div>
                     </div>
                 `;
                 container.appendChild(ruleDiv);
             });
+        }
+
+        // Payment rule management functions
+        let editingRuleId = null;
+        
+        function editPaymentRule(ruleId) {
+            const rule = adminClient.paymentRules.find(r => r.id === parseInt(ruleId));
+            if (!rule) return;
+            
+            editingRuleId = parseInt(ruleId);
+            
+            // Populate form with rule data
+            document.getElementById('rule-payment-method').value = rule.paymentMethodId;
+            document.getElementById('rule-payment-conditions').value = rule.conditionIds[0] || '';
+            
+            // Clear all checkboxes first
+            document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            // Check the appropriate user access checkboxes
+            if (rule.userAccess && rule.userAccess.length > 0) {
+                rule.userAccess.forEach(access => {
+                    const checkbox = document.querySelector(`#user-access-checkboxes input[value="${access}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            
+            // Change button text to indicate editing mode
+            const submitBtn = document.querySelector('#payment-rule-form button[type="submit"]');
+            submitBtn.textContent = 'Atualizar Regra';
+            
+            showNotification('Editando regra. Modifique os campos e clique em "Atualizar Regra"', 'info');
+        }
+        
+        function clearRuleForm() {
+            editingRuleId = null;
+            document.getElementById('payment-rule-form').reset();
+            document.querySelector('#user-access-checkboxes input[value="all"]').checked = true;
+            document.querySelector('#payment-rule-form button[type="submit"]').textContent = 'Criar Regra';
+        }
+        
+        async function deletePaymentRule(ruleId) {
+            if (!confirm('Tem certeza que deseja excluir esta regra?')) return;
+            
+            try {
+                adminClient.paymentRules = adminClient.paymentRules.filter(r => r.id !== parseInt(ruleId));
+                await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                renderExistingRules();
+                renderPaymentRules();
+                addSystemLog('🗑️ Regra de pagamento excluída');
+                showNotification('Regra excluída com sucesso!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir regra: ${error.message}`);
+                showNotification('Erro ao excluir regra', 'error');
+            }
         }
 
         // Form submission handlers
@@ -4778,35 +4837,50 @@
                 e.preventDefault();
                 
                 const methodId = document.getElementById('rule-payment-method').value;
-                const conditionIds = Array.from(document.getElementById('rule-payment-conditions').selectedOptions)
-                    .map(option => option.value);
+                const conditionId = document.getElementById('rule-payment-conditions').value;
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
                 const userAccess = Array.from(userCheckboxes).map(cb => cb.value);
                 
-                if (!methodId || conditionIds.length === 0) {
-                    showNotification('Selecione uma forma de pagamento e pelo menos uma condição', 'error');
+                if (!methodId || !conditionId) {
+                    showNotification('Selecione uma forma de pagamento e uma condição', 'error');
                     return;
                 }
                 
-                const formData = {
-                    id: Date.now(),
-                    paymentMethodId: methodId,
-                    conditionIds: conditionIds,
-                    userAccess: userAccess,
-                    createdAt: new Date().toISOString()
-                };
-                
                 try {
-                    adminClient.paymentRules.push(formData);
+                    if (editingRuleId) {
+                        // Update existing rule
+                        const ruleIndex = adminClient.paymentRules.findIndex(r => r.id === editingRuleId);
+                        if (ruleIndex !== -1) {
+                            adminClient.paymentRules[ruleIndex] = {
+                                ...adminClient.paymentRules[ruleIndex],
+                                paymentMethodId: parseInt(methodId),
+                                conditionIds: [parseInt(conditionId)],
+                                userAccess: userAccess
+                            };
+                            addSystemLog('⚙️ Regra de pagamento atualizada');
+                            showNotification('Regra atualizada com sucesso!', 'success');
+                        }
+                    } else {
+                        // Create new rule
+                        const formData = {
+                            id: Date.now(),
+                            paymentMethodId: parseInt(methodId),
+                            conditionIds: [parseInt(conditionId)],
+                            userAccess: userAccess,
+                            createdAt: new Date().toISOString()
+                        };
+                        adminClient.paymentRules.push(formData);
+                        addSystemLog('⚙️ Regra de pagamento criada');
+                        showNotification('Regra criada com sucesso!', 'success');
+                    }
+                    
                     await saveToGitHub('payment_rules.json', adminClient.paymentRules);
                     renderPaymentRules();
                     renderExistingRules();
-                    document.getElementById('payment-rule-form').reset();
-                    addSystemLog(`⚙️ Regra de pagamento criada`);
-                    showNotification('Regra criada com sucesso!', 'success');
+                    clearRuleForm();
                 } catch (error) {
-                    addSystemLog(`❌ Erro ao criar regra: ${error.message}`);
-                    showNotification('Erro ao criar regra', 'error');
+                    addSystemLog(`❌ Erro ao salvar regra: ${error.message}`);
+                    showNotification('Erro ao salvar regra', 'error');
                 }
             });
         });
@@ -4818,6 +4892,38 @@
 
         function editPaymentCondition(id) {
             openPaymentConditionModal(id);
+        }
+
+        async function deletePaymentMethod(id) {
+            if (!confirm('Tem certeza que deseja excluir esta forma de pagamento?')) return;
+            
+            try {
+                const method = adminClient.paymentMethods.find(m => m.id === parseInt(id));
+                adminClient.paymentMethods = adminClient.paymentMethods.filter(m => m.id !== parseInt(id));
+                await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                renderPaymentMethods();
+                addSystemLog(`💳 Forma de pagamento excluída`);
+                showNotification('Forma de pagamento excluída com sucesso!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir forma de pagamento: ${error.message}`);
+                showNotification('Erro ao excluir forma de pagamento', 'error');
+            }
+        }
+
+        async function deletePaymentCondition(id) {
+            if (!confirm('Tem certeza que deseja excluir esta condição de pagamento?')) return;
+            
+            try {
+                const condition = adminClient.paymentConditions.find(c => c.id === parseInt(id));
+                adminClient.paymentConditions = adminClient.paymentConditions.filter(c => c.id !== parseInt(id));
+                await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                renderPaymentConditions();
+                addSystemLog(`📋 Condição de pagamento excluída`);
+                showNotification('Condição de pagamento excluída com sucesso!', 'success');
+            } catch (error) {
+                addSystemLog(`❌ Erro ao excluir condição: ${error.message}`);
+                showNotification('Erro ao excluir condição', 'error');
+            }
         }
 
         async function deletePaymentMethod(id) {

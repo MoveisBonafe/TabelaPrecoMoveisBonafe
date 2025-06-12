@@ -678,45 +678,6 @@
             transform: translateX(26px);
         }
 
-        .reorder-controls {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .reorder-btn {
-            background: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            color: #4a5568;
-            transition: all 0.2s ease;
-        }
-
-        .reorder-btn:hover:not(:disabled) {
-            background: #4299e1;
-            color: white;
-            border-color: #3182ce;
-            transform: translateY(-1px);
-        }
-
-        .reorder-btn:disabled {
-            background: #f1f5f9;
-            color: #cbd5e0;
-            cursor: not-allowed;
-            border-color: #e2e8f0;
-        }
-
         @media (max-width: 768px) {
             .admin-container {
                 padding: 10px;
@@ -1879,10 +1840,6 @@
                         <button class="btn btn-primary" onclick="editProduct(${product.id})">✏️ Editar</button>
                         <button class="btn btn-danger" onclick="deleteProduct(${product.id})">🗑️ Excluir</button>
                     </div>
-                    <div class="reorder-controls">
-                        <button type="button" class="reorder-btn" onclick="moveProductUp(${product.id})" title="Mover para cima" ${adminClient.products.indexOf(product) === 0 ? 'disabled' : ''}>↑</button>
-                        <button type="button" class="reorder-btn" onclick="moveProductDown(${product.id})" title="Mover para baixo" ${adminClient.products.indexOf(product) === adminClient.products.length - 1 ? 'disabled' : ''}>↓</button>
-                    </div>
                 `;
                 
                 grid.appendChild(card);
@@ -2430,53 +2387,6 @@
             } catch (error) {
                 addSystemLog(`❌ Erro ao excluir produto: ${error.message}`);
                 showNotification('Erro ao excluir produto.', 'error');
-            }
-        }
-
-        // Product reordering functions
-        async function moveProductUp(productId) {
-            try {
-                const currentIndex = adminClient.products.findIndex(p => p.id === productId);
-                if (currentIndex <= 0) return; // Already at top or not found
-                
-                // Swap with previous product
-                const temp = adminClient.products[currentIndex];
-                adminClient.products[currentIndex] = adminClient.products[currentIndex - 1];
-                adminClient.products[currentIndex - 1] = temp;
-                
-                await saveToGitHub('products.json', adminClient.products);
-                
-                const productName = adminClient.products[currentIndex - 1].name;
-                addSystemLog(`⬆️ Produto "${productName}" movido para cima`);
-                showNotification(`Produto "${productName}" movido para cima!`, 'success');
-                renderProducts();
-                
-            } catch (error) {
-                addSystemLog(`❌ Erro ao reordenar produto: ${error.message}`);
-                showNotification('Erro ao reordenar produto.', 'error');
-            }
-        }
-
-        async function moveProductDown(productId) {
-            try {
-                const currentIndex = adminClient.products.findIndex(p => p.id === productId);
-                if (currentIndex === -1 || currentIndex >= adminClient.products.length - 1) return; // Not found or already at bottom
-                
-                // Swap with next product
-                const temp = adminClient.products[currentIndex];
-                adminClient.products[currentIndex] = adminClient.products[currentIndex + 1];
-                adminClient.products[currentIndex + 1] = temp;
-                
-                await saveToGitHub('products.json', adminClient.products);
-                
-                const productName = adminClient.products[currentIndex + 1].name;
-                addSystemLog(`⬇️ Produto "${productName}" movido para baixo`);
-                showNotification(`Produto "${productName}" movido para baixo!`, 'success');
-                renderProducts();
-                
-            } catch (error) {
-                addSystemLog(`❌ Erro ao reordenar produto: ${error.message}`);
-                showNotification('Erro ao reordenar produto.', 'error');
             }
         }
 

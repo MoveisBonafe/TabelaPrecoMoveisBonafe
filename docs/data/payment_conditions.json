@@ -8,5 +8,15 @@
     "discount": 0,
     "active": true,
     "createdAt": "2025-06-12T03:38:29.344Z"
+  },
+  {
+    "id": 1749699851416,
+    "name": "30 Dias",
+    "description": "30",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "createdAt": "2025-06-12T03:44:11.416Z"
   }
 ]

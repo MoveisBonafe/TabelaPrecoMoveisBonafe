@@ -25,5 +25,14 @@
     "fee": 0,
     "id": 1749751695822,
     "createdAt": "2025-06-12T18:08:15.822Z"
+  },
+  {
+    "name": "Boleto",
+    "description": "",
+    "icon": "📄",
+    "active": true,
+    "fee": 0,
+    "id": 1749752931350,
+    "createdAt": "2025-06-12T18:28:51.350Z"
   }
 ]

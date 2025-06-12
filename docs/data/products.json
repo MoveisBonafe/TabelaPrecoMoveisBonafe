@@ -182,6 +182,136 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
+    "name": "Beliche Paris",
+    "category": "Beliches",
+    "priceAVista": 468,
+    "altura": 164,
+    "largura": 80,
+    "comprimento": 190,
+    "peso": 46,
+    "description": "",
+    "images": [
+      "data/images/product_1749516330562_t6ipkjc72.png",
+      "data/images/product_1749516334613_j6mard76z.png",
+      "data/images/product_1749516339908_b3hvk90yn.png",
+      "data/images/product_1749516344141_mo1npvhlx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T00:45:54.947Z",
+    "id": 1749514027904,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 1,60 X 0,80",
+    "category": "Mesas",
+    "priceAVista": 372,
+    "altura": 80,
+    "largura": 80,
+    "comprimento": 160,
+    "peso": 22,
+    "description": "",
+    "images": [
+      "data/images/product_1749518322906_l9699ha6q.png",
+      "data/images/product_1749518341312_ag082hx0u.png",
+      "data/images/product_1749518346216_s3ffnkt7l.png",
+      "data/images/product_1749518350791_4fazdir45.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:19:19.406Z",
+    "id": 1749514027906,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 1,80 X 0,85",
+    "category": "Mesas",
+    "priceAVista": 430,
+    "altura": 80,
+    "largura": 85,
+    "comprimento": 180,
+    "peso": 25,
+    "description": "",
+    "images": [
+      "data/images/product_1749519327404_yguweh8q2.png",
+      "data/images/product_1749519607424_mg0mp51hg.png",
+      "data/images/product_1749519620037_2wy24a4kw.png",
+      "data/images/product_1749519625083_2eo3093t3.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:40:33.636Z",
+    "id": 1749514027907,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 2,00 X 0,88",
+    "category": "Mesas",
+    "priceAVista": 508,
+    "altura": 80,
+    "largura": 88,
+    "comprimento": 200,
+    "peso": 26,
+    "description": "",
+    "images": [
+      "data/images/product_1749519655456_fapc9fdwc.png",
+      "data/images/product_1749519662058_x9rgbex68.png",
+      "data/images/product_1749519667380_j0pwvofez.png",
+      "data/images/product_1749519672563_be4sqzayv.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:41:22.286Z",
+    "id": 1749514027908,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 2,20 X 0,88",
+    "category": "Mesas",
+    "priceAVista": 535,
+    "altura": 80,
+    "largura": 88,
+    "comprimento": 220,
+    "peso": 30,
+    "description": "",
+    "images": [
+      "data/images/product_1749519702008_9bndqsb2a.png",
+      "data/images/product_1749519707941_4sggivalz.png",
+      "data/images/product_1749519712561_zn18yyh8f.png",
+      "data/images/product_1749519717895_tcioct7rx.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:42:06.820Z",
+    "id": 1749514027909,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
     "name": "Agulha Cadeira Alta",
     "category": "Cadeiras",
     "priceAVista": 8,
@@ -224,19 +354,19 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Beliche Paris",
-    "category": "Beliches",
-    "priceAVista": 468,
-    "altura": 164,
-    "largura": 80,
-    "comprimento": 190,
-    "peso": 46,
+    "name": "Mesa Bonacor 0,70 X 0,45 Criança",
+    "category": "Mesas",
+    "priceAVista": 136,
+    "altura": 60,
+    "largura": 45,
+    "comprimento": 70,
+    "peso": 9,
     "description": "",
     "images": [
-      "data/images/product_1749516330562_t6ipkjc72.png",
-      "data/images/product_1749516334613_j6mard76z.png",
-      "data/images/product_1749516339908_b3hvk90yn.png",
-      "data/images/product_1749516344141_mo1npvhlx.png"
+      "data/images/product_1749520025603_e9ihmowmk.png",
+      "data/images/product_1749520033423_snv6l1ddv.png",
+      "data/images/product_1749520041912_bo36uowuu.png",
+      "data/images/product_1749520046768_pkclxqlb1.png"
     ],
     "colorVariations": [
       "Imbuia",
@@ -245,8 +375,34 @@
       "Mogno"
     ],
     "active": true,
-    "updatedAt": "2025-06-10T00:45:54.947Z",
-    "id": 1749514027904,
+    "updatedAt": "2025-06-10T01:47:40.505Z",
+    "id": 1749514027912,
+    "createdAt": "2025-06-10T00:07:07.899Z"
+  },
+  {
+    "name": "Mesa Bonacor 0,75 X 0,75 Criança",
+    "category": "Mesas",
+    "priceAVista": 182,
+    "altura": 60,
+    "largura": 75,
+    "comprimento": 75,
+    "peso": 15,
+    "description": "",
+    "images": [
+      "data/images/product_1749520101916_6pbwx0hcr.png",
+      "data/images/product_1749520110763_c259kdqll.png",
+      "data/images/product_1749520115421_j04debbn9.png",
+      "data/images/product_1749520119849_h9ddlw1x1.png"
+    ],
+    "colorVariations": [
+      "Imbuia",
+      "Cerejeira",
+      "Tabaco",
+      "Mogno"
+    ],
+    "active": true,
+    "updatedAt": "2025-06-10T01:48:48.202Z",
+    "id": 1749514027913,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
@@ -328,32 +484,6 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Mesa Bonacor 0,70 X 0,45 Criança",
-    "category": "Mesas",
-    "priceAVista": 136,
-    "altura": 60,
-    "largura": 45,
-    "comprimento": 70,
-    "peso": 9,
-    "description": "",
-    "images": [
-      "data/images/product_1749520025603_e9ihmowmk.png",
-      "data/images/product_1749520033423_snv6l1ddv.png",
-      "data/images/product_1749520041912_bo36uowuu.png",
-      "data/images/product_1749520046768_pkclxqlb1.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:47:40.505Z",
-    "id": 1749514027912,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
     "name": "Mesa Bonacor 0,75 X 0,75",
     "category": "Mesas",
     "priceAVista": 182,
@@ -377,32 +507,6 @@
     "active": true,
     "updatedAt": "2025-06-10T01:51:35.913Z",
     "id": 1749514027917,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 0,75 X 0,75 Criança",
-    "category": "Mesas",
-    "priceAVista": 182,
-    "altura": 60,
-    "largura": 75,
-    "comprimento": 75,
-    "peso": 15,
-    "description": "",
-    "images": [
-      "data/images/product_1749520101916_6pbwx0hcr.png",
-      "data/images/product_1749520110763_c259kdqll.png",
-      "data/images/product_1749520115421_j04debbn9.png",
-      "data/images/product_1749520119849_h9ddlw1x1.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:48:48.202Z",
-    "id": 1749514027913,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
@@ -533,110 +637,6 @@
     "active": true,
     "updatedAt": "2025-06-10T01:56:09.967Z",
     "id": 1749514027922,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 1,60 X 0,80",
-    "category": "Mesas",
-    "priceAVista": 372,
-    "altura": 80,
-    "largura": 80,
-    "comprimento": 160,
-    "peso": 22,
-    "description": "",
-    "images": [
-      "data/images/product_1749518322906_l9699ha6q.png",
-      "data/images/product_1749518341312_ag082hx0u.png",
-      "data/images/product_1749518346216_s3ffnkt7l.png",
-      "data/images/product_1749518350791_4fazdir45.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:19:19.406Z",
-    "id": 1749514027906,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 1,80 X 0,85",
-    "category": "Mesas",
-    "priceAVista": 430,
-    "altura": 80,
-    "largura": 85,
-    "comprimento": 180,
-    "peso": 25,
-    "description": "",
-    "images": [
-      "data/images/product_1749519327404_yguweh8q2.png",
-      "data/images/product_1749519607424_mg0mp51hg.png",
-      "data/images/product_1749519620037_2wy24a4kw.png",
-      "data/images/product_1749519625083_2eo3093t3.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:40:33.636Z",
-    "id": 1749514027907,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 2,00 X 0,88",
-    "category": "Mesas",
-    "priceAVista": 508,
-    "altura": 80,
-    "largura": 88,
-    "comprimento": 200,
-    "peso": 26,
-    "description": "",
-    "images": [
-      "data/images/product_1749519655456_fapc9fdwc.png",
-      "data/images/product_1749519662058_x9rgbex68.png",
-      "data/images/product_1749519667380_j0pwvofez.png",
-      "data/images/product_1749519672563_be4sqzayv.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:41:22.286Z",
-    "id": 1749514027908,
-    "createdAt": "2025-06-10T00:07:07.899Z"
-  },
-  {
-    "name": "Mesa Bonacor 2,20 X 0,88",
-    "category": "Mesas",
-    "priceAVista": 535,
-    "altura": 80,
-    "largura": 88,
-    "comprimento": 220,
-    "peso": 30,
-    "description": "",
-    "images": [
-      "data/images/product_1749519702008_9bndqsb2a.png",
-      "data/images/product_1749519707941_4sggivalz.png",
-      "data/images/product_1749519712561_zn18yyh8f.png",
-      "data/images/product_1749519717895_tcioct7rx.png"
-    ],
-    "colorVariations": [
-      "Imbuia",
-      "Cerejeira",
-      "Tabaco",
-      "Mogno"
-    ],
-    "active": true,
-    "updatedAt": "2025-06-10T01:42:06.820Z",
-    "id": 1749514027909,
     "createdAt": "2025-06-10T00:07:07.899Z"
   }
 ]

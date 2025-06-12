@@ -1435,7 +1435,34 @@
                     }
                 }
                 
-                // For non-payment files, try server first, then localStorage
+                // For non-payment files, check for GitHub token and prioritize GitHub API if available
+                const githubToken = localStorage.getItem('github_token');
+                if (githubToken && githubToken.trim()) {
+                    try {
+                        console.log(`🔗 Token GitHub detectado - tentando carregar ${filename} do GitHub API...`);
+                        const githubUrl = `https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/${filename}`;
+                        const githubResponse = await fetch(githubUrl, {
+                            headers: {
+                                'Authorization': `token ${githubToken}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
+                        
+                        if (githubResponse.ok) {
+                            const githubData = await githubResponse.json();
+                            const content = atob(githubData.content);
+                            const data = JSON.parse(content);
+                            console.log(`✅ Carregado ${filename} do GitHub API: ${Array.isArray(data) ? data.length : 'objeto'} itens`);
+                            return this.fixObjectUtf8(data);
+                        } else {
+                            console.log(`❌ Falha ao carregar ${filename} do GitHub API (${githubResponse.status})`);
+                        }
+                    } catch (error) {
+                        console.log(`❌ Erro ao carregar ${filename} do GitHub API:`, error.message);
+                    }
+                }
+                
+                // Fallback to server data
                 try {
                     const url = `${this.baseUrl}/data/${filename}`;
                     console.log(`Carregando ${filename} de: ${url}`);

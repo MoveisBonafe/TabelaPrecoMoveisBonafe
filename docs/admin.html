@@ -1614,10 +1614,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Condição de Pagamento:</label>
-                                <select id="rule-payment-conditions" class="form-select" required>
-                                    <option value="">Selecione uma condição</option>
+                                <label class="form-label">Condições Permitidas:</label>
+                                <select id="rule-payment-conditions" class="form-select" multiple style="height: 120px;" required>
                                 </select>
+                                <small style="color: #6b7280;">Segure Ctrl para selecionar múltiplas condições</small>
                             </div>
                         </div>
 
@@ -4536,16 +4536,18 @@
             const modal = document.getElementById('payment-method-modal');
             const form = document.getElementById('payment-method-form');
             
-            editingMethodId = methodId;
+            editingMethodId = methodId ? parseInt(methodId) : null;
             
             if (methodId) {
-                const method = adminClient.paymentMethods.find(m => m.id === methodId);
+                const method = adminClient.paymentMethods.find(m => m.id === parseInt(methodId));
                 if (method) {
-                    document.getElementById('payment-method-name').value = method.name;
+                    document.getElementById('payment-method-name').value = method.name || '';
                     document.getElementById('payment-method-description').value = method.description || '';
                     document.getElementById('payment-method-icon').value = method.icon || '💳';
                     document.getElementById('payment-method-active').value = method.active ? 'true' : 'false';
                     document.getElementById('payment-method-fee').value = method.fee || 0;
+                } else {
+                    form.reset();
                 }
             } else {
                 form.reset();
@@ -4555,6 +4557,7 @@
         }
 
         function closePaymentMethodModal() {
+            editingMethodId = null;
             document.getElementById('payment-method-modal').classList.remove('active');
         }
 
@@ -4564,17 +4567,19 @@
             const modal = document.getElementById('payment-condition-modal');
             const form = document.getElementById('payment-condition-form');
             
-            editingConditionId = conditionId;
+            editingConditionId = conditionId ? parseInt(conditionId) : null;
             
             if (conditionId) {
                 const condition = adminClient.paymentConditions.find(c => c.id === parseInt(conditionId));
                 if (condition) {
-                    document.getElementById('payment-condition-name').value = condition.name;
+                    document.getElementById('payment-condition-name').value = condition.name || '';
                     document.getElementById('payment-condition-description').value = condition.description || '';
                     document.getElementById('payment-condition-installments').value = condition.installments || 1;
                     document.getElementById('payment-condition-interest').value = condition.interest || 0;
                     document.getElementById('payment-condition-discount').value = condition.discount || 0;
                     document.getElementById('payment-condition-active').value = condition.active ? 'true' : 'false';
+                } else {
+                    form.reset();
                 }
             } else {
                 form.reset();
@@ -4584,6 +4589,7 @@
         }
 
         function closePaymentConditionModal() {
+            editingConditionId = null;
             document.getElementById('payment-condition-modal').classList.remove('active');
         }
 
@@ -4700,7 +4706,12 @@
             
             // Populate form with rule data
             document.getElementById('rule-payment-method').value = rule.paymentMethodId;
-            document.getElementById('rule-payment-conditions').value = rule.conditionIds[0] || '';
+            
+            // Select multiple conditions
+            const conditionsSelect = document.getElementById('rule-payment-conditions');
+            Array.from(conditionsSelect.options).forEach(option => {
+                option.selected = rule.conditionIds.includes(parseInt(option.value));
+            });
             
             // Clear all checkboxes first
             document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]').forEach(cb => {
@@ -4837,12 +4848,13 @@
                 e.preventDefault();
                 
                 const methodId = document.getElementById('rule-payment-method').value;
-                const conditionId = document.getElementById('rule-payment-conditions').value;
+                const conditionIds = Array.from(document.getElementById('rule-payment-conditions').selectedOptions)
+                    .map(option => parseInt(option.value));
                 const userCheckboxes = document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]:checked');
                 const userAccess = Array.from(userCheckboxes).map(cb => cb.value);
                 
-                if (!methodId || !conditionId) {
-                    showNotification('Selecione uma forma de pagamento e uma condição', 'error');
+                if (!methodId || conditionIds.length === 0) {
+                    showNotification('Selecione uma forma de pagamento e pelo menos uma condição', 'error');
                     return;
                 }
                 
@@ -4854,7 +4866,7 @@
                             adminClient.paymentRules[ruleIndex] = {
                                 ...adminClient.paymentRules[ruleIndex],
                                 paymentMethodId: parseInt(methodId),
-                                conditionIds: [parseInt(conditionId)],
+                                conditionIds: conditionIds,
                                 userAccess: userAccess
                             };
                             addSystemLog('⚙️ Regra de pagamento atualizada');
@@ -4865,7 +4877,7 @@
                         const formData = {
                             id: Date.now(),
                             paymentMethodId: parseInt(methodId),
-                            conditionIds: [parseInt(conditionId)],
+                            conditionIds: conditionIds,
                             userAccess: userAccess,
                             createdAt: new Date().toISOString()
                         };

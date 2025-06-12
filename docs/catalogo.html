@@ -1460,7 +1460,7 @@
                     const localData = localStorage.getItem(filename);
                     if (localData) {
                         console.log(`✅ FALLBACK: ${filename} carregado do localStorage`);
-                        return this.fixObjectUtf8(JSON.parse(localData));
+                        return this.normalizeTextData(JSON.parse(localData));
                     }
                 }
 
@@ -1475,7 +1475,7 @@
                     console.log(`✅ FALLBACK: Carregado ${filename} do localStorage`);
                     const data = JSON.parse(localData);
                     console.log(`📊 FALLBACK: ${Array.isArray(data) ? data.length : 'objeto'} itens encontrados`);
-                    return this.fixObjectUtf8(data);
+                    return this.normalizeTextData(data);
                 }
                 
                 console.log(`❌ FINAL: Nenhum dado encontrado para ${filename} em nenhuma fonte`);
@@ -7681,10 +7681,9 @@ ${this.userType === 'restaurante' ? `
                 lastPaymentUpdate = now;
             }
         }, 2000); // Check every 2 seconds
+    </script>
 
-        </script>
-
-        <!-- Footer -->
+    <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="footer-brand">

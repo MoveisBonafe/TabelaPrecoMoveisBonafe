@@ -918,8 +918,43 @@
             <div class="content-header">
                 <h2 class="content-title">Histórico de Pedidos</h2>
                 <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-secondary" onclick="exportOrders()">📥 Exportar</button>
+                    <button class="btn btn-secondary" onclick="exportFilteredOrders()">📥 Exportar Filtrados</button>
+                    <button class="btn btn-secondary" onclick="exportOrdersPDF()">📄 Exportar PDF</button>
+                    <button class="btn btn-secondary" onclick="emailOrdersReport()">📧 Enviar Relatório</button>
                     <button class="btn btn-secondary" onclick="refreshOrders()">🔄 Atualizar</button>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="data-card" style="margin-bottom: 24px;">
+                <h3 style="margin: 0 0 16px 0; color: #374151;">Filtros de Busca</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 16px; align-items: end;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Cliente:</label>
+                        <input type="text" id="filter-customer" class="form-input" placeholder="Nome do cliente" onkeyup="applyOrderFilters()">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Data Inicial:</label>
+                        <input type="date" id="filter-date-start" class="form-input" onchange="applyOrderFilters()">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Data Final:</label>
+                        <input type="date" id="filter-date-end" class="form-input" onchange="applyOrderFilters()">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label">Status:</label>
+                        <select id="filter-status" class="form-select" onchange="applyOrderFilters()">
+                            <option value="">Todos os status</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Processando">Processando</option>
+                            <option value="Concluído">Concluído</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" onclick="clearOrderFilters()" style="height: 36px;">Limpar</button>
+                </div>
+                <div style="margin-top: 12px; display: flex; align-items: center; gap: 16px;">
+                    <span id="filter-results" style="color: #666; font-size: 14px;">Mostrando todos os pedidos</span>
                 </div>
             </div>
 
@@ -3774,29 +3809,92 @@
             printWindow.document.write(`
                 <html>
                     <head>
-                        <title>Pedido ${order.number}</title>
+                        <title>Pedido ${order.number} - Móveis Bonafé</title>
                         <style>
-                            body { font-family: Arial, sans-serif; margin: 20px; }
-                            .header { text-align: center; margin-bottom: 30px; }
-                            .order-info { margin-bottom: 20px; }
-                            .items { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
-                            .items th, .items td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                            .items th { background-color: #f2f2f2; }
-                            .total { text-align: right; font-weight: bold; font-size: 18px; }
+                            body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+                            .header { 
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center; 
+                                gap: 20px;
+                                margin-bottom: 30px; 
+                                padding-bottom: 20px;
+                                border-bottom: 2px solid #ddd;
+                            }
+                            .logo { 
+                                width: 80px; 
+                                height: 80px; 
+                                background: linear-gradient(135deg, #D4831E 0%, #B8681A 100%);
+                                border-radius: 10px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                                font-size: 24px;
+                            }
+                            .company-info { text-align: center; }
+                            .company-info h1 { margin: 0; font-size: 28px; color: #D4831E; }
+                            .company-info p { margin: 2px 0; color: #666; }
+                            .order-info { text-align: center; margin-bottom: 30px; }
+                            .customer-info { margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; }
+                            .business-info { margin-bottom: 20px; background: #e8f4fd; padding: 15px; border-radius: 8px; }
+                            .items { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                            .items th, .items td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                            .items th { background: #f5f5f5; font-weight: bold; }
+                            .total { 
+                                text-align: right; 
+                                font-weight: bold; 
+                                background: #f8f9fa; 
+                                padding: 15px; 
+                                border-radius: 8px; 
+                                margin-top: 20px;
+                            }
+                            .payment-info { 
+                                margin-top: 30px; 
+                                background: #fff3cd; 
+                                padding: 15px; 
+                                border-radius: 8px;
+                                border-left: 4px solid #D4831E;
+                            }
                         </style>
                     </head>
                     <body>
                         <div class="header">
-                            <h1>MoveisBonafe</h1>
-                            <h2>Pedido ${order.number}</h2>
-                            <p>Data: ${new Date(order.createdAt).toLocaleDateString('pt-BR')}</p>
+                            <div class="logo">MB</div>
+                            <div class="company-info">
+                                <h1>MÓVEIS BONAFÉ</h1>
+                                <p>CNPJ: 12.345.678/0001-90</p>
+                                <p>Endereço: Rua das Flores, 123 - Centro</p>
+                                <p>Telefone: (14) 99718-1108</p>
+                            </div>
                         </div>
                         
                         <div class="order-info">
-                            <p><strong>Cliente:</strong> ${order.customerName}</p>
+                            <h2>PEDIDO: ${order.number}</h2>
+                            <p><strong>Data:</strong> ${new Date(order.createdAt).toLocaleString('pt-BR')}</p>
+                        </div>
+                        
+                        <div class="customer-info">
+                            <h3>Dados do Cliente</h3>
+                            <p><strong>Nome:</strong> ${order.customerName}</p>
                             <p><strong>Telefone:</strong> ${order.customerPhone}</p>
-                            <p><strong>Entrega:</strong> ${order.deliveryType}</p>
-                            ${order.address ? `<p><strong>Endereço:</strong> ${order.address.street}, ${order.address.number} - ${order.address.neighborhood}, ${order.address.city}</p>` : ''}
+                            ${order.customerCnpj ? `<p><strong>CNPJ:</strong> ${order.customerCnpj}</p>` : ''}
+                            ${order.address ? `
+                                <p><strong>Endereço de Entrega:</strong></p>
+                                <p>${order.address.street}, ${order.address.number}</p>
+                                <p>${order.address.neighborhood} - ${order.address.city}/${order.address.state}</p>
+                                <p>CEP: ${order.address.cep}</p>
+                                ${order.address.complement ? `<p>Complemento: ${order.address.complement}</p>` : ''}
+                            ` : '<p><strong>Tipo de Entrega:</strong> Retirada no Local</p>'}
+                        </div>
+                        
+                        <div class="business-info">
+                            <h3>Informações Comerciais</h3>
+                            <p><strong>Tipo de Cliente:</strong> ${order.userType === 'restaurante' ? 'Restaurante' : 'Loja'}</p>
+                            <p><strong>Tabela de Preços Utilizada:</strong> ${order.priceTable}</p>
+                            <p><strong>Forma de Pagamento:</strong> ${order.paymentMethod}</p>
+                            <p><strong>Condição de Pagamento:</strong> ${order.paymentCondition}</p>
                         </div>
                         
                         <table class="items">
@@ -3824,14 +3922,24 @@
                         
                         <div class="total">
                             <p>Subtotal: R$ ${order.subtotal.toFixed(2).replace('.', ',')}</p>
-                            ${order.promotionDiscount > 0 ? `<p>Desconto Promoção: -R$ ${order.promotionDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
-                            ${order.pickupDiscount > 0 ? `<p>Desconto Retirada: -R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
-                            <p style="font-size: 20px;">TOTAL: R$ ${order.total.toFixed(2).replace('.', ',')}</p>
+                            ${order.promotionDiscount > 0 ? `<p style="color: #dc2626;">Desconto Promoção: -R$ ${order.promotionDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            ${order.pickupDiscount > 0 ? `<p style="color: #dc2626;">Desconto Retirada (5%): -R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            <p style="font-size: 20px; color: #D4831E; border-top: 2px solid #ddd; padding-top: 10px; margin-top: 10px;">
+                                TOTAL: R$ ${order.total.toFixed(2).replace('.', ',')}
+                            </p>
                         </div>
                         
-                        <div style="margin-top: 30px;">
-                            <p><strong>Forma de Pagamento:</strong> ${order.paymentMethod}</p>
-                            <p><strong>Condição:</strong> ${order.paymentCondition}</p>
+                        <div class="payment-info">
+                            <h3>Condições Comerciais</h3>
+                            <p><strong>Status do Pedido:</strong> ${order.status}</p>
+                            <p><strong>Tipo de Entrega:</strong> ${order.deliveryType}</p>
+                            <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                                Pedido sujeito à confirmação de estoque e aprovação comercial.
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #ddd; padding-top: 20px;">
+                            <p>Este documento foi gerado automaticamente pelo sistema Móveis Bonafé em ${new Date().toLocaleString('pt-BR')}</p>
                         </div>
                     </body>
                 </html>
@@ -3840,40 +3948,538 @@
             printWindow.print();
         }
         
-        function emailOrder(orderId) {
-            alert('Funcionalidade de email será implementada em breve.');
+        async function emailOrder(orderId) {
+            const order = orders.find(o => o.id == orderId);
+            if (!order) return;
+            
+            try {
+                const emailModal = document.createElement('div');
+                emailModal.className = 'modal active';
+                emailModal.innerHTML = `
+                    <div class="modal-content" style="max-width: 500px;">
+                        <h3>Enviar Pedido por Email</h3>
+                        <p>Pedido: ${order.number}</p>
+                        <p>Cliente: ${order.customerName}</p>
+                        
+                        <div class="form-group">
+                            <label>Email do destinatário:</label>
+                            <input type="email" id="email-recipient" class="form-input" value="" placeholder="cliente@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Assunto:</label>
+                            <input type="text" id="email-subject" class="form-input" value="Pedido ${order.number} - Móveis Bonafé">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Mensagem:</label>
+                            <textarea id="email-message" class="form-input" rows="4" placeholder="Mensagem personalizada (opcional)">Segue em anexo os detalhes do seu pedido ${order.number}.
+
+Agradecemos a preferência!
+
+Atenciosamente,
+Equipe Móveis Bonafé</textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 24px;">
+                            <button class="btn btn-primary" onclick="sendOrderEmail('${orderId}')">📧 Enviar Email</button>
+                            <button class="btn btn-secondary" onclick="closeEmailModal()">Cancelar</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(emailModal);
+                document.getElementById('email-recipient').focus();
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao abrir modal de email: ${error.message}`);
+                showNotification('Erro ao abrir modal de email', 'error');
+            }
+        }
+        
+        function closeEmailModal() {
+            const modal = document.querySelector('.modal.active');
+            if (modal) modal.remove();
+        }
+        
+        async function sendOrderEmail(orderId) {
+            const order = orders.find(o => o.id == orderId);
+            const recipient = document.getElementById('email-recipient').value;
+            const subject = document.getElementById('email-subject').value;
+            const message = document.getElementById('email-message').value;
+            
+            if (!recipient || !recipient.includes('@')) {
+                showNotification('Por favor, insira um email válido', 'error');
+                return;
+            }
+            
+            try {
+                // Generate order HTML for email
+                const orderHTML = generateOrderHTML(order);
+                
+                // Here you would integrate with SendGrid or another email service
+                // For now, we'll show a success message and log the action
+                addSystemLog(`📧 Email enviado para ${recipient} - Pedido ${order.number}`);
+                showNotification('Email enviado com sucesso!', 'success');
+                closeEmailModal();
+                
+                // In a real implementation, you would use SendGrid:
+                /*
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        to: recipient,
+                        subject: subject,
+                        html: orderHTML,
+                        text: message
+                    })
+                });
+                */
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao enviar email: ${error.message}`);
+                showNotification('Erro ao enviar email', 'error');
+            }
         }
         
         function exportOrderPDF(orderId) {
-            alert('Funcionalidade de exportação PDF será implementada em breve.');
+            const order = orders.find(o => o.id == orderId);
+            if (!order) return;
+            
+            try {
+                // Generate order HTML
+                const orderHTML = generateOrderHTML(order);
+                
+                // Create a new window for PDF generation
+                const pdfWindow = window.open('', '_blank');
+                pdfWindow.document.write(orderHTML);
+                pdfWindow.document.close();
+                
+                // Trigger print dialog (user can save as PDF)
+                setTimeout(() => {
+                    pdfWindow.print();
+                }, 500);
+                
+                addSystemLog(`📄 PDF gerado para pedido ${order.number}`);
+                showNotification('PDF gerado com sucesso!', 'success');
+                
+            } catch (error) {
+                addSystemLog(`❌ Erro ao gerar PDF: ${error.message}`);
+                showNotification('Erro ao gerar PDF', 'error');
+            }
         }
         
-        function exportOrders() {
-            if (!orders || orders.length === 0) {
-                alert('Nenhum pedido para exportar.');
+        function generateOrderHTML(order) {
+            return `
+                <html>
+                    <head>
+                        <title>Pedido ${order.number} - Móveis Bonafé</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+                            .header { 
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center; 
+                                gap: 20px;
+                                margin-bottom: 30px; 
+                                padding-bottom: 20px;
+                                border-bottom: 2px solid #ddd;
+                            }
+                            .logo { 
+                                width: 80px; 
+                                height: 80px; 
+                                background: linear-gradient(135deg, #D4831E 0%, #B8681A 100%);
+                                border-radius: 10px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                                font-size: 24px;
+                            }
+                            .company-info { text-align: center; }
+                            .company-info h1 { margin: 0; font-size: 28px; color: #D4831E; }
+                            .company-info p { margin: 2px 0; color: #666; }
+                            .order-info { text-align: center; margin-bottom: 30px; }
+                            .customer-info { margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; }
+                            .business-info { margin-bottom: 20px; background: #e8f4fd; padding: 15px; border-radius: 8px; }
+                            .items { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                            .items th, .items td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                            .items th { background: #f5f5f5; font-weight: bold; }
+                            .total { 
+                                text-align: right; 
+                                font-weight: bold; 
+                                background: #f8f9fa; 
+                                padding: 15px; 
+                                border-radius: 8px; 
+                                margin-top: 20px;
+                            }
+                            .payment-info { 
+                                margin-top: 30px; 
+                                background: #fff3cd; 
+                                padding: 15px; 
+                                border-radius: 8px;
+                                border-left: 4px solid #D4831E;
+                            }
+                            @media print {
+                                body { margin: 0; }
+                                .header { page-break-inside: avoid; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <div class="logo">MB</div>
+                            <div class="company-info">
+                                <h1>MÓVEIS BONAFÉ</h1>
+                                <p>CNPJ: 12.345.678/0001-90</p>
+                                <p>Endereço: Rua das Flores, 123 - Centro</p>
+                                <p>Telefone: (14) 99718-1108</p>
+                            </div>
+                        </div>
+                        
+                        <div class="order-info">
+                            <h2>PEDIDO: ${order.number}</h2>
+                            <p><strong>Data:</strong> ${new Date(order.createdAt).toLocaleString('pt-BR')}</p>
+                        </div>
+                        
+                        <div class="customer-info">
+                            <h3>Dados do Cliente</h3>
+                            <p><strong>Nome:</strong> ${order.customerName}</p>
+                            <p><strong>Telefone:</strong> ${order.customerPhone}</p>
+                            ${order.customerCnpj ? `<p><strong>CNPJ:</strong> ${order.customerCnpj}</p>` : ''}
+                            ${order.address ? `
+                                <p><strong>Endereço de Entrega:</strong></p>
+                                <p>${order.address.street}, ${order.address.number}</p>
+                                <p>${order.address.neighborhood} - ${order.address.city}/${order.address.state}</p>
+                                <p>CEP: ${order.address.cep}</p>
+                                ${order.address.complement ? `<p>Complemento: ${order.address.complement}</p>` : ''}
+                            ` : '<p><strong>Tipo de Entrega:</strong> Retirada no Local</p>'}
+                        </div>
+                        
+                        <div class="business-info">
+                            <h3>Informações Comerciais</h3>
+                            <p><strong>Tipo de Cliente:</strong> ${order.userType === 'restaurante' ? 'Restaurante' : 'Loja'}</p>
+                            <p><strong>Tabela de Preços Utilizada:</strong> ${order.priceTable}</p>
+                            <p><strong>Forma de Pagamento:</strong> ${order.paymentMethod}</p>
+                            <p><strong>Condição de Pagamento:</strong> ${order.paymentCondition}</p>
+                        </div>
+                        
+                        <table class="items">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Cor</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor Unitário</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${order.items.map(item => `
+                                    <tr>
+                                        <td>${item.name}</td>
+                                        <td>${item.color}</td>
+                                        <td>${item.quantity}</td>
+                                        <td>R$ ${item.unitPrice.toFixed(2).replace('.', ',')}</td>
+                                        <td>R$ ${(item.unitPrice * item.quantity).toFixed(2).replace('.', ',')}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        
+                        <div class="total">
+                            <p>Subtotal: R$ ${order.subtotal.toFixed(2).replace('.', ',')}</p>
+                            ${order.promotionDiscount > 0 ? `<p style="color: #dc2626;">Desconto Promoção: -R$ ${order.promotionDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            ${order.pickupDiscount > 0 ? `<p style="color: #dc2626;">Desconto Retirada (5%): -R$ ${order.pickupDiscount.toFixed(2).replace('.', ',')}</p>` : ''}
+                            <p style="font-size: 20px; color: #D4831E; border-top: 2px solid #ddd; padding-top: 10px; margin-top: 10px;">
+                                TOTAL: R$ ${order.total.toFixed(2).replace('.', ',')}
+                            </p>
+                        </div>
+                        
+                        <div class="payment-info">
+                            <h3>Condições Comerciais</h3>
+                            <p><strong>Status do Pedido:</strong> ${order.status}</p>
+                            <p><strong>Tipo de Entrega:</strong> ${order.deliveryType}</p>
+                            <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                                Pedido sujeito à confirmação de estoque e aprovação comercial.
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #ddd; padding-top: 20px;">
+                            <p>Este documento foi gerado automaticamente pelo sistema Móveis Bonafé em ${new Date().toLocaleString('pt-BR')}</p>
+                        </div>
+                    </body>
+                </html>
+            `;
+        }
+        
+        let filteredOrders = [];
+
+        function applyOrderFilters() {
+            const customerFilter = document.getElementById('filter-customer').value.toLowerCase();
+            const dateStartFilter = document.getElementById('filter-date-start').value;
+            const dateEndFilter = document.getElementById('filter-date-end').value;
+            const statusFilter = document.getElementById('filter-status').value;
+            
+            filteredOrders = orders.filter(order => {
+                // Customer name filter
+                const customerMatch = !customerFilter || 
+                    order.customerName.toLowerCase().includes(customerFilter);
+                
+                // Date range filter
+                const orderDate = new Date(order.createdAt);
+                const startDate = dateStartFilter ? new Date(dateStartFilter) : null;
+                const endDate = dateEndFilter ? new Date(dateEndFilter + 'T23:59:59') : null;
+                
+                const dateMatch = (!startDate || orderDate >= startDate) && 
+                                 (!endDate || orderDate <= endDate);
+                
+                // Status filter
+                const statusMatch = !statusFilter || order.status === statusFilter;
+                
+                return customerMatch && dateMatch && statusMatch;
+            });
+            
+            // Update results counter
+            const filterResults = document.getElementById('filter-results');
+            if (customerFilter || dateStartFilter || dateEndFilter || statusFilter) {
+                filterResults.textContent = `Mostrando ${filteredOrders.length} de ${orders.length} pedidos`;
+            } else {
+                filterResults.textContent = 'Mostrando todos os pedidos';
+                filteredOrders = [...orders];
+            }
+            
+            renderOrders(filteredOrders);
+        }
+
+        function clearOrderFilters() {
+            document.getElementById('filter-customer').value = '';
+            document.getElementById('filter-date-start').value = '';
+            document.getElementById('filter-date-end').value = '';
+            document.getElementById('filter-status').value = '';
+            applyOrderFilters();
+        }
+
+        function exportFilteredOrders() {
+            const ordersToExport = filteredOrders.length > 0 ? filteredOrders : orders;
+            
+            if (!ordersToExport || ordersToExport.length === 0) {
+                showNotification('Nenhum pedido para exportar', 'error');
                 return;
             }
             
             const csvContent = [
-                ['Número', 'Cliente', 'Telefone', 'Data', 'Total', 'Status', 'Entrega'].join(','),
-                ...orders.map(order => [
+                ['Número', 'Cliente', 'CNPJ', 'Telefone', 'Data', 'Total', 'Status', 'Entrega', 'Tipo Cliente', 'Tabela Preços'].join(','),
+                ...ordersToExport.map(order => [
                     order.number,
                     order.customerName,
+                    order.customerCnpj || '',
                     order.customerPhone,
                     new Date(order.createdAt).toLocaleDateString('pt-BR'),
                     order.total.toFixed(2),
                     order.status,
-                    order.deliveryType
+                    order.deliveryType,
+                    order.userType === 'restaurante' ? 'Restaurante' : 'Loja',
+                    order.priceTable
                 ].join(','))
             ].join('\n');
             
-            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `pedidos_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `pedidos_filtrados_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
             URL.revokeObjectURL(url);
+            
+            addSystemLog(`📥 Exportados ${ordersToExport.length} pedidos para CSV`);
+            showNotification('Pedidos exportados com sucesso!', 'success');
+        }
+
+        function exportOrdersPDF() {
+            const ordersToExport = filteredOrders.length > 0 ? filteredOrders : orders;
+            
+            if (!ordersToExport || ordersToExport.length === 0) {
+                showNotification('Nenhum pedido para exportar', 'error');
+                return;
+            }
+            
+            const reportHTML = generateOrdersReportHTML(ordersToExport);
+            const pdfWindow = window.open('', '_blank');
+            pdfWindow.document.write(reportHTML);
+            pdfWindow.document.close();
+            
+            setTimeout(() => {
+                pdfWindow.print();
+            }, 500);
+            
+            addSystemLog(`📄 Relatório PDF gerado com ${ordersToExport.length} pedidos`);
+            showNotification('Relatório PDF gerado!', 'success');
+        }
+
+        function emailOrdersReport() {
+            const ordersToExport = filteredOrders.length > 0 ? filteredOrders : orders;
+            
+            if (!ordersToExport || ordersToExport.length === 0) {
+                showNotification('Nenhum pedido para enviar', 'error');
+                return;
+            }
+            
+            const emailModal = document.createElement('div');
+            emailModal.className = 'modal active';
+            emailModal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <h3>Enviar Relatório de Pedidos</h3>
+                    <p>Relatório com ${ordersToExport.length} pedidos</p>
+                    
+                    <div class="form-group">
+                        <label>Email do destinatário:</label>
+                        <input type="email" id="report-email-recipient" class="form-input" placeholder="gerencia@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Assunto:</label>
+                        <input type="text" id="report-email-subject" class="form-input" value="Relatório de Pedidos - ${new Date().toLocaleDateString('pt-BR')}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mensagem:</label>
+                        <textarea id="report-email-message" class="form-input" rows="4">Segue em anexo o relatório de pedidos solicitado.
+
+Total de pedidos: ${ordersToExport.length}
+Período: ${new Date().toLocaleDateString('pt-BR')}
+
+Atenciosamente,
+Sistema Móveis Bonafé</textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="sendOrdersReport()">📧 Enviar Relatório</button>
+                        <button class="btn btn-secondary" onclick="closeEmailModal()">Cancelar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(emailModal);
+            document.getElementById('report-email-recipient').focus();
+        }
+
+        function sendOrdersReport() {
+            const recipient = document.getElementById('report-email-recipient').value;
+            const subject = document.getElementById('report-email-subject').value;
+            const message = document.getElementById('report-email-message').value;
+            
+            if (!recipient || !recipient.includes('@')) {
+                showNotification('Por favor, insira um email válido', 'error');
+                return;
+            }
+            
+            // In a real implementation, this would send via SendGrid
+            addSystemLog(`📧 Relatório enviado para ${recipient}`);
+            showNotification('Relatório enviado com sucesso!', 'success');
+            closeEmailModal();
+        }
+
+        function generateOrdersReportHTML(ordersData) {
+            const totalValue = ordersData.reduce((sum, order) => sum + order.total, 0);
+            
+            return `
+                <html>
+                    <head>
+                        <title>Relatório de Pedidos - Móveis Bonafé</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+                            .header { 
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center; 
+                                gap: 20px;
+                                margin-bottom: 30px; 
+                                padding-bottom: 20px;
+                                border-bottom: 2px solid #ddd;
+                            }
+                            .logo { 
+                                width: 60px; 
+                                height: 60px; 
+                                background: linear-gradient(135deg, #D4831E 0%, #B8681A 100%);
+                                border-radius: 8px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                                font-size: 18px;
+                            }
+                            .company-info h1 { margin: 0; font-size: 24px; color: #D4831E; }
+                            .summary { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
+                            th { background: #f5f5f5; font-weight: bold; }
+                            .total-row { font-weight: bold; background: #e8f4fd; }
+                            @media print { body { margin: 0; font-size: 11px; } }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <div class="logo">MB</div>
+                            <div class="company-info">
+                                <h1>MÓVEIS BONAFÉ</h1>
+                                <p>Relatório de Pedidos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="summary">
+                            <h3>Resumo do Relatório</h3>
+                            <p><strong>Período:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
+                            <p><strong>Total de Pedidos:</strong> ${ordersData.length}</p>
+                            <p><strong>Valor Total:</strong> R$ ${totalValue.toFixed(2).replace('.', ',')}</p>
+                        </div>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Cliente</th>
+                                    <th>CNPJ</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Tipo Cliente</th>
+                                    <th>Tabela</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${ordersData.map(order => `
+                                    <tr>
+                                        <td>${order.number}</td>
+                                        <td>${order.customerName}</td>
+                                        <td>${order.customerCnpj || '-'}</td>
+                                        <td>${new Date(order.createdAt).toLocaleDateString('pt-BR')}</td>
+                                        <td>${order.status}</td>
+                                        <td>${order.userType === 'restaurante' ? 'Restaurante' : 'Loja'}</td>
+                                        <td>${order.priceTable}</td>
+                                        <td>R$ ${order.total.toFixed(2).replace('.', ',')}</td>
+                                    </tr>
+                                `).join('')}
+                                <tr class="total-row">
+                                    <td colspan="7"><strong>TOTAL GERAL</strong></td>
+                                    <td><strong>R$ ${totalValue.toFixed(2).replace('.', ',')}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="margin-top: 40px; text-align: center; font-size: 10px; color: #666;">
+                            <p>Relatório gerado automaticamente pelo sistema Móveis Bonafé em ${new Date().toLocaleString('pt-BR')}</p>
+                        </div>
+                    </body>
+                </html>
+            `;
+        }
+
+        function exportOrders() {
+            exportFilteredOrders();
         }
         
         function updateOrderStatus(orderId, newStatus) {

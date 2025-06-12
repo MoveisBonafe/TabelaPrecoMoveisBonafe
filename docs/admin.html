@@ -5139,7 +5139,28 @@
         // Function to normalize text data and fix encoding issues
         function normalizeTextData(obj) {
             if (typeof obj === 'string') {
-                return obj.normalize('NFC');
+                // Fix common UTF-8 encoding issues first
+                let fixed = obj
+                    .replace(/Ã¡/g, 'á')
+                    .replace(/Ã©/g, 'é')
+                    .replace(/Ã­/g, 'í')
+                    .replace(/Ã³/g, 'ó')
+                    .replace(/Ãº/g, 'ú')
+                    .replace(/Ã /g, 'à')
+                    .replace(/Ã¢/g, 'â')
+                    .replace(/Ãª/g, 'ê')
+                    .replace(/Ã´/g, 'ô')
+                    .replace(/Ã§/g, 'ç')
+                    .replace(/Ã£/g, 'ã')
+                    .replace(/Ãµ/g, 'õ')
+                    .replace(/Ã‰/g, 'É')
+                    .replace(/Ã/g, 'Á')
+                    .replace(/CrÃ©dito/g, 'Crédito')
+                    .replace(/CartÃo/g, 'Cartão')
+                    .replace(/PreÃ§o/g, 'Preço')
+                    .replace(/Ã\s+vista/g, 'à vista');
+                
+                return fixed.normalize('NFC');
             }
             if (Array.isArray(obj)) {
                 return obj.map(item => normalizeTextData(item));

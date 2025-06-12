@@ -4836,10 +4836,15 @@
                 }));
                 
                 // Try to save to GitHub but don't fail if token not configured
-                try {
-                    await saveToGitHub('payment_rules.json', adminClient.paymentRules);
-                    addSystemLog('🗑️ Regra de pagamento excluída e sincronizada');
-                } catch (githubError) {
+                const token = localStorage.getItem('github_token');
+                if (token) {
+                    try {
+                        await saveToGitHub('payment_rules.json', adminClient.paymentRules);
+                        addSystemLog('🗑️ Regra de pagamento excluída e sincronizada');
+                    } catch (githubError) {
+                        addSystemLog('🗑️ Regra de pagamento excluída (erro na sincronização)');
+                    }
+                } else {
                     addSystemLog('🗑️ Regra de pagamento excluída (salvo localmente)');
                 }
                 
@@ -5003,10 +5008,15 @@
                     }));
                     
                     // Try to save to GitHub but don't fail if token not configured
-                    try {
-                        await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
-                        addSystemLog('✅ Sincronizado com GitHub');
-                    } catch (githubError) {
+                    const token = localStorage.getItem('github_token');
+                    if (token) {
+                        try {
+                            await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                            addSystemLog('✅ Sincronizado com GitHub');
+                        } catch (githubError) {
+                            addSystemLog('⚠️ Erro na sincronização com GitHub');
+                        }
+                    } else {
                         addSystemLog('⚠️ Salvo localmente - Token GitHub não configurado');
                     }
                     
@@ -5061,10 +5071,15 @@
                     }));
                     
                     // Try to save to GitHub but don't fail if token not configured
-                    try {
-                        await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
-                        addSystemLog('✅ Sincronizado com GitHub');
-                    } catch (githubError) {
+                    const token = localStorage.getItem('github_token');
+                    if (token) {
+                        try {
+                            await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                            addSystemLog('✅ Sincronizado com GitHub');
+                        } catch (githubError) {
+                            addSystemLog('⚠️ Erro na sincronização com GitHub');
+                        }
+                    } else {
                         addSystemLog('⚠️ Salvo localmente - Token GitHub não configurado');
                     }
                     
@@ -5165,10 +5180,15 @@
                 localStorage.setItem('payment_methods.json', JSON.stringify(adminClient.paymentMethods));
                 
                 // Try to save to GitHub but don't fail if token not configured
-                try {
-                    await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
-                    addSystemLog(`💳 Forma de pagamento excluída e sincronizada`);
-                } catch (githubError) {
+                const token = localStorage.getItem('github_token');
+                if (token) {
+                    try {
+                        await saveToGitHub('payment_methods.json', adminClient.paymentMethods);
+                        addSystemLog(`💳 Forma de pagamento excluída e sincronizada`);
+                    } catch (githubError) {
+                        addSystemLog(`💳 Forma de pagamento excluída (erro na sincronização)`);
+                    }
+                } else {
                     addSystemLog(`💳 Forma de pagamento excluída (salvo localmente)`);
                 }
                 
@@ -5191,10 +5211,15 @@
                 localStorage.setItem('payment_conditions.json', JSON.stringify(adminClient.paymentConditions));
                 
                 // Try to save to GitHub but don't fail if token not configured
-                try {
-                    await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
-                    addSystemLog(`📋 Condição de pagamento excluída e sincronizada`);
-                } catch (githubError) {
+                const token = localStorage.getItem('github_token');
+                if (token) {
+                    try {
+                        await saveToGitHub('payment_conditions.json', adminClient.paymentConditions);
+                        addSystemLog(`📋 Condição de pagamento excluída e sincronizada`);
+                    } catch (githubError) {
+                        addSystemLog(`📋 Condição de pagamento excluída (erro na sincronização)`);
+                    }
+                } else {
                     addSystemLog(`📋 Condição de pagamento excluída (salvo localmente)`);
                 }
                 

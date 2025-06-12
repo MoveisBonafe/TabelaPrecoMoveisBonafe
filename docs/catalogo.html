@@ -6538,22 +6538,23 @@ ${this.userType === 'restaurante' ? `
         function finalizeOrder() {
             // Validate payment form first
             if (!validatePaymentForm()) {
-                const paymentCondition = document.getElementById('payment-condition').value.trim();
-                if (!paymentCondition) {
-                    alert('Por favor, preencha a condição de pagamento para finalizar o pedido.');
-                    document.getElementById('payment-condition').focus();
-                    return;
-                }
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 return;
             }
             
-            const paymentMethod = document.getElementById('payment-method').value;
+            const paymentMethodId = document.getElementById('payment-method').value;
             const priceTable = document.getElementById('price-table').value;
             const customerCnpj = document.getElementById('customer-cnpj').value;
             const customerName = document.getElementById('customer-name').value;
             const customerPhone = document.getElementById('customer-phone').value;
-            const paymentCondition = document.getElementById('payment-condition').value.trim();
+            
+            // Get payment method name
+            const paymentMethod = catalogClient.paymentMethods.find(m => m.id === paymentMethodId);
+            const paymentMethodName = paymentMethod ? paymentMethod.name : paymentMethodId;
+            
+            // Get selected payment condition
+            const selectedPaymentCondition = getSelectedPaymentCondition();
+            const paymentConditionText = selectedPaymentCondition ? selectedPaymentCondition.name : '';
             
             // Get all customer data
             const customerAddress = document.getElementById('customer-address').value;
@@ -6587,10 +6588,12 @@ ${this.userType === 'restaurante' ? `
                 message += `📮 *CEP:* ${customerCep}\n`;
             }
             
-            message += `💳 *Forma de Pagamento:* ${paymentMethod}\n`;
-            message += `📊 *Tabela de Preços:* ${priceTable}\n`;
-            if (paymentCondition) {
-                message += `💰 *Condição de Pagamento:* ${paymentCondition}\n`;
+            message += `💳 *Forma de Pagamento:* ${paymentMethodName}\n`;
+            if (priceTable) {
+                message += `📊 *Tabela de Preços:* ${priceTable}\n`;
+            }
+            if (paymentConditionText) {
+                message += `💰 *Condição de Pagamento:* ${paymentConditionText}\n`;
             }
             message += `\n`;
             

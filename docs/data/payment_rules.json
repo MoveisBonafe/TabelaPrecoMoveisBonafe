@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": 1749701900001,
+    "paymentMethodId": 1749698800001,
+    "paymentConditionIds": [1749701800001],
+    "userAccess": "all",
+    "createdAt": "2025-06-12T01:31:00.000Z"
+  },
+  {
+    "id": 1749701900002,
+    "paymentMethodId": 1749698800002,
+    "paymentConditionIds": [1749701800002, 1749701800003],
+    "userAccess": "all",
+    "createdAt": "2025-06-12T01:31:00.000Z"
+  },
+  {
+    "id": 1749701900003,
+    "paymentMethodId": 1749698800003,
+    "paymentConditionIds": [1749701800004],
+    "userAccess": ["lojas"],
+    "createdAt": "2025-06-12T01:31:00.000Z"
+  },
+  {
+    "id": 1749701900004,
+    "paymentMethodId": 1749698800004,
+    "paymentConditionIds": [1749701800001],
+    "userAccess": "all",
+    "createdAt": "2025-06-12T01:31:00.000Z"
+  }
+]

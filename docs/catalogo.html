@@ -2495,6 +2495,71 @@ ${this.userType === 'restaurante' ? `
         localStorage.removeItem('moveisbonafe_priceSettings');
         localStorage.removeItem('moveisbonafe_promotions');
 
+        // Function to load payment data from GitHub when token is configured
+        async function loadPaymentDataFromGitHub() {
+            const token = localStorage.getItem('github_token');
+            if (!token) {
+                console.log('💾 Token GitHub não configurado - usando localStorage');
+                return;
+            }
+
+            const baseUrl = 'https://api.github.com/repos/MoveisBonafe/TabelaPrecoMoveisBonafe/contents/data/';
+            
+            try {
+                console.log('🔄 Carregando dados de pagamento do GitHub...');
+                
+                // Load payment methods from GitHub
+                try {
+                    const response = await fetch(`${baseUrl}payment_methods.json`, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (response.ok) {
+                        const fileData = await response.json();
+                        const paymentMethods = JSON.parse(atob(fileData.content));
+                        localStorage.setItem('payment_methods.json', JSON.stringify(paymentMethods));
+                        console.log('✅ Formas de pagamento sincronizadas do GitHub');
+                    }
+                } catch (error) {
+                    console.log('⚠️ Falha ao carregar formas de pagamento do GitHub');
+                }
+
+                // Load payment conditions from GitHub
+                try {
+                    const response = await fetch(`${baseUrl}payment_conditions.json`, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (response.ok) {
+                        const fileData = await response.json();
+                        const paymentConditions = JSON.parse(atob(fileData.content));
+                        localStorage.setItem('payment_conditions.json', JSON.stringify(paymentConditions));
+                        console.log('✅ Condições de pagamento sincronizadas do GitHub');
+                    }
+                } catch (error) {
+                    console.log('⚠️ Falha ao carregar condições de pagamento do GitHub');
+                }
+
+                // Load payment rules from GitHub
+                try {
+                    const response = await fetch(`${baseUrl}payment_rules.json`, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (response.ok) {
+                        const fileData = await response.json();
+                        const paymentRules = JSON.parse(atob(fileData.content));
+                        localStorage.setItem('payment_rules.json', JSON.stringify(paymentRules));
+                        console.log('✅ Regras de pagamento sincronizadas do GitHub');
+                    }
+                } catch (error) {
+                    console.log('⚠️ Falha ao carregar regras de pagamento do GitHub');
+                }
+
+                console.log('🎯 GitHub agora tem prioridade sobre localStorage no catálogo');
+                
+            } catch (error) {
+                console.log(`❌ Erro ao carregar dados do GitHub: ${error.message}`);
+            }
+        }
+
         // Initialize application
         const catalogClient = new CatalogClient();
         document.addEventListener('DOMContentLoaded', async () => {

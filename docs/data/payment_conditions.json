@@ -62,7 +62,7 @@
   {
     "name": "30/60/90/120",
     "description": "",
-    "installments": 1,
+    "installments": 4,
     "interest": 0,
     "discount": 0,
     "active": true,

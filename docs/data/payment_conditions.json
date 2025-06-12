@@ -22,7 +22,7 @@
   {
     "name": "3x sem juros",
     "description": "",
-    "installments": 1,
+    "installments": 3,
     "interest": 0,
     "discount": 0,
     "active": true,

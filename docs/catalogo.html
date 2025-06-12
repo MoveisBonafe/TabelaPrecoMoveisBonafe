@@ -1424,12 +1424,13 @@
                     }
                 }
                 
-                // For non-payment files, ALWAYS try GitHub Pages FIRST
-                console.log(`📁 PRODUCT FILE: Tentando carregar ${filename} do GitHub Pages (docs/data/)...`);
+                // For non-payment files, use GitHub raw content URL to access docs/data/ files
+                console.log(`📁 PRODUCT FILE: Tentando carregar ${filename} do GitHub (docs/data/)...`);
                 try {
-                    const url = `${this.baseUrl}/docs/data/${filename}`;
-                    console.log(`🌐 URL do GitHub: ${url}`);
-                    const response = await fetch(url);
+                    // Use GitHub raw content URL to directly access files in docs/data/
+                    const rawUrl = `https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/${filename}`;
+                    console.log(`🌐 URL raw GitHub: ${rawUrl}`);
+                    const response = await fetch(rawUrl);
                     console.log(`📡 Status da resposta: ${response.status}`);
                     
                     if (response.ok) {

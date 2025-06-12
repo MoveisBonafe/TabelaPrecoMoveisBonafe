@@ -1381,10 +1381,11 @@
 
 
     <script>
-        // GitHub Pages Catalog Client
+        // Catalog Client - Always uses local server
         class CatalogClient {
             constructor() {
                 this.baseUrl = window.location.origin;
+                console.log(`🔧 CatalogClient inicializado com baseUrl: ${this.baseUrl}`);
                 this.currentUser = null;
                 this.userType = null;
                 this.products = [];
@@ -2576,14 +2577,8 @@ ${this.userType === 'restaurante' ? `
         const catalogClient = new CatalogClient();
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Check if GitHub token is configured and prioritize GitHub data
-                const token = localStorage.getItem('github_token');
-                if (token) {
-                    console.log('🔗 Token GitHub detectado - priorizando dados do GitHub');
-                    await loadPaymentDataFromGitHub();
-                } else {
-                    console.log('💾 Carregando dados do localStorage');
-                }
+                console.log('🚀 Iniciando catálogo para usuários');
+                console.log('📡 Usando servidor local para dados de produtos');
                 
                 await catalogClient.init();
                 console.log('✅ Catálogo inicializado');

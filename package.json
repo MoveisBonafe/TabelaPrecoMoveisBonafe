@@ -6,7 +6,6 @@
     "doc": "docs"
   },
   "dependencies": {
-    "@sendgrid/mail": "^8.1.5",
     "@types/memoizee": "^0.4.12",
     "accepts": "^2.0.0",
     "body-parser": "^2.2.0",

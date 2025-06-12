@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": 1749738804973,
+    "paymentMethodId": 1749738798559,
+    "conditionIds": [],
+    "userAccess": [
+      "loja"
+    ],
+    "createdAt": "2025-06-12T14:33:24.973Z"
+  }
+]

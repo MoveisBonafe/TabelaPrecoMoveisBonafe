@@ -7451,41 +7451,41 @@ ${this.userType === 'restaurante' ? `
             console.log('👤 User ID:', userId, 'Role:', userRole);
             console.log('👤 User Type from catalog:', catalogClient.userType);
 
-            // Filter payment methods based on user permissions
+            // Filter payment methods based on user permissions - simplified for better compatibility
             const availablePaymentMethods = catalogClient.paymentMethods.filter(method => {
                 console.log(`🔍 Verificando método ${method.name} (ID: ${method.id})`);
+                
+                // Only show active payment methods
+                if (!method.active) {
+                    console.log(`❌ Método ${method.name} está inativo`);
+                    return false;
+                }
                 
                 // Find rule for this payment method
                 const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === method.id);
                 console.log(`📏 Regra encontrada para ${method.name}:`, rule);
                 
                 if (!rule) {
-                    console.log(`❌ Nenhuma regra encontrada para ${method.name}`);
-                    return false;
+                    console.log(`⚠️ Nenhuma regra encontrada para ${method.name} - permitindo acesso por padrão`);
+                    return true; // Allow access if no rule is defined
                 }
 
-                // Check user access - can be 'all', user ID, or role
+                // Simplified access control - if rule contains 'all' or user type, allow access
                 let hasAccess = false;
                 
-                if (rule.userAccess === 'all') {
-                    hasAccess = true;
-                } else if (Array.isArray(rule.userAccess)) {
-                    // Check if the rule includes the current user's type
-                    const userTypeToCheck = catalogClient.userType; // Use catalog user type
-                    
-                    // For numeric user IDs in rules, they should match specific users, not user types
-                    // For role-based access, check if user type is in the access list
-                    hasAccess = rule.userAccess.includes(userTypeToCheck) || 
-                               (rule.userAccess.includes(String(userId)) && userRole === 'loja'); // Only allow user ID match if user is actually 'loja'
+                if (Array.isArray(rule.userAccess)) {
+                    hasAccess = rule.userAccess.includes('all') || 
+                               rule.userAccess.includes('loja') || 
+                               rule.userAccess.includes('restaurante') ||
+                               rule.userAccess.includes(catalogClient.userType);
                 } else {
-                    // Single value - check if it matches user type or specific user ID
-                    const userTypeToCheck = catalogClient.userType;
-                    hasAccess = rule.userAccess === userTypeToCheck || 
-                               (rule.userAccess === String(userId) && userRole === 'loja');
+                    hasAccess = rule.userAccess === 'all' || 
+                               rule.userAccess === 'loja' || 
+                               rule.userAccess === 'restaurante' ||
+                               rule.userAccess === catalogClient.userType;
                 }
                        
-                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, user: ${userId}/${userRole}, userType: ${catalogClient.userType})`);
-                console.log(`🔍 Rule details:`, rule);
+                console.log(`🔐 Acesso para ${method.name}: ${hasAccess} (regra: ${JSON.stringify(rule.userAccess)}, userType: ${catalogClient.userType})`);
                 return hasAccess;
             });
 

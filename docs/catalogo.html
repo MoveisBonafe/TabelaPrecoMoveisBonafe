@@ -3876,12 +3876,13 @@ ${this.userType === 'restaurante' ? `
 
 
                         <!-- Custom Condition Option -->
-                        <div class="custom-condition-section" id="custom-condition-section" style="margin-bottom: 16px; display: none;">
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                <input type="checkbox" id="custom-condition-checkbox" onchange="toggleCustomCondition()" style="width: 18px; height: 18px; cursor: pointer;">
-                                <label for="custom-condition-checkbox" style="font-size: 14px; font-weight: 500; color: #374151; cursor: pointer;">Não encontrou sua condição?</label>
-                                <button type="button" onclick="showCustomConditionHelp()" style="background: none; border: none; cursor: pointer; color: #6b7280; font-size: 16px; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; transition: background-color 0.2s;" title="Ajuda sobre condições personalizadas">?</button>
+                        <div class="custom-condition-section" id="custom-condition-section" style="margin-bottom: 24px; display: block; text-align: center; background: #f8f9fa; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px;">
+                                <input type="checkbox" id="custom-condition-checkbox" onchange="toggleCustomCondition()" style="width: 20px; height: 20px; cursor: pointer;">
+                                <label for="custom-condition-checkbox" style="font-size: 16px; font-weight: 600; color: #374151; cursor: pointer;">Não encontrou sua condição?</label>
+                                <button type="button" onclick="showCustomConditionHelp()" style="background: #3b82f6; border: none; cursor: pointer; color: white; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; transition: background-color 0.2s; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);" title="Ajuda sobre condições personalizadas">?</button>
                             </div>
+                            <p style="font-size: 12px; color: #6b7280; margin: 0; font-style: italic;">Negocie condições especiais para seu negócio</p>
                         </div>
 
                         <!-- Total Section -->
@@ -7695,7 +7696,7 @@ ${this.userType === 'restaurante' ? `
         }
         
         function showCustomConditionHelp() {
-            alert('💡 Condição Personalizada\n\nNão encontrou a condição de pagamento ideal para seu negócio?\n\nMarque esta opção para negociar diretamente conosco uma condição personalizada que atenda suas necessidades específicas.\n\nNossa equipe entrará em contato para discutir as melhores opções de pagamento para sua empresa.');
+            alert('💡 Condição Personalizada\n\nNão encontrou a condição de pagamento ideal para seu negócio?\n\nMarque esta opção para negociar diretamente conosco uma condição personalizada que atenda suas necessidades específicas.\n\nNossa equipe entrará em contato para discutir:\n• Prazos de pagamento flexíveis\n• Condições especiais para grandes volumes\n• Descontos personalizados\n• Outras opções comerciais\n\nEnvie seu pedido e nossa equipe comercial fará uma proposta personalizada!');
         }
 
         // Enhanced addToCart function with grouping
@@ -7936,16 +7937,22 @@ ${this.userType === 'restaurante' ? `
             const priceTableSection = document.getElementById('price-table-section');
             const priceTableSelect = document.getElementById('price-table');
             
+            const customConditionSection = document.getElementById('custom-condition-section');
+            
             if (catalogClient.userType === 'restaurante') {
                 // Restaurant users: ALWAYS hide price table and force "À Vista"
                 if (priceTableSection) priceTableSection.style.display = 'none';
+                if (customConditionSection) customConditionSection.style.display = 'none';
                 if (priceTableSelect) {
                     priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
                 console.log('👥 Usuário restaurante: tabela de preços OCULTA, forçando "À Vista"');
             } else {
-                console.log('💰 Usuário loja: mantendo tabela de preços visível');
+                // Shop users: HIDE price table initially, show custom condition option
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (customConditionSection) customConditionSection.style.display = 'block';
+                console.log('💰 Usuário loja: tabela de preços OCULTA inicialmente, opção personalizada VISÍVEL');
             }
 
             console.log('🎯 LoadPaymentMethods concluído!');

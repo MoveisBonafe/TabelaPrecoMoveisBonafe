@@ -1,0 +1,202 @@
+ 🔧 CatalogClient inicializado com baseUrl: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📡 Carregando dados do GitHub Pages para usuários finais
+ 🛍️ MoveisBonafe Catálogo - GitHub Pages
+ ✅ Catálogo inicializado
+ 🚀 Iniciando catálogo para usuários
+ 📡 Carregando dados do GitHub Pages (docs/data/)
+ 🍽️ Restaurante markup aplicado: 6% (multiplier: 1.06)
+ 🚀 INÍCIO loadAllData - Carregando todos os dados...
+ 🔍 BaseURL do cliente: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📥 Iniciando carregamento paralelo de dados...
+ 🔍 INÍCIO loadData: products.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando products.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/products.json
+ 🔍 INÍCIO loadData: categories.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando categories.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/categories.json
+ 🔍 INÍCIO loadData: price_settings.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando price_settings.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/price_settings.json
+ 🔍 INÍCIO loadData: promotions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando promotions.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/promotions.json
+ 🔍 INÍCIO loadData: colors.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando colors.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/colors.json
+ 🔍 INÍCIO loadData: notices.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando notices.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/notices.json
+ 🔍 INÍCIO loadData: payment_methods.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_methods.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_methods.json?t=1749782800782
+ 🔍 INÍCIO loadData: payment_conditions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_conditions.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_conditions.json?t=1749782800782
+ 🔍 INÍCIO loadData: payment_rules.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_rules.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_rules.json?t=1749782800782
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: products.json carregado - 25 itens
+ ✅ GITHUB: categories.json carregado - 5 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: price_settings.json carregado - 5 itens
+ ✅ GITHUB: promotions.json carregado - 1 itens
+ ✅ GITHUB: colors.json carregado - 5 itens
+ ✅ GITHUB: notices.json carregado - 1 itens
+catalogo.html?tipo=restaurante:1439 📡 Status: 200
+catalogo.html?tipo=restaurante:1439 📡 Status: 200
+catalogo.html?tipo=restaurante:1439 📡 Status: 200
+catalogo.html?tipo=restaurante:1444 ✅ GITHUB: payment_methods.json carregado - 3 itens
+catalogo.html?tipo=restaurante:1444 ✅ GITHUB: payment_rules.json carregado - 3 itens
+catalogo.html?tipo=restaurante:1444 ✅ GITHUB: payment_conditions.json carregado - 5 itens
+catalogo.html?tipo=restaurante:1600 📊 RESULTADOS DO CARREGAMENTO:
+catalogo.html?tipo=restaurante:1601   Products: 25 itens
+catalogo.html?tipo=restaurante:1602   Categories: 5 itens
+catalogo.html?tipo=restaurante:1603   Price Settings: 5 itens
+catalogo.html?tipo=restaurante:1604   Promotions: 1 itens
+catalogo.html?tipo=restaurante:1605   Colors: 5 itens
+catalogo.html?tipo=restaurante:1606   Notices: 1 itens
+catalogo.html?tipo=restaurante:1618 🔍 APÓS FILTROS:
+catalogo.html?tipo=restaurante:1619   Products ativos: 25
+catalogo.html?tipo=restaurante:1620   Categories ativas: 5
+catalogo.html?tipo=restaurante:1621   Price Settings ativos: 5
+catalogo.html?tipo=restaurante:1622   Promotions ativas: 0
+catalogo.html?tipo=restaurante:1625 💳 Payment methods loaded: (3) ['Boleto (ID: 1749775438465)', 'PIX (ID: 1749777902365)', 'Dinheiro (ID: 1749777939994)']
+catalogo.html?tipo=restaurante:1688 Product order applied successfully
+catalogo.html?tipo=restaurante:1631 🎯 Filtered products inicializado com: 25 produtos
+catalogo.html?tipo=restaurante:1633 ✅ DADOS FINAIS: 25 produtos, 5 categorias, 5 tabelas de preços, 0 promoções ativas, 5 cores, 1 avisos
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 44 → table config 47 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 56 → table config 59 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 99 → table config 105 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 119 → table config 126 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 77 → table config 82 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 44 → table config 47 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 115 → table config 122 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 468 → table config 496 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 372 → table config 394 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 430 → table config 456 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 508 → table config 538 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 535 → table config 567 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 136 → table config 144 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 182 → table config 193 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 310 → table config 329 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 258 → table config 273 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 136 → table config 144 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 182 → table config 193 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 212 → table config 225 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 169 → table config 179 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 252 → table config 267 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 284 → table config 301 (rounded)
+catalogo.html?tipo=restaurante:2359 Restaurant À Vista: base 359 → table config 381 (rounded)
+catalogo.html?tipo=restaurante:2612 ✅ Catálogo inicializado
+catalogo.html?tipo=restaurante:2147 Opening detailed modal for: Cadeira Alta
+catalogo.html?tipo=restaurante:2148 Complete product data: {name: 'Cadeira Alta', category: 'Cadeiras', priceAVista: 99, altura: 100, largura: 45, …}
+catalogo.html?tipo=restaurante:2149 Product keys: (14) ['name', 'category', 'priceAVista', 'altura', 'largura', 'comprimento', 'peso', 'description', 'images', 'colorVariations', 'active', 'updatedAt', 'id', 'createdAt']
+catalogo.html?tipo=restaurante:5649 Opening modal for product: Cadeira Alta
+catalogo.html?tipo=restaurante:5650 Complete product data: {name: 'Cadeira Alta', category: 'Cadeiras', priceAVista: 99, altura: 100, largura: 45, …}
+catalogo.html?tipo=restaurante:5651 Product keys: (14) ['name', 'category', 'priceAVista', 'altura', 'largura', 'comprimento', 'peso', 'description', 'images', 'colorVariations', 'active', 'updatedAt', 'id', 'createdAt']
+catalogo.html?tipo=restaurante:5730 Modal images setup: (4) ['data/images/product_1749514738650_klus3daqr.png', 'data/images/product_1749514776727_bdkbtxcin.png', 'data/images/product_1749514783305_oejsw05f1.png', 'data/images/product_1749514790985_whfothj4z.png']
+catalogo.html?tipo=restaurante:5826 Available colors for modal: (5) [{…}, {…}, {…}, {…}, {…}]
+catalogo.html?tipo=restaurante:5829 Setting up color section with 5 colors
+catalogo.html?tipo=restaurante:5835 Product has color variations: (4) ['Imbuia', 'Cerejeira', 'Tabaco', 'Mogno']
+catalogo.html?tipo=restaurante:5836 Available colors: (5) ['Cerejeira', 'Imbuia', 'Mogno', 'Tabaco', 'Única']
+catalogo.html?tipo=restaurante:5837 Full color objects: (5) [{…}, {…}, {…}, {…}, {…}]
+catalogo.html?tipo=restaurante:5844 Looking for color: Imbuia Found: {name: 'Imbuia', code: '#8c5b17'}
+catalogo.html?tipo=restaurante:5855 Added color option for: Imbuia #8c5b17
+catalogo.html?tipo=restaurante:5844 Looking for color: Cerejeira Found: {name: 'Cerejeira', code: '#ffc852'}
+catalogo.html?tipo=restaurante:5855 Added color option for: Cerejeira #ffc852
+catalogo.html?tipo=restaurante:5844 Looking for color: Tabaco Found: {name: 'Tabaco', code: '#000000'}
+catalogo.html?tipo=restaurante:5855 Added color option for: Tabaco #000000
+catalogo.html?tipo=restaurante:5844 Looking for color: Mogno Found: {name: 'Mogno', code: '#9a1919'}
+catalogo.html?tipo=restaurante:5855 Added color option for: Mogno #9a1919
+catalogo.html?tipo=restaurante:5926 Setting up dimensions for product: Cadeira Alta
+catalogo.html?tipo=restaurante:5927 Product dimension properties:
+catalogo.html?tipo=restaurante:5928   product.dimensions: undefined
+catalogo.html?tipo=restaurante:5929   product.width: undefined
+catalogo.html?tipo=restaurante:5930   product.height: undefined
+catalogo.html?tipo=restaurante:5931   product.depth: undefined
+catalogo.html?tipo=restaurante:5932   product.weight: undefined
+catalogo.html?tipo=restaurante:5933   product.dimensionsText: undefined
+catalogo.html?tipo=restaurante:5934   product.dimension: undefined
+catalogo.html?tipo=restaurante:5935   product.size: undefined
+catalogo.html?tipo=restaurante:5936 All product properties: (14) ['name', 'category', 'priceAVista', 'altura', 'largura', 'comprimento', 'peso', 'description', 'images', 'colorVariations', 'active', 'updatedAt', 'id', 'createdAt']
+catalogo.html?tipo=restaurante:5953 Built dimensions from Portuguese properties: {altura: 100, largura: 45, comprimento: 45, peso: 5.5}
+catalogo.html?tipo=restaurante:6008 Creating dimension items from: {altura: 100, largura: 45, comprimento: 45, peso: 5.5}
+catalogo.html?tipo=restaurante:6036 Added dimension: Altura 100cm
+catalogo.html?tipo=restaurante:6036 Added dimension: Largura 45cm
+catalogo.html?tipo=restaurante:6036 Added dimension: Comprimento 45cm
+catalogo.html?tipo=restaurante:6036 Added dimension: Peso 5.5kg
+catalogo.html?tipo=restaurante:5686 Modal opened successfully
+catalogo.html?tipo=restaurante:3453 Setting up swipe events for colors. Available colors: 4
+catalogo.html?tipo=restaurante:3477 Swipe events configured successfully for 4 colors
+catalogo.html?tipo=restaurante:7349 🛒 Adicionando ao carrinho: {produto: 'Cadeira Alta', quantidade: 1, cor: 'Imbuia', carrinhoAntes: 0}
+catalogo.html?tipo=restaurante:7377 🛒 Novo item adicionado ao carrinho
+catalogo.html?tipo=restaurante:7382 🛒 Item adicionado. Carrinho atual: [{…}]
+catalogo.html?tipo=restaurante:7383 🛒 Total de itens após adição: 1
+catalogo.html?tipo=restaurante:6365 Uncaught TypeError: Cannot read properties of undefined (reading 'replace')
+    at formatPhone (catalogo.html?tipo=restaurante:6365:37)
+    at HTMLInputElement.<anonymous> (catalogo.html?tipo=restaurante:3396:39)
+formatPhone @ catalogo.html?tipo=restaurante:6365
+(anônimo) @ catalogo.html?tipo=restaurante:3396
+catalogo.html?tipo=restaurante:6485 👥 Usuário restaurante: tabela "À Vista" auto-selecionada, seção oculta
+catalogo.html?tipo=restaurante:6602 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6605 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6633 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista sem configuração)
+catalogo.html?tipo=restaurante:7918 Loading payment methods from goToPaymentStep...
+catalogo.html?tipo=restaurante:7919 Available payment methods: (3) [{…}, {…}, {…}]
+catalogo.html?tipo=restaurante:7920 Available payment rules: (3) [{…}, {…}, {…}]
+catalogo.html?tipo=restaurante:7498 🔄 Iniciando loadPaymentMethods...
+catalogo.html?tipo=restaurante:7501 Payment method select element: <select id=​"payment-method" required onchange=​"onPaymentMethodChange()​" style=​"width:​ 100%;​ padding:​ 10px 12px;​ font-size:​ 14px;​ border-radius:​ 20px;​ border:​ 1px solid #d1d5db;​ background:​ white;​">​…​</select>​
+catalogo.html?tipo=restaurante:7518 📋 Payment methods disponíveis: 3
+catalogo.html?tipo=restaurante:7519 📋 Payment rules disponíveis: 3
+catalogo.html?tipo=restaurante:7528 👤 User ID: 64 Role: restaurante
+catalogo.html?tipo=restaurante:7529 👤 User Type from catalog: restaurante
+catalogo.html?tipo=restaurante:7533 🔍 Verificando método Boleto (ID: 1749775438465)
+catalogo.html?tipo=restaurante:7543 📏 Regra encontrada para Boleto: {id: 1749775620777, paymentMethodId: 1749775438465, conditionIds: Array(5), userAccess: Array(1), createdAt: '2025-06-13T00:47:00.777Z'}
+catalogo.html?tipo=restaurante:7561 🔐 Acesso para Boleto: false (regra: ["loja"], userType: restaurante)
+catalogo.html?tipo=restaurante:7533 🔍 Verificando método PIX (ID: 1749777902365)
+catalogo.html?tipo=restaurante:7543 📏 Regra encontrada para PIX: {id: 1749777922340, paymentMethodId: 1749777902365, conditionIds: Array(0), userAccess: Array(3), createdAt: '2025-06-13T01:25:22.340Z'}
+catalogo.html?tipo=restaurante:7561 🔐 Acesso para PIX: true (regra: ["all","loja","restaurante"], userType: restaurante)
+catalogo.html?tipo=restaurante:7533 🔍 Verificando método Dinheiro (ID: 1749777939994)
+catalogo.html?tipo=restaurante:7543 📏 Regra encontrada para Dinheiro: {id: 1749777955452, paymentMethodId: 1749777939994, conditionIds: Array(0), userAccess: Array(3), createdAt: '2025-06-13T01:25:55.452Z'}
+catalogo.html?tipo=restaurante:7561 🔐 Acesso para Dinheiro: true (regra: ["all","loja","restaurante"], userType: restaurante)
+catalogo.html?tipo=restaurante:7565 ✅ Métodos de pagamento disponíveis para o usuário: 2
+catalogo.html?tipo=restaurante:7569 ➕ Adicionando método: PIX
+catalogo.html?tipo=restaurante:7569 ➕ Adicionando método: Dinheiro
+catalogo.html?tipo=restaurante:7587 👥 Usuário restaurante: tabela de preços OCULTA, forçando "À Vista"
+catalogo.html?tipo=restaurante:7592 🎯 LoadPaymentMethods concluído!
+catalogo.html?tipo=restaurante:7618 💳 Método selecionado: PIX isPIXOrDinheiro: true UserType: restaurante
+catalogo.html?tipo=restaurante:7630 👥 Usuário restaurante: tabela oculta, forçando "À Vista"
+catalogo.html?tipo=restaurante:7661 🔍 Regra encontrada para método selecionado: {id: 1749777922340, paymentMethodId: 1749777902365, conditionIds: Array(0), userAccess: Array(3), createdAt: '2025-06-13T01:25:22.340Z'}
+catalogo.html?tipo=restaurante:7664 ⚠️ Nenhuma condição encontrada para este método
+catalogo.html?tipo=restaurante:7674 📋 Método sem condições: ocultando tabela e condições, forçando "À Vista"
+catalogo.html?tipo=restaurante:6602 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6605 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6633 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista sem configuração)
+catalogo.html?tipo=restaurante:6602 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6605 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6633 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista sem configuração)
+catalogo.html?tipo=restaurante:7618 💳 Método selecionado: Dinheiro isPIXOrDinheiro: true UserType: restaurante
+catalogo.html?tipo=restaurante:7630 👥 Usuário restaurante: tabela oculta, forçando "À Vista"
+catalogo.html?tipo=restaurante:7661 🔍 Regra encontrada para método selecionado: {id: 1749777955452, paymentMethodId: 1749777939994, conditionIds: Array(0), userAccess: Array(3), createdAt: '2025-06-13T01:25:55.452Z'}
+catalogo.html?tipo=restaurante:7664 ⚠️ Nenhuma condição encontrada para este método
+catalogo.html?tipo=restaurante:7674 📋 Método sem condições: ocultando tabela e condições, forçando "À Vista"
+catalogo.html?tipo=restaurante:6602 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6605 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6633 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista sem configuração)
+catalogo.html?tipo=restaurante:6602 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6605 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6633 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista sem configuração)

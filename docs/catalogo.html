@@ -6614,6 +6614,11 @@ ${this.userType === 'restaurante' ? `
                     
                     // Restaurant users always use restaurant-specific "À Vista" pricing
                     if (catalogClient.userType === 'restaurante') {
+                        console.log(`🔍 RESTAURANT PRICING DEBUG para ${product.name}:`);
+                        console.log(`  - UserType: ${catalogClient.userType}`);
+                        console.log(`  - CurrentUser:`, catalogClient.currentUser);
+                        console.log(`  - Product priceAVista: ${product.priceAVista}`);
+                        
                         // Find restaurant price table configuration
                         const restaurantTableConfig = catalogClient.priceSettings.find(ps => 
                             ps.active && ps.name === 'À Vista'
@@ -6626,11 +6631,20 @@ ${this.userType === 'restaurante' ? `
                             const priceMultiplier = 1 + (percentage / 100);
                             
                             unitPrice = basePrice * priceMultiplier * multiplier;
-                            console.log(`💰 Restaurante - ${product.name}: R$ ${unitPrice.toFixed(2)} (À Vista com configuração ${percentage}%)`);
+                            console.log(`💰 RESTAURANT CALC - ${product.name}:`);
+                            console.log(`  - Base: ${basePrice}`);
+                            console.log(`  - Table %: ${percentage}%`);
+                            console.log(`  - User multiplier: ${multiplier}`);
+                            console.log(`  - Final: R$ ${unitPrice.toFixed(2)}`);
                         } else {
                             // Fallback to base price for restaurant users
-                            unitPrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                            console.log(`💰 Restaurante - ${product.name}: R$ ${unitPrice.toFixed(2)} (À Vista sem configuração)`);
+                            const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                            const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
+                            unitPrice = basePrice * multiplier;
+                            console.log(`💰 RESTAURANT FALLBACK - ${product.name}:`);
+                            console.log(`  - Base: ${basePrice}`);
+                            console.log(`  - User multiplier: ${multiplier}`);
+                            console.log(`  - Final: R$ ${unitPrice.toFixed(2)}`);
                         }
                     } else {
                         // Shop users use price table configuration

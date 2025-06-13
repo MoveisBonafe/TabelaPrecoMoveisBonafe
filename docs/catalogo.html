@@ -3773,8 +3773,12 @@ ${this.userType === 'restaurante' ? `
                                     <div class="error-message" id="cnpj-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">CNPJ deve ter 14 dígitos</div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" oninput="formatCEP(this); validateField('cep')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div style="position: relative;">
+                                        <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" oninput="formatCEP(this); validateField('cep')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <div id="cep-loading" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); display: none; color: #6b7280; font-size: 14px;">Buscando...</div>
+                                    </div>
                                     <div class="error-message" id="cep-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">CEP deve ter 8 dígitos</div>
+                                    <div class="success-message" id="cep-success" style="color: #10b981; font-size: 14px; margin-top: 4px; display: none;">Endereço preenchido automaticamente</div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-address" required placeholder="Endereço *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
@@ -6400,6 +6404,91 @@ ${this.userType === 'restaurante' ? `
             let value = input.value.replace(/\D/g, '');
             value = value.replace(/^(\d{5})(\d)/, '$1-$2');
             input.value = value;
+            
+            // Auto-fill address when CEP has 8 digits
+            if (value.replace(/\D/g, '').length === 8) {
+                fillAddressByCEP(value.replace(/\D/g, ''));
+            }
+        }
+        
+        // CEP auto-fill functionality using ViaCEP API
+        async function fillAddressByCEP(cep) {
+            if (cep.length !== 8) return;
+            
+            const loadingElement = document.getElementById('cep-loading');
+            const errorElement = document.getElementById('cep-error');
+            const successElement = document.getElementById('cep-success');
+            
+            // Show loading indicator
+            if (loadingElement) loadingElement.style.display = 'block';
+            if (errorElement) errorElement.style.display = 'none';
+            if (successElement) successElement.style.display = 'none';
+            
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+                
+                // Hide loading
+                if (loadingElement) loadingElement.style.display = 'none';
+                
+                if (data.erro) {
+                    if (errorElement) {
+                        errorElement.textContent = 'CEP não encontrado';
+                        errorElement.style.display = 'block';
+                    }
+                    return;
+                }
+                
+                // Fill address fields
+                const addressField = document.getElementById('customer-address');
+                const neighborhoodField = document.getElementById('customer-neighborhood');
+                const cityField = document.getElementById('customer-city');
+                const stateField = document.getElementById('customer-state');
+                
+                let fieldsUpdated = 0;
+                
+                if (addressField && data.logradouro) {
+                    addressField.value = data.logradouro;
+                    fieldsUpdated++;
+                }
+                if (neighborhoodField && data.bairro) {
+                    neighborhoodField.value = data.bairro;
+                    fieldsUpdated++;
+                }
+                if (cityField && data.localidade) {
+                    cityField.value = data.localidade;
+                    fieldsUpdated++;
+                }
+                if (stateField && data.uf) {
+                    stateField.value = data.uf;
+                    fieldsUpdated++;
+                }
+                
+                // Show success message if fields were updated
+                if (fieldsUpdated > 0 && successElement) {
+                    successElement.style.display = 'block';
+                    // Hide success message after 3 seconds
+                    setTimeout(() => {
+                        if (successElement) successElement.style.display = 'none';
+                    }, 3000);
+                }
+                
+                // Trigger form validation after auto-fill
+                setTimeout(() => {
+                    checkFormValidation();
+                }, 100);
+                
+                console.log('Endereço preenchido automaticamente para CEP:', cep);
+                
+            } catch (error) {
+                // Hide loading and show error
+                if (loadingElement) loadingElement.style.display = 'none';
+                if (errorElement) {
+                    errorElement.textContent = 'Erro ao buscar CEP. Verifique sua conexão.';
+                    errorElement.style.display = 'block';
+                }
+                console.log('Erro ao buscar CEP:', error);
+            }
         }
 
         function goToDeliveryStep() {

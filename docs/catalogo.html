@@ -7669,67 +7669,93 @@ ${this.userType === 'restaurante' ? `
                 return;
             }
 
-            // Show price table section
-            if (priceTableSection) priceTableSection.style.display = 'block';
+            // Check if current payment method is PIX or Dinheiro to hide price table
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const selectedMethodId = parseInt(paymentMethodSelect.value);
+            const selectedMethod = catalogClient.paymentMethods.find(m => m.id === selectedMethodId);
+            const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
+            
+            if (isPIXOrDinheiro) {
+                // Hide price table section for PIX/Dinheiro as they use "À Vista" automatically
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'A Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "A Vista" automaticamente');
+            } else {
+                // Show price table section for other payment methods
+                if (priceTableSection) priceTableSection.style.display = 'block';
+            }
 
             // Get all active price tables first
             const activePriceTables = catalogClient.priceSettings.filter(ps => ps.active);
             
-            // Check if condition has a specific price table linked
-            if (selectedCondition.priceTableId && selectedCondition.priceTableId.trim() !== '') {
-                console.log('💰 Condição tem tabela específica linkada:', selectedCondition.priceTableId);
-                
-                // Auto-select the specific price table (only 1 option)
-                if (priceTableSelect) {
-                    const priceTable = activePriceTables.find(ps => ps.name === selectedCondition.priceTableId);
-                    if (priceTable) {
-                        priceTableSelect.innerHTML = `<option value="${priceTable.name}" selected>${priceTable.name}</option>`;
-                        console.log('✅ Tabela de preço auto-selecionada (única opção):', priceTable.name);
-                        
-                        // Force immediate price calculation with the correct table
-                        setTimeout(() => {
-                            console.log('🔄 Forçando recálculo de preços para:', priceTable.name);
-                            updatePaymentSummary();
-                        }, 50);
-                    } else {
-                        priceTableSelect.innerHTML = '<option value="">Tabela configurada não encontrada</option>';
-                    }
-                }
-            } else {
-                console.log('💰 Condição sem tabela específica - verificando quantas tabelas disponíveis');
-                
-                if (activePriceTables.length === 1) {
-                    // Only one table available, auto-select it
-                    console.log('✅ Apenas 1 tabela disponível, auto-selecionando:', activePriceTables[0].name);
+            // For PIX/Dinheiro, skip price table logic since it's already handled above
+            if (!isPIXOrDinheiro) {
+                // Check if condition has a specific price table linked
+                if (selectedCondition.priceTableId && selectedCondition.priceTableId.trim() !== '') {
+                    console.log('💰 Condição tem tabela específica linkada:', selectedCondition.priceTableId);
+                    
+                    // Auto-select the specific price table (only 1 option)
                     if (priceTableSelect) {
-                        priceTableSelect.innerHTML = `<option value="${activePriceTables[0].name}" selected>${activePriceTables[0].name}</option>`;
-                        
-                        // Force immediate price calculation with the correct table
-                        setTimeout(() => {
-                            console.log('🔄 Forçando recálculo de preços para:', activePriceTables[0].name);
-                            updatePaymentSummary();
-                        }, 50);
-                    }
-                } else if (activePriceTables.length > 1) {
-                    // Multiple tables available, show all options
-                    console.log('📋 Múltiplas tabelas disponíveis, mostrando opções para seleção');
-                    if (priceTableSelect) {
-                        priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
-                        
-                        activePriceTables.forEach(priceTable => {
-                            const option = document.createElement('option');
-                            option.value = priceTable.name;
-                            option.textContent = priceTable.name;
-                            priceTableSelect.appendChild(option);
-                        });
+                        const priceTable = activePriceTables.find(ps => ps.name === selectedCondition.priceTableId);
+                        if (priceTable) {
+                            priceTableSelect.innerHTML = `<option value="${priceTable.name}" selected>${priceTable.name}</option>`;
+                            console.log('✅ Tabela de preço auto-selecionada (única opção):', priceTable.name);
+                            
+                            // Force immediate price calculation with the correct table
+                            setTimeout(() => {
+                                console.log('🔄 Forçando recálculo de preços para:', priceTable.name);
+                                updatePaymentSummary();
+                            }, 50);
+                        } else {
+                            priceTableSelect.innerHTML = '<option value="">Tabela configurada não encontrada</option>';
+                        }
                     }
                 } else {
-                    // No active price tables
-                    console.log('⚠️ Nenhuma tabela de preço ativa encontrada');
-                    if (priceTableSelect) {
-                        priceTableSelect.innerHTML = '<option value="">Nenhuma tabela de preço disponível</option>';
+                    console.log('💰 Condição sem tabela específica - verificando quantas tabelas disponíveis');
+                    
+                    if (activePriceTables.length === 1) {
+                        // Only one table available, auto-select it
+                        console.log('✅ Apenas 1 tabela disponível, auto-selecionando:', activePriceTables[0].name);
+                        if (priceTableSelect) {
+                            priceTableSelect.innerHTML = `<option value="${activePriceTables[0].name}" selected>${activePriceTables[0].name}</option>`;
+                            
+                            // Force immediate price calculation with the correct table
+                            setTimeout(() => {
+                                console.log('🔄 Forçando recálculo de preços para:', activePriceTables[0].name);
+                                updatePaymentSummary();
+                            }, 50);
+                        }
+                    } else if (activePriceTables.length > 1) {
+                        // Multiple tables available, show all options
+                        console.log('📋 Múltiplas tabelas disponíveis, mostrando opções para seleção');
+                        if (priceTableSelect) {
+                            priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
+                            
+                            activePriceTables.forEach(priceTable => {
+                                const option = document.createElement('option');
+                                option.value = priceTable.name;
+                                option.textContent = priceTable.name;
+                                priceTableSelect.appendChild(option);
+                            });
+                        }
+                    } else {
+                        // No active price tables
+                        console.log('⚠️ Nenhuma tabela de preço ativa encontrada');
+                        if (priceTableSelect) {
+                            priceTableSelect.innerHTML = '<option value="">Nenhuma tabela de preço disponível</option>';
+                        }
                     }
                 }
+            }
+            
+            // For PIX/Dinheiro, trigger payment summary update with "A Vista" pricing
+            if (isPIXOrDinheiro) {
+                setTimeout(() => {
+                    updatePaymentSummary();
+                }, 50);
             }
             
             validatePaymentForm();

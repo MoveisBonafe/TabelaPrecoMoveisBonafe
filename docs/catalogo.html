@@ -3761,30 +3761,47 @@ ${this.userType === 'restaurante' ? `
                             <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
                             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" inputmode="numeric" oninput="formatCNPJ(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
-                                </div>
-                                <div class="form-group" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-name" required placeholder="Nome Completo *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div class="error-message" id="name-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o nome completo</div>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" maxlength="15" inputmode="tel" oninput="formatPhone(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" maxlength="15" inputmode="tel" oninput="formatPhone(this); validateField('phone')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div class="error-message" id="phone-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Telefone deve ter 10 ou 11 dígitos</div>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" inputmode="numeric" oninput="formatCNPJ(this); validateField('cnpj')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div class="error-message" id="cnpj-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">CNPJ deve ter 14 dígitos</div>
+                                </div>
+                                <div class="form-group address-field" style="margin-bottom: 16px;">
+                                    <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" oninput="formatCEP(this); validateField('cep')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div class="error-message" id="cep-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">CEP deve ter 8 dígitos</div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-address" required placeholder="Endereço *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div class="error-message" id="address-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o endereço</div>
                                 </div>
                                 <div class="form-row address-field" style="display: flex; gap: 12px; margin-bottom: 16px;">
-                                    <input type="text" id="customer-neighborhood" required placeholder="Bairro *" style="flex: 2; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
-                                    <input type="text" id="customer-number" required placeholder="Número *" style="flex: 1; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div style="flex: 2;">
+                                        <input type="text" id="customer-neighborhood" required placeholder="Bairro *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <div class="error-message" id="neighborhood-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o bairro</div>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <input type="text" id="customer-number" required placeholder="Número *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <div class="error-message" id="number-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o número</div>
+                                    </div>
                                 </div>
                                 <div class="form-row address-field" style="display: flex; gap: 12px; margin-bottom: 16px;">
-                                    <input type="text" id="customer-city" required placeholder="Cidade *" style="flex: 2; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
-                                    <input type="text" id="customer-state" required placeholder="Estado *" style="flex: 1; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <div style="flex: 2;">
+                                        <input type="text" id="customer-city" required placeholder="Cidade *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <div class="error-message" id="city-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha a cidade</div>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <input type="text" id="customer-state" required placeholder="Estado *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <div class="error-message" id="state-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o estado</div>
+                                    </div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-complement" placeholder="Complemento (opcional)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
-                                </div>
-                                <div class="form-group address-field" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" oninput="formatCEP(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                             </div>
                         </div>
@@ -6562,21 +6579,66 @@ ${this.userType === 'restaurante' ? `
         
         // Validation helper functions
         function validateCNPJ(cnpj) {
+            if (!cnpj) return false;
             // Remove formatting and check if has 14 digits
             const numbers = cnpj.replace(/\D/g, '');
             return numbers.length === 14;
         }
         
         function validatePhone(phone) {
+            if (!phone) return false;
             // Remove formatting and check if has 10 or 11 digits
             const numbers = phone.replace(/\D/g, '');
             return numbers.length >= 10 && numbers.length <= 11;
         }
         
         function validateCEP(cep) {
+            if (!cep) return false;
             // Remove formatting and check if has 8 digits
             const numbers = cep.replace(/\D/g, '');
             return numbers.length === 8;
+        }
+        
+        // Real-time field validation with error messages
+        function validateField(fieldType) {
+            let isValid = false;
+            let errorElement, inputElement, value;
+            
+            switch(fieldType) {
+                case 'cnpj':
+                    inputElement = document.getElementById('customer-cnpj');
+                    errorElement = document.getElementById('cnpj-error');
+                    value = inputElement?.value?.trim() || '';
+                    isValid = validateCNPJ(value);
+                    break;
+                case 'phone':
+                    inputElement = document.getElementById('customer-phone');
+                    errorElement = document.getElementById('phone-error');
+                    value = inputElement?.value?.trim() || '';
+                    isValid = validatePhone(value);
+                    break;
+                case 'cep':
+                    inputElement = document.getElementById('customer-cep');
+                    errorElement = document.getElementById('cep-error');
+                    value = inputElement?.value?.trim() || '';
+                    isValid = validateCEP(value);
+                    break;
+            }
+            
+            if (errorElement) {
+                if (value && !isValid) {
+                    errorElement.style.display = 'block';
+                    inputElement.style.borderColor = '#ef4444';
+                } else {
+                    errorElement.style.display = 'none';
+                    inputElement.style.borderColor = '#d1d5db';
+                }
+            }
+            
+            // Trigger form validation after field validation
+            setTimeout(() => {
+                checkFormValidation();
+            }, 100);
         }
 
         function goToCartStep() {

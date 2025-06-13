@@ -6581,11 +6581,17 @@ ${this.userType === 'restaurante' ? `
         // Payment calculation functions
         function updatePaymentSummary() {
             const totalSectionDiv = document.getElementById('total-section');
-            const priceTable = document.getElementById('price-table').value;
+            let priceTable = document.getElementById('price-table').value;
             
             if (!totalSectionDiv) return;
             
-            console.log('🧮 Calculando preços para tabela selecionada:', priceTable);
+            // Force "À Vista" pricing for restaurant users regardless of selection
+            if (catalogClient.userType === 'restaurante') {
+                priceTable = 'À Vista';
+                console.log('👥 Usuário restaurante: forçando tabela "À Vista"');
+            }
+            
+            console.log('🧮 Calculando preços para tabela:', priceTable, 'Tipo usuário:', catalogClient.userType);
             
             // Calculate totals
             let subtotal = 0;
@@ -6593,44 +6599,37 @@ ${this.userType === 'restaurante' ? `
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
-                    // Find the selected price table configuration
-                    const selectedPriceTableConfig = catalogClient.priceSettings.find(ps => 
-                        ps.active && ps.name === priceTable
-                    );
+                    let unitPrice = 0;
                     
-                    if (selectedPriceTableConfig) {
-                        console.log('📊 Configuração da tabela encontrada:', selectedPriceTableConfig);
-                        
-                        // Calculate price using the selected table configuration
-                        const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                        const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
-                        const percentage = selectedPriceTableConfig.percentage || 0;
-                        const priceMultiplier = 1 + (percentage / 100);
-                        
-                        let unitPrice = basePrice * priceMultiplier * multiplier;
-                        
-                        // Apply restaurant rounding if applicable
-                        if (catalogClient.userType === 'restaurante' && 
-                            (selectedPriceTableConfig.name.toLowerCase().includes('vista') || 
-                             selectedPriceTableConfig.name.toLowerCase() === 'à vista')) {
-                            const decimalPart = unitPrice - Math.floor(unitPrice);
-                            if (decimalPart >= 0.50) {
-                                unitPrice = Math.ceil(unitPrice);
-                            } else {
-                                unitPrice = Math.floor(unitPrice);
-                            }
-                        }
-                        
-                        console.log(`💰 Produto ${product.name}: base ${basePrice} → final ${unitPrice} (tabela: ${priceTable})`);
-                        
-                        const itemTotal = unitPrice * item.quantity;
-                        subtotal += itemTotal;
+                    // Restaurant users always use "À Vista" pricing directly from product
+                    if (catalogClient.userType === 'restaurante') {
+                        unitPrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                        console.log(`💰 Restaurante - ${product.name}: R$ ${unitPrice.toFixed(2)} (À Vista)`);
                     } else {
-                        console.log('⚠️ Tabela de preço não encontrada, usando preço base');
-                        const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                        const itemTotal = basePrice * item.quantity;
-                        subtotal += itemTotal;
+                        // Shop users use price table configuration
+                        const selectedPriceTableConfig = catalogClient.priceSettings.find(ps => 
+                            ps.active && ps.name === priceTable
+                        );
+                        
+                        if (selectedPriceTableConfig) {
+                            console.log('📊 Configuração da tabela encontrada:', selectedPriceTableConfig);
+                            
+                            // Calculate price using the selected table configuration
+                            const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                            const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
+                            const percentage = selectedPriceTableConfig.percentage || 0;
+                            const priceMultiplier = 1 + (percentage / 100);
+                            
+                            unitPrice = basePrice * priceMultiplier * multiplier;
+                            console.log(`🏪 Loja - ${product.name}: R$ ${unitPrice.toFixed(2)} (${priceTable})`);
+                        } else {
+                            // Fallback to base price for shop users
+                            unitPrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                        }
                     }
+                    
+                    const itemTotal = unitPrice * item.quantity;
+                    subtotal += itemTotal;
                 }
             });
             
@@ -7574,6 +7573,28 @@ ${this.userType === 'restaurante' ? `
             const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
             
             console.log('💳 Método selecionado:', selectedMethod?.name, 'isPIXOrDinheiro:', isPIXOrDinheiro);
+            
+            // Immediate price table hiding for restaurant users or PIX/Dinheiro
+            if (catalogClient.userType === 'restaurante' || isPIXOrDinheiro) {
+                const priceTableSelect = document.getElementById('price-table');
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (priceTableSelect) {
+                    const priceTableValue = catalogClient.userType === 'restaurante' ? 'À Vista' : 'A Vista';
+                    priceTableSelect.value = priceTableValue;
+                    priceTableSelect.removeAttribute('required');
+                }
+                
+                const logMessage = catalogClient.userType === 'restaurante' 
+                    ? '👥 Usuário restaurante: tabela oculta automaticamente'
+                    : `💰 ${selectedMethod.name}: tabela oculta, usando "A Vista"`;
+                console.log(logMessage);
+                
+                // Force immediate price calculation
+                setTimeout(() => updatePaymentSummary(), 50);
+            } else {
+                // Show price table for shop users with other payment methods
+                if (priceTableSection) priceTableSection.style.display = 'block';
+            }
 
             // Find the rule for the selected payment method
             const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === selectedMethodId);

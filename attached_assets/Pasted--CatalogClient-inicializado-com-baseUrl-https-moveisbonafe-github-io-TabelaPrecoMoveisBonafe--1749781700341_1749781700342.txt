@@ -1,0 +1,122 @@
+ 🔧 CatalogClient inicializado com baseUrl: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📡 Carregando dados do GitHub Pages para usuários finais
+ 🛍️ MoveisBonafe Catálogo - GitHub Pages
+ ✅ Catálogo inicializado
+ 🚀 Iniciando catálogo para usuários
+ 📡 Carregando dados do GitHub Pages (docs/data/)
+ 🚀 INÍCIO loadAllData - Carregando todos os dados...
+ 🔍 BaseURL do cliente: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📥 Iniciando carregamento paralelo de dados...
+ 🔍 INÍCIO loadData: products.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando products.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/products.json
+ 🔍 INÍCIO loadData: categories.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando categories.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/categories.json
+ 🔍 INÍCIO loadData: price_settings.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando price_settings.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/price_settings.json
+ 🔍 INÍCIO loadData: promotions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando promotions.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/promotions.json
+ 🔍 INÍCIO loadData: colors.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando colors.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/colors.json
+ 🔍 INÍCIO loadData: notices.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando notices.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/notices.json
+ 🔍 INÍCIO loadData: payment_methods.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_methods.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_methods.json?t=1749781672714
+ 🔍 INÍCIO loadData: payment_conditions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_conditions.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_conditions.json?t=1749781672715
+ 🔍 INÍCIO loadData: payment_rules.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_rules.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_rules.json?t=1749781672715
+ 📡 Status: 200
+ ✅ GITHUB: products.json carregado - 25 itens
+ 📡 Status: 200
+ ✅ GITHUB: categories.json carregado - 5 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: price_settings.json carregado - 5 itens
+ ✅ GITHUB: promotions.json carregado - 1 itens
+ ✅ GITHUB: colors.json carregado - 5 itens
+ ✅ GITHUB: notices.json carregado - 1 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: payment_conditions.json carregado - 5 itens
+ ✅ GITHUB: payment_rules.json carregado - 3 itens
+ ✅ GITHUB: payment_methods.json carregado - 3 itens
+ 📊 RESULTADOS DO CARREGAMENTO:
+   Products: 25 itens
+   Categories: 5 itens
+   Price Settings: 5 itens
+   Promotions: 1 itens
+   Colors: 5 itens
+   Notices: 1 itens
+ 🔍 APÓS FILTROS:
+   Products ativos: 25
+   Categories ativas: 5
+   Price Settings ativos: 5
+   Promotions ativas: 0
+ 💳 Payment methods loaded: Array(3)
+catalogo.html?tipo=loja:1679 Product order applied successfully
+catalogo.html?tipo=loja:1622 🎯 Filtered products inicializado com: 25 produtos
+catalogo.html?tipo=loja:1624 ✅ DADOS FINAIS: 25 produtos, 5 categorias, 5 tabelas de preços, 0 promoções ativas, 5 cores, 1 avisos
+catalogo.html?tipo=loja:2603 ✅ Catálogo inicializado
+catalogo.html?tipo=loja:6356 Uncaught TypeError: Cannot read properties of undefined (reading 'replace')
+    at formatPhone (catalogo.html?tipo=loja:6356:37)
+    at HTMLInputElement.<anonymous> (catalogo.html?tipo=loja:3387:39)
+catalogo.html?tipo=loja:6483 👥 Usuário loja: mostrando seleção de tabela de preços
+catalogo.html?tipo=loja:6596 🧮 Calculando preços para tabela:  Tipo usuário: loja
+catalogo.html?tipo=loja:7866 Loading payment methods from goToPaymentStep...
+catalogo.html?tipo=loja:7867 Available payment methods: Array(3)
+catalogo.html?tipo=loja:7868 Available payment rules: Array(3)
+catalogo.html?tipo=loja:7473 🔄 Iniciando loadPaymentMethods...
+catalogo.html?tipo=loja:7476 Payment method select element: <select id=​"payment-method" required onchange=​"onPaymentMethodChange()​" style=​"width:​ 100%;​ padding:​ 10px 12px;​ font-size:​ 14px;​ border-radius:​ 20px;​ border:​ 1px solid #d1d5db;​ background:​ white;​">​…​</select>​
+catalogo.html?tipo=loja:7493 📋 Payment methods disponíveis: 3
+catalogo.html?tipo=loja:7494 📋 Payment rules disponíveis: 3
+catalogo.html?tipo=loja:7503 👤 User ID: 61 Role: loja
+catalogo.html?tipo=loja:7504 👤 User Type from catalog: loja
+catalogo.html?tipo=loja:7508 🔍 Verificando método Boleto (ID: 1749775438465)
+catalogo.html?tipo=loja:7518 📏 Regra encontrada para Boleto: Object
+catalogo.html?tipo=loja:7536 🔐 Acesso para Boleto: true (regra: ["loja"], userType: loja)
+catalogo.html?tipo=loja:7508 🔍 Verificando método PIX (ID: 1749777902365)
+catalogo.html?tipo=loja:7518 📏 Regra encontrada para PIX: Object
+catalogo.html?tipo=loja:7536 🔐 Acesso para PIX: true (regra: ["all","loja","restaurante"], userType: loja)
+catalogo.html?tipo=loja:7508 🔍 Verificando método Dinheiro (ID: 1749777939994)
+catalogo.html?tipo=loja:7518 📏 Regra encontrada para Dinheiro: Object
+catalogo.html?tipo=loja:7536 🔐 Acesso para Dinheiro: true (regra: ["all","loja","restaurante"], userType: loja)
+catalogo.html?tipo=loja:7540 ✅ Métodos de pagamento disponíveis para o usuário: 3
+catalogo.html?tipo=loja:7544 ➕ Adicionando método: Boleto
+catalogo.html?tipo=loja:7544 ➕ Adicionando método: PIX
+catalogo.html?tipo=loja:7544 ➕ Adicionando método: Dinheiro
+catalogo.html?tipo=loja:7552 💰 Mantendo tabela de preços visível junto com condições de pagamento
+catalogo.html?tipo=loja:7554 🎯 LoadPaymentMethods concluído!
+catalogo.html?tipo=loja:7580 💳 Método selecionado: Boleto isPIXOrDinheiro: false UserType: loja
+catalogo.html?tipo=loja:7615 🏪 Usuário loja: mostrando tabela de preços
+catalogo.html?tipo=loja:7620 🔍 Regra encontrada para método selecionado: Object
+catalogo.html?tipo=loja:7636 📋 Carregando condições: Array(5)
+catalogo.html?tipo=loja:7640 🔍 Condição 1749775469164: Object
+catalogo.html?tipo=loja:7640 🔍 Condição 1749775535583: Object
+catalogo.html?tipo=loja:7640 🔍 Condição 1749775567684: Object
+catalogo.html?tipo=loja:7640 🔍 Condição 1749775585776: Object
+catalogo.html?tipo=loja:7640 🔍 Condição 1749775602341: Object
+catalogo.html?tipo=loja:7691 ✅ Condições de pagamento carregadas
+catalogo.html?tipo=loja:7580 💳 Método selecionado: PIX isPIXOrDinheiro: true UserType: loja
+catalogo.html?tipo=loja:7603 💰 PIX: tabela oculta, forçando "A Vista"
+catalogo.html?tipo=loja:6596 🧮 Calculando preços para tabela:  Tipo usuário: loja

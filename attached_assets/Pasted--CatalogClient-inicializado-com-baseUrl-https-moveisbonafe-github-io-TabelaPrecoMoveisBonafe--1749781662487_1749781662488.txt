@@ -1,0 +1,155 @@
+ 🔧 CatalogClient inicializado com baseUrl: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📡 Carregando dados do GitHub Pages para usuários finais
+ 🛍️ MoveisBonafe Catálogo - GitHub Pages
+ ✅ Catálogo inicializado
+ 🚀 Iniciando catálogo para usuários
+ 📡 Carregando dados do GitHub Pages (docs/data/)
+ 🚀 INÍCIO loadAllData - Carregando todos os dados...
+ 🔍 BaseURL do cliente: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📥 Iniciando carregamento paralelo de dados...
+ 🔍 INÍCIO loadData: products.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando products.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/products.json
+ 🔍 INÍCIO loadData: categories.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando categories.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/categories.json
+ 🔍 INÍCIO loadData: price_settings.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando price_settings.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/price_settings.json
+ 🔍 INÍCIO loadData: promotions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando promotions.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/promotions.json
+ 🔍 INÍCIO loadData: colors.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando colors.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/colors.json
+ 🔍 INÍCIO loadData: notices.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando notices.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/notices.json
+ 🔍 INÍCIO loadData: payment_methods.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_methods.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_methods.json?t=1749781639715
+ 🔍 INÍCIO loadData: payment_conditions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_conditions.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_conditions.json?t=1749781639716
+ 🔍 INÍCIO loadData: payment_rules.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_rules.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_rules.json?t=1749781639716
+ 📡 Status: 200
+ ✅ GITHUB: products.json carregado - 25 itens
+ 📡 Status: 200
+ ✅ GITHUB: categories.json carregado - 5 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: price_settings.json carregado - 5 itens
+ ✅ GITHUB: promotions.json carregado - 1 itens
+ ✅ GITHUB: colors.json carregado - 5 itens
+ ✅ GITHUB: notices.json carregado - 1 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: payment_conditions.json carregado - 5 itens
+ 📡 Status: 200
+ ✅ GITHUB: payment_rules.json carregado - 3 itens
+ ✅ GITHUB: payment_methods.json carregado - 3 itens
+ 📊 RESULTADOS DO CARREGAMENTO:
+   Products: 25 itens
+   Categories: 5 itens
+   Price Settings: 5 itens
+   Promotions: 1 itens
+   Colors: 5 itens
+   Notices: 1 itens
+ 🔍 APÓS FILTROS:
+   Products ativos: 25
+   Categories ativas: 5
+   Price Settings ativos: 5
+   Promotions ativas: 0
+ 💳 Payment methods loaded: Array(3)
+ Product order applied successfully
+ 🎯 Filtered products inicializado com: 25 produtos
+ ✅ DADOS FINAIS: 25 produtos, 5 categorias, 5 tabelas de preços, 0 promoções ativas, 5 cores, 1 avisos
+ Restaurant À Vista: base 44 → table config 47 (rounded)
+ Restaurant À Vista: base 56 → table config 59 (rounded)
+ Restaurant À Vista: base 99 → table config 105 (rounded)
+ Restaurant À Vista: base 119 → table config 126 (rounded)
+ Restaurant À Vista: base 77 → table config 82 (rounded)
+ Restaurant À Vista: base 44 → table config 47 (rounded)
+ Restaurant À Vista: base 115 → table config 122 (rounded)
+ Restaurant À Vista: base 468 → table config 496 (rounded)
+ Restaurant À Vista: base 372 → table config 394 (rounded)
+ Restaurant À Vista: base 430 → table config 456 (rounded)
+ Restaurant À Vista: base 508 → table config 538 (rounded)
+ Restaurant À Vista: base 535 → table config 567 (rounded)
+ Restaurant À Vista: base 136 → table config 144 (rounded)
+ Restaurant À Vista: base 182 → table config 193 (rounded)
+ Restaurant À Vista: base 310 → table config 329 (rounded)
+ Restaurant À Vista: base 258 → table config 273 (rounded)
+ Restaurant À Vista: base 136 → table config 144 (rounded)
+ Restaurant À Vista: base 182 → table config 193 (rounded)
+ Restaurant À Vista: base 212 → table config 225 (rounded)
+ Restaurant À Vista: base 169 → table config 179 (rounded)
+ Restaurant À Vista: base 252 → table config 267 (rounded)
+ Restaurant À Vista: base 284 → table config 301 (rounded)
+ Restaurant À Vista: base 359 → table config 381 (rounded)
+ ✅ Catálogo inicializado
+catalogo.html:6356 Uncaught 
+ 👥 Usuário restaurante: tabela "À Vista" auto-selecionada, seção oculta
+ 👥 Usuário restaurante: forçando tabela "À Vista"
+ 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+ 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista)
+ Loading payment methods from goToPaymentStep...
+ Available payment methods: Array(3)
+ Available payment rules: Array(3)
+catalogo.html?tipo=restaurante:7473 🔄 Iniciando loadPaymentMethods...
+catalogo.html?tipo=restaurante:7476 Payment method select element: <select id=​"payment-method" required onchange=​"onPaymentMethodChange()​" style=​"width:​ 100%;​ padding:​ 10px 12px;​ font-size:​ 14px;​ border-radius:​ 20px;​ border:​ 1px solid #d1d5db;​ background:​ white;​">​…​</select>​
+catalogo.html?tipo=restaurante:7493 📋 Payment methods disponíveis: 3
+catalogo.html?tipo=restaurante:7494 📋 Payment rules disponíveis: 3
+catalogo.html?tipo=restaurante:7503 👤 User ID: 64 Role: restaurante
+catalogo.html?tipo=restaurante:7504 👤 User Type from catalog: restaurante
+catalogo.html?tipo=restaurante:7508 🔍 Verificando método Boleto (ID: 1749775438465)
+catalogo.html?tipo=restaurante:7518 📏 Regra encontrada para Boleto: Object
+catalogo.html?tipo=restaurante:7536 🔐 Acesso para Boleto: false (regra: ["loja"], userType: restaurante)
+catalogo.html?tipo=restaurante:7508 🔍 Verificando método PIX (ID: 1749777902365)
+catalogo.html?tipo=restaurante:7518 📏 Regra encontrada para PIX: Object
+catalogo.html?tipo=restaurante:7536 🔐 Acesso para PIX: true (regra: ["all","loja","restaurante"], userType: restaurante)
+catalogo.html?tipo=restaurante:7508 🔍 Verificando método Dinheiro (ID: 1749777939994)
+catalogo.html?tipo=restaurante:7518 📏 Regra encontrada para Dinheiro: Object
+catalogo.html?tipo=restaurante:7536 🔐 Acesso para Dinheiro: true (regra: ["all","loja","restaurante"], userType: restaurante)
+catalogo.html?tipo=restaurante:7540 ✅ Métodos de pagamento disponíveis para o usuário: 2
+catalogo.html?tipo=restaurante:7544 ➕ Adicionando método: PIX
+catalogo.html?tipo=restaurante:7544 ➕ Adicionando método: Dinheiro
+catalogo.html?tipo=restaurante:7552 💰 Mantendo tabela de preços visível junto com condições de pagamento
+catalogo.html?tipo=restaurante:7554 🎯 LoadPaymentMethods concluído!
+catalogo.html?tipo=restaurante:7580 💳 Método selecionado: PIX isPIXOrDinheiro: true UserType: restaurante
+catalogo.html?tipo=restaurante:7592 👥 Usuário restaurante: tabela oculta, forçando "À Vista"
+catalogo.html?tipo=restaurante:7620 🔍 Regra encontrada para método selecionado: Object
+catalogo.html?tipo=restaurante:7623 ⚠️ Nenhuma condição encontrada para este método
+catalogo.html?tipo=restaurante:6593 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6596 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6609 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista)
+catalogo.html?tipo=restaurante:7580 💳 Método selecionado: Dinheiro isPIXOrDinheiro: true UserType: restaurante
+catalogo.html?tipo=restaurante:7592 👥 Usuário restaurante: tabela oculta, forçando "À Vista"
+catalogo.html?tipo=restaurante:7620 🔍 Regra encontrada para método selecionado: Object
+catalogo.html?tipo=restaurante:7623 ⚠️ Nenhuma condição encontrada para este método
+catalogo.html?tipo=restaurante:6593 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6596 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6609 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista)
+catalogo.html?tipo=restaurante:7580 💳 Método selecionado: PIX isPIXOrDinheiro: true UserType: restaurante
+catalogo.html?tipo=restaurante:7592 👥 Usuário restaurante: tabela oculta, forçando "À Vista"
+catalogo.html?tipo=restaurante:7620 🔍 Regra encontrada para método selecionado: Object
+catalogo.html?tipo=restaurante:7623 ⚠️ Nenhuma condição encontrada para este método
+catalogo.html?tipo=restaurante:6593 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6596 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6609 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista)
+catalogo.html?tipo=restaurante:6593 👥 Usuário restaurante: forçando tabela "À Vista"
+catalogo.html?tipo=restaurante:6596 🧮 Calculando preços para tabela: À Vista Tipo usuário: restaurante
+catalogo.html?tipo=restaurante:6609 💰 Restaurante - Cadeira Alta: R$ 99.00 (À Vista)

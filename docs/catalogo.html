@@ -7548,8 +7548,21 @@ ${this.userType === 'restaurante' ? `
                 paymentMethodSelect.appendChild(option);
             });
 
-            // Keep price table section visible - don't hide it
-            console.log('💰 Mantendo tabela de preços visível junto com condições de pagamento');
+            // Handle price table visibility based on user type
+            const priceTableSection = document.getElementById('price-table-section');
+            const priceTableSelect = document.getElementById('price-table');
+            
+            if (catalogClient.userType === 'restaurante') {
+                // Restaurant users: ALWAYS hide price table and force "À Vista"
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'À Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log('👥 Usuário restaurante: tabela de preços OCULTA, forçando "À Vista"');
+            } else {
+                console.log('💰 Usuário loja: mantendo tabela de preços visível');
+            }
 
             console.log('🎯 LoadPaymentMethods concluído!');
         }

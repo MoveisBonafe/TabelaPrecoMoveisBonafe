@@ -20,5 +20,16 @@
     "active": true,
     "id": 1749775535583,
     "createdAt": "2025-06-13T00:45:35.583Z"
+  },
+  {
+    "name": "30/60 Dias",
+    "description": "",
+    "priceTableId": "30/60",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749775567684,
+    "createdAt": "2025-06-13T00:46:07.684Z"
   }
 ]

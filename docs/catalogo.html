@@ -7621,15 +7621,18 @@ ${this.userType === 'restaurante' ? `
                 console.log('👥 Usuário restaurante: tabela oculta, forçando "À Vista"');
                 setTimeout(() => updatePaymentSummary(), 50);
             } else if (isPIXOrDinheiro) {
-                // Shop users with PIX/Dinheiro: hide price table, force "A Vista"
+                // Shop users with PIX/Dinheiro: hide BOTH price table AND payment conditions
                 if (priceTableSection) {
                     priceTableSection.style.display = 'none';
+                }
+                if (paymentConditionsSection) {
+                    paymentConditionsSection.style.display = 'none';
                 }
                 if (priceTableSelect) {
                     priceTableSelect.value = 'A Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log(`💰 ${selectedMethod.name}: tabela oculta, forçando "A Vista"`);
+                console.log(`💰 ${selectedMethod.name}: tabela e condições ocultas, forçando "A Vista"`);
                 setTimeout(() => updatePaymentSummary(), 50);
                 validatePaymentForm();
                 return; // Exit early for PIX/Dinheiro

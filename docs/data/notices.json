@@ -5,11 +5,11 @@
     "message": "Ao finalizar enviar para o whatsapp e aguarde o retorno.",
     "type": "warning",
     "active": true,
-    "startDate": "2025-06-10",
-    "endDate": "2025-06-13",
+    "startDate": null,
+    "endDate": null,
     "showShop": true,
     "showRestaurant": true,
     "createdAt": "2025-06-11T23:15:35.344Z",
-    "updatedAt": "2025-06-12T04:14:31.247Z"
+    "updatedAt": "2025-06-13T03:38:16.751Z"
   }
 ]

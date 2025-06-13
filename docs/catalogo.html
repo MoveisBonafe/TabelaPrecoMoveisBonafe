@@ -7455,6 +7455,11 @@ ${this.userType === 'restaurante' ? `
         checkForDataUpdates();
         setInterval(checkForDataUpdates, 10000);
         
+        // Clear cached payment data to prevent duplicates
+        localStorage.removeItem('payment_methods.json');
+        localStorage.removeItem('payment_conditions.json');
+        localStorage.removeItem('payment_rules.json');
+        
         // Initialize cart count on page load
         updateCartCount();
         

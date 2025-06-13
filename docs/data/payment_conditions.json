@@ -86,5 +86,16 @@
     "active": true,
     "id": 1749784599085,
     "createdAt": "2025-06-13T03:16:39.085Z"
+  },
+  {
+    "name": "Outra",
+    "description": "",
+    "priceTableId": "",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749823274040,
+    "createdAt": "2025-06-13T14:01:14.040Z"
   }
 ]

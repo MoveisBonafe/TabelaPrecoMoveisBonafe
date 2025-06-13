@@ -1,38 +1,11 @@
 [
   {
-    "name": "Pix",
+    "name": "PIX",
     "description": "",
-    "icon": "",
+    "icon": "Ã°ÂÂÂ±",
     "active": true,
     "fee": 0,
-    "id": 1749744873713,
-    "createdAt": "2025-06-12T16:14:33.713Z"
-  },
-  {
-    "name": "Cartão de Crédito",
-    "description": "",
-    "icon": "💳",
-    "active": true,
-    "fee": 0,
-    "id": 1749744960496,
-    "createdAt": "2025-06-12T16:16:00.496Z"
-  },
-  {
-    "name": "Dinheiro",
-    "description": "",
-    "icon": "💰",
-    "active": true,
-    "fee": 0,
-    "id": 1749751695822,
-    "createdAt": "2025-06-12T18:08:15.822Z"
-  },
-  {
-    "name": "Boleto",
-    "description": "",
-    "icon": "📄",
-    "active": true,
-    "fee": 0,
-    "id": 1749752931350,
-    "createdAt": "2025-06-12T18:28:51.350Z"
+    "id": 1749738798559,
+    "createdAt": "2025-06-12T14:33:18.559Z"
   }
 ]

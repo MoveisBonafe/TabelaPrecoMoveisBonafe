@@ -6603,10 +6603,26 @@ ${this.userType === 'restaurante' ? `
                 if (product) {
                     let unitPrice = 0;
                     
-                    // Restaurant users always use "À Vista" pricing directly from product
+                    // Restaurant users always use restaurant-specific "À Vista" pricing
                     if (catalogClient.userType === 'restaurante') {
-                        unitPrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                        console.log(`💰 Restaurante - ${product.name}: R$ ${unitPrice.toFixed(2)} (À Vista)`);
+                        // Find restaurant price table configuration
+                        const restaurantTableConfig = catalogClient.priceSettings.find(ps => 
+                            ps.active && ps.name === 'À Vista'
+                        );
+                        
+                        if (restaurantTableConfig) {
+                            const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                            const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
+                            const percentage = restaurantTableConfig.percentage || 0;
+                            const priceMultiplier = 1 + (percentage / 100);
+                            
+                            unitPrice = basePrice * priceMultiplier * multiplier;
+                            console.log(`💰 Restaurante - ${product.name}: R$ ${unitPrice.toFixed(2)} (À Vista com configuração ${percentage}%)`);
+                        } else {
+                            // Fallback to base price for restaurant users
+                            unitPrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                            console.log(`💰 Restaurante - ${product.name}: R$ ${unitPrice.toFixed(2)} (À Vista sem configuração)`);
+                        }
                     } else {
                         // Shop users use price table configuration
                         const selectedPriceTableConfig = catalogClient.priceSettings.find(ps => 

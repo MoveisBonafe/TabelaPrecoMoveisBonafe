@@ -7634,8 +7634,17 @@ ${this.userType === 'restaurante' ? `
             
             if (!rule || !rule.conditionIds || rule.conditionIds.length === 0) {
                 console.log('⚠️ Nenhuma condição encontrada para este método');
+                // RULE: Payment method without conditions = Hide price table + Hide payment conditions + Use "À Vista"
                 paymentConditionsSection.style.display = 'none';
-                if (priceTableSection) priceTableSection.style.display = 'block';
+                if (priceTableSection) {
+                    priceTableSection.style.display = 'none';
+                }
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'À Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log('📋 Método sem condições: ocultando tabela e condições, forçando "À Vista"');
+                setTimeout(() => updatePaymentSummary(), 50);
                 validatePaymentForm();
                 return;
             }
@@ -7737,8 +7746,10 @@ ${this.userType === 'restaurante' ? `
             const selectedConditionId = parseInt(paymentConditionSelect.value);
             
             if (!selectedConditionId) {
-                // Hide price table section if no condition selected
-                if (priceTableSection) priceTableSection.style.display = 'none';
+                // RULE: Payment condition without price table selected = Show all price tables
+                if (priceTableSection) priceTableSection.style.display = 'block';
+                if (priceTableSelect) priceTableSelect.setAttribute('required', 'required');
+                console.log('📋 Nenhuma condição selecionada: mostrando todas as tabelas de preços');
                 validatePaymentForm();
                 return;
             }

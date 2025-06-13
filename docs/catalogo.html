@@ -3761,49 +3761,49 @@ ${this.userType === 'restaurante' ? `
                             <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
                             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-name" required placeholder="Nome Completo *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-name" required placeholder="Nome Completo *" autocomplete="name" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                     <div class="error-message" id="name-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o nome completo</div>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" maxlength="15" inputmode="tel" oninput="formatPhone(this); validateField('phone')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" maxlength="15" inputmode="tel" autocomplete="tel" oninput="formatPhone(this); validateField('phone')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                     <div class="error-message" id="phone-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Telefone deve ter 10 ou 11 dígitos</div>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" inputmode="numeric" oninput="formatCNPJ(this); validateField('cnpj')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" inputmode="numeric" autocomplete="organization" oninput="formatCNPJ(this); validateField('cnpj')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                     <div class="error-message" id="cnpj-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">CNPJ deve ter 14 dígitos</div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
                                     <div style="position: relative;">
-                                        <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" oninput="formatCEP(this); validateField('cep')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" autocomplete="postal-code" oninput="formatCEP(this); validateField('cep')" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                         <div id="cep-loading" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); display: none; color: #6b7280; font-size: 14px;">Buscando...</div>
                                     </div>
                                     <div class="error-message" id="cep-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">CEP deve ter 8 dígitos</div>
                                     <div class="success-message" id="cep-success" style="color: #10b981; font-size: 14px; margin-top: 4px; display: none;">Endereço preenchido automaticamente</div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-address" required placeholder="Endereço *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-address" required placeholder="Endereço *" autocomplete="street-address" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                     <div class="error-message" id="address-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o endereço</div>
                                 </div>
                                 <div class="form-row address-field" style="display: flex; gap: 12px; margin-bottom: 16px;">
                                     <div style="flex: 2;">
-                                        <input type="text" id="customer-neighborhood" required placeholder="Bairro *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <input type="text" id="customer-neighborhood" required placeholder="Bairro *" autocomplete="address-level2" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                         <div class="error-message" id="neighborhood-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o bairro</div>
                                     </div>
                                     <div style="flex: 1;">
-                                        <input type="text" id="customer-number" required placeholder="Número *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <input type="text" id="customer-number" required placeholder="Número *" autocomplete="address-line2" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                         <div class="error-message" id="number-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o número</div>
                                     </div>
                                 </div>
                                 <div class="form-row address-field" style="display: flex; gap: 12px; margin-bottom: 16px;">
                                     <div style="flex: 2;">
-                                        <input type="text" id="customer-city" required placeholder="Cidade *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                        <input type="text" id="customer-city" required placeholder="Cidade *" autocomplete="address-level1" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                         <div class="error-message" id="city-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha a cidade</div>
                                     </div>
                                     <div style="flex: 1;">
-                                        <select id="customer-state" required style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box; appearance: none; background-repeat: no-repeat; background-position: right 12px center; background-size: 12px;">
+                                        <select id="customer-state" required autocomplete="country" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box; appearance: none; background-repeat: no-repeat; background-position: right 12px center; background-size: 12px;">
                                             <option value="">Estado *</option>
-                                            <option value="SP">SP - São Paulo</option>
-                                            <option value="MG">MG - Minas Gerais</option>
+                                            <option value="SP">SP</option>
+                                            <option value="MG">MG</option>
                                         </select>
                                         <div class="error-message" id="state-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, selecione o estado</div>
                                     </div>

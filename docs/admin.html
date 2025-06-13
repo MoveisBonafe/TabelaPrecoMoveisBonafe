@@ -4482,9 +4482,13 @@
                         if (providedIcon === '💱') return '&#128177;'; // Currency exchange
                         if (providedIcon === '💸') return '&#128184;'; // Money with wings
                         
-                        // Handle any corrupted or unrecognized icon sequences
-                        if (providedIcon.length > 4) {
-                            // If icon appears corrupted (too long), use default money icon
+                        // Handle corrupted UTF-8 sequences by detecting specific patterns
+                        if (providedIcon.indexOf('ð') !== -1) {
+                            // Detect specific corrupted sequences
+                            if (providedIcon.indexOf('ðŸ"„') !== -1) return '&#128196;'; // 📄 Boleto
+                            if (providedIcon.indexOf('ðŸ'±') !== -1) return '&#128241;'; // 📱 PIX
+                            if (providedIcon.indexOf('ðŸ'°') !== -1) return '&#128176;'; // 💰 Dinheiro
+                            // Default for any other corrupted sequence
                             return '&#128176;'; // 💰
                         }
                         

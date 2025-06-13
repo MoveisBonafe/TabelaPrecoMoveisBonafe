@@ -53,5 +53,16 @@
     "active": true,
     "id": 1749775602341,
     "createdAt": "2025-06-13T00:46:42.341Z"
+  },
+  {
+    "name": "Preço a vista",
+    "description": "",
+    "priceTableId": "",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749784526948,
+    "createdAt": "2025-06-13T03:15:26.948Z"
   }
 ]

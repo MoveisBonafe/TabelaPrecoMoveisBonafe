@@ -1,54 +1,11 @@
 [
   {
-    "id": 1749744894321,
-    "paymentMethodId": 1749744960496,
-    "conditionIds": [
-      1749745061250,
-      1749745071113,
-      1749745082474
-    ],
-    "userAccess": [
-      "all",
-      "loja",
-      "restaurante"
-    ],
-    "createdAt": "2025-06-12T16:14:54.321Z"
-  },
-  {
-    "id": 1749745430201,
-    "paymentMethodId": 1749744873713,
+    "id": 1749738804973,
+    "paymentMethodId": 1749738798559,
     "conditionIds": [],
-    "userAccess": [
-      "all",
-      "loja",
-      "restaurante"
-    ],
-    "createdAt": "2025-06-12T16:23:50.201Z"
-  },
-  {
-    "id": 1749751753335,
-    "paymentMethodId": 1749751695822,
-    "conditionIds": [],
-    "userAccess": [
-      "all",
-      "loja",
-      "restaurante"
-    ],
-    "createdAt": "2025-06-12T18:09:13.335Z"
-  },
-  {
-    "id": 1749753414150,
-    "paymentMethodId": 1749752931350,
-    "conditionIds": [
-      1749745061250,
-      1749753273904,
-      1749753305518,
-      1749753361534,
-      1749753378790
-    ],
     "userAccess": [
       "loja"
     ],
-    "createdAt": "2025-06-12T18:36:54.150Z"
+    "createdAt": "2025-06-12T14:33:24.973Z"
   }
 ]

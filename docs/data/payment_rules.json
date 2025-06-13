@@ -46,5 +46,14 @@
       "restaurante"
     ],
     "createdAt": "2025-06-13T03:17:17.775Z"
+  },
+  {
+    "id": 1749787560505,
+    "paymentMethodId": 1749787535966,
+    "conditionIds": [],
+    "userAccess": [
+      "loja"
+    ],
+    "createdAt": "2025-06-13T04:06:00.505Z"
   }
 ]

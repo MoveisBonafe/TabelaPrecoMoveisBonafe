@@ -7058,11 +7058,14 @@ ${this.userType === 'restaurante' ? `
             }
             
             message += `💳 *Forma de Pagamento:* ${paymentMethodName}\n`;
-            if (priceTable) {
+            if (!isCustomCondition && priceTable) {
                 message += `📊 *Tabela de Preços:* ${priceTable}\n`;
             }
-            if (paymentConditionText) {
+            if (!isCustomCondition && paymentConditionText) {
                 message += `💰 *Condição de Pagamento:* ${paymentConditionText}\n`;
+            }
+            if (isCustomCondition) {
+                message += `💼 *Condição:* Personalizada\n`;
             }
             message += `\n`;
             
@@ -7073,37 +7076,48 @@ ${this.userType === 'restaurante' ? `
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
-                    // Calculate prices using the same system as product cards
-                    const prices = catalogClient.calculatePrices(product);
-                    
-                    // Get price based on selected table
-                    let unitPrice = prices.vista || 0; // Default to À Vista
-                    switch(priceTable) {
-                        case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
-                        case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
-                        case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
-                        case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
-                        default: unitPrice = prices.vista || 0; break;
-                    }
-                    
-                    const itemTotal = unitPrice * item.quantity;
-                    subtotal += itemTotal;
-                    
                     message += `• ${item.name}\n`;
                     message += `  Cor: ${item.color}\n`;
                     message += `  Qtd: ${item.quantity}\n`;
-                    message += `  Valor unitário: R$ ${unitPrice.toFixed(2).replace('.', ',')}\n\n`;
+                    
+                    if (!isCustomCondition) {
+                        // Calculate prices using the same system as product cards
+                        const prices = catalogClient.calculatePrices(product);
+                        
+                        // Get price based on selected table
+                        let unitPrice = prices.vista || 0; // Default to À Vista
+                        switch(priceTable) {
+                            case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
+                            case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
+                            case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
+                            case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
+                            default: unitPrice = prices.vista || 0; break;
+                        }
+                        
+                        const itemTotal = unitPrice * item.quantity;
+                        subtotal += itemTotal;
+                        
+                        message += `  Valor unitário: R$ ${unitPrice.toFixed(2).replace('.', ',')}\n`;
+                    }
+                    message += `\n`;
                 }
             });
             
-            // Total calculation (prices already include table adjustments)
-            let total = subtotal;
-            
-            message += `💰 *Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
-            
-            // Apply promotion discount ONLY if active and valid
-            let promotionDiscount = 0;
-            if (catalogClient.promotions && catalogClient.promotions.length > 0) {
+            // Total calculation and message footer
+            if (isCustomCondition) {
+                // For custom conditions, skip pricing calculations and add custom footer
+                message += `\n💼 *Condição Personalizada*\n`;
+                message += `Valores e condições serão negociados diretamente com nossa equipe.\n\n`;
+                message += `📞 Aguarde nosso contato para definir as melhores condições para seu negócio!`;
+            } else {
+                // Normal pricing calculation for regular orders
+                let total = subtotal;
+                
+                message += `💰 *Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+                
+                // Apply promotion discount ONLY if active and valid
+                let promotionDiscount = 0;
+                if (catalogClient.promotions && catalogClient.promotions.length > 0) {
                 const activePromotion = catalogClient.promotions.find(p => {
                     // First check if promotion is marked as active
                     if (!p.active) return false;
@@ -7138,27 +7152,28 @@ ${this.userType === 'restaurante' ? `
                     total -= promotionDiscount;
                     message += `🎉 *Desconto Promoção (${discountPercent}%):* -R$ ${promotionDiscount.toFixed(2).replace('.', ',')}\n`;
                 }
+                }
+                
+                // Apply pickup discount
+                let pickupDiscount = 0;
+                if (isPickup) {
+                    pickupDiscount = (subtotal - promotionDiscount) * 0.05;
+                    total -= pickupDiscount;
+                    message += `🎯 *Desconto Retirada (5%):* -R$ ${pickupDiscount.toFixed(2).replace('.', ',')}\n`;
+                }
+                
+                // Apply payment condition interest
+                let interestAmount = 0;
+                if (selectedPaymentCondition && selectedPaymentCondition.interest > 0) {
+                    interestAmount = total * (selectedPaymentCondition.interest / 100);
+                    total += interestAmount;
+                    message += `📈 *Juros (${selectedPaymentCondition.interest}%):* +R$ ${interestAmount.toFixed(2).replace('.', ',')}\n`;
+                }
+                
+                message += `\n💸 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;
+                message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_\n\n`;
+                message += `📞 *Aguardo confirmação do pedido!*`;
             }
-            
-            // Apply pickup discount
-            let pickupDiscount = 0;
-            if (isPickup) {
-                pickupDiscount = (subtotal - promotionDiscount) * 0.05;
-                total -= pickupDiscount;
-                message += `🎯 *Desconto Retirada (5%):* -R$ ${pickupDiscount.toFixed(2).replace('.', ',')}\n`;
-            }
-            
-            // Apply payment condition interest
-            let interestAmount = 0;
-            if (selectedPaymentCondition && selectedPaymentCondition.interest > 0) {
-                interestAmount = total * (selectedPaymentCondition.interest / 100);
-                total += interestAmount;
-                message += `📈 *Juros (${selectedPaymentCondition.interest}%):* +R$ ${interestAmount.toFixed(2).replace('.', ',')}\n`;
-            }
-            
-            message += `\n💸 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;
-            message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_\n\n`;
-            message += `📞 *Aguardo confirmação do pedido!*`;
             
             // Save order to history before opening WhatsApp
             const orderData = {
@@ -7169,14 +7184,19 @@ ${this.userType === 'restaurante' ? `
                 customerPhone: customerPhone,
                 items: shoppingCart.map(item => {
                     const product = catalogClient.products.find(p => p.id === item.productId);
-                    const prices = catalogClient.calculatePrices(product);
-                    let unitPrice = prices.vista || 0;
-                    switch(priceTable) {
-                        case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
-                        case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
-                        case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
-                        case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
+                    let unitPrice = 0;
+                    
+                    if (!isCustomCondition) {
+                        const prices = catalogClient.calculatePrices(product);
+                        unitPrice = prices.vista || 0;
+                        switch(priceTable) {
+                            case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
+                            case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
+                            case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
+                            case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
+                        }
                     }
+                    
                     return {
                         name: item.name,
                         color: item.color,
@@ -7184,15 +7204,16 @@ ${this.userType === 'restaurante' ? `
                         unitPrice: unitPrice
                     };
                 }),
-                subtotal: subtotal,
-                promotionDiscount: promotionDiscount,
-                pickupDiscount: isPickup ? (subtotal - promotionDiscount) * 0.05 : 0,
-                interestAmount: interestAmount,
-                interestPercent: selectedPaymentCondition ? selectedPaymentCondition.interest : 0,
-                total: total,
-                priceTable: priceTable,
+                subtotal: isCustomCondition ? 0 : subtotal,
+                promotionDiscount: isCustomCondition ? 0 : promotionDiscount,
+                pickupDiscount: isCustomCondition ? 0 : (isPickup ? (subtotal - promotionDiscount) * 0.05 : 0),
+                interestAmount: isCustomCondition ? 0 : interestAmount,
+                interestPercent: isCustomCondition ? 0 : (selectedPaymentCondition ? selectedPaymentCondition.interest : 0),
+                total: isCustomCondition ? 0 : total,
+                priceTable: isCustomCondition ? 'Personalizada' : priceTable,
                 paymentMethod: paymentMethodName,
-                paymentCondition: paymentConditionText,
+                paymentCondition: isCustomCondition ? 'Personalizada' : paymentConditionText,
+                isCustomCondition: isCustomCondition,
                 deliveryType: isPickup ? 'Retirada no Local' : 'Entrega',
                 address: !isPickup ? {
                     street: customerAddress,
@@ -8296,13 +8317,22 @@ ${this.userType === 'restaurante' ? `
                 }
                 // Shop user validation for other payment methods
                 else {
-                    // Check conditions if visible
-                    if (paymentConditionsSection.style.display !== 'none' && !paymentCondition) {
-                        isValid = false;
-                    }
-                    // Check price table if visible
-                    if (priceTableSection.style.display !== 'none' && !priceTable) {
-                        isValid = false;
+                    // Check if custom condition is selected
+                    const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
+                    const isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
+                    
+                    if (isCustomCondition) {
+                        // Custom condition only needs payment method
+                        isValid = true;
+                    } else {
+                        // Check conditions if visible
+                        if (paymentConditionsSection.style.display !== 'none' && !paymentCondition) {
+                            isValid = false;
+                        }
+                        // Check price table if visible
+                        if (priceTableSection.style.display !== 'none' && !priceTable) {
+                            isValid = false;
+                        }
                     }
                 }
             }

@@ -2348,13 +2348,9 @@ ${this.userType === 'restaurante' ? `
                     
                     // Apply restaurant rounding only to "À Vista" prices
                     if (this.userType === 'restaurante' && (tableName.includes('vista') || tableName === 'à vista')) {
-                        // Custom rounding: >=0.50 round up, <0.50 round down
-                        const decimalPart = finalPrice - Math.floor(finalPrice);
-                        if (decimalPart >= 0.50) {
-                            finalPrice = Math.ceil(finalPrice);
-                        } else {
-                            finalPrice = Math.floor(finalPrice);
-                        }
+                        // Apply rounding rule: if decimal >= 0.5, round up to next integer
+                        const roundedPrice = Math.floor(finalPrice) + (finalPrice % 1 >= 0.5 ? 1 : 0);
+                        finalPrice = roundedPrice;
                         
                         console.log(`Restaurant À Vista: base ${basePrice} → table config ${finalPrice} (rounded)`);
                     }
@@ -2381,13 +2377,9 @@ ${this.userType === 'restaurante' ? `
                     
                     // Apply restaurant rounding to base À Vista price
                     if (this.userType === 'restaurante') {
-                        // Custom rounding: >=0.50 round up, <0.50 round down
-                        const decimalPart = vistaPrice - Math.floor(vistaPrice);
-                        if (decimalPart >= 0.50) {
-                            vistaPrice = Math.ceil(vistaPrice);
-                        } else {
-                            vistaPrice = Math.floor(vistaPrice);
-                        }
+                        // Apply rounding rule: if decimal >= 0.5, round up to next integer
+                        const roundedPrice = Math.floor(vistaPrice) + (vistaPrice % 1 >= 0.5 ? 1 : 0);
+                        vistaPrice = roundedPrice;
                         
                         console.log(`Restaurant fallback price: ${vistaPrice} (rounded)`);
                     }
@@ -6624,41 +6616,22 @@ ${this.userType === 'restaurante' ? `
                             ps.active && ps.name === 'À Vista'
                         );
                         
-                        if (restaurantTableConfig) {
-                            const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                            const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
-                            const percentage = restaurantTableConfig.percentage || 0;
-                            const priceMultiplier = 1 + (percentage / 100);
-                            
-                            // Calculate price with both table percentage and user multiplier
-                            let calculatedPrice = basePrice * priceMultiplier * multiplier;
-                            
-                            // Apply rounding rule: if decimal >= 0.5, round up to next integer
-                            const roundedPrice = Math.floor(calculatedPrice) + (calculatedPrice % 1 >= 0.5 ? 1 : 0);
-                            unitPrice = roundedPrice;
-                            
-                            console.log(`💰 RESTAURANT CALC - ${product.name}:`);
-                            console.log(`  - Base: ${basePrice}`);
-                            console.log(`  - Table %: ${percentage}%`);
-                            console.log(`  - User multiplier: ${multiplier}`);
-                            console.log(`  - Calculated: R$ ${calculatedPrice.toFixed(2)}`);
-                            console.log(`  - Rounded: R$ ${unitPrice.toFixed(2)}`);
-                        } else {
-                            // Fallback to base price for restaurant users with rounding
-                            const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
-                            const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
-                            let calculatedPrice = basePrice * multiplier;
-                            
-                            // Apply rounding rule: if decimal >= 0.5, round up to next integer
-                            const roundedPrice = Math.floor(calculatedPrice) + (calculatedPrice % 1 >= 0.5 ? 1 : 0);
-                            unitPrice = roundedPrice;
-                            
-                            console.log(`💰 RESTAURANT FALLBACK - ${product.name}:`);
-                            console.log(`  - Base: ${basePrice}`);
-                            console.log(`  - User multiplier: ${multiplier}`);
-                            console.log(`  - Calculated: R$ ${calculatedPrice.toFixed(2)}`);
-                            console.log(`  - Rounded: R$ ${unitPrice.toFixed(2)}`);
-                        }
+                        // Restaurant users: Apply user multiplier (6% markup) and rounding
+                        const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                        const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
+                        
+                        // Calculate price with user multiplier only (6% restaurant markup)
+                        let calculatedPrice = basePrice * multiplier;
+                        
+                        // Apply rounding rule: if decimal >= 0.5, round up to next integer
+                        const roundedPrice = Math.floor(calculatedPrice) + (calculatedPrice % 1 >= 0.5 ? 1 : 0);
+                        unitPrice = roundedPrice;
+                        
+                        console.log(`💰 RESTAURANT CALC - ${product.name}:`);
+                        console.log(`  - Base: ${basePrice}`);
+                        console.log(`  - User multiplier (6%): ${multiplier}`);
+                        console.log(`  - Calculated: R$ ${calculatedPrice.toFixed(2)}`);
+                        console.log(`  - Rounded: R$ ${unitPrice.toFixed(2)}`);
                     } else {
                         // Shop users use price table configuration
                         const selectedPriceTableConfig = catalogClient.priceSettings.find(ps => 

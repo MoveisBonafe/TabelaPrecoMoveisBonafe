@@ -64,5 +64,16 @@
     "active": true,
     "id": 1749784526948,
     "createdAt": "2025-06-13T03:15:26.948Z"
+  },
+  {
+    "name": "2x sem juros",
+    "description": "",
+    "priceTableId": "",
+    "installments": 2,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749784582759,
+    "createdAt": "2025-06-13T03:16:22.759Z"
   }
 ]

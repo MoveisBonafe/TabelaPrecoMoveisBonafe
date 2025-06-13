@@ -2,7 +2,7 @@
   {
     "name": "Boleto",
     "description": "",
-    "icon": "📄",
+    "icon": "ð",
     "active": true,
     "fee": 0,
     "id": 1749775438465,
@@ -11,7 +11,7 @@
   {
     "name": "PIX",
     "description": "",
-    "icon": "📱",
+    "icon": "ð±",
     "active": true,
     "fee": 0,
     "id": 1749777902365,
@@ -20,10 +20,19 @@
   {
     "name": "Dinheiro",
     "description": "",
-    "icon": "💰",
+    "icon": "ð°",
     "active": true,
     "fee": 0,
     "id": 1749777939994,
     "createdAt": "2025-06-13T01:25:39.994Z"
+  },
+  {
+    "name": "Cartão de Crédito",
+    "description": "",
+    "icon": "💳",
+    "active": true,
+    "fee": 0,
+    "id": 1749784383995,
+    "createdAt": "2025-06-13T03:13:03.995Z"
   }
 ]

@@ -7593,6 +7593,12 @@ ${this.userType === 'restaurante' ? `
             const priceTableSection = document.getElementById('price-table-section');
             const priceTableSelect = document.getElementById('price-table');
 
+            // Clear any previous total calculations to prevent stale data
+            const totalSectionDiv = document.getElementById('total-section');
+            if (totalSectionDiv) {
+                totalSectionDiv.innerHTML = '';
+            }
+
             const selectedConditionId = parseInt(paymentConditionSelect.value);
             
             if (!selectedConditionId) {
@@ -7628,6 +7634,12 @@ ${this.userType === 'restaurante' ? `
                     if (priceTable) {
                         priceTableSelect.innerHTML = `<option value="${priceTable.name}" selected>${priceTable.name}</option>`;
                         console.log('✅ Tabela de preço auto-selecionada (única opção):', priceTable.name);
+                        
+                        // Force immediate price calculation with the correct table
+                        setTimeout(() => {
+                            console.log('🔄 Forçando recálculo de preços para:', priceTable.name);
+                            updatePaymentSummary();
+                        }, 50);
                     } else {
                         priceTableSelect.innerHTML = '<option value="">Tabela configurada não encontrada</option>';
                     }
@@ -7640,6 +7652,12 @@ ${this.userType === 'restaurante' ? `
                     console.log('✅ Apenas 1 tabela disponível, auto-selecionando:', activePriceTables[0].name);
                     if (priceTableSelect) {
                         priceTableSelect.innerHTML = `<option value="${activePriceTables[0].name}" selected>${activePriceTables[0].name}</option>`;
+                        
+                        // Force immediate price calculation with the correct table
+                        setTimeout(() => {
+                            console.log('🔄 Forçando recálculo de preços para:', activePriceTables[0].name);
+                            updatePaymentSummary();
+                        }, 50);
                     }
                 } else if (activePriceTables.length > 1) {
                     // Multiple tables available, show all options

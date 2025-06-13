@@ -1,0 +1,171 @@
+ 🔧 CatalogClient inicializado com baseUrl: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📡 Carregando dados do GitHub Pages para usuários finais
+ 🛍️ MoveisBonafe Catálogo - GitHub Pages
+ ✅ Catálogo inicializado
+ 🚀 Iniciando catálogo para usuários
+ 📡 Carregando dados do GitHub Pages (docs/data/)
+ 🚀 INÍCIO loadAllData - Carregando todos os dados...
+ 🔍 BaseURL do cliente: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📥 Iniciando carregamento paralelo de dados...
+ 🔍 INÍCIO loadData: products.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando products.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/products.json
+ 🔍 INÍCIO loadData: categories.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando categories.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/categories.json
+ 🔍 INÍCIO loadData: price_settings.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando price_settings.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/price_settings.json
+ 🔍 INÍCIO loadData: promotions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando promotions.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/promotions.json
+ 🔍 INÍCIO loadData: colors.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando colors.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/colors.json
+ 🔍 INÍCIO loadData: notices.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 📁 DATA FILE: Carregando notices.json do GitHub...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/notices.json
+ 🔍 INÍCIO loadData: payment_methods.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_methods.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_methods.json?t=1749776711077
+ 🔍 INÍCIO loadData: payment_conditions.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_conditions.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_conditions.json?t=1749776711077
+ 🔍 INÍCIO loadData: payment_rules.json
+ 🔍 BaseURL atual: https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe
+ 💳 PAYMENT FILE: Carregando payment_rules.json do GitHub (sincronização entre dispositivos)...
+ 🌐 URL GitHub: https://raw.githubusercontent.com/MoveisBonafe/TabelaPrecoMoveisBonafe/main/docs/data/payment_rules.json?t=1749776711077
+ 📡 Status: 200
+ ✅ GITHUB: products.json carregado - 25 itens
+ 📡 Status: 200
+ ✅ GITHUB: categories.json carregado - 5 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: price_settings.json carregado - 5 itens
+ ✅ GITHUB: promotions.json carregado - 1 itens
+ ✅ GITHUB: colors.json carregado - 5 itens
+ ✅ GITHUB: notices.json carregado - 1 itens
+ 📡 Status: 200
+ 📡 Status: 200
+ 📡 Status: 200
+ ✅ GITHUB: payment_methods.json carregado - 1 itens
+ ✅ GITHUB: payment_conditions.json carregado - 5 itens
+ ✅ GITHUB: payment_rules.json carregado - 1 itens
+ 📊 RESULTADOS DO CARREGAMENTO:
+   Products: 25 itens
+   Categories: 5 itens
+   Price Settings: 5 itens
+   Promotions: 1 itens
+   Colors: 5 itens
+   Notices: 1 itens
+ 🔍 APÓS FILTROS:
+   Products ativos: 25
+   Categories ativas: 5
+   Price Settings ativos: 5
+   Promotions ativas: 0
+ 💳 Payment methods loaded: Array(1)
+ Product order applied successfully
+ 🎯 Filtered products inicializado com: 25 produtos
+ ✅ DADOS FINAIS: 25 produtos, 5 categorias, 5 tabelas de preços, 0 promoções ativas, 5 cores, 1 avisos
+ ✅ Catálogo inicializado
+ 🧮 Calculando preços para tabela selecionada: 
+ ⚠️ Tabela de preço não encontrada, usando preço base
+ Loading payment methods from goToPaymentStep...
+ Available payment methods: Array(1)
+ Available payment rules: Array(1)
+ 🔄 Iniciando loadPaymentMethods...
+ Payment method select element: 
+ 📋 Payment methods disponíveis: 1
+ 📋 Payment rules disponíveis: 1
+ 👤 User ID: 61 Role: loja
+ 👤 User Type from catalog: loja
+ 🔍 Verificando método Boleto (ID: 1749775438465)
+ 📏 Regra encontrada para Boleto: Object
+ 🔐 Acesso para Boleto: true (regra: ["loja"], userType: loja)
+ ✅ Métodos de pagamento disponíveis para o usuário: 1
+ ➕ Adicionando método: Boleto
+ 💰 Mantendo tabela de preços visível junto com condições de pagamento
+ 🎯 LoadPaymentMethods concluído!
+ 🔍 Regra encontrada para método selecionado: Object
+ 📋 Carregando condições: Array(5)
+ 🔍 Condição 1749775469164: Object
+ 🔍 Condição 1749775535583: Object
+ 🔍 Condição 1749775567684: Object
+ 🔍 Condição 1749775585776: Object
+ 🔍 Condição 1749775602341: Object
+ ✅ Condições de pagamento carregadas
+ 🧮 Calculando preços para tabela selecionada: 
+ ⚠️ Tabela de preço não encontrada, usando preço base
+ 🔍 Condição selecionada: Object
+ 💰 Condição tem tabela específica linkada: A Vista
+ ✅ Tabela de preço auto-selecionada (única opção): A Vista
+ 🧮 Calculando preços para tabela selecionada: A Vista
+ 📊 Configuração da tabela encontrada: Object
+ 💰 Produto Cadeira Alta: base 99 → final 99 (tabela: A Vista)
+ 🔍 Condição selecionada: Object
+ 💰 Condição tem tabela específica linkada: 30
+ ✅ Tabela de preço auto-selecionada (única opção): 30
+ 🧮 Calculando preços para tabela selecionada: 30
+ 📊 Configuração da tabela encontrada: Object
+ 💰 Produto Cadeira Alta: base 99 → final 100.98 (tabela: 30)
+ 🔍 Condição selecionada: Object
+ 💰 Condição tem tabela específica linkada: 30/60
+ ✅ Tabela de preço auto-selecionada (única opção): 30/60
+ 🧮 Calculando preços para tabela selecionada: 30/60
+ 📊 Configuração da tabela encontrada: Object
+ 💰 Produto Cadeira Alta: base 99 → final 102.96000000000001 (tabela: 30/60)
+ 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: 30
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): 30
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: 30
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 100.98 (tabela: 30)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: A Vista
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): A Vista
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: A Vista
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 99 (tabela: A Vista)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: 30
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): 30
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: 30
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 100.98 (tabela: 30)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: A Vista
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): A Vista
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: A Vista
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 99 (tabela: A Vista)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: 30/60
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): 30/60
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: 30/60
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 102.96000000000001 (tabela: 30/60)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: 30/60/90
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): 30/60/90
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: 30/60/90
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 104.94000000000001 (tabela: 30/60/90)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: 30/60/90/120
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): 30/60/90/120
+catalogo.html?tipo=loja:6570 🧮 Calculando preços para tabela selecionada: 30/60/90/120
+catalogo.html?tipo=loja:6584 📊 Configuração da tabela encontrada: Object
+catalogo.html?tipo=loja:6606 💰 Produto Cadeira Alta: base 99 → final 106.92 (tabela: 30/60/90/120)
+catalogo.html?tipo=loja:7607 🔍 Condição selecionada: Object
+catalogo.html?tipo=loja:7623 💰 Condição tem tabela específica linkada: A Vista
+catalogo.html?tipo=loja:7630 ✅ Tabela de preço auto-selecionada (única opção): A Vista

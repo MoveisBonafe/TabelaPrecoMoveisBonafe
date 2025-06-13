@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "name": "À vista",
+    "description": "",
+    "priceTableId": "",
+    "installments": 1,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749775469164,
+    "createdAt": "2025-06-13T00:44:29.164Z"
+  }
+]

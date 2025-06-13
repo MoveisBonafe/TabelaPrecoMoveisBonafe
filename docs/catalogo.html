@@ -6605,19 +6605,28 @@ ${this.userType === 'restaurante' ? `
         }
 
         function goToDeliveryStep() {
-            // Hide cart step and show delivery step
-            document.getElementById('cart-step-1').style.display = 'none';
-            document.getElementById('cart-step-2').style.display = 'block';
-            document.getElementById('cart-step-3').style.display = 'none';
+            // Start loading animation
+            const connector = document.getElementById('connector-1-2');
+            if (connector) {
+                const animation = connector.querySelector('.connector-animation');
+                animation.classList.add('animate');
+            }
             
-            // Update steps visual
-            updateCartSteps(2);
-            
-            // Update modal title
-            document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Entrega';
-            
-            // Add event listeners for form validation
+            // Delay step transition for animation effect
             setTimeout(() => {
+                // Hide cart step and show delivery step
+                document.getElementById('cart-step-1').style.display = 'none';
+                document.getElementById('cart-step-2').style.display = 'block';
+                document.getElementById('cart-step-3').style.display = 'none';
+                
+                // Update steps visual
+                updateCartSteps(2);
+                
+                // Update modal title
+                document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Entrega';
+                
+                // Add event listeners for form validation
+                setTimeout(() => {
                 const formFields = ['customer-cnpj', 'customer-name', 'customer-phone', 'customer-address', 'customer-cep', 'customer-neighborhood', 'customer-number', 'customer-city', 'customer-state'];
                 formFields.forEach(fieldId => {
                     const field = document.getElementById(fieldId);
@@ -6634,7 +6643,8 @@ ${this.userType === 'restaurante' ? `
                 // Initialize field visibility and validation
                 toggleAddressFields();
                 checkFormValidation(); // Initial check
-            }, 200);
+                }, 200);
+            }, 400);
         }
 
         function validatePaymentForm() {
@@ -6680,16 +6690,25 @@ ${this.userType === 'restaurante' ? `
                 return;
             }
             
-            // Hide delivery step and show payment step
-            document.getElementById('cart-step-1').style.display = 'none';
-            document.getElementById('cart-step-2').style.display = 'none';
-            document.getElementById('cart-step-3').style.display = 'block';
+            // Start loading animation
+            const connector = document.getElementById('connector-2-3');
+            if (connector) {
+                const animation = connector.querySelector('.connector-animation');
+                animation.classList.add('animate');
+            }
             
-            // Update steps visual
-            updateCartSteps(3);
-            
-            // Update modal title
-            document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Pagamento';
+            // Delay step transition for animation effect
+            setTimeout(() => {
+                // Hide delivery step and show payment step
+                document.getElementById('cart-step-1').style.display = 'none';
+                document.getElementById('cart-step-2').style.display = 'none';
+                document.getElementById('cart-step-3').style.display = 'block';
+                
+                // Update steps visual
+                updateCartSteps(3);
+                
+                // Update modal title
+                document.querySelector('#cart-modal .product-modal-header h2').textContent = 'Pagamento';
             
             // Handle price table visibility based on user type
             const priceTableSection = document.getElementById('price-table-section');
@@ -6717,6 +6736,7 @@ ${this.userType === 'restaurante' ? `
                 console.log('👥 Usuário loja: mostrando seleção de tabela de preços');
                 updatePaymentSummary();
             }
+            }, 400);
         }
 
         function validateDeliveryForm() {

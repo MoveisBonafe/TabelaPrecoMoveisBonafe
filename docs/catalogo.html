@@ -1557,6 +1557,15 @@
                 // Get user type from URL or map user role
                 const urlParams = new URLSearchParams(window.location.search);
                 this.userType = urlParams.get('tipo') || this.mapUserRole(this.currentUser.role);
+                
+                // Set restaurant-specific price multiplier
+                if (this.userType === 'restaurante') {
+                    const restaurantMarkup = parseFloat(localStorage.getItem('restaurant_markup_percentage')) || 5.36; // Default 5.36% for restaurant pricing
+                    this.currentUser.priceMultiplier = 1 + (restaurantMarkup / 100);
+                    console.log(`🍽️ Restaurante markup aplicado: ${restaurantMarkup}% (multiplier: ${this.currentUser.priceMultiplier})`);
+                } else {
+                    this.currentUser.priceMultiplier = this.currentUser.priceMultiplier || 1.0;
+                }
 
                 // Update user info display
                 document.getElementById('user-info').textContent = 

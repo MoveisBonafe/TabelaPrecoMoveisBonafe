@@ -1873,10 +1873,11 @@
                 }
             } catch (e) {}
 
-            // Save file
+            // Save file with proper UTF-8 encoding for emoji support
+            const jsonString = JSON.stringify(data, null, 2);
             const payload = {
                 message: `Update ${filename} - ${new Date().toISOString()}`,
-                content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))))
+                content: btoa(new TextEncoder().encode(jsonString).reduce((data, byte) => data + String.fromCharCode(byte), ''))
             };
             if (sha) payload.sha = sha;
 

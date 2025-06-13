@@ -6467,17 +6467,19 @@ ${this.userType === 'restaurante' ? `
             }, 100);
             
             if (catalogClient.userType === 'restaurante') {
-                // Restaurant users always hide price table and use "À Vista" pricing
-                priceTableSection.style.display = 'none';
-                priceTableSelect.value = 'À Vista';
-                priceTableSelect.removeAttribute('required');
-                console.log('👥 Usuário restaurante: tabela "À Vista" auto-selecionada');
+                // Restaurant users ALWAYS hide price table and use "À Vista" pricing
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'À Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log('👥 Usuário restaurante: tabela "À Vista" auto-selecionada, seção oculta');
                 // Force immediate price calculation with restaurant pricing
                 setTimeout(() => updatePaymentSummary(), 50);
             } else {
                 // Show price table section for shop users only
-                priceTableSection.style.display = 'block';
-                priceTableSelect.setAttribute('required', 'required');
+                if (priceTableSection) priceTableSection.style.display = 'block';
+                if (priceTableSelect) priceTableSelect.setAttribute('required', 'required');
                 console.log('👥 Usuário loja: mostrando seleção de tabela de preços');
                 updatePaymentSummary();
             }
@@ -7704,6 +7706,19 @@ ${this.userType === 'restaurante' ? `
             const totalSectionDiv = document.getElementById('total-section');
             if (totalSectionDiv) {
                 totalSectionDiv.innerHTML = '';
+            }
+
+            // CRITICAL: Restaurant users should NEVER see price table selection
+            if (catalogClient.userType === 'restaurante') {
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'À Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log('👥 Usuário restaurante: forçando tabela "À Vista", ocultando seleção');
+                setTimeout(() => updatePaymentSummary(), 50);
+                validatePaymentForm();
+                return;
             }
 
             const selectedConditionId = parseInt(paymentConditionSelect.value);

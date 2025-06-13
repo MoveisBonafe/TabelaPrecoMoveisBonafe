@@ -7548,64 +7548,81 @@ ${this.userType === 'restaurante' ? `
             console.log('💬 showSuccessMessage called with:', message);
             
             // Remove existing success message if any
-            const existingMessage = document.querySelector('.success-message');
+            const existingMessage = document.querySelector('.desktop-success-message');
             if (existingMessage) {
                 existingMessage.remove();
-                console.log('💬 Removed existing message');
             }
             
             // Check if we're in a modal context
             const productModal = document.getElementById('product-detail-modal');
             const isInModal = productModal && productModal.classList.contains('active');
             
-            console.log('💬 Modal detection:', {
-                productModal: !!productModal,
-                hasActiveClass: productModal ? productModal.classList.contains('active') : false,
-                isInModal: isInModal
-            });
-            
-            // Create new success message
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message';
-            successDiv.innerHTML = `🛒 ${message}`;
-            
             if (isInModal) {
-                // Position fixed, centered below close button
-                successDiv.classList.add('modal-context');
-                document.body.appendChild(successDiv);
-                console.log('💬 Success message added to body with modal styling');
-                console.log('💬 Element classes:', successDiv.className);
-                console.log('💬 Element styles:', window.getComputedStyle(successDiv));
-            } else {
-                // Default positioning for non-modal context
-                document.body.appendChild(successDiv);
-                console.log('💬 Success message added to body');
-            }
-            
-            // Show the message
-            setTimeout(() => {
-                successDiv.classList.add('show');
-                console.log('💬 Success message shown');
-                console.log('💬 Final element classes:', successDiv.className);
-                console.log('💬 Element position:', {
-                    top: successDiv.offsetTop,
-                    left: successDiv.offsetLeft,
-                    width: successDiv.offsetWidth,
-                    height: successDiv.offsetHeight,
-                    visible: successDiv.offsetParent !== null
-                });
-            }, 100);
-            
-            // Hide and remove after 3 seconds
-            setTimeout(() => {
-                successDiv.classList.remove('show');
+                // Create a simple desktop notification
+                const notification = document.createElement('div');
+                notification.className = 'desktop-success-message';
+                notification.innerHTML = `✓ ${message}`;
+                
+                // Apply styles directly via JavaScript to avoid CSS conflicts
+                notification.style.cssText = `
+                    position: fixed !important;
+                    top: 100px !important;
+                    left: 50% !important;
+                    transform: translateX(-50%) !important;
+                    background: #22c55e !important;
+                    color: white !important;
+                    padding: 16px 24px !important;
+                    border-radius: 8px !important;
+                    font-weight: bold !important;
+                    font-size: 16px !important;
+                    z-index: 999999 !important;
+                    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4) !important;
+                    min-width: 280px !important;
+                    max-width: 400px !important;
+                    text-align: center !important;
+                    opacity: 0 !important;
+                    transition: opacity 0.3s ease !important;
+                `;
+                
+                document.body.appendChild(notification);
+                console.log('💬 Desktop notification created');
+                
+                // Show with animation
                 setTimeout(() => {
-                    if (successDiv.parentNode) {
-                        successDiv.remove();
-                        console.log('💬 Success message removed');
-                    }
-                }, 300);
-            }, 3000);
+                    notification.style.opacity = '1';
+                    console.log('💬 Desktop notification shown');
+                }, 50);
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                            console.log('💬 Desktop notification removed');
+                        }
+                    }, 300);
+                }, 3000);
+            } else {
+                // Use original mobile success message for non-modal context
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success-message';
+                successDiv.innerHTML = `🛒 ${message}`;
+                document.body.appendChild(successDiv);
+                
+                setTimeout(() => {
+                    successDiv.classList.add('show');
+                }, 100);
+                
+                setTimeout(() => {
+                    successDiv.classList.remove('show');
+                    setTimeout(() => {
+                        if (successDiv.parentNode) {
+                            successDiv.remove();
+                        }
+                    }, 300);
+                }, 3000);
+            }
         }
 
         // Enhanced addToCart function with grouping

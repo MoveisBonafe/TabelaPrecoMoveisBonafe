@@ -3719,16 +3719,24 @@ ${this.userType === 'restaurante' ? `
             <div class="cart-modal-body">
                 <!-- Cart Header with Steps -->
                 <div class="cart-header">
-                    <div class="cart-steps" style="max-width: 500px; margin: 0 auto;">
-                        <div class="cart-step active">
+                    <div class="cart-steps" style="max-width: 500px; margin: 0 auto; position: relative;">
+                        <div class="cart-step active" id="step-1">
                             <div class="cart-step-number">1</div>
                             <span>Carrinho</span>
                         </div>
-                        <div class="cart-step">
+                        <div class="step-connector" id="connector-1-2">
+                            <div class="connector-line"></div>
+                            <div class="connector-animation"></div>
+                        </div>
+                        <div class="cart-step" id="step-2">
                             <div class="cart-step-number">2</div>
                             <span>Entrega</span>
                         </div>
-                        <div class="cart-step">
+                        <div class="step-connector" id="connector-2-3">
+                            <div class="connector-line"></div>
+                            <div class="connector-animation"></div>
+                        </div>
+                        <div class="cart-step" id="step-3">
                             <div class="cart-step-number">3</div>
                             <span>Pagamento</span>
                         </div>
@@ -3875,6 +3883,14 @@ ${this.userType === 'restaurante' ? `
 
 
 
+                        <!-- Total Section -->
+                        <div class="total-section-payment" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Total do Pedido</h3>
+                            <div class="total-section" id="total-section">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
                         <!-- Custom Condition Option -->
                         <div class="custom-condition-section" id="custom-condition-section" style="margin-bottom: 24px; display: block; text-align: center; background: #f8f9fa; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px;">
@@ -3883,14 +3899,6 @@ ${this.userType === 'restaurante' ? `
                                 <button type="button" onclick="showCustomConditionHelp()" style="background: #3b82f6; border: none; cursor: pointer; color: white; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; transition: background-color 0.2s; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);" title="Ajuda sobre condições personalizadas">?</button>
                             </div>
                             <p style="font-size: 12px; color: #6b7280; margin: 0; font-style: italic;">Negocie condições especiais para seu negócio</p>
-                        </div>
-
-                        <!-- Total Section -->
-                        <div class="total-section-payment" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
-                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Total do Pedido</h3>
-                            <div class="total-section" id="total-section">
-                                <!-- Will be populated by JavaScript -->
-                            </div>
                         </div>
                         
 
@@ -5651,6 +5659,54 @@ ${this.userType === 'restaurante' ? `
             font-weight: 600;
             color: #111827;
             margin: 0 0 20px 0;
+        }
+
+        /* Step connector animations */
+        .step-connector {
+            position: absolute;
+            top: 20px;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+
+        #connector-1-2 {
+            left: 60px;
+            width: calc(33.33% - 30px);
+        }
+
+        #connector-2-3 {
+            left: calc(33.33% + 30px);
+            width: calc(33.33% - 30px);
+        }
+
+        .connector-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: #e5e7eb;
+        }
+
+        .connector-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #fbbf24;
+            transition: width 0.8s ease-in-out;
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+        }
+
+        .connector-animation.animate {
+            width: 100%;
+        }
+
+        .cart-step {
+            position: relative;
+            z-index: 2;
         }
 
         /* Success message styling */
@@ -7693,6 +7749,9 @@ ${this.userType === 'restaurante' ? `
                     finalizeBtn.innerHTML = '💬 Finalizar Pedido';
                 }
             }
+            
+            // Always trigger form validation to update button state
+            validatePaymentForm();
         }
         
         function showCustomConditionHelp() {

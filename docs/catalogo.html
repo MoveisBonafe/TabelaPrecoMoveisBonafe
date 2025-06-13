@@ -3800,8 +3800,12 @@ ${this.userType === 'restaurante' ? `
                                         <div class="error-message" id="city-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha a cidade</div>
                                     </div>
                                     <div style="flex: 1;">
-                                        <input type="text" id="customer-state" required placeholder="Estado *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
-                                        <div class="error-message" id="state-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha o estado</div>
+                                        <select id="customer-state" required style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box; appearance: none; background-repeat: no-repeat; background-position: right 12px center; background-size: 12px;">
+                                            <option value="">Estado *</option>
+                                            <option value="SP">SP - São Paulo</option>
+                                            <option value="MG">MG - Minas Gerais</option>
+                                        </select>
+                                        <div class="error-message" id="state-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, selecione o estado</div>
                                     </div>
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
@@ -6460,8 +6464,11 @@ ${this.userType === 'restaurante' ? `
                     fieldsUpdated++;
                 }
                 if (stateField && data.uf) {
-                    stateField.value = data.uf;
-                    fieldsUpdated++;
+                    // Only set state if it matches available options (SP or MG)
+                    if (data.uf === 'SP' || data.uf === 'MG') {
+                        stateField.value = data.uf;
+                        fieldsUpdated++;
+                    }
                 }
                 
                 // Show success message if fields were updated

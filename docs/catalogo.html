@@ -3197,7 +3197,9 @@ ${this.userType === 'restaurante' ? `
         function toggleAddressFields() {
             const isPickup = document.getElementById('pickup').checked;
             const addressFields = document.querySelectorAll('.address-field');
+            const cnpjField = document.querySelector('.form-group:has(#customer-cnpj)');
             
+            // Handle address fields
             addressFields.forEach(field => {
                 if (isPickup) {
                     field.style.display = 'none';
@@ -3217,6 +3219,18 @@ ${this.userType === 'restaurante' ? `
                     });
                 }
             });
+            
+            // Handle CNPJ field - hide for pickup, show for delivery
+            if (cnpjField) {
+                const cnpjInput = document.getElementById('customer-cnpj');
+                if (isPickup) {
+                    cnpjField.style.display = 'none';
+                    if (cnpjInput) cnpjInput.removeAttribute('required');
+                } else {
+                    cnpjField.style.display = 'grid';
+                    if (cnpjInput) cnpjInput.setAttribute('required', 'required');
+                }
+            }
             
             // Trigger form validation after toggling fields
             setTimeout(() => {
@@ -6492,10 +6506,11 @@ ${this.userType === 'restaurante' ? `
             const isPickup = document.getElementById('pickup').checked;
             
             if (isPickup) {
-                // For pickup, only name and phone are required
-                return name && phone;
+                // For pickup, only name and phone are required (CNPJ is hidden)
+                return name && phone && validatePhone(phone);
             } else {
-                // For delivery, all address fields are required
+                // For delivery, all fields including CNPJ are required with format validation
+                const cnpj = document.getElementById('customer-cnpj').value.trim();
                 const address = document.getElementById('customer-address').value.trim();
                 const cep = document.getElementById('customer-cep').value.trim();
                 const neighborhood = document.getElementById('customer-neighborhood').value.trim();
@@ -6503,7 +6518,8 @@ ${this.userType === 'restaurante' ? `
                 const city = document.getElementById('customer-city').value.trim();
                 const state = document.getElementById('customer-state').value.trim();
                 
-                return name && phone && address && cep && neighborhood && number && city && state;
+                return cnpj && name && phone && address && cep && neighborhood && number && city && state &&
+                       validateCNPJ(cnpj) && validatePhone(phone) && validateCEP(cep);
             }
         }
 
@@ -6518,10 +6534,10 @@ ${this.userType === 'restaurante' ? `
                 let isValid = false;
                 
                 if (isPickup) {
-                    // For pickup, CNPJ, name and phone are required
-                    isValid = cnpj && name && phone;
+                    // For pickup, only name and phone are required (CNPJ is hidden)
+                    isValid = name && phone && validatePhone(phone);
                 } else {
-                    // For delivery, all fields including address are required
+                    // For delivery, all fields including address and CNPJ are required with format validation
                     const address = document.getElementById('customer-address')?.value?.trim() || '';
                     const cep = document.getElementById('customer-cep')?.value?.trim() || '';
                     const neighborhood = document.getElementById('customer-neighborhood')?.value?.trim() || '';
@@ -6529,7 +6545,8 @@ ${this.userType === 'restaurante' ? `
                     const city = document.getElementById('customer-city')?.value?.trim() || '';
                     const state = document.getElementById('customer-state')?.value?.trim() || '';
                     
-                    isValid = cnpj && name && phone && address && cep && neighborhood && number && city && state;
+                    isValid = cnpj && name && phone && address && cep && neighborhood && number && city && state &&
+                             validateCNPJ(cnpj) && validatePhone(phone) && validateCEP(cep);
                 }
                 
                 paymentBtn.disabled = !isValid;
@@ -6541,6 +6558,25 @@ ${this.userType === 'restaurante' ? `
                     paymentBtn.style.opacity = '0.6';
                 }
             }
+        }
+        
+        // Validation helper functions
+        function validateCNPJ(cnpj) {
+            // Remove formatting and check if has 14 digits
+            const numbers = cnpj.replace(/\D/g, '');
+            return numbers.length === 14;
+        }
+        
+        function validatePhone(phone) {
+            // Remove formatting and check if has 10 or 11 digits
+            const numbers = phone.replace(/\D/g, '');
+            return numbers.length >= 10 && numbers.length <= 11;
+        }
+        
+        function validateCEP(cep) {
+            // Remove formatting and check if has 8 digits
+            const numbers = cep.replace(/\D/g, '');
+            return numbers.length === 8;
         }
 
         function goToCartStep() {

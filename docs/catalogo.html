@@ -6911,7 +6911,7 @@ ${this.userType === 'restaurante' ? `
             totalHTML += `
                 <div class="total-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
                     <span style="font-size: 14px; color: #6b7280;">Subtotal:</span>
-                    <span style="font-size: 14px; font-weight: 500; color: #111827;">R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #111827;">R$ ${(subtotal || 0).toFixed(2).replace('.', ',')}</span>
                 </div>
             `;
             
@@ -6924,7 +6924,7 @@ ${this.userType === 'restaurante' ? `
                 totalHTML += `
                     <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
                         <span style="font-size: 14px; color: #dc2626;">Desconto Retirada no Local (5%):</span>
-                        <span style="font-size: 14px; font-weight: 500; color: #111827;">-R$ ${pickupDiscount.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #111827;">-R$ ${(pickupDiscount || 0).toFixed(2).replace('.', ',')}</span>
                     </div>
                 `;
             }
@@ -6968,7 +6968,7 @@ ${this.userType === 'restaurante' ? `
                     totalHTML += `
                         <div class="total-line discount-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
                             <span style="font-size: 14px; color: #dc2626;">Promoção (${discountPercent}%):</span>
-                            <span style="font-size: 14px; font-weight: 500; color: #111827;">-R$ ${promotionDiscount.toFixed(2).replace('.', ',')}</span>
+                            <span style="font-size: 14px; font-weight: 500; color: #111827;">-R$ ${(promotionDiscount || 0).toFixed(2).replace('.', ',')}</span>
                         </div>
                     `;
                 }
@@ -7097,7 +7097,9 @@ ${this.userType === 'restaurante' ? `
                         const itemTotal = unitPrice * item.quantity;
                         subtotal += itemTotal;
                         
-                        message += `  Valor unitário: R$ ${unitPrice.toFixed(2).replace('.', ',')}\n`;
+                        // Ensure unitPrice is a valid number before formatting
+                        const formattedPrice = (unitPrice || 0).toFixed(2).replace('.', ',');
+                        message += `  Valor unitário: R$ ${formattedPrice}\n`;
                     }
                     message += `\n`;
                 }

@@ -7590,41 +7590,51 @@ ${this.userType === 'restaurante' ? `
             // Show price table section
             if (priceTableSection) priceTableSection.style.display = 'block';
 
+            // Get all active price tables first
+            const activePriceTables = catalogClient.priceSettings.filter(ps => ps.active);
+            
             // Check if condition has a specific price table linked
             if (selectedCondition.priceTableId && selectedCondition.priceTableId.trim() !== '') {
-                console.log('💰 Condição tem tabela específica:', selectedCondition.priceTableId);
+                console.log('💰 Condição tem tabela específica linkada:', selectedCondition.priceTableId);
                 
-                // Auto-select the specific price table
+                // Auto-select the specific price table (only 1 option)
                 if (priceTableSelect) {
-                    // Clear and populate with the specific table
-                    priceTableSelect.innerHTML = '<option value="">Carregando...</option>';
-                    
-                    // Find and set the specific price table
-                    const priceTable = catalogClient.priceSettings.find(ps => ps.name === selectedCondition.priceTableId && ps.active);
+                    const priceTable = activePriceTables.find(ps => ps.name === selectedCondition.priceTableId);
                     if (priceTable) {
                         priceTableSelect.innerHTML = `<option value="${priceTable.name}" selected>${priceTable.name}</option>`;
-                        console.log('✅ Tabela de preço auto-selecionada:', priceTable.name);
+                        console.log('✅ Tabela de preço auto-selecionada (única opção):', priceTable.name);
                     } else {
-                        priceTableSelect.innerHTML = '<option value="">Tabela não encontrada</option>';
+                        priceTableSelect.innerHTML = '<option value="">Tabela configurada não encontrada</option>';
                     }
                 }
             } else {
-                console.log('💰 Condição permite todas as tabelas - carregando opções');
+                console.log('💰 Condição sem tabela específica - verificando quantas tabelas disponíveis');
                 
-                // Load all available price tables
-                if (priceTableSelect) {
-                    priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
-                    
-                    catalogClient.priceSettings.forEach(priceTable => {
-                        if (priceTable.active) {
+                if (activePriceTables.length === 1) {
+                    // Only one table available, auto-select it
+                    console.log('✅ Apenas 1 tabela disponível, auto-selecionando:', activePriceTables[0].name);
+                    if (priceTableSelect) {
+                        priceTableSelect.innerHTML = `<option value="${activePriceTables[0].name}" selected>${activePriceTables[0].name}</option>`;
+                    }
+                } else if (activePriceTables.length > 1) {
+                    // Multiple tables available, show all options
+                    console.log('📋 Múltiplas tabelas disponíveis, mostrando opções para seleção');
+                    if (priceTableSelect) {
+                        priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
+                        
+                        activePriceTables.forEach(priceTable => {
                             const option = document.createElement('option');
                             option.value = priceTable.name;
                             option.textContent = priceTable.name;
                             priceTableSelect.appendChild(option);
-                        }
-                    });
-                    
-                    console.log('✅ Todas as tabelas de preço carregadas');
+                        });
+                    }
+                } else {
+                    // No active price tables
+                    console.log('⚠️ Nenhuma tabela de preço ativa encontrada');
+                    if (priceTableSelect) {
+                        priceTableSelect.innerHTML = '<option value="">Nenhuma tabela de preço disponível</option>';
+                    }
                 }
             }
             

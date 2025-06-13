@@ -2,7 +2,7 @@
   {
     "name": "Boleto",
     "description": "",
-    "icon": "ð",
+    "icon": "Á°ÂÂÂ",
     "active": true,
     "fee": 0,
     "id": 1749775438465,
@@ -11,7 +11,7 @@
   {
     "name": "PIX",
     "description": "",
-    "icon": "ð±",
+    "icon": "Á°ÂÂÂ±",
     "active": true,
     "fee": 0,
     "id": 1749777902365,
@@ -20,7 +20,7 @@
   {
     "name": "Dinheiro",
     "description": "",
-    "icon": "ð°",
+    "icon": "Á°ÂÂÂ°",
     "active": true,
     "fee": 0,
     "id": 1749777939994,
@@ -29,10 +29,19 @@
   {
     "name": "Cartão de Crédito",
     "description": "",
-    "icon": "💳",
+    "icon": "ð³",
     "active": true,
     "fee": 0,
     "id": 1749784383995,
     "createdAt": "2025-06-13T03:13:03.995Z"
+  },
+  {
+    "name": "Cheque",
+    "description": "",
+    "icon": "🏦",
+    "active": true,
+    "fee": 0,
+    "id": 1749787535966,
+    "createdAt": "2025-06-13T04:05:35.966Z"
   }
 ]

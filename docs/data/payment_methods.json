@@ -43,5 +43,14 @@
     "fee": 0,
     "id": 1749787535966,
     "createdAt": "2025-06-13T04:05:35.966Z"
+  },
+  {
+    "name": "Duplicata ",
+    "description": "",
+    "icon": "💸",
+    "active": true,
+    "fee": 0,
+    "id": 1749787817783,
+    "createdAt": "2025-06-13T04:10:17.783Z"
   }
 ]

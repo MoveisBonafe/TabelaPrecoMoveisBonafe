@@ -31,9 +31,9 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'docs', 'login.html'));
 });
 
-// Handle other static files
-app.use((req, res, next) => {
-    res.status(404).send('File not found');
+// Handle other routes with 404
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'docs', 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {

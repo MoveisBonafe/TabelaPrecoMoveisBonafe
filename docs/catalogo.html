@@ -6983,7 +6983,7 @@ ${this.userType === 'restaurante' ? `
                 totalHTML += `
                     <div class="total-line interest-line" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
                         <span style="font-size: 14px; color: #dc2626;">Juros (${selectedPaymentCondition.interest}%):</span>
-                        <span style="font-size: 14px; font-weight: 500; color: #111827;">+R$ ${interestAmount.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #111827;">+R$ ${(interestAmount || 0).toFixed(2).replace('.', ',')}</span>
                     </div>
                 `;
             }
@@ -6992,7 +6992,7 @@ ${this.userType === 'restaurante' ? `
             totalHTML += `
                 <div class="total-line final" style="display: flex; justify-content: space-between; padding: 12px 0; margin-top: 8px; border-top: 2px solid #374151; background: #f9fafb;">
                     <span style="font-size: 14px; font-weight: 500; color: #111827;">Total:</span>
-                    <span style="font-size: 14px; font-weight: 500; color: #111827;">R$ ${total.toFixed(2).replace('.', ',')}</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #111827;">R$ ${(total || 0).toFixed(2).replace('.', ',')}</span>
                 </div>
             `;
             
@@ -7115,7 +7115,7 @@ ${this.userType === 'restaurante' ? `
                 // Normal pricing calculation for regular orders
                 let total = subtotal;
                 
-                message += `💰 *Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+                message += `💰 *Subtotal:* R$ ${(subtotal || 0).toFixed(2).replace('.', ',')}\n`;
                 
                 // Apply promotion discount ONLY if active and valid
                 let promotionDiscount = 0;
@@ -7152,7 +7152,7 @@ ${this.userType === 'restaurante' ? `
                     const discountPercent = activePromotion.discount || activePromotion.value;
                     promotionDiscount = subtotal * (discountPercent / 100);
                     total -= promotionDiscount;
-                    message += `🎉 *Desconto Promoção (${discountPercent}%):* -R$ ${promotionDiscount.toFixed(2).replace('.', ',')}\n`;
+                    message += `🎉 *Desconto Promoção (${discountPercent}%):* -R$ ${(promotionDiscount || 0).toFixed(2).replace('.', ',')}\n`;
                 }
                 }
                 
@@ -7161,7 +7161,7 @@ ${this.userType === 'restaurante' ? `
                 if (isPickup) {
                     pickupDiscount = (subtotal - promotionDiscount) * 0.05;
                     total -= pickupDiscount;
-                    message += `🎯 *Desconto Retirada (5%):* -R$ ${pickupDiscount.toFixed(2).replace('.', ',')}\n`;
+                    message += `🎯 *Desconto Retirada (5%):* -R$ ${(pickupDiscount || 0).toFixed(2).replace('.', ',')}\n`;
                 }
                 
                 // Apply payment condition interest
@@ -7169,10 +7169,10 @@ ${this.userType === 'restaurante' ? `
                 if (selectedPaymentCondition && selectedPaymentCondition.interest > 0) {
                     interestAmount = total * (selectedPaymentCondition.interest / 100);
                     total += interestAmount;
-                    message += `📈 *Juros (${selectedPaymentCondition.interest}%):* +R$ ${interestAmount.toFixed(2).replace('.', ',')}\n`;
+                    message += `📈 *Juros (${selectedPaymentCondition.interest}%):* +R$ ${(interestAmount || 0).toFixed(2).replace('.', ',')}\n`;
                 }
                 
-                message += `\n💸 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;
+                message += `\n💸 *TOTAL: R$ ${(total || 0).toFixed(2).replace('.', ',')}*\n\n`;
                 message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_\n\n`;
                 message += `📞 *Aguardo confirmação do pedido!*`;
             }

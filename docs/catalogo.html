@@ -5666,6 +5666,37 @@ ${this.userType === 'restaurante' ? `
         .success-message.show {
             transform: translateX(0);
         }
+
+        /* Success message in modal context - positioned below close button */
+        .success-message.modal-context {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            left: 20px;
+            max-width: none;
+            min-width: auto;
+            width: auto;
+            margin: 0 auto;
+            text-align: center;
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        .success-message.modal-context.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Mobile success message adjustments */
+        @media (max-width: 768px) {
+            .success-message {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                min-width: auto;
+            }
+        }
     </style>
 
     <script>
@@ -7511,11 +7542,23 @@ ${this.userType === 'restaurante' ? `
                 existingMessage.remove();
             }
             
+            // Check if we're in a modal context
+            const productModal = document.querySelector('.modal.active');
+            const isInModal = productModal !== null;
+            
             // Create new success message
             const successDiv = document.createElement('div');
             successDiv.className = 'success-message';
             successDiv.innerHTML = `🛒 ${message}`;
-            document.body.appendChild(successDiv);
+            
+            if (isInModal) {
+                // Position relative to modal, below close button
+                successDiv.classList.add('modal-context');
+                productModal.appendChild(successDiv);
+            } else {
+                // Default positioning for non-modal context
+                document.body.appendChild(successDiv);
+            }
             
             // Show the message
             setTimeout(() => {

@@ -7547,11 +7547,11 @@ ${this.userType === 'restaurante' ? `
             
             // Check if we're in a modal context
             const productModal = document.getElementById('product-detail-modal');
-            const isInModal = productModal && productModal.style.display === 'flex';
+            const isInModal = productModal && productModal.classList.contains('active');
             
             console.log('💬 Modal detection:', {
                 productModal: !!productModal,
-                modalDisplay: productModal ? productModal.style.display : 'none',
+                hasActiveClass: productModal ? productModal.classList.contains('active') : false,
                 isInModal: isInModal
             });
             

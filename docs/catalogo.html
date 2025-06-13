@@ -6467,19 +6467,18 @@ ${this.userType === 'restaurante' ? `
             }, 100);
             
             if (catalogClient.userType === 'restaurante') {
-                // Hide price table section for restaurant users and auto-select "À Vista"
+                // Restaurant users always hide price table and use "À Vista" pricing
                 priceTableSection.style.display = 'none';
                 priceTableSelect.value = 'À Vista';
                 priceTableSelect.removeAttribute('required');
                 console.log('👥 Usuário restaurante: tabela "À Vista" auto-selecionada');
-                // Update payment summary after setting the price table
-                setTimeout(() => updatePaymentSummary(), 100);
+                // Force immediate price calculation with restaurant pricing
+                setTimeout(() => updatePaymentSummary(), 50);
             } else {
-                // Show price table section for shop users
+                // Show price table section for shop users only
                 priceTableSection.style.display = 'block';
                 priceTableSelect.setAttribute('required', 'required');
                 console.log('👥 Usuário loja: mostrando seleção de tabela de preços');
-                // Update payment summary for shop users
                 updatePaymentSummary();
             }
         }
@@ -7615,12 +7614,14 @@ ${this.userType === 'restaurante' ? `
                     console.log('💰 Auto-selecionando condição "A vista" para PIX/Dinheiro');
                     paymentConditionSelect.value = aVistaCondition.id;
                     
-                    // Hide price table selection for PIX/Dinheiro as they use "A Vista" pricing
+                    // Hide price table selection for PIX/Dinheiro as they use "À Vista" pricing
                     if (priceTableSection) {
                         priceTableSection.style.display = 'none';
                         const priceTableSelect = document.getElementById('price-table');
                         if (priceTableSelect) {
-                            priceTableSelect.value = 'A Vista';
+                            // Use correct price table based on user type
+                            const priceTableValue = catalogClient.userType === 'restaurante' ? 'À Vista' : 'A Vista';
+                            priceTableSelect.value = priceTableValue;
                             priceTableSelect.removeAttribute('required');
                         }
                     }
@@ -7632,8 +7633,19 @@ ${this.userType === 'restaurante' ? `
                     if (priceTableSection) priceTableSection.style.display = 'block';
                 }
             } else {
-                // For other payment methods, show price table section normally
-                if (priceTableSection) priceTableSection.style.display = 'block';
+                // For other payment methods, check user type
+                if (catalogClient.userType === 'restaurante') {
+                    // Restaurant users should always hide price table and use "À Vista"
+                    if (priceTableSection) priceTableSection.style.display = 'none';
+                    const priceTableSelect = document.getElementById('price-table');
+                    if (priceTableSelect) {
+                        priceTableSelect.value = 'À Vista';
+                        priceTableSelect.removeAttribute('required');
+                    }
+                } else {
+                    // Show price table section for shop users normally
+                    if (priceTableSection) priceTableSection.style.display = 'block';
+                }
             }
 
             console.log('✅ Condições de pagamento carregadas');
@@ -7685,20 +7697,42 @@ ${this.userType === 'restaurante' ? `
                 // Hide price table section for PIX/Dinheiro as they use "À Vista" automatically
                 if (priceTableSection) priceTableSection.style.display = 'none';
                 if (priceTableSelect) {
-                    priceTableSelect.value = 'A Vista';
+                    // For restaurant users, use "À Vista", for shop users use "A Vista"
+                    const priceTableValue = catalogClient.userType === 'restaurante' ? 'À Vista' : 'A Vista';
+                    priceTableSelect.value = priceTableValue;
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "A Vista" automaticamente');
+                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "À Vista" automaticamente');
+                
+                // Force price calculation immediately
+                setTimeout(() => {
+                    updatePaymentSummary();
+                }, 50);
+                return; // Exit early to prevent showing price table options
             } else {
-                // Show price table section for other payment methods
-                if (priceTableSection) priceTableSection.style.display = 'block';
+                // For other payment methods, check user type before showing price table
+                if (catalogClient.userType === 'restaurante') {
+                    // Restaurant users should always hide price table and use "À Vista"
+                    if (priceTableSection) priceTableSection.style.display = 'none';
+                    if (priceTableSelect) {
+                        priceTableSelect.value = 'À Vista';
+                        priceTableSelect.removeAttribute('required');
+                    }
+                    setTimeout(() => {
+                        updatePaymentSummary();
+                    }, 50);
+                    return; // Exit early for restaurant users
+                } else {
+                    // Show price table section for shop users with other payment methods
+                    if (priceTableSection) priceTableSection.style.display = 'block';
+                }
             }
 
             // Get all active price tables first
             const activePriceTables = catalogClient.priceSettings.filter(ps => ps.active);
             
-            // For PIX/Dinheiro, skip price table logic since it's already handled above
-            if (!isPIXOrDinheiro) {
+            // Only process price table logic for shop users and non-PIX/Dinheiro payments
+            if (!isPIXOrDinheiro && catalogClient.userType !== 'restaurante') {
                 // Check if condition has a specific price table linked
                 if (selectedCondition.priceTableId && selectedCondition.priceTableId.trim() !== '') {
                     console.log('💰 Condição tem tabela específica linkada:', selectedCondition.priceTableId);
@@ -7735,7 +7769,7 @@ ${this.userType === 'restaurante' ? `
                             }, 50);
                         }
                     } else if (activePriceTables.length > 1) {
-                        // Multiple tables available, show all options
+                        // Multiple tables available, show all options for shop users only
                         console.log('📋 Múltiplas tabelas disponíveis, mostrando opções para seleção');
                         if (priceTableSelect) {
                             priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
@@ -7757,12 +7791,10 @@ ${this.userType === 'restaurante' ? `
                 }
             }
             
-            // For PIX/Dinheiro, trigger payment summary update with "A Vista" pricing
-            if (isPIXOrDinheiro) {
-                setTimeout(() => {
-                    updatePaymentSummary();
-                }, 50);
-            }
+            // Force payment summary update for all cases
+            setTimeout(() => {
+                updatePaymentSummary();
+            }, 50);
             
             validatePaymentForm();
         }

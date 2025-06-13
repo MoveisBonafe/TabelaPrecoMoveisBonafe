@@ -7536,15 +7536,24 @@ ${this.userType === 'restaurante' ? `
 
         // Success message function
         function showSuccessMessage(message) {
+            console.log('💬 showSuccessMessage called with:', message);
+            
             // Remove existing success message if any
             const existingMessage = document.querySelector('.success-message');
             if (existingMessage) {
                 existingMessage.remove();
+                console.log('💬 Removed existing message');
             }
             
             // Check if we're in a modal context
-            const productModal = document.querySelector('.modal.active');
-            const isInModal = productModal !== null;
+            const productModal = document.getElementById('product-detail-modal');
+            const isInModal = productModal && productModal.style.display === 'flex';
+            
+            console.log('💬 Modal detection:', {
+                productModal: !!productModal,
+                modalDisplay: productModal ? productModal.style.display : 'none',
+                isInModal: isInModal
+            });
             
             // Create new success message
             const successDiv = document.createElement('div');
@@ -7555,14 +7564,17 @@ ${this.userType === 'restaurante' ? `
                 // Position relative to modal, below close button
                 successDiv.classList.add('modal-context');
                 productModal.appendChild(successDiv);
+                console.log('💬 Success message added to modal');
             } else {
                 // Default positioning for non-modal context
                 document.body.appendChild(successDiv);
+                console.log('💬 Success message added to body');
             }
             
             // Show the message
             setTimeout(() => {
                 successDiv.classList.add('show');
+                console.log('💬 Success message shown');
             }, 100);
             
             // Hide and remove after 3 seconds
@@ -7571,6 +7583,7 @@ ${this.userType === 'restaurante' ? `
                 setTimeout(() => {
                     if (successDiv.parentNode) {
                         successDiv.remove();
+                        console.log('💬 Success message removed');
                     }
                 }, 300);
             }, 3000);

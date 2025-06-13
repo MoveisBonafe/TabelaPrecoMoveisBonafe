@@ -7556,6 +7556,7 @@ ${this.userType === 'restaurante' ? `
             const paymentMethodSelect = document.getElementById('payment-method');
             const paymentConditionsSection = document.getElementById('payment-conditions-section');
             const priceTableSection = document.getElementById('price-table-section');
+            const priceTableSelect = document.getElementById('price-table');
             const paymentConditionsList = document.getElementById('payment-conditions-list');
 
             const selectedMethodId = parseInt(paymentMethodSelect.value);
@@ -7563,7 +7564,9 @@ ${this.userType === 'restaurante' ? `
             if (!selectedMethodId) {
                 // Hide payment conditions if no method selected
                 paymentConditionsSection.style.display = 'none';
-                if (priceTableSection) priceTableSection.style.display = 'block';
+                if (priceTableSection && catalogClient.userType !== 'restaurante') {
+                    priceTableSection.style.display = 'block';
+                }
                 validatePaymentForm();
                 return;
             }
@@ -7572,28 +7575,42 @@ ${this.userType === 'restaurante' ? `
             const selectedMethod = catalogClient.paymentMethods.find(m => m.id === selectedMethodId);
             const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
             
-            console.log('💳 Método selecionado:', selectedMethod?.name, 'isPIXOrDinheiro:', isPIXOrDinheiro);
+            console.log('💳 Método selecionado:', selectedMethod?.name, 'isPIXOrDinheiro:', isPIXOrDinheiro, 'UserType:', catalogClient.userType);
             
-            // Immediate price table hiding for restaurant users or PIX/Dinheiro
-            if (catalogClient.userType === 'restaurante' || isPIXOrDinheiro) {
-                const priceTableSelect = document.getElementById('price-table');
-                if (priceTableSection) priceTableSection.style.display = 'none';
+            // CRITICAL: Handle price table visibility immediately based on user type and payment method
+            if (catalogClient.userType === 'restaurante') {
+                // Restaurant users: ALWAYS hide price table, ALWAYS use "À Vista"
+                if (priceTableSection) {
+                    priceTableSection.style.display = 'none';
+                }
                 if (priceTableSelect) {
-                    const priceTableValue = catalogClient.userType === 'restaurante' ? 'À Vista' : 'A Vista';
-                    priceTableSelect.value = priceTableValue;
+                    priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                
-                const logMessage = catalogClient.userType === 'restaurante' 
-                    ? '👥 Usuário restaurante: tabela oculta automaticamente'
-                    : `💰 ${selectedMethod.name}: tabela oculta, usando "A Vista"`;
-                console.log(logMessage);
-                
-                // Force immediate price calculation
+                console.log('👥 Usuário restaurante: tabela oculta, forçando "À Vista"');
                 setTimeout(() => updatePaymentSummary(), 50);
+            } else if (isPIXOrDinheiro) {
+                // Shop users with PIX/Dinheiro: hide price table, force "A Vista"
+                if (priceTableSection) {
+                    priceTableSection.style.display = 'none';
+                }
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'A Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log(`💰 ${selectedMethod.name}: tabela oculta, forçando "A Vista"`);
+                setTimeout(() => updatePaymentSummary(), 50);
+                validatePaymentForm();
+                return; // Exit early for PIX/Dinheiro
             } else {
-                // Show price table for shop users with other payment methods
-                if (priceTableSection) priceTableSection.style.display = 'block';
+                // Shop users with other payment methods: show price table
+                if (priceTableSection) {
+                    priceTableSection.style.display = 'block';
+                }
+                if (priceTableSelect) {
+                    priceTableSelect.setAttribute('required', 'required');
+                }
+                console.log('🏪 Usuário loja: mostrando tabela de preços');
             }
 
             // Find the rule for the selected payment method

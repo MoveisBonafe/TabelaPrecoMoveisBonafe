@@ -3875,6 +3875,14 @@ ${this.userType === 'restaurante' ? `
 
 
 
+                        <!-- Total Section -->
+                        <div class="total-section-payment" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Total do Pedido</h3>
+                            <div class="total-section" id="total-section">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
                         <!-- Custom Condition Option -->
                         <div class="custom-condition-section" id="custom-condition-section" style="margin-bottom: 24px; display: block; text-align: center; background: #f8f9fa; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px;">
@@ -3883,14 +3891,6 @@ ${this.userType === 'restaurante' ? `
                                 <button type="button" onclick="showCustomConditionHelp()" style="background: #3b82f6; border: none; cursor: pointer; color: white; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; transition: background-color 0.2s; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);" title="Ajuda sobre condições personalizadas">?</button>
                             </div>
                             <p style="font-size: 12px; color: #6b7280; margin: 0; font-style: italic;">Negocie condições especiais para seu negócio</p>
-                        </div>
-
-                        <!-- Total Section -->
-                        <div class="total-section-payment" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
-                            <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Total do Pedido</h3>
-                            <div class="total-section" id="total-section">
-                                <!-- Will be populated by JavaScript -->
-                            </div>
                         </div>
                         
 
@@ -7670,7 +7670,20 @@ ${this.userType === 'restaurante' ? `
             const checkbox = document.getElementById('custom-condition-checkbox');
             const isCustom = checkbox.checked;
             
+            // Get payment sections
+            const paymentConditionsSection = document.getElementById('payment-conditions-section');
+            const priceTableSection = document.getElementById('price-table-section');
+            
+            // Find payment method section by looking for the element containing the payment method select
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const paymentMethodSection = paymentMethodSelect ? paymentMethodSelect.closest('div[style*="background"]') : null;
+            
             if (isCustom) {
+                // Hide all payment sections
+                if (paymentMethodSection) paymentMethodSection.style.display = 'none';
+                if (paymentConditionsSection) paymentConditionsSection.style.display = 'none';
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                
                 // Zero out values and update button text
                 document.getElementById('total-section').innerHTML = `
                     <div style="text-align: center; color: #6b7280; font-style: italic;">
@@ -7684,6 +7697,22 @@ ${this.userType === 'restaurante' ? `
                     finalizeBtn.innerHTML = '💬 Finalize o pedido Conosco';
                 }
             } else {
+                // Show payment sections based on user type and current state
+                if (paymentMethodSection) paymentMethodSection.style.display = 'block';
+                
+                // For price table and conditions, restore based on current payment method selection
+                const selectedMethod = document.getElementById('payment-method').value;
+                if (selectedMethod) {
+                    // Trigger payment method change to restore proper visibility
+                    onPaymentMethodChange();
+                } else {
+                    // If no method selected, hide these sections for loja users initially
+                    if (catalogClient.userType === 'loja') {
+                        if (paymentConditionsSection) paymentConditionsSection.style.display = 'none';
+                        if (priceTableSection) priceTableSection.style.display = 'none';
+                    }
+                }
+                
                 // Restore normal calculation
                 updatePaymentSummary();
                 
@@ -7696,7 +7725,7 @@ ${this.userType === 'restaurante' ? `
         }
         
         function showCustomConditionHelp() {
-            alert('💡 Condição Personalizada\n\nNão encontrou a condição de pagamento ideal para seu negócio?\n\nMarque esta opção para negociar diretamente conosco uma condição personalizada que atenda suas necessidades específicas.\n\nNossa equipe entrará em contato para discutir:\n• Prazos de pagamento flexíveis\n• Condições especiais para grandes volumes\n• Descontos personalizados\n• Outras opções comerciais\n\nEnvie seu pedido e nossa equipe comercial fará uma proposta personalizada!');
+            alert('💡 Condição Personalizada\n\nNão encontrou a condição de pagamento ideal para seu negócio?\n\nMarque esta opção para negociar diretamente conosco uma condição personalizada que atenda suas necessidades específicas.\n\n• Prazos de pagamento flexíveis\n• Condições especiais para grandes volumes\n• Descontos personalizados\n• Outras opções comerciais\n\nEnvie seu pedido com a forma e condição de pagamento desejada e aguarde o retorno da nossa equipe comercial.');
         }
 
         // Enhanced addToCart function with grouping

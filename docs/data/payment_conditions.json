@@ -75,5 +75,16 @@
     "active": true,
     "id": 1749784582759,
     "createdAt": "2025-06-13T03:16:22.759Z"
+  },
+  {
+    "name": "3x sem juros",
+    "description": "",
+    "priceTableId": "",
+    "installments": 3,
+    "interest": 0,
+    "discount": 0,
+    "active": true,
+    "id": 1749784599085,
+    "createdAt": "2025-06-13T03:16:39.085Z"
   }
 ]

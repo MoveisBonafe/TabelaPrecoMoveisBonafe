@@ -4471,14 +4471,22 @@
                 // Function to get appropriate icon for payment method using HTML entities
                 const getPaymentIcon = (name, providedIcon) => {
                     if (providedIcon) {
-                        // Convert stored emoji to HTML entity
-                        if (providedIcon === '💳') return '&#128179;';
-                        if (providedIcon === '📱') return '&#128241;';
-                        if (providedIcon === '💴') return '&#128180;';
-                        if (providedIcon === '💵') return '&#128181;';
-                        if (providedIcon === '📄') return '&#128196;';
-                        if (providedIcon === '🏦') return '&#127970;';
-                        if (providedIcon === '💰') return '&#128176;';
+                        // Convert stored emoji to HTML entity to fix UTF-8 encoding issues
+                        if (providedIcon === '💳') return '&#128179;'; // Credit card
+                        if (providedIcon === '📱') return '&#128241;'; // Mobile phone (PIX)
+                        if (providedIcon === '💴') return '&#128180;'; // Yen banknote
+                        if (providedIcon === '💵') return '&#128181;'; // Dollar banknote  
+                        if (providedIcon === '📄') return '&#128196;'; // Page facing up (Boleto)
+                        if (providedIcon === '🏦') return '&#127970;'; // Bank
+                        if (providedIcon === '💰') return '&#128176;'; // Money bag (Dinheiro)
+                        if (providedIcon === '💱') return '&#128177;'; // Currency exchange
+                        if (providedIcon === '💸') return '&#128184;'; // Money with wings
+                        
+                        // Handle corrupted UTF-8 sequences
+                        if (providedIcon.includes('ðŸ"„') || providedIcon === 'ðŸ"„') return '&#128196;'; // 📄
+                        if (providedIcon.includes('ðŸ'±') || providedIcon === 'ðŸ'±') return '&#128177;'; // 💱  
+                        if (providedIcon.includes('ðŸ'°') || providedIcon === 'ðŸ'°') return '&#128176;'; // 💰
+                        
                         return providedIcon;
                     }
                     const lowerName = name.toLowerCase();

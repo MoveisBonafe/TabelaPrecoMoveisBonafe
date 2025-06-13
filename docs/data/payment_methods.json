@@ -16,5 +16,14 @@
     "fee": 0,
     "id": 1749777902365,
     "createdAt": "2025-06-13T01:25:02.365Z"
+  },
+  {
+    "name": "Dinheiro",
+    "description": "",
+    "icon": "💰",
+    "active": true,
+    "fee": 0,
+    "id": 1749777939994,
+    "createdAt": "2025-06-13T01:25:39.994Z"
   }
 ]

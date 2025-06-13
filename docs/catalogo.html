@@ -3746,13 +3746,13 @@ ${this.userType === 'restaurante' ? `
                             <h3 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Dados do Cliente</h3>
                             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" oninput="formatCNPJ(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-cnpj" required placeholder="CNPJ * (00.000.000/0000-00)" maxlength="18" inputmode="numeric" oninput="formatCNPJ(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                                 <div class="form-group" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-name" required placeholder="Nome Completo *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                                 <div class="form-group" style="margin-bottom: 16px;">
-                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="tel" id="customer-phone" required placeholder="Telefone * (14) 99999-9999" maxlength="15" inputmode="tel" oninput="formatPhone(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
                                     <input type="text" id="customer-address" required placeholder="Endereço *" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
@@ -3769,7 +3769,7 @@ ${this.userType === 'restaurante' ? `
                                     <input type="text" id="customer-complement" placeholder="Complemento (opcional)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                                 <div class="form-group address-field" style="margin-bottom: 16px;">
-                                    <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
+                                    <input type="text" id="customer-cep" required placeholder="CEP * (00000-000)" maxlength="9" inputmode="numeric" oninput="formatCEP(this)" style="width: 100%; padding: 14px 16px; font-size: 16px; border-radius: 16px; border: 1px solid #d1d5db; background: white; box-sizing: border-box;">
                                 </div>
                             </div>
                         </div>
@@ -6342,13 +6342,31 @@ ${this.userType === 'restaurante' ? `
         }
 
         // Navigation functions for cart steps
-        // CNPJ formatting function
+        // Formatting functions
         function formatCNPJ(input) {
             let value = input.value.replace(/\D/g, '');
             value = value.replace(/^(\d{2})(\d)/, '$1.$2');
             value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
             value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
             value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            input.value = value;
+        }
+
+        function formatPhone(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length <= 10) {
+                value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            } else {
+                value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            }
+            input.value = value;
+        }
+
+        function formatCEP(input) {
+            let value = input.value.replace(/\D/g, '');
+            value = value.replace(/^(\d{5})(\d)/, '$1-$2');
             input.value = value;
         }
 

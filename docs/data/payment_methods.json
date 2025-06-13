@@ -1,5 +1,23 @@
 [
   {
+    "name": "PIX",
+    "description": "Pagamento instantâneo via PIX",
+    "icon": "📱",
+    "active": true,
+    "fee": 0,
+    "id": 1749778200001,
+    "createdAt": "2025-06-13T00:43:58.465Z"
+  },
+  {
+    "name": "Dinheiro",
+    "description": "Pagamento em dinheiro",
+    "icon": "💰",
+    "active": true,
+    "fee": 0,
+    "id": 1749778200002,
+    "createdAt": "2025-06-13T00:43:58.465Z"
+  },
+  {
     "name": "Boleto",
     "description": "",
     "icon": "ð",

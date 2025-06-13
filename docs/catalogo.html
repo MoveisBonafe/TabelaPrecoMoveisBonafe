@@ -6567,27 +6567,52 @@ ${this.userType === 'restaurante' ? `
             
             if (!totalSectionDiv) return;
             
+            console.log('🧮 Calculando preços para tabela selecionada:', priceTable);
+            
             // Calculate totals
             let subtotal = 0;
             
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
-                    // Calculate prices using the same system as product cards
-                    const prices = catalogClient.calculatePrices(product);
+                    // Find the selected price table configuration
+                    const selectedPriceTableConfig = catalogClient.priceSettings.find(ps => 
+                        ps.active && ps.name === priceTable
+                    );
                     
-                    // Get price based on selected table
-                    let unitPrice = prices.vista || 0; // Default to À Vista
-                    switch(priceTable) {
-                        case '30': unitPrice = prices.prazo30 || prices.vista || 0; break;
-                        case '30/60': unitPrice = prices.prazo3060 || prices.vista || 0; break;
-                        case '30/60/90': unitPrice = prices.prazo306090 || prices.vista || 0; break;
-                        case '30/60/90/120': unitPrice = prices.prazo30606090120 || prices.vista || 0; break;
-                        default: unitPrice = prices.vista || 0; break;
+                    if (selectedPriceTableConfig) {
+                        console.log('📊 Configuração da tabela encontrada:', selectedPriceTableConfig);
+                        
+                        // Calculate price using the selected table configuration
+                        const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                        const multiplier = catalogClient.currentUser.priceMultiplier || 1.0;
+                        const percentage = selectedPriceTableConfig.percentage || 0;
+                        const priceMultiplier = 1 + (percentage / 100);
+                        
+                        let unitPrice = basePrice * priceMultiplier * multiplier;
+                        
+                        // Apply restaurant rounding if applicable
+                        if (catalogClient.userType === 'restaurante' && 
+                            (selectedPriceTableConfig.name.toLowerCase().includes('vista') || 
+                             selectedPriceTableConfig.name.toLowerCase() === 'à vista')) {
+                            const decimalPart = unitPrice - Math.floor(unitPrice);
+                            if (decimalPart >= 0.50) {
+                                unitPrice = Math.ceil(unitPrice);
+                            } else {
+                                unitPrice = Math.floor(unitPrice);
+                            }
+                        }
+                        
+                        console.log(`💰 Produto ${product.name}: base ${basePrice} → final ${unitPrice} (tabela: ${priceTable})`);
+                        
+                        const itemTotal = unitPrice * item.quantity;
+                        subtotal += itemTotal;
+                    } else {
+                        console.log('⚠️ Tabela de preço não encontrada, usando preço base');
+                        const basePrice = product.priceAVista || product.basePrice || product.finalPrice || 0;
+                        const itemTotal = basePrice * item.quantity;
+                        subtotal += itemTotal;
                     }
-                    
-                    const itemTotal = unitPrice * item.quantity;
-                    subtotal += itemTotal;
                 }
             });
             

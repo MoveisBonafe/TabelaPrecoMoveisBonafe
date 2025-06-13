@@ -12,6 +12,22 @@
             padding: 0;
             box-sizing: border-box;
         }
+
+        /* Custom rounded checkbox styling */
+        #custom-condition-checkbox {
+            position: relative;
+        }
+        
+        #custom-condition-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -3886,7 +3902,7 @@ ${this.userType === 'restaurante' ? `
                         <!-- Custom Condition Option -->
                         <div class="custom-condition-section" id="custom-condition-section" style="margin-bottom: 24px; display: block; text-align: center; background: #f8f9fa; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px;">
-                                <input type="checkbox" id="custom-condition-checkbox" onchange="toggleCustomCondition()" style="width: 20px; height: 20px; cursor: pointer;">
+                                <input type="checkbox" id="custom-condition-checkbox" onchange="this.style.background = this.checked ? '#3b82f6' : 'white'; this.style.borderColor = this.checked ? '#3b82f6' : '#d1d5db'; toggleCustomCondition();" style="width: 20px; height: 20px; cursor: pointer; border-radius: 50%; appearance: none; border: 2px solid #d1d5db; background: white; position: relative;">
                                 <label for="custom-condition-checkbox" style="font-size: 16px; font-weight: 600; color: #374151; cursor: pointer;">Não encontrou sua condição?</label>
                                 <button type="button" onclick="showCustomConditionHelp()" style="background: #3b82f6; border: none; cursor: pointer; color: white; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; transition: background-color 0.2s; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);" title="Ajuda sobre condições personalizadas">?</button>
                             </div>
@@ -7691,10 +7707,13 @@ ${this.userType === 'restaurante' ? `
                     </div>
                 `;
                 
-                // Change button text
+                // Change button text and ensure it stays enabled
                 const finalizeBtn = document.querySelector('.checkout-btn[onclick="finalizeOrder()"]');
                 if (finalizeBtn) {
                     finalizeBtn.innerHTML = '💬 Finalize o pedido Conosco';
+                    finalizeBtn.disabled = false;
+                    finalizeBtn.style.opacity = '1';
+                    finalizeBtn.style.cursor = 'pointer';
                 }
             } else {
                 // Show payment sections based on user type and current state
@@ -7716,16 +7735,19 @@ ${this.userType === 'restaurante' ? `
                 // Restore normal calculation
                 updatePaymentSummary();
                 
-                // Restore button text
+                // Restore button text and ensure proper styling
                 const finalizeBtn = document.querySelector('.checkout-btn[onclick="finalizeOrder()"]');
                 if (finalizeBtn) {
                     finalizeBtn.innerHTML = '💬 Finalizar Pedido';
+                    finalizeBtn.disabled = false;
+                    finalizeBtn.style.opacity = '1';
+                    finalizeBtn.style.cursor = 'pointer';
                 }
             }
         }
         
         function showCustomConditionHelp() {
-            alert('💡 Condição Personalizada\n\nNão encontrou a condição de pagamento ideal para seu negócio?\n\nMarque esta opção para negociar diretamente conosco uma condição personalizada que atenda suas necessidades específicas.\n\n• Prazos de pagamento flexíveis\n• Condições especiais para grandes volumes\n• Descontos personalizados\n• Outras opções comerciais\n\nEnvie seu pedido com a forma e condição de pagamento desejada e aguarde o retorno da nossa equipe comercial.');
+            alert('💡 Condição Personalizada\n\nNão encontrou a condição de pagamento ideal para seu negócio?\n\nMarque esta opção para negociar diretamente conosco uma condição personalizada que atenda suas necessidades específicas.\n\nEnvie seu pedido com a forma e condição de pagamento desejada e aguarde o retorno da nossa equipe comercial.');
         }
 
         // Enhanced addToCart function with grouping

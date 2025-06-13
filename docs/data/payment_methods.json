@@ -2,10 +2,19 @@
   {
     "name": "Boleto",
     "description": "",
-    "icon": "📄",
+    "icon": "ð",
     "active": true,
     "fee": 0,
     "id": 1749775438465,
     "createdAt": "2025-06-13T00:43:58.465Z"
+  },
+  {
+    "name": "PIX",
+    "description": "",
+    "icon": "📱",
+    "active": true,
+    "fee": 0,
+    "id": 1749777902365,
+    "createdAt": "2025-06-13T01:25:02.365Z"
   }
 ]

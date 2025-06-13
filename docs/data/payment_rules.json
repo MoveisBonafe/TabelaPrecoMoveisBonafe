@@ -19,7 +19,6 @@
     "paymentMethodId": 1749777902365,
     "conditionIds": [],
     "userAccess": [
-      "all",
       "loja",
       "restaurante"
     ],

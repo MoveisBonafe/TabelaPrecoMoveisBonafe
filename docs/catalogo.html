@@ -6467,17 +6467,18 @@ ${this.userType === 'restaurante' ? `
             }, 100);
             
             if (catalogClient.userType === 'restaurante') {
-                // Hide price table section for restaurant users
+                // Hide price table section for restaurant users and auto-select "À Vista"
                 priceTableSection.style.display = 'none';
-                // Automatically set to "À Vista"
-                priceTableSelect.value = 'avista';
+                priceTableSelect.value = 'À Vista';
                 priceTableSelect.removeAttribute('required');
+                console.log('👥 Usuário restaurante: tabela "À Vista" auto-selecionada');
                 // Update payment summary after setting the price table
                 setTimeout(() => updatePaymentSummary(), 100);
             } else {
                 // Show price table section for shop users
                 priceTableSection.style.display = 'block';
                 priceTableSelect.setAttribute('required', 'required');
+                console.log('👥 Usuário loja: mostrando seleção de tabela de preços');
                 // Update payment summary for shop users
                 updatePaymentSummary();
             }
@@ -7553,14 +7554,19 @@ ${this.userType === 'restaurante' ? `
 
             const selectedMethodId = parseInt(paymentMethodSelect.value);
 
-            // Keep price table section visible - don't hide it
-
             if (!selectedMethodId) {
                 // Hide payment conditions if no method selected
                 paymentConditionsSection.style.display = 'none';
+                if (priceTableSection) priceTableSection.style.display = 'block';
                 validatePaymentForm();
                 return;
             }
+
+            // Check if the selected method is PIX or Dinheiro for auto-hide logic
+            const selectedMethod = catalogClient.paymentMethods.find(m => m.id === selectedMethodId);
+            const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
+            
+            console.log('💳 Método selecionado:', selectedMethod?.name, 'isPIXOrDinheiro:', isPIXOrDinheiro);
 
             // Find the rule for the selected payment method
             const rule = catalogClient.paymentRules.find(r => r.paymentMethodId === selectedMethodId);
@@ -7569,6 +7575,7 @@ ${this.userType === 'restaurante' ? `
             if (!rule || !rule.conditionIds || rule.conditionIds.length === 0) {
                 console.log('⚠️ Nenhuma condição encontrada para este método');
                 paymentConditionsSection.style.display = 'none';
+                if (priceTableSection) priceTableSection.style.display = 'block';
                 validatePaymentForm();
                 return;
             }
@@ -7592,6 +7599,36 @@ ${this.userType === 'restaurante' ? `
                 option.textContent = condition.name;
                 paymentConditionSelect.appendChild(option);
             });
+
+            // For PIX and Dinheiro, auto-select "A vista" condition and hide price table selection
+            if (isPIXOrDinheiro) {
+                const aVistaCondition = catalogClient.paymentConditions.find(c => c.name === 'A vista');
+                if (aVistaCondition && rule.conditionIds.includes(aVistaCondition.id)) {
+                    console.log('💰 Auto-selecionando condição "A vista" para PIX/Dinheiro');
+                    paymentConditionSelect.value = aVistaCondition.id;
+                    
+                    // Hide price table selection for PIX/Dinheiro as they use "A Vista" pricing
+                    if (priceTableSection) {
+                        priceTableSection.style.display = 'none';
+                        const priceTableSelect = document.getElementById('price-table');
+                        if (priceTableSelect) {
+                            priceTableSelect.value = 'A Vista';
+                            priceTableSelect.removeAttribute('required');
+                        }
+                    }
+                    
+                    // Trigger payment condition change to update totals
+                    setTimeout(() => {
+                        onPaymentConditionChange();
+                    }, 50);
+                } else {
+                    // Show price table section if A Vista condition not found
+                    if (priceTableSection) priceTableSection.style.display = 'block';
+                }
+            } else {
+                // For other payment methods, show price table section normally
+                if (priceTableSection) priceTableSection.style.display = 'block';
+            }
 
             console.log('✅ Condições de pagamento carregadas');
             

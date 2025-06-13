@@ -1,8 +1,8 @@
 [
   {
-    "name": "À vista",
+    "name": "A vista",
     "description": "",
-    "priceTableId": "",
+    "priceTableId": "A Vista",
     "installments": 1,
     "interest": 0,
     "discount": 0,

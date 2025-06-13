@@ -7555,6 +7555,79 @@ ${this.userType === 'restaurante' ? `
             });
 
             console.log('✅ Condições de pagamento carregadas');
+            
+            // Add change event listener to payment condition select
+            paymentConditionSelect.removeEventListener('change', onPaymentConditionChange);
+            paymentConditionSelect.addEventListener('change', onPaymentConditionChange);
+            
+            validatePaymentForm();
+        }
+
+        function onPaymentConditionChange() {
+            const paymentConditionSelect = document.getElementById('payment-condition');
+            const priceTableSection = document.getElementById('price-table-section');
+            const priceTableSelect = document.getElementById('price-table');
+
+            const selectedConditionId = parseInt(paymentConditionSelect.value);
+            
+            if (!selectedConditionId) {
+                // Hide price table section if no condition selected
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                validatePaymentForm();
+                return;
+            }
+
+            // Find the selected condition
+            const selectedCondition = catalogClient.paymentConditions.find(c => c.id === selectedConditionId);
+            console.log('🔍 Condição selecionada:', selectedCondition);
+            
+            if (!selectedCondition) {
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                validatePaymentForm();
+                return;
+            }
+
+            // Show price table section
+            if (priceTableSection) priceTableSection.style.display = 'block';
+
+            // Check if condition has a specific price table linked
+            if (selectedCondition.priceTableId && selectedCondition.priceTableId.trim() !== '') {
+                console.log('💰 Condição tem tabela específica:', selectedCondition.priceTableId);
+                
+                // Auto-select the specific price table
+                if (priceTableSelect) {
+                    // Clear and populate with the specific table
+                    priceTableSelect.innerHTML = '<option value="">Carregando...</option>';
+                    
+                    // Find and set the specific price table
+                    const priceTable = catalogClient.priceSettings.find(ps => ps.name === selectedCondition.priceTableId && ps.active);
+                    if (priceTable) {
+                        priceTableSelect.innerHTML = `<option value="${priceTable.name}" selected>${priceTable.name}</option>`;
+                        console.log('✅ Tabela de preço auto-selecionada:', priceTable.name);
+                    } else {
+                        priceTableSelect.innerHTML = '<option value="">Tabela não encontrada</option>';
+                    }
+                }
+            } else {
+                console.log('💰 Condição permite todas as tabelas - carregando opções');
+                
+                // Load all available price tables
+                if (priceTableSelect) {
+                    priceTableSelect.innerHTML = '<option value="">Selecione a tabela de preços</option>';
+                    
+                    catalogClient.priceSettings.forEach(priceTable => {
+                        if (priceTable.active) {
+                            const option = document.createElement('option');
+                            option.value = priceTable.name;
+                            option.textContent = priceTable.name;
+                            priceTableSelect.appendChild(option);
+                        }
+                    });
+                    
+                    console.log('✅ Todas as tabelas de preço carregadas');
+                }
+            }
+            
             validatePaymentForm();
         }
 

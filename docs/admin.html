@@ -1574,11 +1574,11 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Tabela de Preço:</label>
-                    <select id="payment-condition-price-table" class="form-select" required>
-                        <option value="">Selecione uma tabela</option>
+                    <label class="form-label">Tabela de Preço (Opcional):</label>
+                    <select id="payment-condition-price-table" class="form-select">
+                        <option value="">Todas as tabelas (deixe vazio para mostrar todas)</option>
                     </select>
-                    <small style="color: #6b7280;">Ex: "À Vista" usa tabela à vista, "Parcelado" usa tabela com prazos</small>
+                    <small style="color: #6b7280;">Se vazio: mostra todas as tabelas. Se preenchido: força uso de tabela específica</small>
                 </div>
                 
                 <div class="form-row">
@@ -5408,10 +5408,7 @@
                     active: document.getElementById('payment-condition-active').value === 'true'
                 };
                 
-                if (!formData.priceTableId) {
-                    showNotification('Selecione uma tabela de preço', 'error');
-                    return;
-                }
+                // Price table is optional - remove validation
                 
                 try {
                     if (editingConditionId) {

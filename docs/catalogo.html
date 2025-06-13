@@ -5669,21 +5669,22 @@ ${this.userType === 'restaurante' ? `
 
         /* Success message in modal context - positioned below close button */
         .success-message.modal-context {
-            position: absolute;
-            top: 80px;
-            right: 20px;
-            left: 20px;
-            max-width: none;
-            min-width: auto;
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            right: auto;
+            max-width: 400px;
+            min-width: 280px;
             width: auto;
-            margin: 0 auto;
             text-align: center;
-            transform: translateY(-20px);
             opacity: 0;
+            z-index: 10001;
+            margin: 0;
         }
 
         .success-message.modal-context.show {
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
 
@@ -7561,10 +7562,10 @@ ${this.userType === 'restaurante' ? `
             successDiv.innerHTML = `🛒 ${message}`;
             
             if (isInModal) {
-                // Position relative to modal, below close button
+                // Position fixed, centered below close button
                 successDiv.classList.add('modal-context');
-                productModal.appendChild(successDiv);
-                console.log('💬 Success message added to modal');
+                document.body.appendChild(successDiv);
+                console.log('💬 Success message added to body with modal styling');
             } else {
                 // Default positioning for non-modal context
                 document.body.appendChild(successDiv);

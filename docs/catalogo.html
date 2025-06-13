@@ -7927,27 +7927,43 @@ ${this.userType === 'restaurante' ? `
             const paymentMethod = document.getElementById('payment-method').value;
             const priceTableSection = document.getElementById('price-table-section');
             const paymentConditionsSection = document.getElementById('payment-conditions-section');
+            const paymentCondition = document.getElementById('payment-condition').value;
+            const priceTable = document.getElementById('price-table').value;
             
             let isValid = true;
             
-            // Check payment method
+            // Check payment method - always required
             if (!paymentMethod) {
                 isValid = false;
-            }
-            
-            // Check conditions based on what's visible
-            if (paymentConditionsSection.style.display !== 'none') {
-                // Payment conditions are visible, check if one is selected from dropdown
-                const paymentCondition = document.getElementById('payment-condition').value;
-                if (!paymentCondition) {
-                    isValid = false;
+            } else {
+                // Get selected payment method details
+                const selectedMethod = catalogClient.paymentMethods.find(m => m.id == paymentMethod);
+                const methodName = selectedMethod ? selectedMethod.name.toLowerCase() : '';
+                
+                // PIX and Dinheiro validation - only need payment method
+                if (methodName.includes('pix') || methodName.includes('dinheiro')) {
+                    isValid = true; // Only payment method required
                 }
-            }
-            
-            // Always check price table since it's always visible now
-            const priceTable = document.getElementById('price-table').value;
-            if (!priceTable) {
-                isValid = false;
+                // Restaurant user validation
+                else if (catalogClient.userType === 'restaurante') {
+                    // Restaurant users need payment method + condition (price table auto-set to "À Vista")
+                    if (paymentConditionsSection.style.display !== 'none') {
+                        isValid = paymentMethod && paymentCondition;
+                    } else {
+                        isValid = true; // Only payment method needed if no conditions visible
+                    }
+                }
+                // Shop user validation for other payment methods
+                else {
+                    // Check conditions if visible
+                    if (paymentConditionsSection.style.display !== 'none' && !paymentCondition) {
+                        isValid = false;
+                    }
+                    // Check price table if visible
+                    if (priceTableSection.style.display !== 'none' && !priceTable) {
+                        isValid = false;
+                    }
+                }
             }
             
             // Update finalize button

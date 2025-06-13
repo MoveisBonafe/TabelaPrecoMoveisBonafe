@@ -7455,10 +7455,13 @@ ${this.userType === 'restaurante' ? `
         checkForDataUpdates();
         setInterval(checkForDataUpdates, 10000);
         
-        // Clear cached payment data to prevent duplicates
-        localStorage.removeItem('payment_methods.json');
-        localStorage.removeItem('payment_conditions.json');
-        localStorage.removeItem('payment_rules.json');
+        // Clear cached payment data only once to prevent duplicates
+        if (!sessionStorage.getItem('paymentCacheCleared')) {
+            localStorage.removeItem('payment_methods.json');
+            localStorage.removeItem('payment_conditions.json');
+            localStorage.removeItem('payment_rules.json');
+            sessionStorage.setItem('paymentCacheCleared', 'true');
+        }
         
         // Initialize cart count on page load
         updateCartCount();
@@ -7622,10 +7625,8 @@ ${this.userType === 'restaurante' ? `
                         }
                     }
                     
-                    // Trigger payment condition change to update totals
-                    setTimeout(() => {
-                        onPaymentConditionChange();
-                    }, 50);
+                    // Trigger payment condition change to update totals immediately
+                    onPaymentConditionChange();
                 } else {
                     // Show price table section if A Vista condition not found
                     if (priceTableSection) priceTableSection.style.display = 'block';
@@ -7828,8 +7829,8 @@ ${this.userType === 'restaurante' ? `
             return isValid;
         }
 
-        // Listen for payment data updates from admin panel
-        window.addEventListener('paymentDataUpdated', async function(event) {
+        // Listen for payment data updates from admin panel (single listener)
+        window.addEventListener('paymentDataUpdated', function(event) {
             console.log('🔄 Payment data updated from admin panel:', event.detail.type);
             
             // Update the relevant data in catalogClient
@@ -7841,54 +7842,11 @@ ${this.userType === 'restaurante' ? `
                 catalogClient.paymentRules = event.detail.data;
             }
             
-            // Force refresh payment methods in the UI regardless of current step
-            console.log('🔄 Force reloading payment methods...');
+            // Refresh payment methods in the UI without page reload
             setTimeout(() => {
                 loadPaymentMethods();
             }, 100);
         });
-
-        // Listen for storage events from other tabs/windows
-        window.addEventListener('storage', function(event) {
-            if (event.key && event.key.includes('payment_') && event.key.includes('.json')) {
-                console.log('🔄 Payment data changed in localStorage:', event.key);
-                
-                // Force page reload to ensure fresh data
-                console.log('🔄 Reloading page to sync with admin changes...');
-                location.reload();
-            }
-        });
-
-        // Periodically check for localStorage changes (fallback for same-tab updates)
-        let lastPaymentUpdate = Date.now();
-        setInterval(() => {
-            const paymentMethodsData = localStorage.getItem('payment_methods.json');
-            const paymentConditionsData = localStorage.getItem('payment_conditions.json');
-            const paymentRulesData = localStorage.getItem('payment_rules.json');
-            
-            if (paymentMethodsData || paymentConditionsData || paymentRulesData) {
-                // Check if data has been modified recently (within last 5 seconds)
-                const now = Date.now();
-                const isRecentUpdate = (now - lastPaymentUpdate) > 2000; // Check every 2 seconds
-                
-                if (isRecentUpdate) {
-                    try {
-                        // Parse and compare data to detect changes
-                        const newPaymentMethods = paymentMethodsData ? JSON.parse(paymentMethodsData) : [];
-                        const currentMethodsStr = JSON.stringify(catalogClient.paymentMethods);
-                        const newMethodsStr = JSON.stringify(newPaymentMethods);
-                        
-                        if (currentMethodsStr !== newMethodsStr && newPaymentMethods.length > 0) {
-                            console.log('🔄 Detected payment data changes, reloading page...');
-                            location.reload();
-                        }
-                    } catch (e) {
-                        // Ignore parsing errors
-                    }
-                }
-                lastPaymentUpdate = now;
-            }
-        }, 2000); // Check every 2 seconds
     </script>
 
     <!-- Footer -->

@@ -7760,28 +7760,6 @@ ${this.userType === 'restaurante' ? `
                     finalizeBtn.innerHTML = '💬 Finalize o pedido Conosco';
                 }
             } else {
-                // Reset form state when unchecked
-                const paymentMethodSelect = document.getElementById('payment-method');
-                const priceTableSelect = document.getElementById('price-table');
-                const paymentConditionSelect = document.getElementById('payment-condition');
-                
-                // Clear all selections
-                if (paymentMethodSelect) paymentMethodSelect.value = '';
-                if (priceTableSelect) priceTableSelect.value = '';
-                if (paymentConditionSelect) paymentConditionSelect.value = '';
-                
-                // Hide sections initially for loja users as per original behavior
-                const priceTableSection = document.getElementById('price-table-section');
-                const paymentConditionsSection = document.getElementById('payment-conditions-section');
-                
-                if (catalogClient.userType === 'loja') {
-                    if (priceTableSection) priceTableSection.style.display = 'none';
-                } else {
-                    if (priceTableSection) priceTableSection.style.display = 'none';
-                }
-                
-                if (paymentConditionsSection) paymentConditionsSection.style.display = 'none';
-                
                 // Restore normal calculation
                 updatePaymentSummary();
                 
@@ -7790,9 +7768,6 @@ ${this.userType === 'restaurante' ? `
                 if (finalizeBtn) {
                     finalizeBtn.innerHTML = '💬 Finalizar Pedido';
                 }
-                
-                // Re-validate form
-                validatePaymentForm();
             }
             
             // Always trigger form validation to update button state
@@ -8495,6 +8470,10 @@ ${this.userType === 'restaurante' ? `
                 <p>© 2025 Móveis Bonafé. Todos os direitos reservados.</p>
             </div>
         </footer>
+    
+            });
+        });
+    </script>
     
     </body>
 </html>

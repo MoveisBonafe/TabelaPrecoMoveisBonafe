@@ -4482,10 +4482,11 @@
                         if (providedIcon === '💱') return '&#128177;'; // Currency exchange
                         if (providedIcon === '💸') return '&#128184;'; // Money with wings
                         
-                        // Handle corrupted UTF-8 sequences
-                        if (providedIcon.includes('ðŸ"„') || providedIcon === 'ðŸ"„') return '&#128196;'; // 📄
-                        if (providedIcon.includes('ðŸ'±') || providedIcon === 'ðŸ'±') return '&#128177;'; // 💱  
-                        if (providedIcon.includes('ðŸ'°') || providedIcon === 'ðŸ'°') return '&#128176;'; // 💰
+                        // Handle any corrupted or unrecognized icon sequences by returning appropriate fallbacks
+                        if (providedIcon.length > 2 && !providedIcon.match(/^[\\u{1F000}-\\u{1F9FF}]$/u)) {
+                            // If icon appears corrupted, use default money icon
+                            return '&#128176;'; // 💰
+                        }
                         
                         return providedIcon;
                     }

@@ -7687,45 +7687,39 @@ ${this.userType === 'restaurante' ? `
                 return;
             }
 
-            // Check if current payment method is PIX or Dinheiro to hide price table
+            // Check user type and payment method to determine price table visibility
             const paymentMethodSelect = document.getElementById('payment-method');
             const selectedMethodId = parseInt(paymentMethodSelect.value);
             const selectedMethod = catalogClient.paymentMethods.find(m => m.id === selectedMethodId);
             const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
             
-            if (isPIXOrDinheiro) {
-                // Hide price table section for PIX/Dinheiro as they use "À Vista" automatically
+            // Restaurant users always hide price table and use "À Vista" pricing
+            if (catalogClient.userType === 'restaurante') {
                 if (priceTableSection) priceTableSection.style.display = 'none';
                 if (priceTableSelect) {
-                    // For restaurant users, use "À Vista", for shop users use "A Vista"
-                    const priceTableValue = catalogClient.userType === 'restaurante' ? 'À Vista' : 'A Vista';
-                    priceTableSelect.value = priceTableValue;
+                    priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "À Vista" automaticamente');
-                
-                // Force price calculation immediately
-                setTimeout(() => {
-                    updatePaymentSummary();
-                }, 50);
+                console.log('👥 Usuário restaurante: usando preço "À Vista" sempre');
+                setTimeout(() => updatePaymentSummary(), 50);
+                return; // Exit early for restaurant users
+            }
+            
+            // For shop users: PIX/Dinheiro hide price table, other methods show it
+            if (isPIXOrDinheiro) {
+                if (priceTableSection) priceTableSection.style.display = 'none';
+                if (priceTableSelect) {
+                    priceTableSelect.value = 'A Vista';
+                    priceTableSelect.removeAttribute('required');
+                }
+                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "A Vista" automaticamente');
+                setTimeout(() => updatePaymentSummary(), 50);
                 return; // Exit early to prevent showing price table options
             } else {
-                // For other payment methods, check user type before showing price table
-                if (catalogClient.userType === 'restaurante') {
-                    // Restaurant users should always hide price table and use "À Vista"
-                    if (priceTableSection) priceTableSection.style.display = 'none';
-                    if (priceTableSelect) {
-                        priceTableSelect.value = 'À Vista';
-                        priceTableSelect.removeAttribute('required');
-                    }
-                    setTimeout(() => {
-                        updatePaymentSummary();
-                    }, 50);
-                    return; // Exit early for restaurant users
-                } else {
-                    // Show price table section for shop users with other payment methods
-                    if (priceTableSection) priceTableSection.style.display = 'block';
-                }
+                // Show price table section for shop users with other payment methods
+                if (priceTableSection) priceTableSection.style.display = 'block';
+                if (priceTableSelect) priceTableSelect.setAttribute('required', 'required');
+                console.log('👥 Usuário loja: mostrando seleção de tabela de preços');
             }
 
             // Get all active price tables first

@@ -7495,18 +7495,14 @@ ${this.userType === 'restaurante' ? `
                     return true; // Allow access if no rule is defined
                 }
 
-                // Simplified access control - if rule contains 'all' or user type, allow access
+                // Check if user has access to this payment method
                 let hasAccess = false;
                 
                 if (Array.isArray(rule.userAccess)) {
                     hasAccess = rule.userAccess.includes('all') || 
-                               rule.userAccess.includes('loja') || 
-                               rule.userAccess.includes('restaurante') ||
                                rule.userAccess.includes(catalogClient.userType);
                 } else {
                     hasAccess = rule.userAccess === 'all' || 
-                               rule.userAccess === 'loja' || 
-                               rule.userAccess === 'restaurante' ||
                                rule.userAccess === catalogClient.userType;
                 }
                        

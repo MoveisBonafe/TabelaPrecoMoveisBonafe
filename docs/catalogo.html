@@ -4503,89 +4503,177 @@ ${this.userType === 'restaurante' ? `
             background: #22c55e;
         }
 
-        /* Cart Modal Styles - Clean Design */
+        /* Cart Modal Styles - Professional Design */
         .cart-modal-body {
             padding: 0;
             height: 80vh;
             max-height: 80vh;
             overflow-y: auto;
-            background: white;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         }
 
         .cart-header {
-            background: white;
-            padding: 20px 24px;
-            border-bottom: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 24px 28px;
+            border-bottom: 2px solid #e2e8f0;
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .cart-steps {
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
-            gap: 16px;
-            margin-bottom: 16px;
-            max-width: 400px;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 24px;
+            max-width: 480px;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .cart-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 50%, #e2e8f0 100%);
+            transform: translateY(-50%);
+            z-index: 1;
         }
 
         .cart-step {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 8px;
-            color: #9ca3af;
-            font-size: 0.9rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
         }
 
         .cart-step.active {
-            color: #374151;
+            color: #1e293b;
+        }
+
+        .cart-step.completed {
+            color: #059669;
         }
 
         .cart-step-number {
-            width: 24px;
-            height: 24px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #e5e7eb;
-            color: #6b7280;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            color: #64748b;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cart-step-number::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transition: left 0.8s ease;
         }
 
         .cart-step.active .cart-step-number {
-            background: #374151;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: white;
+            border-color: #f59e0b;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);
+            transform: scale(1.1);
+        }
+
+        .cart-step.active .cart-step-number::before {
+            left: 100%;
+        }
+
+        .cart-step.completed .cart-step-number {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #059669;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .cart-step.loading .cart-step-number {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border-color: #4f46e5;
+            animation: loading-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loading-pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            }
         }
 
         .cart-items-section {
-            padding: 20px 24px;
+            padding: 28px 32px;
+            background: transparent;
         }
 
         .cart-items {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            backdrop-filter: blur(20px);
         }
 
         .cart-items-header {
             display: flex;
-            justify-content: between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f3f4f6;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
+            position: relative;
+        }
+
+        .cart-items-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 1px;
         }
 
         .cart-items-title {
-            font-weight: 600;
-            color: #111827;
-            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.2rem;
             text-align: center;
+            letter-spacing: -0.02em;
         }
 
         .cart-item {
@@ -4809,42 +4897,53 @@ ${this.userType === 'restaurante' ? `
 
         .clear-cart-btn, .checkout-btn {
             flex: 1;
-            padding: 14px 24px;
+            padding: 16px 28px;
             border: none;
-            border-radius: 12px;
-            font-weight: 600;
+            border-radius: 16px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: -0.01em;
         }
 
         .clear-cart-btn {
-            background: white;
-            color: #374151;
-            border: 1px solid #d1d5db;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            color: #475569;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .clear-cart-btn:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
         }
 
         .checkout-btn {
-            background: white;
-            color: #374151;
-            border: 1px solid #d1d5db;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            border: 2px solid #f59e0b;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25);
         }
 
         .checkout-btn:hover:not(:disabled) {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #d97706;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);
+            transform: translateY(-2px);
         }
 
         .checkout-btn:disabled {
-            background: #f3f4f6;
-            color: #9ca3af;
-            border-color: #e5e7eb;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #94a3b8;
+            border-color: #e2e8f0;
             cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
         }
 
         .empty-cart {
@@ -5098,7 +5197,7 @@ ${this.userType === 'restaurante' ? `
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 16px;
         }
 

@@ -200,11 +200,51 @@
             padding: 20px;
             transition: all 0.3s ease;
             position: relative;
+            cursor: move;
         }
 
         .data-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transform: translateY(-2px);
+        }
+
+        .data-card.dragging {
+            opacity: 0.5;
+            transform: rotate(3deg) scale(0.95);
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .data-card.drag-over {
+            border: 2px dashed #4299e1;
+            background: #f7fafc;
+        }
+
+        .drag-handle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: rgba(66, 153, 225, 0.9);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            cursor: grab;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+
+        .data-card:hover .drag-handle {
+            opacity: 1;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
         }
 
         .card-image {
@@ -2087,6 +2127,7 @@
                 const productIndex = adminClient.products.findIndex(p => p.id === product.id);
                 
                 card.innerHTML = `
+                    <div class="drag-handle" title="Arrastar para reordenar">⋮⋮</div>
                     <div class="card-image">${imageHtml}</div>
                     <div class="card-title">${product.name}</div>
                     <div class="card-info"><strong>Categoria:</strong> ${product.category}</div>
@@ -2103,8 +2144,16 @@
                     </div>
                 `;
                 
+                // Add drag and drop attributes
+                card.draggable = true;
+                card.dataset.productId = product.id;
+                card.dataset.productIndex = productIndex;
+                
                 grid.appendChild(card);
             });
+            
+            // Setup drag and drop functionality after rendering
+            setupProductDragAndDrop();
         }
 
         // Render categories

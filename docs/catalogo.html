@@ -3816,7 +3816,7 @@ ${this.userType === 'restaurante' ? `
                                         <div class="error-message" id="city-error" style="color: #ef4444; font-size: 14px; margin-top: 4px; display: none;">Por favor, preencha a cidade</div>
                                     </div>
                                     <div style="flex: 1;">
-                                        <select id="customer-state" required autocomplete="country" style="width: 100%; padding: 16px 20px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%); box-sizing: border-box; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); appearance: none; background-repeat: no-repeat; background-position: right 12px center; background-size: 12px;">
+                                        <select id="customer-state" required autocomplete="country" style="width: 100%; padding: 16px 20px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%); box-sizing: border-box; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); appearance: none; background-repeat: no-repeat; background-position: right 12px center; background-size: 12px; color: #374151;">
                                             <option value="">Estado *</option>
                                             <option value="SP">SP</option>
                                             <option value="MG">MG</option>
@@ -7168,21 +7168,47 @@ ${this.userType === 'restaurante' ? `
         }
 
         function finalizeOrder() {
-            // Check if custom condition is selected
-            const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
-            const isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
+            console.log('🚀 Iniciando finalizeOrder...');
             
-            // Validate payment form first (skip some validations for custom condition)
-            if (!isCustomCondition && !validatePaymentForm()) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
+            try {
+                // Check if custom condition is selected
+                const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
+                const isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
+                
+                console.log('📋 Custom condition:', isCustomCondition);
+                
+                // Validate payment form first (skip some validations for custom condition)
+                if (!isCustomCondition && !validatePaymentForm()) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+                
+                console.log('✅ Validação inicial passou');
+            } catch (error) {
+                console.error('❌ Erro na validação inicial:', error);
+                alert('Erro ao processar pedido. Tente novamente.');
                 return;
             }
             
-            const paymentMethodId = document.getElementById('payment-method').value;
-            const priceTable = isCustomCondition ? '' : document.getElementById('price-table').value;
-            const customerCnpj = document.getElementById('customer-cnpj').value;
-            const customerName = document.getElementById('customer-name').value;
-            const customerPhone = document.getElementById('customer-phone').value;
+            try {
+                const paymentMethodId = document.getElementById('payment-method').value;
+                const priceTable = isCustomCondition ? '' : document.getElementById('price-table').value;
+                const customerCnpj = document.getElementById('customer-cnpj').value;
+                const customerName = document.getElementById('customer-name').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                
+                console.log('📋 Dados básicos coletados:', {
+                    paymentMethodId,
+                    priceTable,
+                    customerCnpj,
+                    customerName,
+                    customerPhone
+                });
+            } catch (error) {
+                console.error('❌ Erro ao coletar dados básicos:', error);
+                alert('Erro ao acessar campos do formulário. Tente novamente.');
+                return;
+            }
             
             // Get payment method name
             const paymentMethod = catalogClient.paymentMethods.find(m => m.id == paymentMethodId);

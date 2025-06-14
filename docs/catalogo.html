@@ -7330,9 +7330,11 @@ ${this.userType === 'restaurante' ? `
             message += `\n`;
             
             // Add items
+            debugLog('📦 Adicionando itens do carrinho...');
             message += `📦 *ITENS DO PEDIDO:*\n`;
             let subtotal = 0;
             
+            debugLog('🛒 Processando ' + shoppingCart.length + ' itens do carrinho');
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
@@ -7366,12 +7368,15 @@ ${this.userType === 'restaurante' ? `
             });
             
             // Total calculation and message footer
+            debugLog('💰 Calculando totais...');
             if (isCustomCondition) {
                 // For custom conditions, skip pricing calculations and add custom footer
+                debugLog('💼 Condição personalizada - adicionando footer customizado');
                 message += `\n💼 *Condição Personalizada*\n`;
                 message += `Valores e condições serão negociados diretamente com nossa equipe.\n\n`;
                 message += `📞 Aguarde nosso contato para definir as melhores condições para seu negócio!`;
             } else {
+                debugLog('💰 Calculando preços normais...');
                 // Normal pricing calculation for regular orders
                 let total = subtotal;
                 
@@ -7436,6 +7441,8 @@ ${this.userType === 'restaurante' ? `
                 message += `🕒 _Pedido realizado em ${new Date().toLocaleString('pt-BR')}_\n\n`;
                 message += `📞 *Aguardo confirmação do pedido!*`;
             }
+            
+            debugLog('✅ Mensagem completa gerada - ' + message.length + ' caracteres');
             
             // Save order to history before opening WhatsApp
             const orderData = {

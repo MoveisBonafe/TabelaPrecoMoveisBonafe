@@ -8151,7 +8151,7 @@ ${this.userType === 'restaurante' ? `
             const customConditionSection = document.getElementById('custom-condition-section');
             
             if (catalogClient.userType === 'restaurante') {
-                // Restaurant users: ALWAYS hide price table and force "À Vista"
+                // Restaurant users: ALWAYS hide price table and custom condition, force "À Vista"
                 if (priceTableSection) priceTableSection.style.display = 'none';
                 if (customConditionSection) customConditionSection.style.display = 'none';
                 if (priceTableSelect) {
@@ -8160,10 +8160,10 @@ ${this.userType === 'restaurante' ? `
                 }
                 console.log('👥 Usuário restaurante: tabela de preços OCULTA, forçando "À Vista"');
             } else {
-                // Shop users: HIDE price table initially, show custom condition option
+                // Shop users: HIDE price table initially, ALWAYS show custom condition option
                 if (priceTableSection) priceTableSection.style.display = 'none';
                 if (customConditionSection) customConditionSection.style.display = 'block';
-                console.log('💰 Usuário loja: tabela de preços OCULTA inicialmente, opção personalizada VISÍVEL');
+                console.log('💰 Usuário loja: tabela de preços OCULTA inicialmente, opção personalizada SEMPRE VISÍVEL');
             }
 
             console.log('🎯 LoadPaymentMethods concluído!');
@@ -8207,30 +8207,38 @@ ${this.userType === 'restaurante' ? `
                 console.log('👥 Usuário restaurante: tabela oculta, forçando "À Vista"');
                 setTimeout(() => updatePaymentSummary(), 50);
             } else if (isPIXOrDinheiro) {
-                // Shop users with PIX/Dinheiro: hide BOTH price table AND payment conditions
+                // Shop users with PIX/Dinheiro: hide BOTH price table AND payment conditions BUT keep custom condition visible
                 if (priceTableSection) {
                     priceTableSection.style.display = 'none';
                 }
                 if (paymentConditionsSection) {
                     paymentConditionsSection.style.display = 'none';
                 }
+                const customConditionSection = document.getElementById('custom-condition-section');
+                if (customConditionSection) {
+                    customConditionSection.style.display = 'block';
+                }
                 if (priceTableSelect) {
                     priceTableSelect.value = 'A Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log(`💰 ${selectedMethod.name}: tabela e condições ocultas, forçando "A Vista"`);
+                console.log(`💰 ${selectedMethod.name}: tabela e condições ocultas, forçando "A Vista", mantendo opção personalizada`);
                 setTimeout(() => updatePaymentSummary(), 50);
                 validatePaymentForm();
                 return; // Exit early for PIX/Dinheiro
             } else {
-                // Shop users with other payment methods: show price table
+                // Shop users with other payment methods: show price table and custom condition
                 if (priceTableSection) {
                     priceTableSection.style.display = 'block';
+                }
+                const customConditionSection = document.getElementById('custom-condition-section');
+                if (customConditionSection) {
+                    customConditionSection.style.display = 'block';
                 }
                 if (priceTableSelect) {
                     priceTableSelect.setAttribute('required', 'required');
                 }
-                console.log('🏪 Usuário loja: mostrando tabela de preços');
+                console.log('🏪 Usuário loja: mostrando tabela de preços e opção personalizada');
             }
 
             // Find the rule for the selected payment method
@@ -8391,22 +8399,26 @@ ${this.userType === 'restaurante' ? `
             const customConditionSection = document.getElementById('custom-condition-section');
             
             if (isPIXOrDinheiro) {
-                // PIX/Dinheiro: hide price table and custom condition
+                // PIX/Dinheiro: hide price table but keep custom condition visible for shop users
                 if (priceTableSection) priceTableSection.style.display = 'none';
-                if (customConditionSection) customConditionSection.style.display = 'none';
+                if (customConditionSection && catalogClient.userType === 'loja') {
+                    customConditionSection.style.display = 'block';
+                }
                 if (priceTableSelect) {
                     priceTableSelect.value = 'A Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "A Vista" automaticamente');
+                console.log('💰 PIX/Dinheiro: tabela de preços oculta, usando "A Vista" automaticamente, mantendo opção personalizada');
                 setTimeout(() => updatePaymentSummary(), 50);
                 return;
             } else {
                 // Show price table and custom condition for shop users with other payment methods
                 if (priceTableSection) priceTableSection.style.display = 'block';
-                if (customConditionSection) customConditionSection.style.display = 'block';
+                if (customConditionSection && catalogClient.userType === 'loja') {
+                    customConditionSection.style.display = 'block';
+                }
                 if (priceTableSelect) priceTableSelect.setAttribute('required', 'required');
-                console.log('👥 Usuário loja: mostrando seleção de tabela de preços');
+                console.log('👥 Usuário loja: mostrando seleção de tabela de preços e opção personalizada');
             }
 
             // Get all active price tables first

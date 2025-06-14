@@ -7445,6 +7445,7 @@ ${this.userType === 'restaurante' ? `
             debugLog('✅ Mensagem completa gerada - ' + message.length + ' caracteres');
             
             // Save order to history before opening WhatsApp
+            debugLog('💾 Preparando dados do pedido...');
             const orderData = {
                 id: Date.now(),
                 number: `PED-${Date.now().toString().slice(-6)}`,
@@ -7499,7 +7500,13 @@ ${this.userType === 'restaurante' ? `
             };
             
             // Save order immediately (synchronous for instant availability in admin)
-            saveOrderToHistory(orderData);
+            debugLog('💾 Salvando pedido no histórico...');
+            try {
+                saveOrderToHistory(orderData);
+                debugLog('✅ Pedido salvo com sucesso');
+            } catch (error) {
+                debugLog('❌ Erro ao salvar pedido: ' + error.message);
+            }
             
             // Open WhatsApp
             debugLog('📱 Preparando link do WhatsApp...');

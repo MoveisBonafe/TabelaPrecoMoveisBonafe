@@ -7271,8 +7271,10 @@ ${this.userType === 'restaurante' ? `
             }
             
             // Get payment method name
+            debugLog('🔍 Buscando método de pagamento...');
             const paymentMethod = catalogClient.paymentMethods.find(m => m.id == paymentMethodId);
             const paymentMethodName = paymentMethod ? paymentMethod.name : 'Não informado';
+            debugLog('💳 Método de pagamento: ' + paymentMethodName);
             
             // Get selected payment condition (skip for custom condition)
             const selectedPaymentCondition = isCustomCondition ? null : getSelectedPaymentCondition();
@@ -7280,6 +7282,7 @@ ${this.userType === 'restaurante' ? `
             const paymentConditionText = selectedPaymentCondition ? selectedPaymentCondition.name : '';
             
             // Get all customer data
+            debugLog('🔍 Coletando dados de endereço...');
             const customerAddress = document.getElementById('customer-address').value;
             const customerCep = document.getElementById('customer-cep').value;
             const customerNeighborhood = document.getElementById('customer-neighborhood').value;
@@ -7287,11 +7290,14 @@ ${this.userType === 'restaurante' ? `
             const customerCity = document.getElementById('customer-city').value;
             const customerState = document.getElementById('customer-state').value;
             const customerComplement = document.getElementById('customer-complement').value;
+            debugLog('📍 Endereço coletado: ' + customerAddress + ', ' + customerCity);
             
             // Build WhatsApp message with order details
+            debugLog('📝 Gerando mensagem do WhatsApp...');
             let message = catalogClient.userType === 'restaurante' 
                 ? `🍽️ *Restaurante* 🍽️\n🛒 *NOVO PEDIDO - ${customerName}*\n\n`
                 : `🛒 *NOVO PEDIDO - ${customerName}*\n\n`;
+            debugLog('📝 Header da mensagem criado');
             message += `🏢 *CNPJ:* ${customerCnpj}\n`;
             message += `📞 *Telefone:* ${customerPhone}\n`;
             
@@ -7489,15 +7495,30 @@ ${this.userType === 'restaurante' ? `
             saveOrderToHistory(orderData);
             
             // Open WhatsApp
+            debugLog('📱 Preparando link do WhatsApp...');
             const phoneNumber = '5514997181108'; // MoveisBonafe WhatsApp number
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             
-            window.open(whatsappUrl, '_blank');
+            debugLog('📱 Abrindo WhatsApp...');
+            debugLog('🔗 URL: ' + whatsappUrl.substring(0, 100) + '...');
+            
+            try {
+                window.open(whatsappUrl, '_blank');
+                debugLog('✅ WhatsApp aberto com sucesso!');
+            } catch (error) {
+                debugLog('❌ Erro ao abrir WhatsApp: ' + error.message);
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(whatsappUrl).then(() => {
+                    alert('Link do WhatsApp copiado para área de transferência!');
+                });
+            }
             
             // Clear cart and close modal
+            debugLog('🧹 Limpando carrinho...');
             clearCart();
             closeCartModal();
+            debugLog('✅ Pedido finalizado com sucesso!');
         }
 
         // Order saving functionality

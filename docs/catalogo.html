@@ -7168,63 +7168,6 @@ ${this.userType === 'restaurante' ? `
         }
 
         function finalizeOrder() {
-            console.log('🚀 Iniciando finalizeOrder...');
-            
-            // Create debug console for mobile if not exists
-            if (!document.getElementById('debug-console')) {
-                const debugConsole = document.createElement('div');
-                debugConsole.id = 'debug-console';
-                debugConsole.innerHTML = `
-                    <div style="color: #ff0; margin-bottom: 5px; font-weight: bold;">📱 Debug Console</div>
-                    <div id="debug-logs" style="max-height: 150px; overflow-y: auto;"></div>
-                    <div style="margin-top: 5px;">
-                        <button onclick="document.getElementById('debug-logs').innerHTML=''" style="background: #333; color: #fff; border: none; padding: 3px 6px; margin-right: 5px; border-radius: 3px; font-size: 10px;">Limpar</button>
-                        <button onclick="document.getElementById('debug-console').style.display='none'" style="background: #333; color: #fff; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px;">Fechar</button>
-                    </div>
-                `;
-                debugConsole.style.cssText = 'position: fixed; bottom: 10px; right: 10px; width: 280px; max-height: 200px; background: #000; color: #0f0; font-family: monospace; font-size: 11px; padding: 8px; border-radius: 8px; z-index: 20000; display: block; overflow-y: auto; opacity: 0.9; border: 1px solid #333;';
-                document.body.appendChild(debugConsole);
-
-                const toggleBtn = document.createElement('button');
-                toggleBtn.innerHTML = '🐛';
-                toggleBtn.onclick = () => {
-                    const console = document.getElementById('debug-console');
-                    console.style.display = console.style.display === 'none' ? 'block' : 'none';
-                };
-                toggleBtn.style.cssText = 'position: fixed; bottom: 10px; left: 10px; background: #000; color: #0f0; border: none; padding: 8px; border-radius: 50%; z-index: 20000; font-size: 12px; border: 1px solid #333;';
-                document.body.appendChild(toggleBtn);
-            }
-            
-            function debugLog(msg) {
-                const logs = document.getElementById('debug-logs');
-                if (logs) {
-                    logs.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
-                    logs.scrollTop = logs.scrollHeight;
-                }
-                console.log(msg);
-            }
-            
-            debugLog('🚀 Iniciando finalizeOrder...');
-            
-            try {
-                // Check if custom condition is selected
-                const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
-                const isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
-                
-                debugLog('📋 Custom condition: ' + isCustomCondition);
-                
-                // Skip validation for custom condition
-                if (!isCustomCondition) {
-                    debugLog('⚠️ Pulando validação para condição personalizada');
-                }
-                
-                debugLog('✅ Validação inicial passou');
-            } catch (error) {
-                debugLog('❌ Erro na validação inicial: ' + error.message);
-                alert('Erro ao processar pedido. Tente novamente.');
-                return;
-            }
-            
             let paymentMethodId, priceTable, customerCnpj, customerName, customerPhone;
             let isCustomCondition = false;
             
@@ -7232,49 +7175,31 @@ ${this.userType === 'restaurante' ? `
                 // Check if custom condition is selected
                 const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
                 isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
-                debugLog('🔄 Recoletando custom condition: ' + isCustomCondition);
                 
-                debugLog('🔍 Coletando payment-method...');
+                // Collect form data
                 const paymentMethodEl = document.getElementById('payment-method');
-                debugLog('Payment method element encontrado: ' + !!paymentMethodEl);
                 paymentMethodId = paymentMethodEl ? paymentMethodEl.value : '';
                 
-                debugLog('🔍 Coletando price-table...');
                 const priceTableEl = document.getElementById('price-table');
-                debugLog('Price table element encontrado: ' + !!priceTableEl);
                 priceTable = isCustomCondition ? '' : (priceTableEl ? priceTableEl.value : '');
                 
-                debugLog('🔍 Coletando customer-cnpj...');
                 const cnpjEl = document.getElementById('customer-cnpj');
-                debugLog('CNPJ element encontrado: ' + !!cnpjEl);
                 customerCnpj = cnpjEl && cnpjEl.value ? cnpjEl.value : '';
                 
-                debugLog('🔍 Coletando customer-name...');
                 const nameEl = document.getElementById('customer-name');
-                debugLog('Name element encontrado: ' + !!nameEl);
                 customerName = nameEl ? nameEl.value : '';
                 
-                debugLog('🔍 Coletando customer-phone...');
                 const phoneEl = document.getElementById('customer-phone');
-                debugLog('Phone element encontrado: ' + !!phoneEl);
                 customerPhone = phoneEl ? phoneEl.value : '';
-                
-                debugLog('📋 Dados básicos coletados com sucesso');
-                debugLog('PaymentMethod ID: ' + paymentMethodId);
-                debugLog('CNPJ: ' + customerCnpj);
-                debugLog('Nome: ' + customerName);
-                debugLog('Phone: ' + customerPhone);
             } catch (error) {
-                debugLog('❌ Erro ao coletar dados básicos: ' + error.message);
+                console.error('Erro ao coletar dados básicos:', error);
                 alert('Erro ao acessar campos do formulário. Tente novamente.');
                 return;
             }
             
             // Get payment method name
-            debugLog('🔍 Buscando método de pagamento...');
             const paymentMethod = catalogClient.paymentMethods.find(m => m.id == paymentMethodId);
             const paymentMethodName = paymentMethod ? paymentMethod.name : 'Não informado';
-            debugLog('💳 Método de pagamento: ' + paymentMethodName);
             
             // Get selected payment condition (skip for custom condition)
             const selectedPaymentCondition = isCustomCondition ? null : getSelectedPaymentCondition();
@@ -7282,7 +7207,6 @@ ${this.userType === 'restaurante' ? `
             const paymentConditionText = selectedPaymentCondition ? selectedPaymentCondition.name : '';
             
             // Get all customer data
-            debugLog('🔍 Coletando dados de endereço...');
             const customerAddress = document.getElementById('customer-address').value;
             const customerCep = document.getElementById('customer-cep').value;
             const customerNeighborhood = document.getElementById('customer-neighborhood').value;
@@ -7290,14 +7214,11 @@ ${this.userType === 'restaurante' ? `
             const customerCity = document.getElementById('customer-city').value;
             const customerState = document.getElementById('customer-state').value;
             const customerComplement = document.getElementById('customer-complement').value;
-            debugLog('📍 Endereço coletado: ' + customerAddress + ', ' + customerCity);
             
             // Build WhatsApp message with order details
-            debugLog('📝 Gerando mensagem do WhatsApp...');
             let message = catalogClient.userType === 'restaurante' 
                 ? `🍽️ *Restaurante* 🍽️\n🛒 *NOVO PEDIDO - ${customerName}*\n\n`
                 : `🛒 *NOVO PEDIDO - ${customerName}*\n\n`;
-            debugLog('📝 Header da mensagem criado');
             message += `🏢 *CNPJ:* ${customerCnpj}\n`;
             message += `📞 *Telefone:* ${customerPhone}\n`;
             
@@ -7330,11 +7251,8 @@ ${this.userType === 'restaurante' ? `
             message += `\n`;
             
             // Add items
-            debugLog('📦 Adicionando itens do carrinho...');
             message += `📦 *ITENS DO PEDIDO:*\n`;
             let subtotal = 0;
-            
-            debugLog('🛒 Processando ' + shoppingCart.length + ' itens do carrinho');
             shoppingCart.forEach(item => {
                 const product = catalogClient.products.find(p => p.id === item.productId);
                 if (product) {
@@ -7368,15 +7286,12 @@ ${this.userType === 'restaurante' ? `
             });
             
             // Total calculation and message footer
-            debugLog('💰 Calculando totais...');
             if (isCustomCondition) {
                 // For custom conditions, skip pricing calculations and add custom footer
-                debugLog('💼 Condição personalizada - adicionando footer customizado');
                 message += `\n💼 *Condição Personalizada*\n`;
                 message += `Valores e condições serão negociados diretamente com nossa equipe.\n\n`;
                 message += `📞 Aguarde nosso contato para definir as melhores condições para seu negócio!`;
             } else {
-                debugLog('💰 Calculando preços normais...');
                 // Normal pricing calculation for regular orders
                 let total = subtotal;
                 
@@ -7442,10 +7357,7 @@ ${this.userType === 'restaurante' ? `
                 message += `📞 *Aguardo confirmação do pedido!*`;
             }
             
-            debugLog('✅ Mensagem completa gerada - ' + message.length + ' caracteres');
-            
             // Save order to history before opening WhatsApp
-            debugLog('💾 Preparando dados do pedido...');
             try {
                 const orderData = {
                     id: Date.now(),
@@ -7471,18 +7383,14 @@ ${this.userType === 'restaurante' ? `
                     status: 'Pendente'
                 };
                 
-                debugLog('✅ Dados do pedido preparados - ID: ' + orderData.id);
-                
                 // Save order immediately (synchronous for instant availability in admin)
-                debugLog('💾 Salvando pedido no histórico...');
                 try {
                     saveOrderToHistory(orderData);
-                    debugLog('✅ Pedido salvo com sucesso');
                 } catch (error) {
-                    debugLog('❌ Erro ao salvar pedido: ' + error.message);
+                    console.error('Erro ao salvar pedido:', error);
                 }
             } catch (error) {
-                debugLog('❌ Erro ao preparar dados do pedido: ' + error.message);
+                console.error('Erro ao preparar dados do pedido:', error);
             }
             
             // Open WhatsApp

@@ -1662,11 +1662,33 @@
 
             async loadProductOrder() {
                 try {
-                    // Try to load from GitHub first
-                    const response = await fetch(`${this.baseUrl}/data/product-order.json`);
+                    // First, check if we have recent local changes (within last 5 minutes)
+                    const localBroadcast = localStorage.getItem('moveisbonafe_broadcast_product_order');
+                    if (localBroadcast) {
+                        try {
+                            const broadcastData = JSON.parse(localBroadcast);
+                            const timeDiff = Date.now() - broadcastData.timestamp;
+                            
+                            // If local change is within 5 minutes, use it (GitHub Pages takes time to propagate)
+                            if (timeDiff < 300000) { // 5 minutes
+                                console.log('📋 Using recent local product order (GitHub Pages propagation delay)');
+                                this.applyProductOrder(broadcastData.data);
+                                return;
+                            }
+                        } catch (error) {
+                            console.log('Error parsing local broadcast data');
+                        }
+                    }
+                    
+                    // Try to load from GitHub with cache busting
+                    const cacheBuster = Date.now();
+                    const response = await fetch(`${this.baseUrl}/data/product-order.json?t=${cacheBuster}`);
                     if (response.ok) {
                         const productOrder = await response.json();
                         this.applyProductOrder(productOrder);
+                        
+                        // Update local storage with GitHub data
+                        localStorage.setItem('moveisbonafe_product_order', JSON.stringify(productOrder));
                         return;
                     }
                 } catch (error) {
@@ -1730,6 +1752,20 @@
                     if (event.key === 'moveisbonafe_force_sync') {
                         setTimeout(() => this.syncAllData(), 100);
                         console.log(`🔄 Sincronização forçada pelo admin`);
+                    }
+                    
+                    // Immediate sync for product order changes
+                    if (event.key === 'moveisbonafe_broadcast_product_order') {
+                        try {
+                            const broadcastData = JSON.parse(event.newValue);
+                            console.log('📋 Ordem de produtos atualizada imediatamente via localStorage');
+                            this.applyProductOrder(broadcastData.data);
+                            this.filteredProducts = [...this.products];
+                            this.renderProducts();
+                            this.showUpdateNotification('Ordem dos produtos atualizada!');
+                        } catch (error) {
+                            console.log('Erro ao processar atualização de ordem:', error);
+                        }
                     }
                 });
 

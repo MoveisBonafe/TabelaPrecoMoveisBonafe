@@ -4524,15 +4524,37 @@
 
         async function loadProductOrder() {
             try {
-                // Try to load from GitHub first
-                const response = await fetch(`${adminClient.baseUrl}/data/product-order.json`);
+                // First, check if we have recent local changes (within last 5 minutes)
+                const localBroadcast = localStorage.getItem('moveisbonafe_broadcast_product_order');
+                if (localBroadcast) {
+                    try {
+                        const broadcastData = JSON.parse(localBroadcast);
+                        const timeDiff = Date.now() - broadcastData.timestamp;
+                        
+                        // If local change is within 5 minutes, use it (GitHub Pages takes time to propagate)
+                        if (timeDiff < 300000) { // 5 minutes
+                            console.log('Using recent local product order (GitHub Pages propagation delay)');
+                            applyProductOrder(broadcastData.data);
+                            return;
+                        }
+                    } catch (error) {
+                        console.log('Error parsing local broadcast data');
+                    }
+                }
+                
+                // Try to load from GitHub with cache busting
+                const cacheBuster = Date.now();
+                const response = await fetch(`${adminClient.baseUrl}/data/product-order.json?t=${cacheBuster}`);
                 if (response.ok) {
                     const productOrder = await response.json();
                     applyProductOrder(productOrder);
+                    
+                    // Update local storage with GitHub data
+                    localStorage.setItem('moveisbonafe_product_order', JSON.stringify(productOrder));
                     return;
                 }
             } catch (error) {
-                console.log('Product order not found on GitHub, using default order');
+                console.log('Product order not found on GitHub, using local fallback');
             }
             
             // Try localStorage fallback

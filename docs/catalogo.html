@@ -7462,6 +7462,12 @@ ${this.userType === 'restaurante' ? `
                 // Save to localStorage immediately
                 localStorage.setItem('moveisbonafe_orders', JSON.stringify(orders));
                 
+                // Broadcast to other pages/tabs for immediate sync
+                localStorage.setItem('moveisbonafe_broadcast_orders', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: orders
+                }));
+                
                 console.log(`📋 Pedido ${orderData.number} salvo no histórico - disponível instantaneamente no admin`);
                 
                 // Try to sync to GitHub in background (don't wait for it)

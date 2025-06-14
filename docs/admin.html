@@ -4265,10 +4265,65 @@
         
         async function loadOrders() {
             try {
-                // Try to load from GitHub first
-                const response = await fetch(`${adminClient.baseUrl}/data/orders.json`);
+                // First, check if we have recent local changes (within last 2 minutes)
+                const localBroadcast = localStorage.getItem('moveisbonafe_broadcast_orders');
+                if (localBroadcast) {
+                    try {
+                        const broadcastData = JSON.parse(localBroadcast);
+                        const timeDiff = Date.now() - broadcastData.timestamp;
+                        
+                        // If local change is within 2 minutes, merge with GitHub data
+                        if (timeDiff < 120000) { // 2 minutes
+                            console.log('Mesclando pedidos locais recentes com dados do GitHub');
+                            const localOrders = broadcastData.data || [];
+                            
+                            // Try to get GitHub data with cache busting
+                            try {
+                                const cacheBuster = Date.now();
+                                const response = await fetch(`${adminClient.baseUrl}/data/orders.json?t=${cacheBuster}`);
+                                if (response.ok) {
+                                    const githubOrders = await response.json();
+                                    
+                                    // Merge orders - prioritize newer ones and avoid duplicates
+                                    const mergedOrders = mergeOrders(localOrders, githubOrders);
+                                    orders = mergedOrders;
+                                    
+                                    // Update localStorage with merged data
+                                    localStorage.setItem('moveisbonafe_orders', JSON.stringify(mergedOrders));
+                                    renderOrders();
+                                    return;
+                                }
+                            } catch (e) {
+                                console.log('GitHub não disponível, usando dados locais');
+                            }
+                            
+                            // Use local data if GitHub fails
+                            orders = localOrders;
+                            renderOrders();
+                            return;
+                        }
+                    } catch (error) {
+                        console.log('Erro ao processar dados locais de pedidos');
+                    }
+                }
+                
+                // Try to load from GitHub with cache busting
+                const cacheBuster = Date.now();
+                const response = await fetch(`${adminClient.baseUrl}/data/orders.json?t=${cacheBuster}`);
                 if (response.ok) {
-                    orders = await response.json();
+                    const githubOrders = await response.json();
+                    
+                    // Also check local storage for any orders not yet synced
+                    const localOrders = localStorage.getItem('moveisbonafe_orders');
+                    if (localOrders) {
+                        const parsedLocal = JSON.parse(localOrders);
+                        orders = mergeOrders(parsedLocal, githubOrders);
+                    } else {
+                        orders = githubOrders;
+                    }
+                    
+                    // Update localStorage with GitHub data
+                    localStorage.setItem('moveisbonafe_orders', JSON.stringify(orders));
                 } else {
                     // Fallback to localStorage
                     const localOrders = localStorage.getItem('moveisbonafe_orders');
@@ -4282,6 +4337,27 @@
                 orders = localOrders ? JSON.parse(localOrders) : [];
                 renderOrders();
             }
+        }
+
+        // Function to merge orders from different sources, avoiding duplicates
+        function mergeOrders(localOrders, githubOrders) {
+            const allOrders = [...(githubOrders || []), ...(localOrders || [])];
+            const uniqueOrders = [];
+            const seenIds = new Set();
+            
+            // Sort by creation date (newest first) and remove duplicates
+            allOrders
+                .sort((a, b) => new Date(b.createdAt || b.timestamp || 0) - new Date(a.createdAt || a.timestamp || 0))
+                .forEach(order => {
+                    const orderId = order.id || order.number;
+                    if (!seenIds.has(orderId)) {
+                        seenIds.add(orderId);
+                        uniqueOrders.push(order);
+                    }
+                });
+            
+            console.log(`📋 Pedidos mesclados: ${uniqueOrders.length} únicos de ${allOrders.length} totais`);
+            return uniqueOrders;
         }
 
         // Logout functionality - make it globally accessible

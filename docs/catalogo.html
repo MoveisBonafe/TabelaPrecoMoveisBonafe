@@ -7481,14 +7481,28 @@ ${this.userType === 'restaurante' ? `
         // Send order to GitHub via repository dispatch
         async function sendOrderToGitHub(orderData) {
             try {
-                const GITHUB_TOKEN = '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'; // Substitua pelo seu token
+                // Get token from localStorage or prompt user
+                let githubToken = localStorage.getItem('moveisbonafe_github_token');
+                
+                if (!githubToken) {
+                    githubToken = prompt('Para salvar pedidos automaticamente no GitHub, cole seu token de acesso:\n\n(Isso aparece apenas uma vez e fica salvo no navegador)');
+                    
+                    if (!githubToken) {
+                        console.log('⚠️ Token não fornecido - pedido salvo apenas localmente');
+                        return;
+                    }
+                    
+                    localStorage.setItem('moveisbonafe_github_token', githubToken);
+                    console.log('🔑 Token salvo - próximos pedidos serão enviados automaticamente');
+                }
+                
                 const REPO_OWNER = 'MoveisBonafe';
                 const REPO_NAME = 'TabelaPrecoMoveisBonafe';
                 
                 const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Authorization': `token ${githubToken}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
@@ -7502,6 +7516,9 @@ ${this.userType === 'restaurante' ? `
 
                 if (response.ok) {
                     console.log(`✅ Pedido ${orderData.number} enviado para GitHub com sucesso`);
+                } else if (response.status === 401) {
+                    console.log('🔑 Token inválido - removendo e pedindo novo na próxima vez');
+                    localStorage.removeItem('moveisbonafe_github_token');
                 } else {
                     console.log(`⚠️ Falha ao enviar para GitHub: ${response.status}`);
                 }

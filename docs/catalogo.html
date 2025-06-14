@@ -7411,23 +7411,48 @@ ${this.userType === 'restaurante' ? `
             
             // Save order to history before opening WhatsApp
             try {
+                // Calculate correct prices for order history
+                let orderSubtotal = 0;
+                const orderItems = shoppingCart.map(item => {
+                    const product = catalogClient.products.find(p => p.name === item.name);
+                    let unitPrice = 0;
+                    
+                    if (product && product.priceAVista) {
+                        if (isCustomCondition) {
+                            // For custom conditions, use base price for reference
+                            unitPrice = parseFloat(product.priceAVista);
+                        } else if (!priceTable || priceTable === '' || ['PIX', 'Dinheiro', 'Cheque'].includes(paymentMethodName)) {
+                            // For PIX, Dinheiro, Cheque or no table selected, use "à vista" price
+                            unitPrice = parseFloat(product.priceAVista);
+                        } else {
+                            // For other methods with specific price table
+                            unitPrice = calculatePriceForTable(product.priceAVista, priceTable);
+                        }
+                    }
+                    
+                    const itemTotal = unitPrice * item.quantity;
+                    orderSubtotal += itemTotal;
+                    
+                    return {
+                        name: item.name || '',
+                        color: item.color || '',
+                        quantity: item.quantity || 1,
+                        unitPrice: unitPrice
+                    };
+                });
+
                 const orderData = {
                     id: Date.now(),
                     number: `PED-${Date.now().toString().slice(-6)}`,
                     customerCnpj: customerCnpj || '',
                     customerName: customerName || '',
                     customerPhone: customerPhone || '',
-                    items: shoppingCart.map(item => ({
-                        name: item.name || '',
-                        color: item.color || '',
-                        quantity: item.quantity || 1,
-                        unitPrice: 0
-                    })),
-                    subtotal: 0,
-                    total: 0,
-                    priceTable: isCustomCondition ? 'Personalizada' : (priceTable || ''),
+                    items: orderItems,
+                    subtotal: orderSubtotal,
+                    total: orderSubtotal,
+                    priceTable: isCustomCondition ? 'Personalizada' : (priceTable || 'À Vista'),
                     paymentMethod: paymentMethodName || '',
-                    paymentCondition: isCustomCondition ? 'Personalizada' : '',
+                    paymentCondition: isCustomCondition ? 'Personalizada' : (getSelectedPaymentCondition()?.name || 'À Vista'),
                     isCustomCondition: isCustomCondition,
                     deliveryType: isPickup ? 'Retirada no Local' : 'Entrega',
                     userType: catalogClient.userType || 'loja',
@@ -8240,11 +8265,11 @@ ${this.userType === 'restaurante' ? `
                 return;
             }
 
-            // Check if the selected method is PIX or Dinheiro for auto-hide logic
+            // Check if the selected method is PIX, Dinheiro or Cheque for auto-hide logic
             const selectedMethod = catalogClient.paymentMethods.find(m => m.id === selectedMethodId);
-            const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
+            const isAVistaMethod = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro' || selectedMethod.name === 'Cheque');
             
-            console.log('💳 Método selecionado:', selectedMethod?.name, 'isPIXOrDinheiro:', isPIXOrDinheiro, 'UserType:', catalogClient.userType);
+            console.log('💳 Método selecionado:', selectedMethod?.name, 'isAVistaMethod:', isAVistaMethod, 'UserType:', catalogClient.userType);
             
             // CRITICAL: Handle price table visibility immediately based on user type and payment method
             const customConditionSection = document.getElementById('custom-condition-section');
@@ -8263,8 +8288,8 @@ ${this.userType === 'restaurante' ? `
                 }
                 console.log('👥 Usuário restaurante: tabela oculta, forçando "À Vista", opção personalizada visível');
                 setTimeout(() => updatePaymentSummary(), 50);
-            } else if (isPIXOrDinheiro) {
-                // Shop users with PIX/Dinheiro: hide BOTH price table AND payment conditions BUT keep custom condition visible
+            } else if (isAVistaMethod) {
+                // Shop users with PIX/Dinheiro/Cheque: hide BOTH price table AND payment conditions BUT keep custom condition visible
                 if (priceTableSection) {
                     priceTableSection.style.display = 'none';
                 }
@@ -8276,13 +8301,13 @@ ${this.userType === 'restaurante' ? `
                     customConditionSection.style.display = 'block';
                 }
                 if (priceTableSelect) {
-                    priceTableSelect.value = 'A Vista';
+                    priceTableSelect.value = '';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log(`💰 ${selectedMethod.name}: tabela e condições ocultas, forçando "A Vista", mantendo opção personalizada`);
+                console.log(`💰 ${selectedMethod.name}: tabela e condições ocultas, forçando preço à vista, mantendo opção personalizada`);
                 setTimeout(() => updatePaymentSummary(), 50);
                 validatePaymentForm();
-                return; // Exit early for PIX/Dinheiro
+                return; // Exit early for métodos à vista
             } else {
                 // Shop users with other payment methods: show price table and custom condition
                 if (priceTableSection) {

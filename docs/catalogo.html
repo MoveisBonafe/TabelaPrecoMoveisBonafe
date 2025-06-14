@@ -3435,29 +3435,39 @@ ${this.userType === 'restaurante' ? `
 
         // Formatting functions for phone and CEP
         function formatPhone(value) {
+            console.log('formatPhone input:', value);
+            
             if (!value) return '';
             
             // Remove all non-digits
             let digits = value.replace(/\D/g, '');
+            console.log('digits after cleanup:', digits);
             
             // Remove country code +55 if present (handles browser autofill)
             if (digits.startsWith('55') && digits.length > 11) {
                 digits = digits.substring(2);
+                console.log('removed +55, new digits:', digits);
             }
+            
+            let formatted = '';
             
             // Apply phone formatting based on length
             if (digits.length >= 11) {
                 // Mobile: (14) 99999-9999
-                return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                formatted = digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
             } else if (digits.length >= 10) {
                 // Landline: (14) 9999-9999
-                return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                formatted = digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
             } else if (digits.length >= 6) {
-                return digits.replace(/(\d{2})(\d{4})(\d*)/, '($1) $2-$3');
+                formatted = digits.replace(/(\d{2})(\d{4})(\d*)/, '($1) $2-$3');
             } else if (digits.length >= 2) {
-                return digits.replace(/(\d{2})(\d*)/, '($1) $2');
+                formatted = digits.replace(/(\d{2})(\d*)/, '($1) $2');
+            } else {
+                formatted = digits;
             }
-            return digits;
+            
+            console.log('formatPhone output:', formatted);
+            return formatted;
         }
 
         function formatCEP(value) {
@@ -3478,7 +3488,9 @@ ${this.userType === 'restaurante' ? `
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
                     const formatted = formatPhone(e.target.value);
-                    e.target.value = formatted;
+                    if (formatted !== undefined && formatted !== null) {
+                        e.target.value = formatted;
+                    }
                 });
             }
 
@@ -6671,29 +6683,7 @@ ${this.userType === 'restaurante' ? `
             input.value = value;
         }
 
-        function formatPhone(input) {
-            if (!input || !input.value) return;
-            
-            let value = input.value.replace(/\D/g, '');
-            
-            // Remove country code +55 if present
-            if (value.startsWith('55') && value.length > 11) {
-                value = value.substring(2);
-            }
-            
-            // Format based on length
-            if (value.length <= 10) {
-                // Landline: (11) 1234-5678
-                value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-                value = value.replace(/(\d{4})(\d)/, '$1-$2');
-            } else if (value.length === 11) {
-                // Mobile: (11) 91234-5678
-                value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-                value = value.replace(/(\d{5})(\d)/, '$1-$2');
-            }
-            
-            input.value = value;
-        }
+
 
         function formatCEP(input) {
             let value = input.value.replace(/\D/g, '');

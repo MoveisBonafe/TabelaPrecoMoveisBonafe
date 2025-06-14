@@ -8151,14 +8151,14 @@ ${this.userType === 'restaurante' ? `
             const customConditionSection = document.getElementById('custom-condition-section');
             
             if (catalogClient.userType === 'restaurante') {
-                // Restaurant users: ALWAYS hide price table and custom condition, force "À Vista"
+                // Restaurant users: ALWAYS hide price table, force "À Vista", but SHOW custom condition option
                 if (priceTableSection) priceTableSection.style.display = 'none';
-                if (customConditionSection) customConditionSection.style.display = 'none';
+                if (customConditionSection) customConditionSection.style.display = 'block';
                 if (priceTableSelect) {
                     priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('👥 Usuário restaurante: tabela de preços OCULTA, forçando "À Vista"');
+                console.log('👥 Usuário restaurante: tabela de preços OCULTA, forçando "À Vista", opção personalizada VISÍVEL');
             } else {
                 // Shop users: HIDE price table initially, ALWAYS show custom condition option
                 if (priceTableSection) priceTableSection.style.display = 'none';
@@ -8195,16 +8195,21 @@ ${this.userType === 'restaurante' ? `
             console.log('💳 Método selecionado:', selectedMethod?.name, 'isPIXOrDinheiro:', isPIXOrDinheiro, 'UserType:', catalogClient.userType);
             
             // CRITICAL: Handle price table visibility immediately based on user type and payment method
+            const customConditionSection = document.getElementById('custom-condition-section');
+            
             if (catalogClient.userType === 'restaurante') {
-                // Restaurant users: ALWAYS hide price table, ALWAYS use "À Vista"
+                // Restaurant users: ALWAYS hide price table, ALWAYS use "À Vista", but SHOW custom condition
                 if (priceTableSection) {
                     priceTableSection.style.display = 'none';
+                }
+                if (customConditionSection) {
+                    customConditionSection.style.display = 'block';
                 }
                 if (priceTableSelect) {
                     priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('👥 Usuário restaurante: tabela oculta, forçando "À Vista"');
+                console.log('👥 Usuário restaurante: tabela oculta, forçando "À Vista", opção personalizada visível');
                 setTimeout(() => updatePaymentSummary(), 50);
             } else if (isPIXOrDinheiro) {
                 // Shop users with PIX/Dinheiro: hide BOTH price table AND payment conditions BUT keep custom condition visible
@@ -8343,14 +8348,16 @@ ${this.userType === 'restaurante' ? `
                 totalSectionDiv.innerHTML = '';
             }
 
-            // CRITICAL: Restaurant users should NEVER see price table selection
+            // CRITICAL: Restaurant users should NEVER see price table selection but SHOULD see custom condition
             if (catalogClient.userType === 'restaurante') {
                 if (priceTableSection) priceTableSection.style.display = 'none';
+                const customConditionSection = document.getElementById('custom-condition-section');
+                if (customConditionSection) customConditionSection.style.display = 'block';
                 if (priceTableSelect) {
                     priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('👥 Usuário restaurante: forçando tabela "À Vista", ocultando seleção');
+                console.log('👥 Usuário restaurante: forçando tabela "À Vista", ocultando seleção, mantendo opção personalizada');
                 setTimeout(() => updatePaymentSummary(), 50);
                 validatePaymentForm();
                 return;
@@ -8383,14 +8390,16 @@ ${this.userType === 'restaurante' ? `
             const selectedMethod = catalogClient.paymentMethods.find(m => m.id === selectedMethodId);
             const isPIXOrDinheiro = selectedMethod && (selectedMethod.name === 'PIX' || selectedMethod.name === 'Dinheiro');
             
-            // Restaurant users always hide price table and use "À Vista" pricing
+            // Restaurant users always hide price table and use "À Vista" pricing but show custom condition
             if (catalogClient.userType === 'restaurante') {
                 if (priceTableSection) priceTableSection.style.display = 'none';
+                const customConditionSection = document.getElementById('custom-condition-section');
+                if (customConditionSection) customConditionSection.style.display = 'block';
                 if (priceTableSelect) {
                     priceTableSelect.value = 'À Vista';
                     priceTableSelect.removeAttribute('required');
                 }
-                console.log('👥 Usuário restaurante: usando preço "À Vista" sempre');
+                console.log('👥 Usuário restaurante: usando preço "À Vista" sempre, mantendo opção personalizada');
                 setTimeout(() => updatePaymentSummary(), 50);
                 return; // Exit early for restaurant users
             }

@@ -3435,12 +3435,23 @@ ${this.userType === 'restaurante' ? `
 
         // Formatting functions for phone and CEP
         function formatPhone(value) {
-            // Remove all non-digits
-            const digits = value.replace(/\D/g, '');
+            if (!value) return '';
             
-            // Apply phone formatting (14) 99999-9999
+            // Remove all non-digits
+            let digits = value.replace(/\D/g, '');
+            
+            // Remove country code +55 if present (handles browser autofill)
+            if (digits.startsWith('55') && digits.length > 11) {
+                digits = digits.substring(2);
+            }
+            
+            // Apply phone formatting based on length
             if (digits.length >= 11) {
+                // Mobile: (14) 99999-9999
                 return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (digits.length >= 10) {
+                // Landline: (14) 9999-9999
+                return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
             } else if (digits.length >= 6) {
                 return digits.replace(/(\d{2})(\d{4})(\d*)/, '($1) $2-$3');
             } else if (digits.length >= 2) {
@@ -6662,14 +6673,25 @@ ${this.userType === 'restaurante' ? `
 
         function formatPhone(input) {
             if (!input || !input.value) return;
+            
             let value = input.value.replace(/\D/g, '');
+            
+            // Remove country code +55 if present
+            if (value.startsWith('55') && value.length > 11) {
+                value = value.substring(2);
+            }
+            
+            // Format based on length
             if (value.length <= 10) {
+                // Landline: (11) 1234-5678
                 value = value.replace(/^(\d{2})(\d)/, '($1) $2');
                 value = value.replace(/(\d{4})(\d)/, '$1-$2');
-            } else {
+            } else if (value.length === 11) {
+                // Mobile: (11) 91234-5678
                 value = value.replace(/^(\d{2})(\d)/, '($1) $2');
                 value = value.replace(/(\d{5})(\d)/, '$1-$2');
             }
+            
             input.value = value;
         }
 

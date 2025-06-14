@@ -7394,19 +7394,14 @@ ${this.userType === 'restaurante' ? `
             }
             
             // Open WhatsApp
-            debugLog('📱 Preparando link do WhatsApp...');
             const phoneNumber = '5514997181108'; // MoveisBonafe WhatsApp number
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             
-            debugLog('📱 Abrindo WhatsApp...');
-            debugLog('🔗 URL: ' + whatsappUrl.substring(0, 100) + '...');
-            
             try {
                 window.open(whatsappUrl, '_blank');
-                debugLog('✅ WhatsApp aberto com sucesso!');
             } catch (error) {
-                debugLog('❌ Erro ao abrir WhatsApp: ' + error.message);
+                console.error('Erro ao abrir WhatsApp:', error);
                 // Fallback: copy to clipboard
                 navigator.clipboard.writeText(whatsappUrl).then(() => {
                     alert('Link do WhatsApp copiado para área de transferência!');
@@ -7414,10 +7409,8 @@ ${this.userType === 'restaurante' ? `
             }
             
             // Clear cart and close modal
-            debugLog('🧹 Limpando carrinho...');
             clearCart();
             closeCartModal();
-            debugLog('✅ Pedido finalizado com sucesso!');
         }
 
         // Order saving functionality

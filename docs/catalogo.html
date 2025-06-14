@@ -7190,12 +7190,33 @@ ${this.userType === 'restaurante' ? `
                 return;
             }
             
+            let paymentMethodId, priceTable, customerCnpj, customerName, customerPhone;
+            
             try {
-                const paymentMethodId = document.getElementById('payment-method').value;
-                const priceTable = isCustomCondition ? '' : document.getElementById('price-table').value;
-                const customerCnpj = document.getElementById('customer-cnpj').value;
-                const customerName = document.getElementById('customer-name').value;
-                const customerPhone = document.getElementById('customer-phone').value;
+                console.log('🔍 Coletando payment-method...');
+                const paymentMethodEl = document.getElementById('payment-method');
+                console.log('Payment method element:', paymentMethodEl);
+                paymentMethodId = paymentMethodEl ? paymentMethodEl.value : '';
+                
+                console.log('🔍 Coletando price-table...');
+                const priceTableEl = document.getElementById('price-table');
+                console.log('Price table element:', priceTableEl);
+                priceTable = isCustomCondition ? '' : (priceTableEl ? priceTableEl.value : '');
+                
+                console.log('🔍 Coletando customer-cnpj...');
+                const cnpjEl = document.getElementById('customer-cnpj');
+                console.log('CNPJ element:', cnpjEl);
+                customerCnpj = cnpjEl ? cnpjEl.value : '';
+                
+                console.log('🔍 Coletando customer-name...');
+                const nameEl = document.getElementById('customer-name');
+                console.log('Name element:', nameEl);
+                customerName = nameEl ? nameEl.value : '';
+                
+                console.log('🔍 Coletando customer-phone...');
+                const phoneEl = document.getElementById('customer-phone');
+                console.log('Phone element:', phoneEl);
+                customerPhone = phoneEl ? phoneEl.value : '';
                 
                 console.log('📋 Dados básicos coletados:', {
                     paymentMethodId,

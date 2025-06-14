@@ -7481,19 +7481,12 @@ ${this.userType === 'restaurante' ? `
         // Send order to GitHub via repository dispatch
         async function sendOrderToGitHub(orderData) {
             try {
-                // Get token from localStorage or prompt user
-                let githubToken = localStorage.getItem('moveisbonafe_github_token');
+                // Try to get token from multiple sources
+                let githubToken = await getGitHubToken();
                 
                 if (!githubToken) {
-                    githubToken = prompt('Para salvar pedidos automaticamente no GitHub, cole seu token de acesso:\n\n(Isso aparece apenas uma vez e fica salvo no navegador)');
-                    
-                    if (!githubToken) {
-                        console.log('⚠️ Token não fornecido - pedido salvo apenas localmente');
-                        return;
-                    }
-                    
-                    localStorage.setItem('moveisbonafe_github_token', githubToken);
-                    console.log('🔑 Token salvo - próximos pedidos serão enviados automaticamente');
+                    console.log('⚠️ Token não disponível - pedido salvo apenas localmente');
+                    return;
                 }
                 
                 const REPO_OWNER = 'MoveisBonafe';
@@ -7517,14 +7510,94 @@ ${this.userType === 'restaurante' ? `
                 if (response.ok) {
                     console.log(`✅ Pedido ${orderData.number} enviado para GitHub com sucesso`);
                 } else if (response.status === 401) {
-                    console.log('🔑 Token inválido - removendo e pedindo novo na próxima vez');
+                    console.log('🔑 Token inválido - removendo cache');
                     localStorage.removeItem('moveisbonafe_github_token');
+                    sessionStorage.removeItem('github_token_synced');
                 } else {
                     console.log(`⚠️ Falha ao enviar para GitHub: ${response.status}`);
                 }
             } catch (error) {
                 console.log(`⚠️ Erro ao enviar para GitHub: ${error.message}`);
                 console.log('Pedido permanece salvo localmente');
+            }
+        }
+
+        // Smart token management with cross-device sync
+        async function getGitHubToken() {
+            // 1. Check localStorage first
+            let token = localStorage.getItem('moveisbonafe_github_token');
+            if (token) {
+                return token;
+            }
+
+            // 2. Try to sync from GitHub config (other devices)
+            if (!sessionStorage.getItem('github_token_synced')) {
+                token = await syncTokenFromGitHub();
+                if (token) {
+                    localStorage.setItem('moveisbonafe_github_token', token);
+                    sessionStorage.setItem('github_token_synced', 'true');
+                    console.log('🔄 Token sincronizado de outro dispositivo');
+                    return token;
+                }
+                sessionStorage.setItem('github_token_synced', 'true');
+            }
+
+            // 3. If no token found, prompt user (only on first device)
+            token = prompt(`🔑 Configuração única do sistema:
+            
+Para ativar o salvamento automático de pedidos no GitHub, cole seu token de acesso:
+
+(Isso configura o sistema para TODOS os dispositivos automaticamente)`);
+            
+            if (!token) {
+                return null;
+            }
+
+            // Save locally and sync to GitHub for other devices
+            localStorage.setItem('moveisbonafe_github_token', token);
+            await saveTokenToGitHub(token);
+            console.log('🔑 Token configurado - sistema ativo em todos os dispositivos');
+            
+            return token;
+        }
+
+        // Sync token from GitHub config (for other devices)
+        async function syncTokenFromGitHub() {
+            try {
+                const response = await fetch('https://moveisbonafe.github.io/TabelaPrecoMoveisBonafe/data/config.json?' + Date.now());
+                
+                if (response.ok) {
+                    const config = await response.json();
+                    if (config.github_token) {
+                        // Simple decode (not security, just obfuscation)
+                        return atob(config.github_token);
+                    }
+                }
+            } catch (error) {
+                // Config doesn't exist yet or network error
+            }
+            return null;
+        }
+
+        // Save token to GitHub for other devices (using existing GitHub API integration)
+        async function saveTokenToGitHub(token) {
+            try {
+                // Encode token (simple obfuscation)
+                const encodedToken = btoa(token);
+                
+                const config = {
+                    github_token: encodedToken,
+                    configured_at: new Date().toISOString(),
+                    version: "1.0"
+                };
+
+                // Try to save config using existing GitHub integration if available
+                const existingToken = localStorage.getItem('github_token');
+                if (existingToken) {
+                    await updateGitHubFile('data/config.json', JSON.stringify(config, null, 2), existingToken);
+                }
+            } catch (error) {
+                console.log('Token salvo localmente - sincronização será feita quando admin for configurado');
             }
         }
         

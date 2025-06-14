@@ -7226,8 +7226,14 @@ ${this.userType === 'restaurante' ? `
             }
             
             let paymentMethodId, priceTable, customerCnpj, customerName, customerPhone;
+            let isCustomCondition = false;
             
             try {
+                // Check if custom condition is selected
+                const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
+                isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
+                debugLog('🔄 Recoletando custom condition: ' + isCustomCondition);
+                
                 debugLog('🔍 Coletando payment-method...');
                 const paymentMethodEl = document.getElementById('payment-method');
                 debugLog('Payment method element encontrado: ' + !!paymentMethodEl);

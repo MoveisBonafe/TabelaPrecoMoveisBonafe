@@ -355,9 +355,10 @@
     "createdAt": "2025-06-10T00:07:07.899Z"
   },
   {
-    "name": "Mesa Bonacor 0,70 X 0,45 Criança",
+    "name": "Mesa Bonacor 0,70 X 0,45 Infantil",
     "category": "Mesas",
     "priceAVista": 136,
+    "fixedPrice": false,
     "altura": 60,
     "largura": 45,
     "comprimento": 70,
@@ -376,7 +377,7 @@
       "Mogno"
     ],
     "active": true,
-    "updatedAt": "2025-06-10T01:47:40.505Z",
+    "updatedAt": "2025-06-14T17:09:45.704Z",
     "id": 1749514027912,
     "createdAt": "2025-06-10T00:07:07.899Z"
   },

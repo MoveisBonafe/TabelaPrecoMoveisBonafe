@@ -1106,6 +1106,22 @@
             </div>
 
             <div class="data-card">
+                <h3 style="margin-bottom: 16px;">🔄 Sincronização de Pedidos</h3>
+                <p style="color: #6b7280; margin-bottom: 16px; font-size: 0.9rem;">
+                    Configure o sistema para salvar pedidos automaticamente no GitHub
+                </p>
+                <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+                    <button class="btn btn-primary" onclick="enableOrderSync()">
+                        Ativar Salvamento Automático
+                    </button>
+                    <span id="sync-status" style="color: #059669; font-size: 0.9rem;"></span>
+                </div>
+                <div style="font-size: 0.85rem; color: #6b7280;">
+                    <strong>Função:</strong> Usa o token do admin para salvar pedidos do catálogo automaticamente
+                </div>
+            </div>
+
+            <div class="data-card">
                 <h3 style="margin-bottom: 16px;">📋 Log do Sistema</h3>
                 <div class="system-log" id="system-log">
                     Sistema iniciado...<br>
@@ -5862,6 +5878,26 @@
             document.querySelectorAll('#user-access-checkboxes input[type="checkbox"]').forEach(cb => {
                 cb.checked = cb.value === 'all';
             });
+        }
+
+        // Enable order synchronization for catalog
+        function enableOrderSync() {
+            const token = localStorage.getItem('github_token');
+            
+            if (!token) {
+                showNotification('Configure o token GitHub primeiro', 'error');
+                return;
+            }
+
+            // Set the catalog token to use admin token
+            localStorage.setItem('moveisbonafe_github_token', token);
+            
+            const statusEl = document.getElementById('sync-status');
+            statusEl.textContent = 'Salvamento automático ativado';
+            statusEl.style.display = 'inline';
+            
+            addSystemLog('🔄 Sincronização de pedidos ativada - pedidos serão salvos automaticamente no GitHub');
+            showNotification('Sistema de pedidos configurado com sucesso!', 'success');
         }
 
         // Initialize on page load

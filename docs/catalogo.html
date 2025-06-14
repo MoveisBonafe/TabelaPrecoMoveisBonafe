@@ -3208,15 +3208,30 @@ ${this.userType === 'restaurante' ? `
             const priceTable = document.getElementById('price-table-select').value;
             const totalContainer = document.getElementById('checkout-total-price');
             
+            // For methods like PIX/Dinheiro that don't require table selection, use "à vista" prices
             if (!priceTable) {
-                totalContainer.textContent = 'R$ 0,00';
-                // Reset individual item prices
+                let total = 0;
                 shoppingCart.forEach(item => {
+                    const product = catalogClient.products.find(p => p.name === item.name);
+                    let itemPrice = 0;
+                    
+                    if (product && product.priceAVista) {
+                        itemPrice = parseFloat(product.priceAVista);
+                        total += itemPrice * item.quantity;
+                    }
+                    
+                    // Update individual item price display with "à vista" price
                     const itemPriceElement = document.getElementById(`item-price-${item.id}`);
                     if (itemPriceElement) {
-                        itemPriceElement.textContent = '-';
+                        if (itemPrice > 0) {
+                            itemPriceElement.textContent = `R$ ${itemPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                        } else {
+                            itemPriceElement.textContent = '-';
+                        }
                     }
                 });
+                
+                totalContainer.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
                 return;
             }
 
@@ -6646,6 +6661,7 @@ ${this.userType === 'restaurante' ? `
         }
 
         function formatPhone(input) {
+            if (!input || !input.value) return;
             let value = input.value.replace(/\D/g, '');
             if (value.length <= 10) {
                 value = value.replace(/^(\d{2})(\d)/, '($1) $2');

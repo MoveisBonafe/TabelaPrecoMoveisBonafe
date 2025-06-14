@@ -4439,6 +4439,89 @@
             }
         }
 
+        // Setup drag and drop functionality for product cards
+        function setupProductDragAndDrop() {
+            const grid = document.getElementById('produtos-grid');
+            if (!grid) return;
+
+            const cards = grid.querySelectorAll('.data-card[draggable="true"]');
+            
+            cards.forEach(card => {
+                // Drag start event
+                card.addEventListener('dragstart', function(e) {
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', this.dataset.productId);
+                    
+                    // Store the original index for fallback
+                    this.dataset.originalIndex = this.dataset.productIndex;
+                });
+
+                // Drag end event
+                card.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    // Remove drag-over class from all cards
+                    cards.forEach(c => c.classList.remove('drag-over'));
+                });
+
+                // Drag over event
+                card.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    
+                    const draggingCard = grid.querySelector('.dragging');
+                    if (draggingCard && draggingCard !== this) {
+                        this.classList.add('drag-over');
+                    }
+                });
+
+                // Drag leave event
+                card.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+
+                // Drop event
+                card.addEventListener('drop', async function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    
+                    const draggedProductId = e.dataTransfer.getData('text/plain');
+                    const draggedCard = grid.querySelector('.dragging');
+                    
+                    if (!draggedCard || draggedCard === this) return;
+                    
+                    const draggedIndex = parseInt(draggedCard.dataset.productIndex);
+                    const dropIndex = parseInt(this.dataset.productIndex);
+                    
+                    if (draggedIndex === dropIndex) return;
+                    
+                    // Move the product in the array
+                    const draggedProduct = adminClient.products[draggedIndex];
+                    adminClient.products.splice(draggedIndex, 1);
+                    adminClient.products.splice(dropIndex, 0, draggedProduct);
+                    
+                    // Save the new order and re-render
+                    await saveProductOrder();
+                    renderProducts();
+                    
+                    addSystemLog(`📦 Produto "${draggedProduct.name}" movido para nova posição`);
+                });
+            });
+
+            // Handle dropping in empty areas of the grid
+            grid.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+
+            grid.addEventListener('drop', function(e) {
+                e.preventDefault();
+                // If dropped in empty area, just clean up
+                const cards = this.querySelectorAll('.data-card');
+                cards.forEach(card => card.classList.remove('drag-over'));
+            });
+        }
+
         async function loadProductOrder() {
             try {
                 // Try to load from GitHub first

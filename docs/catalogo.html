@@ -7459,88 +7459,26 @@ ${this.userType === 'restaurante' ? `
                 // Add new order
                 orders.push(orderData);
                 
-                // Save to localStorage immediately (backup)
+                // Save to localStorage immediately
                 localStorage.setItem('moveisbonafe_orders', JSON.stringify(orders));
                 
-                // Broadcast to other pages/tabs for immediate sync
-                localStorage.setItem('moveisbonafe_broadcast_orders', JSON.stringify({
-                    timestamp: Date.now(),
-                    data: orders
-                }));
+                console.log(`📋 Pedido ${orderData.number} salvo no histórico - disponível instantaneamente no admin`);
                 
-                console.log(`📋 Pedido ${orderData.number} salvo localmente - enviando para GitHub...`);
-                
-                // Send to GitHub automatically via repository dispatch
-                sendOrderToGitHub(orderData);
+                // Try to sync to GitHub in background (don't wait for it)
+                setTimeout(() => {
+                    try {
+                        const token = localStorage.getItem('github_token');
+                        if (token) {
+                            syncOrdersToGitHub(orders, token);
+                        }
+                    } catch (error) {
+                        console.log('Background sync failed, order remains in localStorage');
+                    }
+                }, 100);
                 
             } catch (error) {
                 console.error('Erro ao salvar pedido:', error);
             }
-        }
-
-        // Send order to GitHub via repository dispatch
-        async function sendOrderToGitHub(orderData) {
-            try {
-                // Try to get token from multiple sources
-                let githubToken = await getGitHubToken();
-                
-                if (!githubToken) {
-                    console.log('⚠️ Token não disponível - pedido salvo apenas localmente');
-                    return;
-                }
-                
-                const REPO_OWNER = 'MoveisBonafe';
-                const REPO_NAME = 'TabelaPrecoMoveisBonafe';
-                
-                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `token ${githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        event_type: 'novo_pedido',
-                        client_payload: {
-                            pedido: orderData
-                        }
-                    })
-                });
-
-                if (response.ok) {
-                    console.log(`✅ Pedido ${orderData.number} enviado para GitHub com sucesso`);
-                } else if (response.status === 401) {
-                    console.log('🔑 Token inválido - removendo cache');
-                    localStorage.removeItem('moveisbonafe_github_token');
-                    sessionStorage.removeItem('github_token_synced');
-                } else {
-                    console.log(`⚠️ Falha ao enviar para GitHub: ${response.status}`);
-                }
-            } catch (error) {
-                console.log(`⚠️ Erro ao enviar para GitHub: ${error.message}`);
-                console.log('Pedido permanece salvo localmente');
-            }
-        }
-
-        // Simplified token management using admin token
-        async function getGitHubToken() {
-            // Check if we have the token already
-            let token = localStorage.getItem('moveisbonafe_github_token');
-            if (token) {
-                return token;
-            }
-
-            // Use the admin token if available (same user, different context)
-            const adminToken = localStorage.getItem('github_token');
-            if (adminToken) {
-                localStorage.setItem('moveisbonafe_github_token', adminToken);
-                console.log('Token do admin detectado - sistema ativado automaticamente');
-                return adminToken;
-            }
-
-            // If no token, silently fail (don't prompt every time)
-            console.log('Token GitHub não configurado - pedidos salvos apenas localmente');
-            return null;
         }
         
         async function syncOrdersToGitHub(orders, token) {

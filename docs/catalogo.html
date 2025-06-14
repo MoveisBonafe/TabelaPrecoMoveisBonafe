@@ -7206,7 +7206,7 @@ ${this.userType === 'restaurante' ? `
                 console.log('🔍 Coletando customer-cnpj...');
                 const cnpjEl = document.getElementById('customer-cnpj');
                 console.log('CNPJ element:', cnpjEl);
-                customerCnpj = cnpjEl ? cnpjEl.value : '';
+                customerCnpj = cnpjEl && cnpjEl.value ? cnpjEl.value : '';
                 
                 console.log('🔍 Coletando customer-name...');
                 const nameEl = document.getElementById('customer-name');

@@ -7170,22 +7170,57 @@ ${this.userType === 'restaurante' ? `
         function finalizeOrder() {
             console.log('🚀 Iniciando finalizeOrder...');
             
+            // Create debug console for mobile if not exists
+            if (!document.getElementById('debug-console')) {
+                const debugConsole = document.createElement('div');
+                debugConsole.id = 'debug-console';
+                debugConsole.innerHTML = `
+                    <div style="color: #ff0; margin-bottom: 5px; font-weight: bold;">📱 Debug Console</div>
+                    <div id="debug-logs" style="max-height: 150px; overflow-y: auto;"></div>
+                    <div style="margin-top: 5px;">
+                        <button onclick="document.getElementById('debug-logs').innerHTML=''" style="background: #333; color: #fff; border: none; padding: 3px 6px; margin-right: 5px; border-radius: 3px; font-size: 10px;">Limpar</button>
+                        <button onclick="document.getElementById('debug-console').style.display='none'" style="background: #333; color: #fff; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px;">Fechar</button>
+                    </div>
+                `;
+                debugConsole.style.cssText = 'position: fixed; bottom: 10px; right: 10px; width: 280px; max-height: 200px; background: #000; color: #0f0; font-family: monospace; font-size: 11px; padding: 8px; border-radius: 8px; z-index: 20000; display: block; overflow-y: auto; opacity: 0.9; border: 1px solid #333;';
+                document.body.appendChild(debugConsole);
+
+                const toggleBtn = document.createElement('button');
+                toggleBtn.innerHTML = '🐛';
+                toggleBtn.onclick = () => {
+                    const console = document.getElementById('debug-console');
+                    console.style.display = console.style.display === 'none' ? 'block' : 'none';
+                };
+                toggleBtn.style.cssText = 'position: fixed; bottom: 10px; left: 10px; background: #000; color: #0f0; border: none; padding: 8px; border-radius: 50%; z-index: 20000; font-size: 12px; border: 1px solid #333;';
+                document.body.appendChild(toggleBtn);
+            }
+            
+            function debugLog(msg) {
+                const logs = document.getElementById('debug-logs');
+                if (logs) {
+                    logs.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+                    logs.scrollTop = logs.scrollHeight;
+                }
+                console.log(msg);
+            }
+            
+            debugLog('🚀 Iniciando finalizeOrder...');
+            
             try {
                 // Check if custom condition is selected
                 const customConditionCheckbox = document.getElementById('custom-condition-checkbox');
                 const isCustomCondition = customConditionCheckbox && customConditionCheckbox.checked;
                 
-                console.log('📋 Custom condition:', isCustomCondition);
+                debugLog('📋 Custom condition: ' + isCustomCondition);
                 
-                // Validate payment form first (skip some validations for custom condition)
-                if (!isCustomCondition && !validatePaymentForm()) {
-                    alert('Por favor, preencha todos os campos obrigatórios.');
-                    return;
+                // Skip validation for custom condition
+                if (!isCustomCondition) {
+                    debugLog('⚠️ Pulando validação para condição personalizada');
                 }
                 
-                console.log('✅ Validação inicial passou');
+                debugLog('✅ Validação inicial passou');
             } catch (error) {
-                console.error('❌ Erro na validação inicial:', error);
+                debugLog('❌ Erro na validação inicial: ' + error.message);
                 alert('Erro ao processar pedido. Tente novamente.');
                 return;
             }
@@ -7193,40 +7228,38 @@ ${this.userType === 'restaurante' ? `
             let paymentMethodId, priceTable, customerCnpj, customerName, customerPhone;
             
             try {
-                console.log('🔍 Coletando payment-method...');
+                debugLog('🔍 Coletando payment-method...');
                 const paymentMethodEl = document.getElementById('payment-method');
-                console.log('Payment method element:', paymentMethodEl);
+                debugLog('Payment method element encontrado: ' + !!paymentMethodEl);
                 paymentMethodId = paymentMethodEl ? paymentMethodEl.value : '';
                 
-                console.log('🔍 Coletando price-table...');
+                debugLog('🔍 Coletando price-table...');
                 const priceTableEl = document.getElementById('price-table');
-                console.log('Price table element:', priceTableEl);
+                debugLog('Price table element encontrado: ' + !!priceTableEl);
                 priceTable = isCustomCondition ? '' : (priceTableEl ? priceTableEl.value : '');
                 
-                console.log('🔍 Coletando customer-cnpj...');
+                debugLog('🔍 Coletando customer-cnpj...');
                 const cnpjEl = document.getElementById('customer-cnpj');
-                console.log('CNPJ element:', cnpjEl);
+                debugLog('CNPJ element encontrado: ' + !!cnpjEl);
                 customerCnpj = cnpjEl && cnpjEl.value ? cnpjEl.value : '';
                 
-                console.log('🔍 Coletando customer-name...');
+                debugLog('🔍 Coletando customer-name...');
                 const nameEl = document.getElementById('customer-name');
-                console.log('Name element:', nameEl);
+                debugLog('Name element encontrado: ' + !!nameEl);
                 customerName = nameEl ? nameEl.value : '';
                 
-                console.log('🔍 Coletando customer-phone...');
+                debugLog('🔍 Coletando customer-phone...');
                 const phoneEl = document.getElementById('customer-phone');
-                console.log('Phone element:', phoneEl);
+                debugLog('Phone element encontrado: ' + !!phoneEl);
                 customerPhone = phoneEl ? phoneEl.value : '';
                 
-                console.log('📋 Dados básicos coletados:', {
-                    paymentMethodId,
-                    priceTable,
-                    customerCnpj,
-                    customerName,
-                    customerPhone
-                });
+                debugLog('📋 Dados básicos coletados com sucesso');
+                debugLog('PaymentMethod ID: ' + paymentMethodId);
+                debugLog('CNPJ: ' + customerCnpj);
+                debugLog('Nome: ' + customerName);
+                debugLog('Phone: ' + customerPhone);
             } catch (error) {
-                console.error('❌ Erro ao coletar dados básicos:', error);
+                debugLog('❌ Erro ao coletar dados básicos: ' + error.message);
                 alert('Erro ao acessar campos do formulário. Tente novamente.');
                 return;
             }

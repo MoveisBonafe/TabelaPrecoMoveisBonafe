@@ -3983,7 +3983,7 @@ ${this.userType === 'restaurante' ? `
                         <!-- Payment Conditions (hidden by default) -->
                         <div class="payment-conditions-section" id="payment-conditions-section" style="background: #f8f9fa; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); display: none;">
                             <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937; text-align: center;">Condição de Pagamento</h3>
-                            <select id="payment-condition" required onchange="validatePaymentForm(); updatePaymentSummary()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
+                            <select id="payment-condition" required onchange="onPaymentConditionChange(); validatePaymentForm(); updatePaymentSummary()" style="width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 20px; border: 1px solid #d1d5db; background: white;">
                                 <option value="">Selecione a condição de pagamento</option>
                                 <!-- Options will be loaded dynamically from admin configuration -->
                             </select>
